@@ -1,13 +1,15 @@
+import mongodb from 'mongodb';
 import UserModel from '../schema/User.js';
 import bcrypt from "bcryptjs";
 
 class User {
   static async findByEmail(email) {
-    return await UserModel.findOne({ email }).exec();
+    return await UserModel.findOne({ 'email' : email }).exec();
   }
 
   static async findByID(id) {
-    return await UserModel.findOne({ id }).exec();
+    const value = await UserModel.findOne({ '_id' : new mongodb.ObjectId(id) }).exec();
+    return value;
   }
 
   static async createUser(email, username, password, avatar) {

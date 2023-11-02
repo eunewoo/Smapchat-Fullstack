@@ -4,12 +4,11 @@ var router = Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.status(200);
 });
 
-router.get('/User', function (req, res, next) {
-  console.log(req.body);
-  res.json(User.findByID(req.body.ID));
+router.get('/User/:Id', function (req, res, next) {
+  User.findByID(req.params.Id).then((val) => res.json(val));
 });
 
 export default router;

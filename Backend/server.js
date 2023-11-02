@@ -1,31 +1,24 @@
 #!/usr/bin/env node
 import app from './app.js';
 import { createServer } from 'http';
+import startDB from './database/database.js';
+import dotenv from 'dotenv';
 
-/**
- * Get port from environment and store in Express.
- */
+// read .env file to generate environment variables,
+// this will need to be disabled for production deployment
+// where env vars are set to appropriate values elsewhere
+dotenv.config();
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
+startDB();
 
 var server = createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
 
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
@@ -42,10 +35,6 @@ function normalizePort(val) {
 
   return false;
 }
-
-/**
- * Event listener for HTTP server "error" event.
- */
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -70,10 +59,6 @@ function onError(error) {
       throw error;
   }
 }
-
-/**
- * Event listener for HTTP server "listening" event.
- */
 
 function onListening() {
   var addr = server.address();

@@ -1,11 +1,6 @@
 import { Schema, model } from "mongoose";
 
 const UserSchema = new Schema({
-  userID: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
   email: {
     type: String,
     required: true,
@@ -41,6 +36,7 @@ const UserSchema = new Schema({
     type: Number,
     required: true,
     enum: [0, 1],
+    default: 0,
   },
   // email authentication
   verificationCode: {
