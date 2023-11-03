@@ -1,10 +1,19 @@
-import express from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const startDB = require('./database/database.js');
 
-import indexRouter from './routes/index.js';
-import usersRouter from './routes/users.js';
-import logMiddleware from './middleware/logger.js';
+const indexRouter = require('./routes/index.js');
+const userRoutes = require('./routes/userRoutes.js');
+const logMiddleware = require('./middleware/logger.js');
+
+const dotenv = require('dotenv');
+
+// read .env file to generate environment variables,
+// this will need to be disabled for production deployment
+// where env vars are set to appropriate values elsewhere
+dotenv.config();
+
+startDB();
 
 var app = express();
 
@@ -15,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', userRoutes);
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -28,4 +37,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-export default app;
+module.exports = app;

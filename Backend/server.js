@@ -1,20 +1,11 @@
 #!/usr/bin/env node
-import app from './app.js';
-import { createServer } from 'http';
-import startDB from './database/database.js';
-import dotenv from 'dotenv';
-
-// read .env file to generate environment variables,
-// this will need to be disabled for production deployment
-// where env vars are set to appropriate values elsewhere
-dotenv.config();
+const app = require('./app.js');
+const http = require('http');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-startDB();
-
-var server = createServer(app);
+var server = http.createServer(app);
 
 server.listen(port);
 server.on('error', onError);

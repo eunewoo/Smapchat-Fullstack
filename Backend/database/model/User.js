@@ -1,6 +1,6 @@
-import mongodb from 'mongodb';
-import UserModel from '../schema/User.js';
-import bcrypt from "bcryptjs";
+const mongodb = require('mongodb');
+const UserModel = require('../schema/User.js');
+const bcrypt = require("bcryptjs");
 
 class User {
 
@@ -62,4 +62,4 @@ class User {
   }
 }
 
-export default User;
+module.exports = User;

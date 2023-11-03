@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import User from './model/User.js';
+const mongoose = require('mongoose');
+const User = require('./model/User.js');
 
-export default async function startDB() {
+async function startDB() {
 
     console.log(`mongodb://${process.env.DB_IP}:${process.env.DB_PORT}/smapchat`);
     await mongoose.connect(`mongodb://${process.env.DB_IP}:${process.env.DB_PORT}/smapchat`);
@@ -14,3 +14,5 @@ export default async function startDB() {
         User.createUser("admin@test.com", "admin", process.env.ADMIN_PASS, "");
     }
 }
+
+module.exports = startDB;
