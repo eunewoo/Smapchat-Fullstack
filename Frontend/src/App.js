@@ -1,10 +1,10 @@
-import UserPopup from './components/popups/UserPopup.js';
 import './App.css';
+import UserPage from './components/pages/UserPage.js';
 
 function App() {
   return (
     <div className="App">
-      <UserPopup ID={'6543c9b2cc4fb16cb7df5135'} />
+      <UserPage/>
     </div>
   );
 }

@@ -11,7 +11,7 @@ export default function UserPopup(props){
 
     if (userData._id == null)
     {
-        fetch(`${process.env.URL}/User/${props.ID}`).then((res) => 
+        fetch(`${process.env.REACT_APP_URL}/User/${props.ID}`).then((res) => 
         {
             if (res.status === 200)
             {

@@ -3,6 +3,13 @@ import UserModel from '../schema/User.js';
 import bcrypt from "bcryptjs";
 
 class User {
+
+  static async findAll() {
+
+    const users = await UserModel.find({}, '_id').exec();
+    return users;
+  }
+
   static async findByEmail(email) {
     return await UserModel.findOne({ 'email' : email }).exec();
   }
