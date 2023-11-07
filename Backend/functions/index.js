@@ -8,6 +8,6 @@
  */
 
 const functions = require("firebase-functions");
-const app = require('./app.js'); 
+const appPromise = require('./app.js'); 
 
-exports.api = functions.https.onRequest(app);
+exports.api = appPromise.then((app) => functions.https.onRequest(app));

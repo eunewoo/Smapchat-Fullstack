@@ -7,9 +7,8 @@ afterAll(done => {
 
 describe('Ping index', () => {
     it('should be able to reach the index of the server', async () => {
-      const res = await request(app)
+      const res = await request(await app)
         .get('/')
-        .send()
-      expect(res.statusCode).toEqual(200)
+        .expect(200)
     })
   })

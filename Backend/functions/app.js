@@ -13,32 +13,37 @@ const dotenv = require('dotenv');
 // read .env file to generate environment variables,
 // this will need to be disabled for production deployment
 // where env vars are set to appropriate values elsewhere
-dotenv.config();
+async function spinApp() 
+{
+  dotenv.config();
 
-startDB();
+  await startDB();
 
-var app = express();
+  var app = express();
 
-app.use(cors({origin: 'https://smapchat-bc4cd.web.app'}));
-app.use(logMiddleware);
+  app.use(cors({origin: 'https://smapchat-bc4cd.web.app'}));
+  app.use(logMiddleware);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookieParser());
 
 
-app.use('/', indexRouter);
-app.use('/', userRoutes);
+  app.use('/', indexRouter);
+  app.use('/', userRoutes);
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // error handler
+  app.use(function(err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+  });
 
-module.exports = app;
+  return app;
+}
+
+module.exports = spinApp();
