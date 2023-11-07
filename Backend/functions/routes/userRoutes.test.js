@@ -1,5 +1,10 @@
 const request = require('supertest')
+const mongoose = require("mongoose");
 const app = require('../app.js')
+
+afterAll(done => {
+  done();
+})
 
 describe('Get Endpoints', () => {
   it('should be able to retrieve the user ID list', async () => {
@@ -7,6 +12,5 @@ describe('Get Endpoints', () => {
       .get('/Users')
       .send())
     expect(res.statusCode).toEqual(200)
-    done()
   })
 })
