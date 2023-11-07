@@ -1,8 +1,6 @@
 /* eslint-disable */
 const mongoose = require("mongoose");
 const User = require("./model/User.js");
-require("dotenv").config();
-
 
 /**
  * Start the database and create a default admin if it doesn't exist
