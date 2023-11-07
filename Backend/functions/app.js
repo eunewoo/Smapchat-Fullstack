@@ -20,7 +20,6 @@ startDB();
 var app = express();
 
 app.use(cors({origin: 'https://smapchat-bc4cd.web.app'}));
-app.use(logMiddleware);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,5 +39,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use(logMiddleware);
 
 module.exports = app;
