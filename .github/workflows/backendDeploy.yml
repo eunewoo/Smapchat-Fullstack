@@ -9,20 +9,18 @@ on:
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Backend  # Set the default working directory to 'Backend' for all run steps
+
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
         node-version: '16'  
-        working-directory: Backend
+        working-directory: Backend/functions
 
     - name: Install Dependencies
       run: npm install
-      working-directory: Backend
+      working-directory: Backend/functions
       
     - name: Deploy to Firebase
       uses: afgallo/deploy-firebase-functions@v1.1.0
