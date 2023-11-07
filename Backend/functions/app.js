@@ -1,7 +1,4 @@
 const cors = require("cors");
-const corsOptions = {
-  origin: ["http://localhost:3001", "https://smapchat-bc4cd.web.app/"],
-};
 
 
 const express = require('express');
@@ -23,14 +20,14 @@ startDB();
 
 var app = express();
 
-app.use(cors(corsOptions));
+
 app.use(logMiddleware);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
+app.use(cors({ origin: true}));
 
 
 app.use('/', indexRouter);
