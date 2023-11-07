@@ -23,16 +23,17 @@ jobs:
     - uses: actions/checkout@v3
 
     # Run tests for frontend side
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - name: Use Node.js ${{ matrix.node-version }} 
+      uses: actions/setup-node@v3 # one of githubs pre-made tasks to set up Node.js
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: Frontend/package-lock.json
-        working-directory: Frontend
+        node-version: ${{ matrix.node-version }} # pass the node version to install to the task
+        cache: 'npm' # denotes we're using npm and should search the cache for npm packages as opposed to something like yarn
+        cache-dependency-path: Frontend/package-lock.json # where our package lock file is.
+        working-directory: Frontend # pass the working directory for these tests as the frontend subdirectory
       
+        # this runs the install script to load dependencies onto the runner instance
+        # finally runs the test script described in package.json
     - run: |
         npm install
-        npm start &
         npm test
-      working-directory: Frontend
+      working-directory: Frontend # pass the working directory for these tests as the frontend subdirectory
