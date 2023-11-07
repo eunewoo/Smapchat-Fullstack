@@ -24,24 +24,26 @@ jobs:
 
     # Run tests for backend side
     - name: Use Node.js ${{ matrix.node-version }}
+      working-directory: Backend
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: Backend/package-lock.json
-      working-directory: Backend
+      
 
     - run: npm test
       working-directory: Backend
 
     # Run tests for frontend side
     - name: Use Node.js ${{ matrix.node-version }}
+      working-directory: Frontend
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: Frontend/package-lock.json
-      working-directory: ../Frontend
+      
 
     - run: npm test
-      working-directory: ../Frontend
+      working-directory: Frontend
