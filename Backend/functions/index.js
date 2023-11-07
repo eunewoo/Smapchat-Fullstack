@@ -8,7 +8,10 @@
  */
 
 const functions = require("firebase-functions");
-const appPromise = require('./app.js'); 
+const app = require('./app.js'); 
+const cors = require('cors')({
+    origin: 'https://smapchat-bc4cd.web.app',
+  });
 
-exports.api = functions.https.onRequest(appPromise);
+exports.api = functions.https.onRequest(cors(app));
 
