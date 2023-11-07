@@ -1,12 +1,13 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const startDB = require('./database/database.js');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const startDB = require("./database/database.js");
+const cors = require("cors");
 
-const indexRouter = require('./routes/index.js');
-const userRoutes = require('./routes/userRoutes.js');
-const logMiddleware = require('./middleware/logger.js');
+const indexRouter = require("./routes/index.js");
+const userRoutes = require("./routes/userRoutes.js");
+const logMiddleware = require("./middleware/logger.js");
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 // read .env file to generate environment variables,
 // this will need to be disabled for production deployment
@@ -23,18 +24,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/', indexRouter);
-app.use('/', userRoutes);
+app.use(cors());
+app.use(cors({ origin: "http://localhost:3001" }));
+
+app.use("/", indexRouter);
+app.use("/", userRoutes);
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
 
 module.exports = app;

@@ -1,0 +1,42 @@
+name: Deploy Frontend to Firebase
+
+# This workflow is triggered on pushes to the repository.
+on:
+  push:
+    branches:
+      - master 
+    paths:
+      - 'Frontend/**'
+  pull_request:
+    branches:
+      - master 
+    paths:
+      - 'Frontend/**' 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '21'
+
+    - name: Install Dependencies
+      run: npm install
+      working-directory: Frontend 
+
+    - name: Build Project
+      run: npm run build
+      working-directory: Frontend 
+      
+    - name: Deploy to Firebase
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
