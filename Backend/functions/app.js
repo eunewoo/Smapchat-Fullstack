@@ -8,6 +8,7 @@ const startDB = require('./database/database.js');
 const indexRouter = require('./routes/index.js');
 const userRoutes = require('./routes/userRoutes.js');
 const logMiddleware = require('./middleware/logger.js');
+const corsMiddleware = require('./middleware/cors.js');
 
 const dotenv = require('dotenv');
 
@@ -22,6 +23,7 @@ var app = express();
 
 
 app.use(logMiddleware);
+app.use(corsMiddleware);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
