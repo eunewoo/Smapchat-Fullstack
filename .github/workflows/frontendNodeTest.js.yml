@@ -22,20 +22,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # Run tests for backend side
-    - name: Use Node.js ${{ matrix.node-version }} 
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: Backend/package-lock.json
-        working-directory: Backend
-
-    - run: |
-        npm install
-        npm test
-      working-directory: Backend
-
     # Run tests for frontend side
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
