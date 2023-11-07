@@ -28,4 +28,5 @@ jobs:
       uses: afgallo/deploy-firebase-functions@v1.1.0
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        DEPLOY_ONLY: functions
         WORKING_DIRECTORY: ./Backend
