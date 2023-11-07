@@ -1,6 +1,5 @@
 const cors = require("cors");
 
-
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const startDB = require('./database/database.js');
@@ -8,7 +7,6 @@ const startDB = require('./database/database.js');
 const indexRouter = require('./routes/index.js');
 const userRoutes = require('./routes/userRoutes.js');
 const logMiddleware = require('./middleware/logger.js');
-const corsMiddleware = require('./middleware/cors.js');
 
 const dotenv = require('dotenv');
 
@@ -21,15 +19,12 @@ startDB();
 
 var app = express();
 
-
+app.use(cors());
 app.use(logMiddleware);
-app.use(corsMiddleware);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-app.use(cors({ origin: true}));
 
 
 app.use('/', indexRouter);
