@@ -32,8 +32,10 @@ jobs:
         working-directory: Frontend # pass the working directory for these tests as the frontend subdirectory
       
         # this runs the install script to load dependencies onto the runner instance
+        # then it starts the frontend server on the runner for the purpose of cypress e2e testing
         # finally runs the test script described in package.json
     - run: |
         npm install
+        npm start &
         npm test
       working-directory: Frontend # pass the working directory for these tests as the frontend subdirectory

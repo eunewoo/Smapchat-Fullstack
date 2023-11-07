@@ -31,8 +31,10 @@ jobs:
         cache-dependency-path: Backend/package-lock.json # where our package lock file is.
         working-directory: Backend # pass the working directory for these tests as the backend subdirectory
 
+    # this runs the install script to load dependencies onto the runner instance
+    # finally runs the test script described in package.json
     - run: |
         npm install
         npm test
-      working-directory: Backend
+      working-directory: Backend # pass the working directory for these tests as the backend subdirectory
 
