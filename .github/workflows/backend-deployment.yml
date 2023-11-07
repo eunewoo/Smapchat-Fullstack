@@ -23,6 +23,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '16'  
+        working-directory: Backend
     - name: Install Dependencies
       run: npm install
       working-directory: ./functions  # Adjust if your Node.js code is located elsewhere
@@ -30,5 +31,6 @@ jobs:
       uses: w9jds/firebase-action@master
       with:
         args: deploy --only functions
+        working-directory: Backend
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
