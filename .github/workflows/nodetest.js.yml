@@ -31,7 +31,9 @@ jobs:
         cache-dependency-path: Backend/package-lock.json
         working-directory: Backend
 
-    - run: npm test
+    - run: |
+        npm install
+        npm test
       working-directory: Backend
 
     # Run tests for frontend side
@@ -43,6 +45,7 @@ jobs:
         cache-dependency-path: Frontend/package-lock.json
         working-directory: Frontend
       
-
-    - run: npm test
+    - run: |
+        npm install
+        npm test
       working-directory: Frontend
