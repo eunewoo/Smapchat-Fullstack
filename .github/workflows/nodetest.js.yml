@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@v3
 
     # Run tests for backend side
-    - working-directory: Backend
+    - run: working-directory: Backend
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -34,7 +34,7 @@ jobs:
     - run: npm test
 
     # Run tests for frontend side
-    - working-directory: ../Frontend
+    - run: working-directory: ../Frontend
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
