@@ -24,9 +24,11 @@ jobs:
       with:
         node-version: '16'  
         working-directory: Backend
+
     - name: Install Dependencies
       run: npm install
-      working-directory: ./functions  # Adjust if your Node.js code is located elsewhere
+      working-directory: Backend
+      
     - name: Deploy to Firebase
       uses: w9jds/firebase-action@master
       with:
