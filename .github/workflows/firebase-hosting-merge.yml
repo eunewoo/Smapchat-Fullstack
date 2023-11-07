@@ -19,4 +19,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SMAPCHAT_BC4CD }}'
           channelId: live
           projectId: smapchat-bc4cd
-          working-directory: Frontend
+          entryPoint: Frontend
