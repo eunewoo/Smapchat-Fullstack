@@ -10,5 +10,5 @@
 const functions = require("firebase-functions");
 const appPromise = require('./app.js'); 
 
-var app = await appPromise;
-exports.api = functions.https.onRequest(app);
+exports.api = functions.https.onRequest(appPromise);
+
