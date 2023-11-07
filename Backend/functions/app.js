@@ -25,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(logMiddleware);
 
 app.use('/', indexRouter);
 app.use('/', userRoutes);
@@ -40,6 +41,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.use(logMiddleware);
+
 
 module.exports = app;
