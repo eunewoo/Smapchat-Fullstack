@@ -7,5 +7,6 @@ describe('Ping index', () => {
         .get('/')
         .send()
       expect(res.statusCode).toEqual(200)
+      done()
     })
   })

@@ -7,5 +7,6 @@ describe('Get Endpoints', () => {
       .get('/Users')
       .send())
     expect(res.statusCode).toEqual(200)
+    done()
   })
 })
