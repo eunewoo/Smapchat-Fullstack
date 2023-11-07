@@ -25,9 +25,7 @@ jobs:
       working-directory: Backend
       
     - name: Deploy to Firebase
-      uses: w9jds/firebase-action@v12.6.2
-      with:
-        args: deploy --only functions
+      uses: afgallo/deploy-firebase-functions@v1.1.0
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        PROJECT_PATH: ./Backend
+        WORKING_DIRECTORY: ./Backend
