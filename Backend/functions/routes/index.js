@@ -4,8 +4,7 @@ const express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.status(200);
-  res.send();
+  res.json({"Test": "I am a test value to confirm CI deployment!"})
 });
 
 module.exports = router;
