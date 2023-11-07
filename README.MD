@@ -1,5 +1,7 @@
 # SMAPCHAT
 
+hi!
+
 ## Quick Start
 
 ## Deploying 
