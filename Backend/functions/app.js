@@ -19,7 +19,7 @@ startDB();
 
 var app = express();
 
-app.use(cors({origin: 'https://smapchat-bc4cd.web.app/'}));
+app.use(cors({origin: 'https://smapchat-bc4cd.web.app'}));
 app.use(logMiddleware);
 
 app.use(express.json());
