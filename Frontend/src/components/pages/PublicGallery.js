@@ -3,6 +3,8 @@ import UserPopup from "../popups/UserPopup";
 import { webFetch } from "../../util/webUtil";
 import { navContext } from "../../App";
 import UserPage from "./UserPage";
+import MapCard from "../reuseable/MapCard";
+import Comment from "../reuseable/Comment";
 
 export default function PublicGallery() {
 
@@ -12,6 +14,9 @@ export default function PublicGallery() {
         <>
             Hello, I am the map page!
             <button onClick={() => nav(<UserPage/>)}> Users </button>
+
+            <Comment/>
+            <MapCard/>          
         </>
     );
 }
