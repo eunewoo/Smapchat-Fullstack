@@ -1,6 +1,8 @@
 import './App.css';
 import PublicGallery from './components/pages/PublicGallery';
 import UserPage from './components/pages/UserPage.js';
+import TestMapRenderer from './components/reuseable/TestRender.js'; // Adjust the import path as necessary
+
 import {createContext, useContext, useState } from "react";
 
 // These contexts expose setters for the page and 
@@ -21,17 +23,21 @@ function App() {
   // see. Yep, you can use JSX as state! A wonderful feature
   // of javascripts weak typing. OR terrible, depedning how you
   // want to look at it :)
-  const [page, setPage] = useState(<PublicGallery/>);
   const [popup, setPopup] = useState(<></>);
 
+  const [page, setPage] = useState(<TestMapRenderer />)
+
+  
   return (
-    <navContext.Provider value={setPage}>
-      <popContext.Provider value={setPopup}>
-        {/* <Topbar></Topbar> Not yet implemented */}
-        {page}
-        {popup}
-      </popContext.Provider>
-    </navContext.Provider>
+    <>
+      <navContext.Provider value={setPage}>
+        <popContext.Provider value={setPopup}>
+          {/* <Topbar></Topbar> Not yet implemented */}
+          {popup}
+        </popContext.Provider>
+      </navContext.Provider>
+      {page}
+    </>
   );
 }
 

@@ -5,6 +5,7 @@ import { navContext } from "../../App";
 import UserPage from "./UserPage";
 
 export default function PublicGallery() {
+    const [popup, setPopup] = useState(<></>);
 
     const nav = useContext(navContext);
 
