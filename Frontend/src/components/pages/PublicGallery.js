@@ -5,6 +5,7 @@ import { navContext } from "../../App";
 import UserPage from "./UserPage";
 import MapCard from "../reuseable/MapCard";
 import Comment from "../reuseable/Comment";
+import ScrollableGallery from "../reuseable/ScrollableGallery";
 
 export default function PublicGallery() {
 
@@ -16,7 +17,8 @@ export default function PublicGallery() {
             <button onClick={() => nav(<UserPage/>)}> Users </button>
 
             <Comment/>
-            <MapCard/>          
+            <MapCard/>  
+            <ScrollableGallery/>        
         </>
     );
 }

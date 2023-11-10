@@ -3,6 +3,7 @@ import MapRenderer from "./MapRenderer";
 import RatingDisplay from "./RatingDisplay";
 import { navContext } from "../../App";
 import Card from 'react-bootstrap/Card';
+import './MapCard.css';
 
 /// Component which displays a preview and information about
 /// a map. Used for gallery pages to display maps to users.
@@ -27,7 +28,7 @@ export default function MapCard(props) {
 
     // TODO: Add nav to display page once implemented
     return(
-        <Card style={{ width: '25%'}} onClick={() => navigate(<></>)}>
+        <Card className="card" onClick={() => navigate(<></>)}>
             <MapRenderer Geometry={mapData.mapFile} GraphicData={mapData} width="100%" height="300px"/>
             <RatingDisplay value={mapData.avgRate}/>
             <Card.Body style={{backgroundColor: "#141488", color: "white"}}>
