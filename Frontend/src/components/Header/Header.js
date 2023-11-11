@@ -22,7 +22,11 @@ const Header = () => {
           <Nav.Link as={NavLink} to="/create-page" className="me-5 text-white">
             Create
           </Nav.Link>
-          <Nav.Link as={NavLink} to="/my-maps-page" className="me-5 text-white">
+          <Nav.Link
+            as={NavLink}
+            to="/map-edit-page"
+            className="me-5 text-white"
+          >
             My Maps
           </Nav.Link>
         </Nav>
