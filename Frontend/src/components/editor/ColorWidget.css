@@ -1,0 +1,14 @@
+.preview {
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+.widget {
+    display: inline-flex;
+    color: white;
+    background-color: #141488;
+    border-radius: 5px;
+    width: 90px !important;
+    height: 30px;
+    padding: 5px;
+}

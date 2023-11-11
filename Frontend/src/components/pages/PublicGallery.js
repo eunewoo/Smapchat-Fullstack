@@ -13,6 +13,9 @@ import arrowData from "../editor/SampleArrowMap.json";
 import ArrowMapToolbox from "../editor/ArrowMapToolbox";
 import TransactionHandler from "../editor/TransactionHandler";
 
+import bubbleData from "../editor/SampleBubbleMap.json";
+import BubbleMapToolbox from "../editor/BubbleMapToolbox";
+
 export default function PublicGallery() {
 
     const nav = useContext(navContext);
@@ -26,6 +29,9 @@ export default function PublicGallery() {
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const handler = useState(new TransactionHandler(data, forceUpdate))[0];
 
+    const[bData] = useState(bubbleData);
+    const bHandler = useState(new TransactionHandler(bData, forceUpdate))[0];
+
     return (
         <>
             Hello, I am the map page!
@@ -38,6 +44,7 @@ export default function PublicGallery() {
             <ScrollableComments/>     
 
             <ArrowMapToolbox handler={handler} arrowMap={data}/>
+            <BubbleMapToolbox handler={bHandler} bubbleMap={bData}/>
         </>
     );
 }

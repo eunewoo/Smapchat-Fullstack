@@ -51,8 +51,8 @@ export default function ArrowMapToolbox(props) {
                         "Name" : "",
                         "Longitude" : 0,
                         "Lattitude" : 0,
-                        "Order" : 0,
-                        "Date" : "1-1-1970"
+                        "Order" : null,
+                        "Date" : ""
                     })}>
                     Add new
                 </Button>
