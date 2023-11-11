@@ -1,21 +1,19 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import "./HomePage.css";
 
 const HomePage = () => {
   return (
-    <Container fluid>
-      <Row className="justify-content-center">
-        {/* remove className when you add maps */}
-        <Col md={8} className="bg-primary ">
+    <div className="container-fluid">
+      <div className="row justify-content-center">
+        <div className="left">
           Display Maps
-        </Col>
-        {/* remove className when you add display settings */}
+        </div>
 
-        <Col md={3} className="bg-secondary">
-          settings
-        </Col>
-      </Row>
-    </Container>
+        <div className="right">
+          Settings
+        </div>
+      </div>
+    </div>
   );
 };
 

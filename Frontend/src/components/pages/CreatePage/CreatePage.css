@@ -1,0 +1,38 @@
+.row {
+    display: flex;
+}
+
+.leftC {
+    flex: 0 0 22%;
+    background-color: #0275d8;
+    height: 400px;
+}
+
+.middleC {
+    flex: 0 0 52%;
+    background-color: green;
+    height: 400px;
+}
+
+.rightC {
+    flex: 0 0 20%;
+    color: #fff;
+    
+    height: 400px;
+}
+
+.custom-button {
+    color: white;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 25px;
+    padding: 10px 25px;
+    text-transform: none;
+}
+
+.custom-button:hover {
+    background-color: white;
+    /* Background color on hover */
+    color: #000;
+    /* Text color on hover, change if you want a different color */
+}
