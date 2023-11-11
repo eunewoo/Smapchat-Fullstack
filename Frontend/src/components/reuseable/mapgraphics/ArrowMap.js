@@ -1,13 +1,16 @@
 // arrowMap.js
 import L from 'leaflet';
 
-export const renderArrowMap = (map, arrowMapData) => {
-    const processedData = processArrowData(arrowMapData);
+const defaultArrowMapData = [
+    { latitude: 40.76242991263874, longitude: -73.98521056649075, name: "Gershwin Theater", order: 1 },
+    { latitude: 40.75811079104577, longitude: -73.98534622655546, name: "Time Square", order: 2 },
+    { latitude: 40.76157082004316, longitude: -73.9776430605575, name: "MoMA", order: 3 }
+];
 
-    // Log to check processed data
-    console.log("Processed Data:", processedData); 
+export const renderArrowMap = (map) => {
+    const processedData = processArrowData(defaultArrowMapData);
 
-    // Maker(pinpoint) drawing on map
+    // Marker (pinpoint) drawing on map
     processedData.forEach(point => {
         L.marker(point.position).addTo(map).bindPopup(point.name);
     });
@@ -19,7 +22,6 @@ export const renderArrowMap = (map, arrowMapData) => {
     }
 };
 
-// Sort from smaller order to larger order
 // Organize into format for marker, arrow input
 const processArrowData = (arrowMapData) => {
     return arrowMapData.sort((a, b) => a.order - b.order)

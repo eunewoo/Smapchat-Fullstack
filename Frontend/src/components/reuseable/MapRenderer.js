@@ -23,7 +23,7 @@ export default function MapRenderer({ Geometry, GraphicData, mapType }) {
             renderPictureMap(mapRef.current, GraphicData);
         }
         else if (mapType === 2 && mapRef.current) {
-            
+            console.log("arrow runs");
             renderArrowMap(mapRef.current, GraphicData);
         }
         else if (mapType === 3 && mapRef.current) {
