@@ -20,14 +20,14 @@ export default function MapRenderer({ Geometry, GraphicData, mapType }) {
         console.log("geometry", Geometry)
 
         if (mapType === 1 && mapRef.current) {
-            renderPictureMap(mapRef.current, GraphicData);
+            renderPictureMap(mapRef.current);
         }
         else if (mapType === 2 && mapRef.current) {
             console.log("arrow runs");
-            renderArrowMap(mapRef.current, GraphicData);
+            renderArrowMap(mapRef.current);
         }
         else if (mapType === 3 && mapRef.current) {
-            renderBubbleMap(mapRef.current, GraphicData);
+            renderBubbleMap(mapRef.current);
         }
 
     //     else if (mapType === 4 && map) {
