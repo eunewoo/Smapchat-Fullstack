@@ -2,6 +2,7 @@ import './App.css';
 import PublicGallery from './components/pages/PublicGallery';
 import UserPage from './components/pages/UserPage.js';
 import {createContext, useContext, useState } from "react";
+import Topbar from './components/reuseable/Topbar.js';
 
 // These contexts expose setters for the page and 
 // popup state of this root component. To do navigation
@@ -27,7 +28,7 @@ function App() {
   return (
     <navContext.Provider value={setPage}>
       <popContext.Provider value={setPopup}>
-        {/* <Topbar></Topbar> Not yet implemented */}
+        <Topbar/>
         {page}
         {popup}
       </popContext.Provider>
