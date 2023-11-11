@@ -2,7 +2,11 @@
 import L from 'leaflet';
 
 export const renderArrowMap = (map, arrowMapData) => {
+    console.log("Rendering Arrow Map with data:", arrowMapData); // Log to check data
+
     const processedData = processArrowData(arrowMapData);
+
+    console.log("Processed Data:", processedData); // Log to check processed data
 
     processedData.forEach(point => {
         L.marker(point.position).addTo(map).bindPopup(point.name);
