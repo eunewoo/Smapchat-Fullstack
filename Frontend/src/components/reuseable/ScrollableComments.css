@@ -1,0 +1,9 @@
+.scroller {
+    scroll-behavior: smooth;
+    overflow: scroll;
+    height: 500px;
+}
+
+.row {
+    width: 100%;
+}

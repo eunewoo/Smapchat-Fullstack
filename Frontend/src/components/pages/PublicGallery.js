@@ -6,6 +6,7 @@ import UserPage from "./UserPage";
 import MapCard from "../reuseable/MapCard";
 import Comment from "../reuseable/Comment";
 import ScrollableGallery from "../reuseable/ScrollableGallery";
+import ScrollableComments from "../reuseable/ScrollableComments";
 
 export default function PublicGallery() {
 
@@ -18,7 +19,8 @@ export default function PublicGallery() {
 
             <Comment/>
             <MapCard/>  
-            <ScrollableGallery/>        
+            <ScrollableGallery/>  
+            <ScrollableComments/>      
         </>
     );
 }

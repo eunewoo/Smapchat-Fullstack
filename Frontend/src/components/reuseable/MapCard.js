@@ -28,7 +28,7 @@ export default function MapCard(props) {
 
     // TODO: Add nav to display page once implemented
     return(
-        <Card className="card" onClick={() => navigate(<></>)}>
+        <Card style={{width: "500px"}} onClick={() => navigate(<></>)}>
             <MapRenderer Geometry={mapData.mapFile} GraphicData={mapData} width="100%" height="300px"/>
             <RatingDisplay value={mapData.avgRate}/>
             <Card.Body style={{backgroundColor: "#141488", color: "white"}}>
