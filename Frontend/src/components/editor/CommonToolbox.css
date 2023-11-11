@@ -1,0 +1,13 @@
+.toolbox {
+    width: 400px;
+}
+
+ .scroller::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scroller {
+    overflow-y: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  } 

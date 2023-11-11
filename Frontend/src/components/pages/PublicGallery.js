@@ -9,6 +9,9 @@ import ScrollableGallery from "../reuseable/ScrollableGallery";
 import ScrollableComments from "../reuseable/ScrollableComments";
 import SearchWidget from "../reuseable/SearchWidget";
 
+import arrowData from "../editor/SampleArrowMap.json";
+import ArrowMapToolbox from "../editor/ArrowMapToolbox";
+
 export default function PublicGallery() {
 
     const nav = useContext(navContext);
@@ -22,7 +25,9 @@ export default function PublicGallery() {
             <MapCard/>  
             <SearchWidget/>
             <ScrollableGallery/>  
-            <ScrollableComments/>      
+            <ScrollableComments/>     
+
+            <ArrowMapToolbox arrowMap={arrowData}/>
         </>
     );
 }
