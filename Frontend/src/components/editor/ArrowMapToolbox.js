@@ -2,7 +2,6 @@ import { Card, Container } from "react-bootstrap";
 import { Button } from 'react-bootstrap';
 import { BsXLg, BsArrowCounterclockwise, BsArrowClockwise } from "react-icons/bs";
 import "./CommonToolbox.css";
-import "./ArrowMapToolbox.css";
 
 /// Developer note: I've set this up with some basic functionality early so that it can
 /// be used as a refference in the future. Check out how the TransactionHandler is utilized
