@@ -1,12 +1,37 @@
 // BubbleMap.js
 import L from 'leaflet';
 
-export const renderBubbleMap = (map, bubbleMapData) => {
-    console.log("Rendering Bubble Map with data:", bubbleMapData); 
+// Sample bubble data
+const sampleBubbleData = [
+    {
+        latitude: 40.76242991263874, 
+        longitude: -73.98521056649075, 
+        name: "Gershwin Theater", 
+        color:5,
+        size: 5
+    },
+    {
+        latitude: 40.75811079104577, 
+        longitude: -73.98534622655546, 
+        name: "Time Square", 
+        color: 5,
+        size: 1
+    },
+    {
+        latitude: 40.76157082004316, 
+        longitude: -73.9776430605575, 
+        name: "MoMA", 
+        color: 5,
+        size: 3
+    }
+];
 
-    bubbleMapData.forEach(point => {
-        const bubbleColor = numberToColor(point.color); // Convert color code
-        const bubbleRadius = sizeToRadius(point.size); // Convert size to radius
+export const renderBubbleMap = (map) => {
+    console.log("Rendering Bubble Map with sample data:", sampleBubbleData); 
+
+    sampleBubbleData.forEach(point => {
+        const bubbleColor = numberToColor(point.color);
+        const bubbleRadius = sizeToRadius(point.size);
 
         L.circle([point.latitude, point.longitude], {
             color: bubbleColor,
@@ -18,15 +43,21 @@ export const renderBubbleMap = (map, bubbleMapData) => {
 };
 
 const numberToColor = (num) => {
-    // Replace this function with appropriate logic to convert a number to a color code
-    return '#'+(num * 0xFFFFFF<<0).toString(16).padStart(6, '0');
+    return '#' + num.toString(16).padStart(6, '0');
 };
 
 const sizeToRadius = (size) => {
-    // Adjust the size to a suitable radius for the map
     const minSize = 1;
     const maxSize = 10;
     const minRadius = 100; 
     const maxRadius = 1000; 
     return ((size - minSize) / (maxSize - minSize)) * (maxRadius - minRadius) + minRadius;
+};
+
+const getRandomColor = () => {
+    return Math.floor(Math.random() * 16777215); 
+};
+
+const getRandomSize = () => {
+    return Math.floor(Math.random() * 10) + 1; 
 };
