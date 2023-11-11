@@ -15,35 +15,24 @@ const Header = () => {
         <Navbar.Brand href="/">
           <img src={Logo} width="300" height="auto" alt="Logo" />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Nav.Link as={NavLink} to="/" className="me-5 text-white">
-              Home
-            </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/create-page"
-              className="me-5 text-white"
-            >
-              Create
-            </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/my-maps-page"
-              className="me-5 text-white"
-            >
-              My Maps
-            </Nav.Link>
-          </Nav>
-          <Button
-            type="button"
-            className="btn btn-primary px-4 py-2 rounded-3 fw-bold ms-3"
-            style={{ backgroundColor: "#4ACEFF" }}
-          >
-            Login
-          </Button>
-        </Navbar.Collapse>
+        <Nav className="ms-auto">
+          <Nav.Link as={NavLink} to="/" className="me-5 text-white">
+            Home
+          </Nav.Link>
+          <Nav.Link as={NavLink} to="/create-page" className="me-5 text-white">
+            Create
+          </Nav.Link>
+          <Nav.Link as={NavLink} to="/my-maps-page" className="me-5 text-white">
+            My Maps
+          </Nav.Link>
+        </Nav>
+        <Button
+          type="button"
+          className="btn btn-primary px-4 py-2 rounded-3 fw-bold ms-3"
+          style={{ backgroundColor: "#4ACEFF" }}
+        >
+          Login
+        </Button>
       </Container>
     </Navbar>
   );
