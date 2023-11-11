@@ -4,8 +4,12 @@ import { BsXLg, BsArrowCounterclockwise, BsArrowClockwise } from "react-icons/bs
 import "./CommonToolbox.css";
 import "./ArrowMapToolbox.css";
 
-import { test } from "./TransactionHandler";
+/// Developer note: I've set this up with some basic functionality early so that it can
+/// be used as a refference in the future. Check out how the TransactionHandler is utilized
+/// here to mutate the map data while being able to undo and redo it!
 
+/// The toolbox for editing an arrow map. Expects the map data and a TransactionHandler
+/// for that data as the arrowMap and handler props respectively.
 export default function ArrowMapToolbox(props) {
 
     const cards = []
@@ -34,6 +38,9 @@ export default function ArrowMapToolbox(props) {
     );
 }
 
+/// Sub-component for the ArrowMapToolbox, expects a location and arrow map data handler
+/// as the arrowPointLocation and handler props respectively. Also expects the index of the
+/// arrowPointLocation in the Location of the map data as the index prop.
 function ArrowMapLocation(props) {
 
     return (
