@@ -3,7 +3,8 @@ import "./CreatePage.css";
 
 const CreatePage = () => {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mt-4">
+      {/* remove height and color from the css when you add components */}
       <div className="row justify-content-center">
         <div className="leftC">Types of maps</div>
         <div className="middleC">Display Map</div>
