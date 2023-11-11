@@ -20,7 +20,6 @@ export default function TestMapRenderer() {
             reader.readAsText(file);
         }
     };
-
     return (
         <div>
             <input type="file" onChange={handleFileChange} accept=".json" />

@@ -9,6 +9,7 @@ import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { renderArrowMap } from './mapgraphics/ArrowMap'; 
 import { renderPictureMap } from './mapgraphics/PictureMap'; 
+import { renderBubbleMap } from './mapgraphics/BubbleMap'; 
 
 export default function MapRenderer({ Geometry, GraphicData, mapType }) {
     const [map, setMap] = useState(null);
@@ -20,16 +21,17 @@ export default function MapRenderer({ Geometry, GraphicData, mapType }) {
         else if (mapType === 2 && map) {
             renderArrowMap(map, GraphicData);
         }
-    //     else if (mapType === 3 && map) {
-    //         renderBubbleMap(map, GraphicData);
-    //     }
+        else if (mapType === 3 && map) {
+            renderBubbleMap(map, GraphicData);
+        }
+
     //     else if (mapType === 4 && map) {
     //         renderCategoryMap(map, GraphicData);
     //     }
     //     else if (mapType === 5 && map) {
     //         renderScaleMap(map, GraphicData);
     //     }
-    }, [map]);
+    }, [map, GraphicData, mapType]);
 
     return (
         <div className="map-rendering-box">
