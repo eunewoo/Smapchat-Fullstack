@@ -5,11 +5,13 @@
 export default class TransactionHandler {
 
     /// Initialize the transaction handler to point to the object we're mutating
+    /// refresh should be a state setter for obj to trigger re-renders when needed.
     /// also initialize the undo and redo lists
-    constructor(obj) {
+    constructor(obj, refresh) {
         this.undoList = [];
         this.redoList = [];
         this.obj = obj;
+        this.refresh = refresh;
     }
 
     /// Build and execute a create transaction. The transaction is stored
@@ -21,6 +23,8 @@ export default class TransactionHandler {
         trans.do(this.obj);
         this.undoList.push(trans);
         this.redoList = [];
+
+        this.refresh();
     }
 
     /// Build and execute a delete transaction. The transaction is stored
@@ -28,10 +32,12 @@ export default class TransactionHandler {
     /// specified by path, to remove the value described by toRemove. path
     /// should point to an array.
     deleteTrans(path, toRemove) {
-        const trans = buildDeleteTransaction(path, toRemove);
+        const trans = buildDeleteTransaction(this.obj, path, toRemove);
         trans.do(this.obj);
         this.undoList.push(trans);
         this.redoList = [];
+
+        this.refresh();
     }
 
     /// Build and execute an update transaction. The transaction is stored
@@ -42,23 +48,31 @@ export default class TransactionHandler {
         trans.do(this.obj);
         this.undoList.push(trans);
         this.redoList = [];
+
+        this.refresh();
     }
 
     /// undo the last transaction
     undo() {
         const trans = this.undoList.pop();
-        trans.undo(this.obj);
-
-        this.redoList.push(trans);
+        if (trans != null)
+        {
+            trans.undo(this.obj);
+            this.redoList.push(trans);
+            this.refresh();
+        }
     }
 
     /// redo the last undone transaction. Cannot be done if a new transaction
     /// has occured after an undo.
     redo() {
         const trans = this.redoList.pop();
-        trans.do(this.obj);
-
-        this.undoList.push(trans);
+        if (trans != null)
+        {
+            trans.do(this.obj);
+            this.undoList.push(trans);
+            this.refresh();
+        }
     }
 }
 
@@ -82,9 +96,11 @@ function buildCreateTransaction(path, newValue) {
 }
 
 /// builds the transaction object for removing a value from an array
-function buildDeleteTransaction(path, toRemove) {
+function buildDeleteTransaction(obj, path, toRemove) {
 
     const oldValue = toRemove;
+    const ref = getRef(obj, path);
+    const oldIndex = ref.findIndex((val) => JSON.stringify(val) == JSON.stringify(toRemove));
 
     return {
         do: (obj) => {
@@ -97,7 +113,7 @@ function buildDeleteTransaction(path, toRemove) {
 
         undo: (obj) => {
             const ref = getRef(obj, path);
-            ref.push(oldValue);
+            ref.splice(oldIndex, 0, oldValue);
         }
     }
 }
@@ -147,14 +163,12 @@ function getRef(obj, path) {
         }
     }
 
-    console.log("getRef returned: " + latest);
     return latest;
 }
 
 /// Special case for primitives which cant be passed by refferecnce,
 /// so we have to go one level up to their containing object.
 function getRefPrimitive(obj, path) {
-
     const pathParts = path.split('.');
     var latest = obj;
     var lastKey = '';
@@ -191,7 +205,6 @@ function getRefPrimitive(obj, path) {
         }
     }
 
-    console.log("getRefPrimitive returned: " + latest + " " + lastKey);
     return {"ref": latest, "key" : lastKey};
 }
 

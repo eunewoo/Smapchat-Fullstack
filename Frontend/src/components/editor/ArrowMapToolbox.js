@@ -1,6 +1,6 @@
 import { Card, Container } from "react-bootstrap";
 import { Button } from 'react-bootstrap';
-import { BsXLg } from "react-icons/bs";
+import { BsXLg, BsArrowCounterclockwise, BsArrowClockwise } from "react-icons/bs";
 import "./CommonToolbox.css";
 import "./ArrowMapToolbox.css";
 
@@ -8,15 +8,13 @@ import { test } from "./TransactionHandler";
 
 export default function ArrowMapToolbox(props) {
 
-    console.log(props.arrowMap);
-
-    test();
-
     const cards = []
     for (const arrowPointLocation in props.arrowMap.Location) {
-        console.log(arrowPointLocation);
         cards.push(
-            <ArrowMapLocation arrowPointLocation={props.arrowMap.Location[arrowPointLocation]}/>
+            <ArrowMapLocation 
+                handler={props.handler} 
+                index={arrowPointLocation} 
+                arrowPointLocation={props.arrowMap.Location[arrowPointLocation]}/>
         );
     }
 
@@ -26,6 +24,10 @@ export default function ArrowMapToolbox(props) {
                 <Card.Text>Arrow Map Editor</Card.Text>
             </Card.Body>
             <Container className="scroller">
+                <Container>
+                    <Button onClick={() => props.handler.undo()}><BsArrowCounterclockwise/></Button>
+                    <Button onClick={() => props.handler.redo()}><BsArrowClockwise/></Button>
+                </Container>
                 {cards}
             </Container>
         </Card>
@@ -34,27 +36,30 @@ export default function ArrowMapToolbox(props) {
 
 function ArrowMapLocation(props) {
 
-    console.log(props.arrowPointLocation);
-
     return (
         <Card style={{width: "96%"}}>
             <Card.Body style={{backgroundColor: "#141488", color: "white", height: "40px", padding: "5px"}}>
                 <input 
                     className="invisibleInput" 
                     placeholder="Name" 
-                    defaultValue={props.arrowPointLocation.Name}/>
-                <BsXLg className="invisibleButton"/>
+                    value={props.arrowPointLocation.Name}
+                    onChange={(val) => props.handler.updateTrans(`Location[${props.index}].Name`, val.target.value)}/>
+                <BsXLg 
+                    className="invisibleButton"
+                    onClick={(val) => props.handler.deleteTrans('Location', props.arrowPointLocation)}/>
             </Card.Body>
             <Container style={{padding: "20px"}}>
 
                 <input 
                     className="input" 
                     placeholder="Order" 
-                    defaultValue={props.arrowPointLocation.Order}/>
+                    value={props.arrowPointLocation.Order}
+                    onChange={(val) => props.handler.updateTrans(`Location[${props.index}].Order`, val.target.value)}/>
                 <input 
                     className="input" 
                     placeholder="Date" 
-                    defaultValue={props.arrowPointLocation.Date}/>
+                    value={props.arrowPointLocation.Date}
+                    onChange={(val) => props.handler.updateTrans(`Location[${props.index}].Date`, val.target.value)}/>
 
             </Container>
         </Card>

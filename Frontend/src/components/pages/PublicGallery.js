@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useReducer, useState } from "react"
 import UserPopup from "../popups/UserPopup";
 import { webFetch } from "../../util/webUtil";
 import { navContext } from "../../App";
@@ -11,10 +11,20 @@ import SearchWidget from "../reuseable/SearchWidget";
 
 import arrowData from "../editor/SampleArrowMap.json";
 import ArrowMapToolbox from "../editor/ArrowMapToolbox";
+import TransactionHandler from "../editor/TransactionHandler";
 
 export default function PublicGallery() {
 
     const nav = useContext(navContext);
+
+    /// This is for testing, but serves as an example of how to use the TransactionHandler
+    /// we should set up a state variable for the JSON data we are mutating, a reducer
+    /// so our transaction handler can force re-renders on un/redo, and then pass those
+    /// to a new TransactionHandler. We can then pass this handler as props to the various
+    /// components on an editing page.
+    const [data] = useState(arrowData);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const handler = useState(new TransactionHandler(data, forceUpdate))[0];
 
     return (
         <>
@@ -27,7 +37,7 @@ export default function PublicGallery() {
             <ScrollableGallery/>  
             <ScrollableComments/>     
 
-            <ArrowMapToolbox arrowMap={arrowData}/>
+            <ArrowMapToolbox handler={handler} arrowMap={data}/>
         </>
     );
 }
