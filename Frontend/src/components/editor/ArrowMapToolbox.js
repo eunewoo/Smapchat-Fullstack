@@ -27,11 +27,23 @@ export default function ArrowMapToolbox(props) {
             <Card.Body style={{backgroundColor: "#141488", color: "white"}}>
                 <Card.Text>Arrow Map Editor</Card.Text>
             </Card.Body>
+
+            <Container>
+                <Button 
+                    className="undoredo" 
+                    disabled={props.handler.undoList.length <= 0} 
+                    onClick={() => props.handler.undo()}>
+                    <BsArrowCounterclockwise/> Undo
+                </Button>
+                <Button 
+                    className="undoredo" 
+                    disabled={props.handler.redoList.length <= 0} 
+                    onClick={() => props.handler.redo()}>
+                    <BsArrowClockwise/> Redo
+                </Button>
+            </Container>
+
             <Container className="scroller">
-                <Container>
-                    <Button onClick={() => props.handler.undo()}><BsArrowCounterclockwise/></Button>
-                    <Button onClick={() => props.handler.redo()}><BsArrowClockwise/></Button>
-                </Container>
                 {cards}
             </Container>
         </Card>

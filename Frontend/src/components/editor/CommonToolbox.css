@@ -11,3 +11,9 @@
     -ms-overflow-style: none; 
     scrollbar-width: none; 
   } 
+
+  .undoredo {
+    color: white;
+    margin: 10px;
+    width: 44%;
+  }
