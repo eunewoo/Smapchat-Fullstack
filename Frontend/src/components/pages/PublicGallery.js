@@ -7,6 +7,7 @@ import MapCard from "../reuseable/MapCard";
 import Comment from "../reuseable/Comment";
 import ScrollableGallery from "../reuseable/ScrollableGallery";
 import ScrollableComments from "../reuseable/ScrollableComments";
+import SearchWidget from "../reuseable/SearchWidget";
 
 export default function PublicGallery() {
 
@@ -19,6 +20,7 @@ export default function PublicGallery() {
 
             <Comment/>
             <MapCard/>  
+            <SearchWidget/>
             <ScrollableGallery/>  
             <ScrollableComments/>      
         </>
