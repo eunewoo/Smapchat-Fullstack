@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import Header from "../Header/Header";
 
 const Layout = () => {
   return (
-    <div className="h-screen px-3">
-      {/* <Header /> */}
+    <div className="h-screen">
+      <Header />
       <Outlet />
     </div>
   );
