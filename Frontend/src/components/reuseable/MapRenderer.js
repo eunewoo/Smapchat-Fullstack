@@ -4,7 +4,7 @@
 /// JSON object for one of the applications map types in the
 /// GraphicData prop.
 // MapRender.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { renderArrowMap } from './mapgraphics/ArrowMap'; 
@@ -12,17 +12,19 @@ import { renderPictureMap } from './mapgraphics/PictureMap';
 import { renderBubbleMap } from './mapgraphics/BubbleMap'; 
 
 export default function MapRenderer({ Geometry, GraphicData, mapType }) {
-    const [map, setMap] = useState(null);
+    const mapRef = useRef(null);
 
     useEffect(() => {
-        if (mapType === 1 && map) {
-            renderPictureMap(map, GraphicData);
+        
+        if (mapType === 1 && mapRef.current) {
+            renderPictureMap(mapRef.current, GraphicData);
         }
-        else if (mapType === 2 && map) {
-            renderArrowMap(map, GraphicData);
+        else if (mapType === 2 && mapRef.current) {
+            console.log('useEffect run')
+            renderArrowMap(mapRef.current, GraphicData);
         }
-        else if (mapType === 3 && map) {
-            renderBubbleMap(map, GraphicData);
+        else if (mapType === 3 && mapRef.current) {
+            renderBubbleMap(mapRef.current, GraphicData);
         }
 
     //     else if (mapType === 4 && map) {
@@ -31,7 +33,7 @@ export default function MapRenderer({ Geometry, GraphicData, mapType }) {
     //     else if (mapType === 5 && map) {
     //         renderScaleMap(map, GraphicData);
     //     }
-    }, [map, GraphicData, mapType]);
+    }, [GraphicData, mapType, Geometry]);
 
     return (
         <div className="map-rendering-box">
@@ -42,8 +44,7 @@ export default function MapRenderer({ Geometry, GraphicData, mapType }) {
                 minZoom={2}
                 maxBoundsViscosity={1}
                 whenCreated={(mapInstance) => {
-                    console.log("Map created", mapInstance);
-                    setMap(mapInstance);
+                    mapRef.current = mapInstance;
                 }}
             >
                 <TileLayer

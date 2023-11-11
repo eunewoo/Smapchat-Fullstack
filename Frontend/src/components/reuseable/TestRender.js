@@ -5,6 +5,8 @@ export default function TestMapRenderer() {
     const [geoJsonData, setGeoJsonData] = useState(null);
     const mapType = 2; // Indicating it's an Arrow Map
 
+    // It runs when you upload file
+    // Put uploaded geojson data into seGeoJsonData
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -25,6 +27,8 @@ export default function TestMapRenderer() {
             <input type="file" onChange={handleFileChange} accept=".json" />
             <MapRenderer
                 Geometry={geoJsonData}
+                // Put database value in here 
+                // This example is ArrowMap values
                 GraphicData={[
                     { latitude: 40.76242991263874, longitude: -73.98521056649075, name: "Gershwin Theater", order: 1 },
                     { latitude: 40.75811079104577, longitude: -73.98534622655546, name: "Time Square", order: 2 },
