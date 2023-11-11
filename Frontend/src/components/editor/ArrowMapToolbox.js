@@ -45,6 +45,17 @@ export default function ArrowMapToolbox(props) {
 
             <Container className="scroller">
                 {cards}
+                <Button
+                    className="inner"
+                    onClick={() => props.handler.createTrans('Location', {
+                        "Name" : "",
+                        "Longitude" : 0,
+                        "Lattitude" : 0,
+                        "Order" : 0,
+                        "Date" : "1-1-1970"
+                    })}>
+                    Add new
+                </Button>
             </Container>
         </Card>
     );
@@ -56,7 +67,7 @@ export default function ArrowMapToolbox(props) {
 function ArrowMapLocation(props) {
 
     return (
-        <Card style={{width: "96%"}}>
+        <Card className="inner">
             <Card.Body style={{backgroundColor: "#141488", color: "white", height: "40px", padding: "5px"}}>
                 <input 
                     className="invisibleInput" 
