@@ -24,11 +24,11 @@ export default function ColorWidget(props) {
 
     return (
         <>
-            <Container onClick={() => setActive(true)} className="widget">
-                Color
+            <Container onClick={() => setActive(!active)} className="widget">
+                {props.text ?? "Color"}
                 <div  
                     className="preview"           
-                    style={{width:"20px", height:"20px", backgroundColor: props.color}}>
+                    style={{backgroundColor: props.color}}>
                 </div>
 
             </Container>
