@@ -1,7 +1,7 @@
 import './App.css';
 import PublicGallery from './components/pages/PublicGallery';
 import UserPage from './components/pages/UserPage.js';
-import TestMapRenderer from './components/reuseable/TestRender.js'; // Adjust the import path as necessary
+import TestMapRenderer from './components/reuseable/TestRender.js'; 
 
 import {createContext, useContext, useState } from "react";
 
@@ -25,6 +25,8 @@ function App() {
   // want to look at it :)
   const [popup, setPopup] = useState(<></>);
 
+  // Page State which contains TestMapRenderer.js file is adapted
+  // to show test version of visualizing 5 map graphics for build#2
   const [page, setPage] = useState(<TestMapRenderer />)
 
   

@@ -35,6 +35,9 @@ export default function TestMapRenderer() {
 
     return (
         <div>
+            <div>
+            <input type="file" onChange={handleFileChange} accept=".json" />
+            </div>
             <>
             {Object.entries(mapTypeNames).map(([num, name]) => (
                 <label key={num}>
@@ -49,7 +52,6 @@ export default function TestMapRenderer() {
                 </label>
             ))}
             </>
-            <input type="file" onChange={handleFileChange} accept=".json" />
             <MapRenderer
                 Geometry={geoJsonData}
                 mapType={mapType}
