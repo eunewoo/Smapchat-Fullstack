@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const RatingSchema = new mongoose.Schema({
+const RatingSchema_ = new mongoose.Schema({
   mapID: {
     type: Number,
     required: false,
@@ -19,5 +19,5 @@ const RatingSchema = new mongoose.Schema({
   },
 });
 
-const RatingModel = mongoose.model("Rating", RatingSchema);
-module.exports = RatingModel;
+const RatingSchema = mongoose.model("Rating", RatingSchema_);
+module.exports = RatingSchema;

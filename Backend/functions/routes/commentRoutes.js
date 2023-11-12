@@ -13,7 +13,7 @@ router.get("/api/comment/:mapId", async (req, res) => {
     res.json(comments);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -27,7 +27,7 @@ router.post("/api/comment/create", async (req, res) => {
     res.json(comment);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -40,7 +40,7 @@ router.post("/api/comment/like", async (req, res) => {
     res.json(comment);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -53,7 +53,7 @@ router.post("/api/comment/dislike", async (req, res) => {
     res.json(comment);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -71,7 +71,7 @@ router.put("/api/comment/update", async (req, res) => {
     res.json(comment);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -85,7 +85,7 @@ router.delete("/api/comment/delete", async (req, res) => {
     res.json(comment);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 

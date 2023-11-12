@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const CommentSchema = new mongoose.Schema({
+const CommentSchema_ = new mongoose.Schema({
   commentID: {
     type: Number,
     required: true,
@@ -24,5 +24,5 @@ const CommentSchema = new mongoose.Schema({
   },
 });
 
-const CommentModel = mongoose.model("Comment", CommentSchema);
-module.exports = CommentModel;
+const CommentSchema = mongoose.model("Comment", CommentSchema_);
+module.exports = CommentSchema;

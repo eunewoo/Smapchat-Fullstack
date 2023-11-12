@@ -6,7 +6,7 @@ class RatingModel {
   //1
   static async getRatesByMapId(mapId) {
     try {
-      const rates = await this.find({ mapID: mapId });
+      const rates = await RatingSchema.find({ mapID: mapId });
       return rates;
     } catch (error) {
       throw new Error(error.message);
@@ -17,7 +17,7 @@ class RatingModel {
   //4
   static async createRate(userId, mapId, rate) {
     try {
-      const createdRate = await this.create({
+      const createdRate = await RatingSchema.create({
         userID: userId,
         mapID: mapId,
         rate: rate,
@@ -33,7 +33,7 @@ class RatingModel {
 
   static async updateRate(userId, mapId, rate) {
     try {
-      const updatedRate = await this.findOneAndUpdate(
+      const updatedRate = await RatingSchema.findOneAndUpdate(
         { userID: userId, mapID: mapId },
         { rate: rate },
         { new: true }
@@ -48,7 +48,7 @@ class RatingModel {
   //4
   static async deleteRate(userId, mapId) {
     try {
-      const deletedRate = await this.findOneAndDelete({
+      const deletedRate = await RatingSchema.findOneAndDelete({
         userID: userId,
         mapID: mapId,
       });

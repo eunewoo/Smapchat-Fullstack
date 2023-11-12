@@ -6,18 +6,18 @@ class CommentModel {
   //1
   static async getCommentByMapId(mapId) {
     try {
-      const comments = await this.find({ mapId }).exec();
+      const comments = await CommentSchema.find({ mapId }).exec();
       return comments;
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  } 
 
   //post
   //2
   static async createComment(mapId, userId, content) {
     try {
-      const comment = await this.create({
+      const comment = await CommentSchema.create({
         mapID: mapId,
         userID: userId,
         content: content,
@@ -32,7 +32,7 @@ class CommentModel {
   //3
   static async likeComment(userId, commentId) {
     try {
-      const comment = await this.findOneAndUpdate(
+      const comment = await CommentSchema.findOneAndUpdate(
         { commentID: commentId },
         { $inc: { likes: 1 } },
         { new: true }
@@ -47,7 +47,7 @@ class CommentModel {
   //4
   static async dislikeComment(userId, commentId) {
     try {
-      const comment = await this.findOneAndUpdate(
+      const comment = await CommentSchema.findOneAndUpdate(
         { commentID: commentId },
         { $inc: { disLikes: 1 } },
         { new: true }
@@ -63,7 +63,7 @@ class CommentModel {
   //5
   static async updateComment(userId, commentId, content) {
     try {
-      const comment = await this.findOneAndUpdate(
+      const comment = await CommentSchema.findOneAndUpdate(
         { commentID: commentId, userID: userId },
         { content: content },
         { new: true }
@@ -79,7 +79,7 @@ class CommentModel {
   //6
   static async deleteComment(userId, commentId) {
     try {
-      const comment = await this.findOneAndDelete({
+      const comment = await CommentSchema.findOneAndDelete({
         commentID: commentId,
         userID: userId,
       });

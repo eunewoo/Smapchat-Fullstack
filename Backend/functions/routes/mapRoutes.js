@@ -9,10 +9,10 @@ router.get("/api/user/maps/:id", async (req, res) => {
   try {
     const user = await UserModel.getMapsByUserId(id);
 
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 //2
@@ -22,10 +22,10 @@ router.get("/api/map/public", async (req, res) => {
   try {
     const maps = await MapModel.getPublicMaps(page, limit);
 
-    res.json(maps);
+    res.status(200).json(maps);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 //3
@@ -36,7 +36,7 @@ router.get("/api/map/specific/:mapId", async (req, res) => {
   try {
     const specificMap = await MapModel.getSpecificMapByMapId(userId, mapId);
 
-    res.json(specificMap);
+    res.status(200).json(specificMap);
   } catch (error) {
     console.error(error.message);
     res.status(404).json({ message: error.message });
@@ -53,10 +53,10 @@ router.get("/api/map/public/search", async (req, res) => {
       limit
     );
 
-    res.json(publicMaps);
+    res.status(200).json(publicMaps);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -69,10 +69,10 @@ router.get("/api/map/public/top-rated", async (req, res) => {
       page,
       limit
     );
-    res.json(topRatedPublicMaps);
+    res.status(200).json(topRatedPublicMaps);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -85,28 +85,28 @@ router.get("/api/map/public/recent", async (req, res) => {
     res.json(recentPublicMaps);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
 //7
-  router.get("/api/map/:userId/search", async (req, res) => {
-    const { userId } = req.params;
-    const { query, page, limit } = req.query;
+router.get("/api/map/:userId/search", async (req, res) => {
+  const { userId } = req.params;
+  const { query, page, limit } = req.query;
 
-    try {
-      const userMaps = await MapModel.searchUserMapsByQuery(
-        userId,
-        query,
-        page,
-        limit
-      );
-      res.json(userMaps);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Server Error");
-    }
-  });
+  try {
+    const userMaps = await MapModel.searchUserMapsByQuery(
+      userId,
+      query,
+      page,
+      limit
+    );
+    res.status(200).json(userMaps);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+});
 //8
 router.get("/api/map/:userId/top-rated", async (req, res) => {
   const { userId } = req.params;
@@ -121,7 +121,7 @@ router.get("/api/map/:userId/top-rated", async (req, res) => {
     res.json(topRatedUserMaps);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -139,9 +139,9 @@ router.get("/api/map/:userId/recent", async (req, res) => {
     res.json(recentUserMaps);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
-}); 
+});
 //post
 //10
 router.post("/api/map/create/pictureMap", async (req, res) => {
@@ -155,7 +155,7 @@ router.post("/api/map/create/pictureMap", async (req, res) => {
     res.json(createdPictureMap);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -169,7 +169,7 @@ router.post("/api/map/create/arrowMap", async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -185,7 +185,7 @@ router.post("/api/map/create/bubbleMap", async (req, res) => {
     res.json(createdBubbleMap);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -201,7 +201,7 @@ router.post("/api/map/create/categoryMap", async (req, res) => {
     res.json(createdCategoryMap);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -214,7 +214,7 @@ router.post("/api/map/create/scaleMap", async (req, res) => {
     res.json(createdScaleMap);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -228,7 +228,7 @@ router.put("/api/map/update", async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -241,7 +241,7 @@ router.put("/api/map/statusUpdate", async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -256,9 +256,8 @@ router.delete("/api/map/:mapId", async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
-
 
 module.exports = router;

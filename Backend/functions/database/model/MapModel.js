@@ -1,5 +1,10 @@
 const mongodb = require("mongodb");
 const MapSchema = require("../schema/MapSchema.js");
+const PictureSchema = require("../schema/PictureMap.js")
+const ArrowMapSchema = require("../schema/ArrowMap.js")
+const ScaleMapSchema = require("../schema/ScaleMap.js")
+const catagoryMapSchema = require("../schema/CatagoryMap.js")
+const BubbleMapSchema = require("../schema/BubbleMap.js")
 const bcrypt = require("bcryptjs");
 
 class MapModel {
@@ -16,6 +21,8 @@ class MapModel {
   static async getPublicMaps(page = 1, limit = 20) {
     try {
       const maps = await MapSchema.find()
+        // here i assumed our map list is classified by page
+        // you can modify as it's needed
         .skip((page - 1) * limit)
         .limit(parseInt(limit));
 
@@ -57,7 +64,8 @@ class MapModel {
   static async getTopRatedPublicMaps(page = 1, limit = 20) {
     try {
       const topRatedPublicMaps = await MapSchema.find({})
-        .sort({ avgRate: -1 }) // Sort by avgRate in descending order
+        // here i Sorted by avgRate in descending order for give page
+        .sort({ avgRate: -1 })
         .skip((page - 1) * limit)
         .limit(parseInt(limit))
         .exec();
@@ -72,7 +80,7 @@ class MapModel {
   static async getRecentPublicMaps(page = 1, limit = 20) {
     try {
       const recentPublicMaps = await MapSchema.find({})
-        .sort({ date: -1 }) // Sort by date in descending order (recent first)
+        .sort({ date: -1 }) //here i Sorted by date in descending order (recent first)
         .skip((page - 1) * limit)
         .limit(parseInt(limit))
         .exec();
@@ -104,7 +112,7 @@ class MapModel {
   static async getTopRatedUserMaps(userId, page = 1, limit = 20) {
     try {
       const topRatedUserMaps = await MapSchema.find({ userId })
-        .sort({ avgRate: -1 }) // Sort by avgRate in descending order
+        .sort({ avgRate: -1 }) // here i Sorted by avgRate in descending order
         .skip((page - 1) * limit)
         .limit(parseInt(limit))
         .exec();
@@ -131,18 +139,16 @@ class MapModel {
 
   //post
   //10
-  async createPictureMap(userId, mapData) {
+  static async createPictureMap(userId, mapData) {
     try {
-      const { pictureMapLocation } = mapData;
-      const createdPictureMap = await this.create({
-        mapId: pictureMapLocation.locationId, // Assuming locationId is unique for each picture map
-        pictureMapLocation,
+      const { pictureMap } = mapData;
+      const createdPictureMap = await PictureSchema.create({
+        mapId: pictureMap.mapId,
+        locationIds: pictureMap.locationIds,
       });
 
-      // Assuming there's a field in your user schema to store the mapId
-      // Adjust this according to your user schema
       await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: pictureMapLocation.locationId },
+        $push: { mapList: pictureMapLocation.mapId },
       });
 
       return createdPictureMap;
@@ -154,17 +160,13 @@ class MapModel {
   //11
   static async createArrowMap(userId, mapData) {
     try {
-      const { locationIds } = mapData;
+      const { arrowmap } = mapData;
 
-      // Create ArrowMap
-      const createdArrowMap = await this.create({
-        mapID: locationIds[0], // Assuming the first locationId is unique for each arrow map
-        maxpin: mapData.maxpin,
-        locationIds,
+      const createdArrowMap = await ArrowMapSchema.create({
+        mapID: arrowmap.mapID,
+        maxpin: arrowmap.maxpin,
+        locationIds: arrowmap.locationIds,
       });
-
-      // Assuming you have a field in your user schema to store the mapID
-      // Adjust this according to your user schema
       await UserModel.findByIdAndUpdate(userId, {
         $push: { mapList: createdArrowMap.mapID },
       });
@@ -178,18 +180,17 @@ class MapModel {
   //12
   static async createBubbleMap(userId, mapData) {
     try {
-      const { bubblePointLocation, details } = mapData;
+      const { bubblemap } = mapData;
 
       // Update user's mapList
       await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: bubblePointLocation.libraryId },
+        $push: { mapList: bubblemap.mapID },
       });
 
       // Create BubbleMap
-      const createdBubbleMap = await this.create({
-        mapId: bubblePointLocation.libraryId,
-        bubblePointLocation,
-        details,
+      const createdBubbleMap = await BubbleMapSchema.create({
+        mapId: bubblemap.mapID,
+        locationIds: bubblemap.locationIds,
       });
 
       return createdBubbleMap;
@@ -201,23 +202,15 @@ class MapModel {
   //13
   static async createCategoryMap(userId, mapData) {
     try {
-      // Assuming you have a proper method to generate a unique mapID
-      const mapId = generateUniqueMapId();
+      const { categoryMap } = mapData;
 
-      const { details, categoryMap } = mapData;
-
-      // Assuming you have a proper method to generate unique categoryIds
-      const categoryIds = generateUniqueCategoryIds(
-        categoryMap.category.polygon.length
-      );
-
-      const createdCategoryMap = await this.create({
-        mapID: mapId,
-        categoryIds: categoryIds,
+      const createdCategoryMap = await catagoryMapSchema.create({
+        mapID: categoryMap.mapId,
+        categoryIds: categoryMap.categoryIds,
       });
 
       await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: mapId },
+        $push: { mapList: categoryMap.mapId },
       });
 
       return createdCategoryMap;
@@ -229,16 +222,14 @@ class MapModel {
   //14
   static async createScaleMap(userId, mapData) {
     try {
-      const createdScaleMap = await this.create({
-        mapID: mapData.scaleMap.mapId,
-        minColor: mapData.scaleMap.minColor,
-        locationIds: [mapData.scaleMap.scalePolygon.locationId],
+      const createdScaleMap = await ScaleMapSchema.create({
+        mapID: mapData.mapId,
+        color: mapData.minColor,
+        locationIds: mapData.locationIds,
       });
 
-      // Assuming there's a field in your user schema to store the mapId
-      // Adjust this according to your user schema
       await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: mapData.scaleMap.mapId },
+        $push: { mapList: mapData.mapId },
       });
 
       return createdScaleMap;
@@ -251,7 +242,7 @@ class MapModel {
   //15
   static async updateMap(userId, mapId, mapData) {
     try {
-      const updatedMap = await this.findByIdAndUpdate(mapId, mapData, {
+      const updatedMap = await MapSchema.findByIdAndUpdate(mapId, mapData, {
         new: true,
       });
 
@@ -268,7 +259,7 @@ class MapModel {
   //16
   static async updatePublicStatus(userId, mapId, isPublic) {
     try {
-      const updatedMap = await this.findByIdAndUpdate(
+      const updatedMap = await MapSchema.findByIdAndUpdate(
         mapId,
         { public: isPublic },
         { new: true }
@@ -288,7 +279,7 @@ class MapModel {
   //17
   static async deleteMapByMapId(mapId, userId) {
     try {
-      const deletedMap = await this.findOneAndDelete({ _id: mapId, userId });
+      const deletedMap = await MapSchema.findOneAndDelete({ _id: mapId, userId });
 
       if (!deletedMap) {
         throw new Error("Map not found");
@@ -299,9 +290,6 @@ class MapModel {
       throw new Error(error.message);
     }
   }
-
-};
-
-
+}
 
 module.exports = MapModel;

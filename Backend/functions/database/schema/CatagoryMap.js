@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CatagoryMapSchema = new mongoose.Schema({
+const CatagoryMapSchema_ = new mongoose.Schema({
   mapID: {
     type: Number,
     required: true,
@@ -14,5 +14,5 @@ const CatagoryMapSchema = new mongoose.Schema({
   
 }); 
 
-const CatagoryMapModel = mongoose.model("CatagoryMap", CatagoryMapSchema);
-module.exports = CatagoryMapModel; 
+const CatagoryMapSchema = mongoose.model("CatagoryMap", CatagoryMapSchema_);
+module.exports = CatagoryMapSchema; 

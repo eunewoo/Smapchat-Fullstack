@@ -13,7 +13,7 @@ router.get("/api/rate/:mapId", async (req, res) => {
     res.json(rates);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -28,7 +28,7 @@ router.post("/api/rate/create", async (req, res) => {
     res.json(createdRate);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -42,7 +42,7 @@ router.put("/api/rate/update", async (req, res) => {
     res.json(updatedRate);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 
@@ -56,7 +56,7 @@ router.delete("/api/rate/delete", async (req, res) => {
     res.json(deletedRate);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(400).send("Server Error");
   }
 });
 

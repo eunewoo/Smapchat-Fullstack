@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const BubbleMapSchema = new mongoose.Schema({
+const BubbleMapSchema_ = new mongoose.Schema({
   mapID: {
     type: Number,
     required: true,
@@ -14,5 +14,5 @@ const BubbleMapSchema = new mongoose.Schema({
   
 });
 
-const BubbleMapModel = mongoose.model("BubbleMap", BubbleMapSchema);
-module.exports = BubbleMapModel; 
+const BubbleMapSchema = mongoose.model("BubbleMap", BubbleMapSchema_);
+module.exports = BubbleMapSchema; 
