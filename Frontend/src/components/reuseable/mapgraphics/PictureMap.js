@@ -2,16 +2,28 @@
 import L from 'leaflet';
 
 // Sample data of PictureMapLocation
-const pictureMapData = [{
-  LocationID: 101,  
-  name: "New York",
-  libraryIds: [1, 2, 3],  
+// replace with real data from database later
+const samplePictureMapLocation = [
+  {
+  LocationID: 111,  
+  name: "New York 1",
+  libraryIds: [1, 2],  
   longitude: "-73.9654",  
   latitude: "40.7829"  
-}];
+  },
+  {
+    LocationID: 222,  
+    name: "New York 2",
+    libraryIds: [3],  
+    longitude: "-73.9776430605575",  
+    latitude: "40.76157082004316"  
+  }
+
+];
 
 // Sample data of Library schema
-const libraryData = [
+// replace with real data from database later
+const sampleLibrary = [
     {
       LibraryID: 1,
       name: "Gershwin Theater",
@@ -24,51 +36,66 @@ const libraryData = [
     },
     {
       LibraryID: 3,
-      name: "MoMA",
-      images: ["https://www.moma.org/assets/visit/entrance-image--museum-crop-7516b01003659172f2d9dbc7a6c2e9d9.jpg", "https://www.centralpark.com/downloads/10179/download/moma-starry-night-van-gogh.jpg?cb=f28f20d165ded9568f8fe897a41e19fe&w=1100"]
+      name: "Museum of Modern Art",
+      images: ["https://images.adsttc.com/media/images/5da4/969e/3312/fd37/2b00/003c/large_jpg/01_MoMA_Photography_by_Brett_Beyer.jpg?1571067518", "https://www.moma.org/d/assets/W1siZiIsIjIwMjIvMDQvMDUvNTdnMml4eThtb180NzJfMTk0MV9DQ0NSX1ByZXNzX1NpdGUuanBnIl0sWyJwIiwiY29udmVydCIsIi1xdWFsaXR5IDkwIC1yZXNpemUgMTE4NHg2NjZeIC1ncmF2aXR5IE5vcnRoIC1jcm9wIDExODR4NjY2KzArNzkiXV0/472_1941_CCCR-Press%20Site.jpg?sha=5bdb603f03db6661"]
     },
 ];
 
 export const renderPictureMap = (map) => {
-    pictureMapData.forEach(location => {
-        // Add marker (pinpoint) for each location
-        const marker = L.marker([parseFloat(location.latitude), parseFloat(location.longitude)]).addTo(map);
+  samplePictureMapLocation.forEach(location => {
+      // Custom marker icon with LocationID
+      const customIcon = L.divIcon({
+          html: `<div style="background-color: black; padding: 5px; border-radius: 100%; text-align: center;">${location.LocationID}</div>`,
+          className: 'custom-div-icon'
+      });
 
-        // Find matching libraries using location data
-        const matchingLibraries = libraryData.filter(lib => location.libraryIds.includes(lib.LibraryID));
-        const images = matchingLibraries.flatMap(lib => lib.images);
+      // Create marker with custom icon
+      const marker = L.marker([parseFloat(location.latitude), parseFloat(location.longitude)], { icon: customIcon }).addTo(map);
 
-        // Create a popup with the first image for each marker (pinpoint)
-        const popupContent = document.createElement('div');
-        if (images.length > 0) {
-            const firstImage = document.createElement('img');
-            firstImage.src = images[0];
-            firstImage.style.maxWidth = '100px';
-            firstImage.style.cursor = 'pointer';
-            popupContent.appendChild(firstImage);
+      // Find matching libraries
+      const matchingLibraries = sampleLibrary.filter(lib => location.libraryIds.includes(lib.LibraryID));
 
-            // Event listener to display remaining images in a grid layout upon clicking the first image
-            firstImage.onclick = () => {
-                const gridContainer = document.createElement('div');
-                gridContainer.style.display = 'grid';
-                gridContainer.style.gridTemplateColumns = 'repeat(2, 1fr)'; // Adjust grid layout as needed
-                gridContainer.style.gap = '10px';
-                gridContainer.style.maxWidth = '200px'; // Adjust size as needed
+      // Popup content for the first image and location name
+      const popupContent = document.createElement('div');
+      const firstLibrary = matchingLibraries[0];
+      if (firstLibrary && firstLibrary.images.length > 0) {
+          const firstImage = document.createElement('img');
+          firstImage.src = firstLibrary.images[0];
+          firstImage.style.maxWidth = '100px';
+          firstImage.style.cursor = 'pointer';
+          popupContent.appendChild(firstImage);
 
-                images.slice(1).forEach(imageUrl => {
-                    const img = document.createElement('img');
-                    img.src = imageUrl;
-                    img.style.maxWidth = '100%';
-                    gridContainer.appendChild(img);
-                });
+          const locationName = document.createElement('div');
+          locationName.textContent = location.name;
+          popupContent.appendChild(locationName);
 
-                // Replace the popup content with the grid container
-                popupContent.innerHTML = '';
-                popupContent.appendChild(gridContainer);
-                marker.getPopup().update();
-            };
-        }
+          // Click event to display remaining images in a grid layout
+          firstImage.onclick = () => {
+              const gridContainer = document.createElement('div');
+              gridContainer.style.display = 'grid';
+              gridContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
+              gridContainer.style.gap = '10px';
+              gridContainer.style.maxWidth = '200px';
 
-        marker.bindPopup(popupContent);
-    });
+              matchingLibraries.forEach(lib => {
+                  const libraryName = document.createElement('div');
+                  libraryName.textContent = lib.name;
+                  gridContainer.appendChild(libraryName);
+
+                  lib.images.forEach(imageUrl => {
+                      const img = document.createElement('img');
+                      img.src = imageUrl;
+                      img.style.maxWidth = '100%';
+                      gridContainer.appendChild(img);
+                  });
+              });
+
+              popupContent.innerHTML = '';
+              popupContent.appendChild(gridContainer);
+              marker.getPopup().update();
+          };
+      }
+
+      marker.bindPopup(popupContent);
+  });
 };
