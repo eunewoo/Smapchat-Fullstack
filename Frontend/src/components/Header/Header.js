@@ -6,14 +6,17 @@ import UserAvatar from "../../assets/images/userAvatar.png";
 import AuthContext from "../../contexts/AuthContext";
 
 const Header = () => {
+  // states, contexts, and variables
   const [menu, setMenu] = useState(false);
   const { auth } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
+  const isLoggedIn = auth.loggedIn;
 
+  //functions
   const handleNavigateTo = () => navigate("/create-page");
-  
+
   console.log(auth);
   return (
     <Navbar expand="lg" style={{ backgroundColor: "#0C0D34" }}>
@@ -32,14 +35,34 @@ const Header = () => {
             My Maps
           </Nav.Link>
         </Nav>
-        <Button
-          onClick={handleNavigateTo}
-          type="button"
-          className="btn btn-primary px-4 py-2 rounded-3 fw-bold ms-3"
-          style={{ backgroundColor: "#4ACEFF" }}
-        >
-          Login
-        </Button>
+        {!isLoggedIn && (
+          <Button
+            onClick={handleNavigateTo}
+            type="button"
+            className="btn btn-primary px-4 py-2 rounded-3 fw-bold ms-3"
+            style={{ backgroundColor: "#4ACEFF" }}
+          >
+            Login
+          </Button>
+        )}
+
+        {isLoggedIn && (
+          <>
+            <Button
+              onClick={handleNavigateTo}
+              type="button"
+              className="btn btn-primary px-4 py-2 rounded-3 fw-bold mx-3"
+              style={{ backgroundColor: "#4ACEFF" }}
+            >
+              Eunewoo
+            </Button>
+            <img
+              src={UserAvatar}
+              alt="User Avatar"
+              style={{ width: "45px", height: "45px", borderRadius: "15%" }}
+            />
+          </>
+        )}
       </Container>
     </Navbar>
   );
