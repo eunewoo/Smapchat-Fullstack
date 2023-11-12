@@ -18,7 +18,7 @@ export async function webFetch(route)
                 else
                 {
                     console.log("Response body was null!");
-                    throw null;
+                    throw new Error("Response body was null");
                 }
             });
         }
@@ -27,7 +27,7 @@ export async function webFetch(route)
             console.log(`Error from server when requesting ${route}: `
              + res.status);
           
-            throw null;
+             throw new Error("Server responded with non-200 code");
         }
     })
 }

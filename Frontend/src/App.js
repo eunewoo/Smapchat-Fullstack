@@ -1,7 +1,6 @@
 import './App.css';
 import PublicGallery from './components/pages/PublicGallery';
-import UserPage from './components/pages/UserPage.js';
-import {createContext, useContext, useState } from "react";
+import {createContext, useState } from "react";
 import Topbar from './components/reuseable/Topbar.js';
 
 // These contexts expose setters for the page and 

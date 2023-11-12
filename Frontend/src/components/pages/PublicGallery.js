@@ -1,6 +1,4 @@
 import { useContext, useReducer, useState } from "react"
-import UserPopup from "../popups/UserPopup";
-import { webFetch } from "../../util/webUtil";
 import { navContext } from "../../App";
 import UserPage from "./UserPage";
 import MapCard from "../reuseable/MapCard";

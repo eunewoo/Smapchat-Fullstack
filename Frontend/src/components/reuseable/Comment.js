@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
-import Button from 'react-bootstrap/Button';
 import {BsFillHandThumbsUpFill, BsFillHandThumbsDownFill} from 'react-icons/bs';
 import "./Comment.css";
 

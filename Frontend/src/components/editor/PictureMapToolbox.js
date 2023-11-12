@@ -2,7 +2,6 @@ import { Card, Container } from "react-bootstrap";
 import { Button } from 'react-bootstrap';
 import { BsXLg, BsArrowCounterclockwise, BsArrowClockwise, BsPlusLg } from "react-icons/bs";
 import "./CommonToolbox.css";
-import ColorWidget from "./ColorWidget";
 
 /// The toolbox for editing an picture map. Expects the map data and a TransactionHandler
 /// for that data as the pictureMap and handler props respectively.
@@ -145,6 +144,7 @@ function PictureMapPicture(props) {
     return (
         <div style={{display:"inline-block", position:"relative", width: "129px", height: "100px", margin: "5px"}}>
             <img 
+                alt="Custom image"
                 style={{width: "129px", height: "100px"}}
                 src={props.src}>
             </img>

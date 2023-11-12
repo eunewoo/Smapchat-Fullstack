@@ -1,7 +1,4 @@
-import { useContext, useState } from "react";
-import MapRenderer from "./MapRenderer";
-import RatingDisplay from "./RatingDisplay";
-import { navContext } from "../../App";
+import { useState } from "react";
 import Card from 'react-bootstrap/Card';
 import './SearchWidget.css';
 import { Container, Button, ToggleButton } from "react-bootstrap";
