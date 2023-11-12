@@ -53,6 +53,7 @@ export default function TestMapRenderer() {
             <MapRenderer
                 Geometry={geoJsonData}
                 mapType={mapType}
+                GeoJsonData={geoJsonData}
             />
         </div>
     );

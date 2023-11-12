@@ -5,8 +5,11 @@ import 'leaflet/dist/leaflet.css';
 import { renderPictureMap } from './mapgraphics/PictureMap'; 
 import { renderArrowMap } from './mapgraphics/ArrowMap'; 
 import { renderBubbleMap } from './mapgraphics/BubbleMap'; 
+import { renderCategoryMap } from './mapgraphics/CategoryMap'; 
+import { renderScaleMap } from './mapgraphics/ScaleMap';
 
-export default function MapRenderer({ Geometry, GraphicData, mapType }) {
+
+export default function MapRenderer({ Geometry, mapType, GeoJsonData }) {
     const mapRef = useRef(null);
 
     useEffect(() => {
@@ -23,8 +26,15 @@ export default function MapRenderer({ Geometry, GraphicData, mapType }) {
         } else if (mapType === 3 && mapRef.current) {
             renderBubbleMap(mapRef.current);
         }
+        else if (mapType === 4 && mapRef.current && GeoJsonData) {
+            renderCategoryMap(mapRef.current, GeoJsonData); // Pass the GeoJSON data
+        }
+        else if (mapType === 5 && mapRef.current && GeoJsonData) {
+            renderScaleMap(mapRef.current, GeoJsonData); // Pass the GeoJSON data
+        }
+
         // ... other map types
-    }, [Geometry, mapRef, mapType]);
+    }, [Geometry, mapRef, mapType, GeoJsonData]);
 
     return (
         <div className="map-rendering-box">

@@ -1,53 +1,71 @@
 // CategoryMap.js
 import L from 'leaflet';
 
-// Sample Category data
-const categories = [
-    {
-        CategoryId: 1,
-        Name: "Category 1",
-        Color: "#ff0000",
-        Polygons: [101, 102]
-    },
-    {
-        CategoryId: 2,
-        Name: "Category 2",
-        Color: "#00ff00",
-        Polygons: [103]
-    }
-];
+// Assuming this function represents how you get your GeoJSON data
+// This should be replaced with your actual method of retrieving GeoJSON data
+const getGeoJsonData = () => {
+    // Replace with actual method of getting GeoJSON data
+    return {
+        features: [
+            // ... array of GeoJSON feature objects ...
+        ]
+    };
+};
 
-// Sample Polygon data
-const polygons = [
-    {
-        PolygonId: 101,
-        Coordinates: [/* Array of coordinates */]
-    },
-    {
-        PolygonId: 102,
-        Coordinates: [/* Array of coordinates */]
-    },
-    {
-        PolygonId: 103,
-        Coordinates: [/* Array of coordinates */]
+// Sample Category data - initially empty
+const categories = [];
+
+// Function to create categories from GeoJSON features
+
+const createCategoriesFromGeoJson = (geoJsonData) => {
+    geoJsonData.features.forEach((feature, index) => {
+        const newCategory = {
+            CategoryId: index + 1,
+            Name: `Category ${index + 1}`,
+            Color: getRandomColor(),
+            Coordinates: feature.geometry.coordinates
+        };
+        categories.push(newCategory);
+        console.log(`Created category: ${newCategory.Name}`, newCategory);
+    });
+
+    // Log the entire list of created categories
+    console.log("All created categories:", categories);
+};
+
+// Generate a random color
+const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
     }
-    // Add more polygon data as needed
-];
+    return color;
+};
 
 export const renderCategoryMap = (map, geoJsonData) => {
-    // Iterate through each GeoJSON feature
-    geoJsonData.features.forEach(feature => {
-        // Determine the category of the feature
-        const category = categories.find(cat => cat.Polygons.includes(feature.properties.id));
-        if (category) {
-            // Create a polygon with the category's color
-            L.geoJSON(feature, {
-                style: {
-                    fillColor: category.Color,
-                    color: category.Color,
-                    fillOpacity: 0.5
-                }
+    if (!geoJsonData || !geoJsonData.features) {
+        console.error("GeoJSON data is not provided or invalid");
+        return;
+    }
+
+    // Create categories based on GeoJSON data
+    createCategoriesFromGeoJson(geoJsonData);
+
+    // Render each category
+    categories.forEach(category => {
+        category.Coordinates.forEach(polygonCoordinates => {
+            // Convert coordinates if needed (for Polygon type)
+            const leafletCoordinates = polygonCoordinates.map(coord => 
+                coord.map(point => [point[1], point[0]])
+            );
+
+            L.polygon(leafletCoordinates, {
+                color: category.Color,
+                fillColor: category.Color,
+                fillOpacity: 0.5,
+                weight: 2
             }).addTo(map);
-        }
+        });
     });
 };
