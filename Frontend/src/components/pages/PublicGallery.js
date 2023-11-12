@@ -22,6 +22,9 @@ import ScaleMapToolbox from "../editor/ScaleMapToolbox";
 import categoryData from "../editor/SampleCategoryMap.json";
 import CategoryMapToolbox from "../editor/CategoryMapToolbox";
 
+import pictureData from "../editor/SamplePictureMap.json";
+import PictureMapToolbox from "../editor/PictureMapToolbox";
+
 export default function PublicGallery() {
 
     const nav = useContext(navContext);
@@ -44,6 +47,9 @@ export default function PublicGallery() {
     const [cData] = useState(categoryData);
     const cHandler = useState(new TransactionHandler(cData, forceUpdate))[0];
 
+    const [pData] = useState(pictureData);
+    const pHandler = useState(new TransactionHandler(pData, forceUpdate))[0];
+
     return (
         <>
             Hello, I am the map page!
@@ -59,6 +65,7 @@ export default function PublicGallery() {
             <BubbleMapToolbox handler={bHandler} bubbleMap={bData}/>
             <ScaleMapToolbox handler={sHandler} scaleMap={sData}/>
             <CategoryMapToolbox handler={cHandler} categoryMap={cData}/>
+            <PictureMapToolbox handler={pHandler} pictureMap={pData}/>
         </>
     );
 }
