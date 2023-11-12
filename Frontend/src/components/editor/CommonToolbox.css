@@ -39,3 +39,11 @@
     width: 100%;
     margin-bottom: 10px;
 }
+
+.smallCross {
+    border-radius: 2px;
+    color: white;
+    background-color: "#040488";
+    width: 10px;
+    height: 25px;
+}

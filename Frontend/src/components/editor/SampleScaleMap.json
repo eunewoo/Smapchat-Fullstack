@@ -1,0 +1,27 @@
+{
+    "MapID" : "1234TEST1234",
+    "MinColor": "#FF0000",
+    "MaxColor": "#00FF00",
+    "Location" : [
+        {
+            "Name" : "Red area",
+            "Polygon" : 
+                {"Coordinates":[
+                    {"x": 0, "y": 0},
+                    {"x": 0, "y": 1},
+                    {"x": 1, "y": 0}
+                ]},
+            "Value" : 0
+        },
+        {
+            "Name" : "Green area",
+            "Polygon" : 
+                {"Coordinates":[
+                    {"x": 10, "y": 10},
+                    {"x": 10, "y": 11},
+                    {"x": 11, "y": 10}
+                ]},
+            "Value" : 100
+        }
+    ]
+}

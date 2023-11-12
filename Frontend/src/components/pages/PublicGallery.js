@@ -16,6 +16,15 @@ import TransactionHandler from "../editor/TransactionHandler";
 import bubbleData from "../editor/SampleBubbleMap.json";
 import BubbleMapToolbox from "../editor/BubbleMapToolbox";
 
+import scaleData from "../editor/SampleScaleMap.json";
+import ScaleMapToolbox from "../editor/ScaleMapToolbox";
+
+import categoryData from "../editor/SampleCategoryMap.json";
+import CategoryMapToolbox from "../editor/CategoryMapToolbox";
+
+import pictureData from "../editor/SamplePictureMap.json";
+import PictureMapToolbox from "../editor/PictureMapToolbox";
+
 export default function PublicGallery() {
 
     const nav = useContext(navContext);
@@ -32,6 +41,15 @@ export default function PublicGallery() {
     const[bData] = useState(bubbleData);
     const bHandler = useState(new TransactionHandler(bData, forceUpdate))[0];
 
+    const [sData] = useState(scaleData);
+    const sHandler = useState(new TransactionHandler(sData, forceUpdate))[0];
+
+    const [cData] = useState(categoryData);
+    const cHandler = useState(new TransactionHandler(cData, forceUpdate))[0];
+
+    const [pData] = useState(pictureData);
+    const pHandler = useState(new TransactionHandler(pData, forceUpdate))[0];
+
     return (
         <>
             Hello, I am the map page!
@@ -45,6 +63,9 @@ export default function PublicGallery() {
 
             <ArrowMapToolbox handler={handler} arrowMap={data}/>
             <BubbleMapToolbox handler={bHandler} bubbleMap={bData}/>
+            <ScaleMapToolbox handler={sHandler} scaleMap={sData}/>
+            <CategoryMapToolbox handler={cHandler} categoryMap={cData}/>
+            <PictureMapToolbox handler={pHandler} pictureMap={pData}/>
         </>
     );
 }

@@ -6,16 +6,16 @@ import Image from 'react-bootstrap/Image';
 
 export default function Topbar() {
   return (
-    <Navbar fixed="top" bg="primary" expand="lg">
+    <Navbar fixed="top" expand="lg" style={{color:"white", backgroundColor:"#141488"}}>
       <Container>
-        <Navbar.Brand>sMAPchat</Navbar.Brand>
+        <Navbar.Brand style={{color:"white"}}>sMAPchat</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className="justify-content-end">
 
           <Nav className="justify-content-end">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Create</Nav.Link>
-            <Nav.Link href="#link">My Maps</Nav.Link>
+            <Nav.Link style={{color:"white"}} href="#home">Home</Nav.Link>
+            <Nav.Link style={{color:"white"}} href="#link">Create</Nav.Link>
+            <Nav.Link style={{color:"white"}} href="#link">My Maps</Nav.Link>
             <ProfileWidget/>
           </Nav>
 
