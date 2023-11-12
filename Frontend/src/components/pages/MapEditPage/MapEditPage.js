@@ -6,8 +6,8 @@ const MapEditPage = () => {
     <div className="container-fluid mt-4">
       {/* remove height and color from the css when you add components */}
       <div className="row justify-content-center">
-        <div className="leftC"> Show Map </div>
-        <div className="rightC">Display Tools</div>
+        <div className="leftE"> Show Map </div>
+        <div className="rightE">Display Tools</div>
       </div>
     </div>
   );

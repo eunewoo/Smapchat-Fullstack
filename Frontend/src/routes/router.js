@@ -1,4 +1,3 @@
-
 import {
   Route,
   createBrowserRouter,
@@ -8,9 +7,9 @@ import Layout from "../components/Layout/Layout";
 import CreatePage from "../components/pages/CreatePage/CreatePage";
 import MyMapsPage from "../components/pages/MyMapsPage/MyMapsPage";
 import HomePage from "../components/pages/Home/HomePage";
-import ViewMapPage from "../components/pages/ViewMapPage";
+import ViewMapPage from "../components/pages/ViewMapPage/ViewMapPage";
 import MapEditPage from "../components/pages/MapEditPage/MapEditPage";
-
+import ManageUserPage from "../components/pages/ManageUserPage/ManageUserPage";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,8 +17,9 @@ export const router = createBrowserRouter(
       <Route index element={<HomePage />} />
       <Route path="create-page" element={<CreatePage />} />
       <Route path="my-maps-page" element={<MyMapsPage />} />
-      <Route path="view-map-page" element={<ViewMapPage/>}/>
-      <Route path="map-edit-page" element={<MapEditPage/>}/>
+      <Route path="view-map-page" element={<ViewMapPage />} />
+      <Route path="map-edit-page" element={<MapEditPage />} />
+      <Route path="manage-user-page" element={<ManageUserPage />} />
     </Route>
   )
 );
