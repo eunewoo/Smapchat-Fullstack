@@ -21,6 +21,11 @@
   padding: 6px !important;
 }
 
+.btn-2 {
+  background-color: #4aceff !important;
+  padding: 4px 20px !important;
+}
+
 .btn-secondary {
   width: 80%;
   font-size: 16px !important;

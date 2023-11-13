@@ -16,7 +16,9 @@ const Header = () => {
 
   const isLoggedIn = auth.loggedIn;
   const authPages =
-    location.pathname === "/login-page" || location.pathname === "/signup-page";
+    location.pathname === "/login-page" ||
+    location.pathname === "/signup-page" ||
+    location.pathname === "/password-recovery-page";
 
   //functions
   const handleNavigateToLogin = () => navigate("/login-page");

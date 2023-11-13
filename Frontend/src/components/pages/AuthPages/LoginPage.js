@@ -8,9 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const handleRouteToHome = () => navigate("/");
 
+  const handleRouteToHome = () => navigate("/");
   const handleRouteToSignup = () => navigate("/signup-page");
+  const handleRouteToRecoveryPassword = () =>
+    navigate("/password-recovery-page");
 
   return (
     <Container className="d-flex vh-100">
@@ -65,7 +67,12 @@ const LoginPage = () => {
               >
                 Register
               </Button>
-              <Button className="btn-secondary" size="lg" type="button">
+              <Button
+                className="btn-secondary"
+                size="lg"
+                type="button"
+                onClick={handleRouteToRecoveryPassword}
+              >
                 Forgot Password/username?
               </Button>
             </div>
