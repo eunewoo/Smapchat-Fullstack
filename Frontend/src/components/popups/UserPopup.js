@@ -1,38 +1,26 @@
-import {useState} from 'react';
+import { Card, Container, Image } from 'react-bootstrap';
+import {useContext, useState} from 'react';
+import "./UserPopup.css";
+import "./CommonPopup.css";
+import { BsXLg } from 'react-icons/bs';
+import { popContext } from '../../App';
 
 export default function UserPopup(props){
 
-    const [userData, setUserData] = useState({});
-
-    if (props.ID == null)
-    {
-        console.log("User popup with no ID passed!");
-    }
-
-    if (userData._id == null)
-    {
-        fetch(`${process.env.REACT_APP_URL}/User/${props.ID}`).then((res) => 
-        {
-            if (res.status === 200)
-            {
-                res.json().then((val) => 
-                {
-                    console.log(val);
-                    setUserData(val);
-                });
-            }
-            else
-            {
-                console.log("Error from server: " + res.status);
-            }
-        })
-    }
+    const setPop = useContext(popContext);
 
     return (
-        <>
-            <image></image>
-            <p>{userData.username ?? "..."}</p>
-            <p>{userData.email ?? "..."}</p>
-        </>
+        <Card className='popup'>
+            <Card.Body style={{backgroundColor: "#141488", color: "white", height: "40px", padding: "5px"}}>
+                <Card.Title>Customer Information</Card.Title>
+                <BsXLg className="close" onClick={() => setPop(null)}></BsXLg>
+            </Card.Body>
+
+            <Container>
+                <Image className="avatar" src={props.user.avatar} roundedCircle />
+                <div className='box'>{props.user.username}</div>
+                <div className='box'>{props.user.email}</div>
+            </Container>
+        </Card>
     )
 }
