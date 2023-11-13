@@ -1,12 +1,13 @@
-import L from 'leaflet';
+import Leaflet from 'leaflet';
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 import { renderPictureMap } from './mapgraphics/PictureMap'; 
 import { renderArrowMap } from './mapgraphics/ArrowMap'; 
 import { renderBubbleMap } from './mapgraphics/BubbleMap'; 
 import { renderCategoryMap } from './mapgraphics/CategoryMap'; 
 import { renderScaleMap } from './mapgraphics/ScaleMap';
+import 'leaflet/dist/leaflet.css';
+import './MapRenderer.css';
 
 /// Component which handles rendering a map in the application.
 /// Takes a valid GeoJSON object in the Geometry prop, and a custom
@@ -17,16 +18,18 @@ export default function MapRenderer(props) {
 
     useEffect(() => {
         if (props.Geometry && mapRef.current) {
-            const geoJsonLayer = L.geoJSON(props.Geometry.features);
+            const geoJsonLayer = Leaflet.geoJSON(props.Geometry.features);
             const bounds = geoJsonLayer.getBounds();
             mapRef.current.fitBounds(bounds);
         }
 
         if (props.mapType === 1 && mapRef.current) {
             renderPictureMap(mapRef.current);
-        } else if (props.mapType === 2 && mapRef.current) {
+        } 
+        else if (props.mapType === 2 && mapRef.current) {
             renderArrowMap(mapRef.current);
-        } else if (props.mapType === 3 && mapRef.current) {
+        } 
+        else if (props.mapType === 3 && mapRef.current) {
             renderBubbleMap(mapRef.current);
         }
         else if (props.mapType === 4 && mapRef.current && props.GeoJsonData) {
