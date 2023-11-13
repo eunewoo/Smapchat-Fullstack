@@ -50,8 +50,6 @@ export default function ElementDemo() {
     const [pData] = useState(pictureData);
     const pHandler = useState(new TransactionHandler(pData, forceUpdate))[0];
 
-    const [page, setPage] = useState(<TestMapRender />)
-
     return (
         <>
             
@@ -71,10 +69,6 @@ export default function ElementDemo() {
             <ScaleMapToolbox handler={sHandler} scaleMap={sData}/>
             <CategoryMapToolbox handler={cHandler} categoryMap={cData}/>
             <PictureMapToolbox handler={pHandler} pictureMap={pData}/>
-            
-            <div className="test-map-renderer">
-                {page}
-            </div>
 
         </>
         
