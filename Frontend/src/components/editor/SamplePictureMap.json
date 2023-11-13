@@ -1,0 +1,47 @@
+{
+    "MapID" : "1234TEST1234",
+    "Location" : [
+        {
+            "Name": "Cool pictures!",
+            "Library": [
+                {
+                    "Name": "Pictures of cats",
+                    "Images": [
+                        "https://www.rd.com/wp-content/uploads/2019/11/cat-10-e1573844975155-scaled.jpg",
+                        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.-nfmNapThcLZYnfScMHQwAHaFj%26pid%3DApi&f=1&ipt=3494a52e950681e9290cb793658e848b64a58283e6e44f6e41a143629a1edc62&ipo=images",
+                        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MRkvfkoIXDXIi5b70gD-bQHaHa%26pid%3DApi&f=1&ipt=edf026e3582657395aa3ad6be90fafd95318821a78aaea6c1d26c6cfd8077913&ipo=images"
+                    ]
+                },
+                {
+                    "Name": "Other pictures",
+                    "Images": [
+                        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.4XB8NF1awQyApnQDDmBmQwHaEo%26pid%3DApi&f=1&ipt=bae17eb2ad310c1a5ea2e2cd7fc097eafa74ec0ea4526513386f4b83ea8feff8&ipo=images"
+                    ]
+                }
+            ],
+            "Longitude": 0.1,
+            "Lattitude": 0.1
+        },
+        {
+            "Name": "Wild pictures!",
+            "Library": [
+                {
+                    "Name": "Pictures of things",
+                    "Images": [
+                        "https://www.rd.com/wp-content/uploads/2019/11/cat-10-e1573844975155-scaled.jpg",
+                        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.-nfmNapThcLZYnfScMHQwAHaFj%26pid%3DApi&f=1&ipt=3494a52e950681e9290cb793658e848b64a58283e6e44f6e41a143629a1edc62&ipo=images"
+                    ]
+                },
+                {
+                    "Name": "Other pictures of things",
+                    "Images": [
+                        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.4XB8NF1awQyApnQDDmBmQwHaEo%26pid%3DApi&f=1&ipt=bae17eb2ad310c1a5ea2e2cd7fc097eafa74ec0ea4526513386f4b83ea8feff8&ipo=images",
+                        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MRkvfkoIXDXIi5b70gD-bQHaHa%26pid%3DApi&f=1&ipt=edf026e3582657395aa3ad6be90fafd95318821a78aaea6c1d26c6cfd8077913&ipo=images"
+                    ]
+                }
+            ],
+            "Longitude": 0.5,
+            "Lattitude": 0.5
+        }
+    ]
+}

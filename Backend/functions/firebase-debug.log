@@ -1,0 +1,355 @@
+[debug] [2023-11-07T09:05:37.146Z] ----------------------------------------------------------------------
+[debug] [2023-11-07T09:05:37.147Z] Command:       /opt/homebrew/Cellar/node@18/18.18.2/bin/node /opt/homebrew/bin/firebase functions:shell
+[debug] [2023-11-07T09:05:37.148Z] CLI Version:   12.8.0
+[debug] [2023-11-07T09:05:37.148Z] Platform:      darwin
+[debug] [2023-11-07T09:05:37.148Z] Node Version:  v18.18.2
+[debug] [2023-11-07T09:05:37.149Z] Time:          Tue Nov 07 2023 04:05:37 GMT-0500 (Eastern Standard Time)
+[debug] [2023-11-07T09:05:37.150Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-11-07T09:05:37.206Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-11-07T09:05:37.206Z] > authorizing via signed-in user (ulukbekaitmatov79@gmail.com)
+[debug] [2023-11-07T09:05:37.207Z] [iam] checking project smapchat-back for permissions ["firebase.projects.get"]
+[debug] [2023-11-07T09:05:37.208Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions [none]
+[debug] [2023-11-07T09:05:37.208Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions x-goog-quota-user=projects/smapchat-back
+[debug] [2023-11-07T09:05:37.208Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-11-07T09:05:37.442Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions 200
+[debug] [2023-11-07T09:05:37.443Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions {}
+[debug] [2023-11-07T09:05:37.444Z] [iam] error while checking permissions, command may fail: FirebaseError: Authorization failed. This account is missing the following required permissions on project smapchat-back:
+
+  firebase.projects.get
+[warn] ⚠  functions: Functions Emulator unable to start on port 5000, starting on 5001 instead. {"metadata":{"emulator":{"name":"functions"},"message":"Functions Emulator unable to start on port 5000, starting on 5001 instead."}}
+[debug] [2023-11-07T09:05:37.623Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-11-07T09:05:37.625Z] defaultcredentials: writing to file /Users/uli/.config/firebase/ulukbekaitmatov79_gmail_com_application_default_credentials.json
+[debug] [2023-11-07T09:05:37.625Z] DEBUG: Setting GAC to /Users/uli/.config/firebase/ulukbekaitmatov79_gmail_com_application_default_credentials.json
+[debug] [2023-11-07T09:05:37.626Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig [none]
+[debug] [2023-11-07T09:05:37.999Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig 403
+[debug] [2023-11-07T09:05:38.000Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2023-11-07T09:05:38.000Z] Failed to get Admin SDK config for smapchat-back, falling back to cache Failed to get Admin SDK for Firebase project smapchat-back. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project smapchat-back. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}},"response":{"statusCode":403}},"exit":1,"message":"HTTP Error: 403, The caller does not have permission","status":403},"status":500}
+[warn] ⚠  functions: Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect. {"metadata":{"emulator":{"name":"functions"},"message":"Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect."}}
+[debug] [2023-11-07T09:05:38.005Z] [functions] Watching "/Users/uli/ReactApps/Smapchat/Backend/functions" for Cloud Functions...
+[debug] [2023-11-07T09:05:38.009Z] Validating nodejs source
+[debug] [2023-11-07T09:05:38.860Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "jest"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "i": "^0.3.7",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-11-07T09:05:38.860Z] Building nodejs source
+[debug] [2023-11-07T09:05:38.860Z] Failed to find version of module node: reached end of search path /Users/uli/ReactApps/Smapchat/Backend/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-11-07T09:05:38.863Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-07T09:05:38.868Z] Found firebase-functions binary at '/Users/uli/ReactApps/Smapchat/Backend/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8692
+
+[error] (node:26616) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[error] (node:26616) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+
+[debug] [2023-11-07T09:05:39.256Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[info] Connected to MongoDB Atlas
+
+[debug] [2023-11-07T09:05:49.272Z] [functions] Loaded functions definitions from source: api.
+[debug] [2023-11-07T09:05:49.274Z] [functions[us-central1-api]] http function initialized (http://127.0.0.1:5001/smapchat-back/us-central1/api).
+[info] i  functions: Loaded functions: api 
+[warn] ⚠  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage, eventarc 
+[debug] [2023-11-07T09:05:51.821Z] DEBUG: File /Users/uli/ReactApps/Smapchat/Backend/functions/app.js changed, reloading triggers
+[debug] [2023-11-07T09:05:52.823Z] Validating nodejs source
+[debug] [2023-11-07T09:05:53.267Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "jest"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "i": "^0.3.7",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-11-07T09:05:53.267Z] Building nodejs source
+[debug] [2023-11-07T09:05:53.267Z] Failed to find version of module node: reached end of search path /Users/uli/ReactApps/Smapchat/Backend/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-11-07T09:05:53.268Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-07T09:05:53.269Z] Found firebase-functions binary at '/Users/uli/ReactApps/Smapchat/Backend/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8083
+
+[error] /Users/uli/ReactApps/Smapchat/Backend/functions/app.js:53
+  render the error page
+         ^^^
+
+SyntaxError: Unexpected identifier
+    at internalCompileFunction (node:internal/vm:73:18)
+    at wrapSafe (node:internal/modules/cjs/loader:1178:20)
+    at Module._compile (node:internal/modules/cjs/loader:1220:27)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)
+    at Module.load (node:internal/modules/cjs/loader:1119:32)
+    at Module._load (node:internal/modules/cjs/loader:960:12)
+    at Module.require (node:internal/modules/cjs/loader:1143:19)
+    at require (node:internal/modules/cjs/helpers:119:18)
+    at Object.<anonymous> (/Users/uli/ReactApps/Smapchat/Backend/functions/index.js:11:13)
+    at Module._compile (node:internal/modules/cjs/loader:1256:14)
+
+[debug] [2023-11-07T09:05:53.613Z] Got response code 400; body Failed to generate manifest from function source: SyntaxError: Unexpected identifier
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error"}}
+[debug] [2023-11-07T09:05:55.055Z] DEBUG: File /Users/uli/ReactApps/Smapchat/Backend/functions/app.js changed, reloading triggers
+[debug] [2023-11-07T09:05:56.057Z] Validating nodejs source
+[debug] [2023-11-07T09:05:56.510Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "jest"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "i": "^0.3.7",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-11-07T09:05:56.510Z] Building nodejs source
+[debug] [2023-11-07T09:05:56.510Z] Failed to find version of module node: reached end of search path /Users/uli/ReactApps/Smapchat/Backend/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-11-07T09:05:56.511Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-07T09:05:56.511Z] Found firebase-functions binary at '/Users/uli/ReactApps/Smapchat/Backend/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8892
+
+[error] (node:26672) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[error] (node:26672) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+
+[debug] [2023-11-07T09:05:57.057Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-11-07T09:05:57.263Z] DEBUG: File /Users/uli/ReactApps/Smapchat/Backend/functions/app.js changed, reloading triggers
+[debug] [2023-11-07T09:05:58.266Z] Validating nodejs source
+[debug] [2023-11-07T09:05:58.714Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "jest"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "i": "^0.3.7",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-11-07T09:05:58.714Z] Building nodejs source
+[debug] [2023-11-07T09:05:58.714Z] Failed to find version of module node: reached end of search path /Users/uli/ReactApps/Smapchat/Backend/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-11-07T09:05:58.715Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-07T09:05:58.716Z] Found firebase-functions binary at '/Users/uli/ReactApps/Smapchat/Backend/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8490
+
+[error] /Users/uli/ReactApps/Smapchat/Backend/functions/app.js:53
+  render the error page
+         ^^^
+
+SyntaxError: Unexpected identifier
+    at internalCompileFunction (node:internal/vm:73:18)
+    at wrapSafe (node:internal/modules/cjs/loader:1178:20)
+    at Module._compile (node:internal/modules/cjs/loader:1220:27)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)
+    at Module.load (node:internal/modules/cjs/loader:1119:32)
+    at Module._load (node:internal/modules/cjs/loader:960:12)
+    at Module.require (node:internal/modules/cjs/loader:1143:19)
+    at require (node:internal/modules/cjs/helpers:119:18)
+    at Object.<anonymous> (/Users/uli/ReactApps/Smapchat/Backend/functions/index.js:11:13)
+    at Module._compile (node:internal/modules/cjs/loader:1256:14)
+
+[debug] [2023-11-07T09:05:58.977Z] Got response code 400; body Failed to generate manifest from function source: SyntaxError: Unexpected identifier
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: Functions codebase could not be analyzed successfully. It may have a syntax or runtime error"}}
+[info] Connected to MongoDB Atlas
+
+[debug] [2023-11-07T09:06:00.205Z] DEBUG: File /Users/uli/ReactApps/Smapchat/Backend/functions/app.js changed, reloading triggers
+[debug] [2023-11-07T09:06:01.206Z] Validating nodejs source
+[debug] [2023-11-07T09:06:01.663Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "jest"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "i": "^0.3.7",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-11-07T09:06:01.663Z] Building nodejs source
+[debug] [2023-11-07T09:06:01.663Z] Failed to find version of module node: reached end of search path /Users/uli/ReactApps/Smapchat/Backend/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-11-07T09:06:01.664Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-07T09:06:01.664Z] Found firebase-functions binary at '/Users/uli/ReactApps/Smapchat/Backend/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8822
+
+[error] (node:26716) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[error] (node:26716) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+
+[debug] [2023-11-07T09:06:02.054Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[info] Connected to MongoDB Atlas
+
+[debug] [2023-11-07T09:06:07.068Z] [functions] Loaded functions definitions from source: api.
+[debug] [2023-11-07T09:06:08.868Z] DEBUG: File /Users/uli/ReactApps/Smapchat/Backend/functions/app.js changed, reloading triggers
+[debug] [2023-11-07T09:06:09.869Z] Validating nodejs source
+[debug] [2023-11-07T09:06:10.325Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "jest"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "i": "^0.3.7",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-11-07T09:06:10.325Z] Building nodejs source
+[debug] [2023-11-07T09:06:10.325Z] Failed to find version of module node: reached end of search path /Users/uli/ReactApps/Smapchat/Backend/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-11-07T09:06:10.326Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-07T09:06:10.326Z] Found firebase-functions binary at '/Users/uli/ReactApps/Smapchat/Backend/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8641
+
+[error] (node:26744) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[error] (node:26744) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+
+[debug] [2023-11-07T09:06:10.805Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2023-11-07T09:06:12.067Z] [functions] Loaded functions definitions from source: api.
+[info] Connected to MongoDB Atlas
+
+[debug] [2023-11-07T09:06:20.817Z] [functions] Loaded functions definitions from source: api.
