@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import MapRenderer from "./MapRenderer";
 import RatingDisplay from "./RatingDisplay";
+import { useNavigate } from "react-router-dom";
 import { navContext } from "../../App";
 import Card from "react-bootstrap/Card";
 import "./MapCard.css";
@@ -11,7 +12,10 @@ export default function MapCard(props) {
   // The map data that this card is displaying
   const [mapData, setMapData] = useState({});
   const numberOfColumns = props.numberOfColumns;
+  const navigate = useNavigate();
   let cardWidth = 45;
+
+  const handleRouteToViewMapPage = () => navigate("/view-map-page");
   if (numberOfColumns === 2) {
     cardWidth = 45;
   } else if (numberOfColumns === 3) {
@@ -29,7 +33,11 @@ export default function MapCard(props) {
 
   // TODO: Add nav to display page once implemented
   return (
-    <Card className="m-3 " style={{ width: `${cardWidth}%` }}>
+    <Card
+      className="m-3 "
+      style={{ width: `${cardWidth}%` }}
+      onClick={handleRouteToViewMapPage}
+    >
       <MapRenderer
         Geometry={mapData.mapFile}
         GraphicData={mapData}
