@@ -31,3 +31,4 @@ export async function updateUserProfile(newProfile) {
 export async function updateActivationStatus(userId, isActive) {
     return await webPut(`/User/update/activate/${userId}`, {isActive});
 }
+
