@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PictureMapSchema = new mongoose.Schema({
+const PictureMapSchema_ = new mongoose.Schema({
   mapID: {
     type: Number,
     required: true,
@@ -13,5 +13,5 @@ const PictureMapSchema = new mongoose.Schema({
   },
 });
 
-const PictureMapModel = mongoose.model("PictureMap", PictureMapSchema);
-module.exports = PictureMapModel;
+const PictureSchema = mongoose.model("PictureMap", PictureMapSchema_);
+module.exports = PictureSchema;

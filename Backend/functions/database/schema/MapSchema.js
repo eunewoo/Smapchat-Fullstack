@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MapSchema = new mongoose.Schema({
+const MapSchema_ = new mongoose.Schema({
   mapType: {
     type: Number,
     unique: false,
@@ -24,9 +24,8 @@ const MapSchema = new mongoose.Schema({
   },
   avgRate: {
     type: Number,
-    required: true,
-    default: true,
-    maxlength: 5,
+    required:false,
+    default: 0,
   },
   comment: {
     type: [Number],
@@ -35,7 +34,7 @@ const MapSchema = new mongoose.Schema({
   },
   mapFile: {
     type: String,
-    required: true,
+    required: false,
     unique: false,
   },
   date: {
@@ -51,5 +50,5 @@ const MapSchema = new mongoose.Schema({
   },
 });
 
-const MapModel = mongoose.model("Map", MapSchema);
-module.exports = MapModel;
+const MapSchema = mongoose.model("MapSchema", MapSchema_);
+module.exports = MapSchema;

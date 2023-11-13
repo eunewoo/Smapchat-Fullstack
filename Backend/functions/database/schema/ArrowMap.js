@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ArrowMapSchema = new mongoose.Schema({
+const ArrowMapSchema_ = new mongoose.Schema({
   mapID: {
     type: Number,
     required: true,
@@ -19,5 +19,5 @@ const ArrowMapSchema = new mongoose.Schema({
   
 });
 
-const ArrowMapModel = mongoose.model("ArrowMap", ArrowMapSchema);
-module.exports = ArrowMapModel; 
+const ArrowMapSchema = mongoose.model("ArrowMap", ArrowMapSchema_);
+module.exports = ArrowMapSchema; 

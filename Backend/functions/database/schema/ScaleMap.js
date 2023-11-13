@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const ScaleMapSchema = new mongoose.Schema({
+const ScaleMapSchema_ = new mongoose.Schema({
   mapID: {
     type: Number,
     required: true,
     unique: true, 
   },
-  minColor:{
+  color:{
     type:String,
     required: false,
     unique: false,
@@ -20,5 +20,5 @@ const ScaleMapSchema = new mongoose.Schema({
   
 }); 
 
-const ScaleMapModel = mongoose.model("ScaleMap", ScaleMapSchema);
-module.exports = ScaleMapModel;  
+const ScaleMapSchema = mongoose.model("ScaleMap", ScaleMapSchema_);
+module.exports = ScaleMapSchema;  

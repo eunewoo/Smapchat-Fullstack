@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const BubblePointLocationSchema = new mongoose.Schema({
   locationId: {
     type: Number,
     required: true,
-    unique: true, 
+    unique: true,
   },
-  name:{
-    type:String,
+  name: {
+    type: String,
     required: false,
     unique: false,
   },
@@ -30,10 +30,11 @@ const BubblePointLocationSchema = new mongoose.Schema({
   size: {
     type: Number,
     required: true,
-    unique: true, 
+    unique: true,
   },
-  
 });
-
-const BubblePointLocationModel = mongoose.model("BubblePointLocation", BubblePointLocationSchema);
-module.exports = BubblePointLocationModel; 
+const BubblePointLocationModel = mongoose.model(
+  "BubblePointLocation",
+  BubblePointLocationSchema
+);
+module.exports = BubblePointLocationModel;
