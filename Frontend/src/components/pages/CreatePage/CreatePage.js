@@ -2,8 +2,12 @@ import React from "react";
 import "./CreatePage.css";
 import MapTypes from "./LocalComponents/MapTypes";
 import ShowMap from "./LocalComponents/ShowMap";
+import { useNavigate } from "react-router-dom";
 
 const CreatePage = () => {
+  const navigate = useNavigate();
+
+  const handleRouteToEditPage = () => navigate("/map-edit-page");
   return (
     <div className="container-fluid mt-4">
       {/* remove height and color from the css when you add components */}
@@ -22,7 +26,9 @@ const CreatePage = () => {
               start editing click on ‘Start Editing’
             </div>
             <br></br>
-            <button className="custom-button">Start Editing</button>
+            <button className="custom-button" onClick={handleRouteToEditPage}>
+              Start Editing
+            </button>
           </div>
         </div>
       </div>
