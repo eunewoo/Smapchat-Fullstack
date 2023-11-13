@@ -1,41 +1,27 @@
 {
-    "MapID" : "1234TEST1234",
-    "Maxpin" : 5,
-    "Location" : [
-        {
-            "Name" : "New York",
-            "Longitude" : 0.56,
-            "Lattitude" : 0.48,
-            "Order" : 0,
-            "Date" : "1-1-1970"
-        },
-        {
-            "Name" : "Cool area",
-            "Longitude" : 0.66,
-            "Lattitude" : 0.48,
-            "Order" : 1,
-            "Date" : "1-2-1970"
-        },
-        {
-            "Name" : "Mountain view",
-            "Longitude" : 0.56,
-            "Lattitude" : 0.28,
-            "Order" : 2,
-            "Date" : "1-4-1970"
-        },
-        {
-            "Name" : "Great resteraunt",
-            "Longitude" : 0.26,
-            "Lattitude" : 0.28,
-            "Order" : 3,
-            "Date" : "1-4-1970"
-        },
-        {
-            "Name" : "Home",
-            "Longitude" : 0.76,
-            "Lattitude" : 0.88,
-            "Order" : 4,
-            "Date" : "1-5-1970"
-        }
-    ]
+  "MapID": "1234TEST1234",
+  "Maxpin": 5,
+  "Location": [
+    {
+      "Name": "Gershwin Theater",
+      "Longitude": -73.9852,
+      "Lattitude": 40.7624,
+      "Order": 1,
+      "Date": "11-10-2023"
+    },
+    {
+      "Name": "Time Square",
+      "Longitude": -73.9853,
+      "Lattitude": 40.7581,
+      "Order": 2,
+      "Date": "11-11-2023"
+    },
+    {
+      "Name": "MoMA",
+      "Longitude": -73.9776,
+      "Lattitude": 40.7615,
+      "Order": 3,
+      "Date": "11-11-2023"
+    }
+  ]
 }
