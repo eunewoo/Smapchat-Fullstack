@@ -6,7 +6,6 @@ export default function UserPage() {
   const [users, setUsers] = useState([]);
   var elems = [];
   const [userData, setUserData] = useState({});
-  const [userId, setUserId] = useState("")
   
 
   if (users.length <= 0) {

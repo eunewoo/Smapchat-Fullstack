@@ -2,6 +2,7 @@ import './App.css';
 import PublicGallery from './components/pages/PublicGallery';
 import {createContext, useState } from "react";
 import Topbar from './components/reuseable/Topbar.js';
+import { Container } from 'react-bootstrap';
 
 // These contexts expose setters for the page and 
 // popup state of this root component. To do navigation
@@ -22,14 +23,21 @@ function App() {
   // of javascripts weak typing. OR terrible, depedning how you
   // want to look at it :)
   const [page, setPage] = useState(<PublicGallery/>);
-  const [popup, setPopup] = useState(<></>);
+  const [popup, setPopup] = useState(null);
+
+  const fullPopup = popup == null ? <></> : ( 
+    <div className='popupContainer'>
+      {popup}
+    </div>
+  );
 
   return (
     <navContext.Provider value={setPage}>
       <popContext.Provider value={setPopup}>
         <Topbar/>
         {page}
-        {popup}
+
+        {fullPopup}
       </popContext.Provider>
     </navContext.Provider>
   );
