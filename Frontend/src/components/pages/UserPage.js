@@ -5,6 +5,7 @@ import { webFetch } from "../../util/webUtil";
 export default function UserPage() {
   const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState({});
+  const [userId, setUserId] = useState("")
   var elems = [];
 
   if (users.length <= 0) {
@@ -17,7 +18,7 @@ export default function UserPage() {
       } else {
         console.log("Error from server: " + res.status);
       }
-    });
+    }); 
   } else {
     users.forEach((id) => {
       elems.push(<UserPopup ID={id._id} />);
