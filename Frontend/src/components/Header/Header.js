@@ -22,7 +22,7 @@ const Header = () => {
 
   //functions
   const handleNavigateToLogin = () => navigate("/login-page");
-  const handleNavigateToSignup = () => navigate("/element-demo");
+  const handleNavigateToSignup = () => navigate("/signup-page");
 
   if (authPages) {
     console.log("nulls");
