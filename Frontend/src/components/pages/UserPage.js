@@ -41,6 +41,8 @@ export default function UserPage() {
     }
   });
 
+/*
+
   ///all map related api
   //1
   const fetchUserMaps = async () => {
@@ -353,6 +355,7 @@ export default function UserPage() {
       console.error("Error deleting map:", error);
     }
   };
+  */
 
   return <>{elems}</>;
 }
