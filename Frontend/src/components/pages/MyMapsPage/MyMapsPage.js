@@ -70,7 +70,7 @@ const MyMapsPage = () => {
           </div>
         </div>
       </div>
-      <ScrollableGallery />
+      <ScrollableGallery numberOfColumns={3} height={170} />
     </div>
   );
 };

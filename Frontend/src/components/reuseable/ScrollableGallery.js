@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MapCard from "./MapCard";
 import "./ScrollableGallery.css";
 
@@ -7,26 +7,36 @@ import "./ScrollableGallery.css";
 /// screens of possible maps to view.
 export default function ScrollableGallery(props) {
   // Persist elements through re-render
-  const [elements] = useState([]);
+  const [elements, setElements] = useState([]);
   // tracks which row needs be loaded next
   // each row typically has 3 maps (may change?)
   const [row, setRow] = useState(0);
 
+  const numberOfColumns = props.numberOfColumns;
+  const height = props.height;
+
   // TODO: Replace with actual get to fetch a row
-  if (elements.length <= 0) {
-    elements.push(
-      <div className="row text-center">
-        <MapCard />
-        <MapCard />
-        <MapCard />
-        <MapCard />
-        <MapCard />
-        <MapCard />
+  const addRowOfMapCards = () => {
+    const newRow = (
+      <div className="row" key={`row-${row}`}>
+        {Array.from({ length: 6 }, (_, index) => (
+          <MapCard
+            key={`row-${row}-card-${index}`}
+            numberOfColumns={numberOfColumns}
+          />
+        ))}
       </div>
     );
-
+    setElements([...elements, newRow]);
     setRow(row + 1);
-  }
+  };
+
+  // Initial load
+  useEffect(() => {
+    if (elements.length === 0) {
+      addRowOfMapCards();
+    }
+  }, [elements.length]); // Dependency array ensures this only runs when elements.length changes
 
   // This handler handles the scrolling event, which will
   // fetch a new set of maps and create map cards for them
@@ -42,25 +52,14 @@ export default function ScrollableGallery(props) {
         } expanding list`
       );
       // TODO: Replace with actual get to fetch a row
-      elements.push(
-        <div className="row">
-          <MapCard />
-          <MapCard />
-          <MapCard />
-          <MapCard />
-          <MapCard />
-          <MapCard />
-        </div>
-      );
-
-      setRow(row + 1);
+      addRowOfMapCards();
     }
   };
 
   return (
     <div
       className="scroller"
-      style={{ height: `calc(100vh - 170px)` }}
+      style={{ height: `calc(100vh - ${height}px)` }}
       onScroll={handleScroll}
     >
       {elements}

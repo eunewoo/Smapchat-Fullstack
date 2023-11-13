@@ -10,6 +10,13 @@ import "./MapCard.css";
 export default function MapCard(props) {
   // The map data that this card is displaying
   const [mapData, setMapData] = useState({});
+  const numberOfColumns = props.numberOfColumns;
+  let cardWidth = 45;
+  if (numberOfColumns === 2) {
+    cardWidth = 45;
+  } else if (numberOfColumns === 3) {
+    cardWidth = 30;
+  }
 
   // Temporary hardcoded data for build 2!
   if (Object.keys(mapData).length === 0) {
@@ -22,7 +29,7 @@ export default function MapCard(props) {
 
   // TODO: Add nav to display page once implemented
   return (
-    <Card className="m-3 " style={{ width: "30%" }}>
+    <Card className="m-3 " style={{ width: `${cardWidth}%` }}>
       <MapRenderer
         Geometry={mapData.mapFile}
         GraphicData={mapData}
