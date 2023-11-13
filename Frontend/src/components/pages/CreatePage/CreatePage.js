@@ -1,6 +1,7 @@
 import React from "react";
 import "./CreatePage.css";
-import MapTypes from "./MapTypes";
+import MapTypes from "./LocalComponents/MapTypes";
+import ShowMap from "./LocalComponents/ShowMap";
 
 const CreatePage = () => {
   return (
@@ -10,7 +11,9 @@ const CreatePage = () => {
         <div className="leftC p-0 rounded">
           <MapTypes />
         </div>
-        <div className="middleC">Display Map</div>
+        <div className="middleC p-0 rounded ms-2">
+          <ShowMap />
+        </div>
         <div className="rightC d-flex align-items-center">
           <div className="col align-items-center justify-content-center text-center">
             <div className="">

@@ -1,24 +1,29 @@
+.body {
+  height: 100%;
+}
 .row {
+  flex-grow: 1;
   display: flex;
+  justify-content: center;
 }
 
 .leftC {
   flex: 0 0 22%;
   background-color: white;
-  height: 400px;
+}
+.container-fluid {
+  min-height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
 }
 
 .middleC {
   flex: 0 0 55%;
-  background-color: green;
-  height: 400px;
 }
 
 .rightC {
   flex: 0 0 20%;
   color: #fff;
-
-  height: 400px;
 }
 
 .custom-button {

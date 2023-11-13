@@ -23,3 +23,14 @@
   border: 1px solid #0c0d34;
   width: calc(100% - 32px);
 }
+
+.map-container {
+  height: calc(100%-200) !important;
+  width: 100% !important;
+  background-color: blue;
+}
+
+.btn.btn-edit-map {
+  background-color: white !important;
+  border-color: white !important;
+}
