@@ -1,0 +1,19 @@
+{
+    "MapID" : "1234TEST1234",
+    "Location" : [
+        {
+            "Name" : "Red area",
+            "Longitude" : 0.56,
+            "Lattitude" : 0.48,
+            "Color" : "#FF0000",
+            "Size" : "10"
+        },
+        {
+            "Name" : "Cool area",
+            "Longitude" : 0.66,
+            "Lattitude" : 0.48,
+            "Color" : "#FFFF00",
+            "Size" : "10"
+        }
+    ]
+}
