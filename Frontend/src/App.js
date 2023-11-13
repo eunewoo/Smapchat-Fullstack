@@ -2,7 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/router";
 import { AuthProvider } from "./contexts/AuthContext";
 import './App.css';
-import PublicGallery from './components/pages/PublicGallery';
+import ElementDemo from './components/pages/ElementDemo';
 import {createContext, useState } from "react";
 
 // Popup is much the same idea.
@@ -16,7 +16,7 @@ function App() {
   // see. Yep, you can use JSX as state! A wonderful feature
   // of javascripts weak typing. OR terrible, depedning how you
   // want to look at it :)
-  const [page, setPage] = useState(<PublicGallery/>);
+  const [page, setPage] = useState(<ElementDemo/>);
   const [popup, setPopup] = useState(null);
 
   const fullPopup = popup == null ? <></> : ( 

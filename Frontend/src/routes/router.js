@@ -13,6 +13,7 @@ import ManageUserPage from "../components/pages/ManageUserPage/ManageUserPage";
 import LoginPage from "../components/pages/AuthPages/LoginPage";
 import SignupPage from "../components/pages/AuthPages/SignupPage";
 import PasswordRecoveryPage from "../components/pages/AuthPages/PasswordRecoveryPage";
+import ElementDemo from "../components/pages/ElementDemo";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ export const router = createBrowserRouter(
       <Route path="login-page" element={<LoginPage />} />
       <Route path="signup-page" element={<SignupPage />} />
       <Route path="password-recovery-page" element={<PasswordRecoveryPage />} />
+      <Route path="element-demo" element={<ElementDemo/>}/>
     </Route>
   )
 );

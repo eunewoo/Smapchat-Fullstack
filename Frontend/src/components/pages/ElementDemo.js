@@ -24,7 +24,7 @@ import pictureData from "../editor/SamplePictureMap.json";
 import PictureMapToolbox from "../editor/PictureMapToolbox";
 import Customer from "../reuseable/Customer";
 
-export default function PublicGallery() {
+export default function ElementDemo() {
 
     /// This is for testing, but serves as an example of how to use the TransactionHandler
     /// we should set up a state variable for the JSON data we are mutating, a reducer
@@ -50,7 +50,7 @@ export default function PublicGallery() {
     return (
         <>
             Hello, I am the map page!
-            
+
             <Comment/>
             <MapCard/>  
             <SearchWidget/>
