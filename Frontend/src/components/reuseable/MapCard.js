@@ -55,3 +55,4 @@ export default function MapCard(props) {
     </Card>
   );
 }
+
