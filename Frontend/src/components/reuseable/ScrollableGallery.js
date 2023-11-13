@@ -14,13 +14,10 @@ export default function ScrollableGallery(props) {
     const [row, setRow] = useState(0);
 
     // TODO: Replace with actual get to fetch a row
-    if (elements.length <= 0) {
+    if (elements.length <= 5) {
         elements.push(
-            <div className="row">
                 <MapCard/>
-                <MapCard/>
-                <MapCard/>
-            </div>
+
         );
 
         setRow(row + 1);
@@ -35,11 +32,7 @@ export default function ScrollableGallery(props) {
             console.log(`${event.currentTarget.scrollTop} exceeds ${event.currentTarget.scrollTopMax * 0.9} expanding list`);
             // TODO: Replace with actual get to fetch a row
             elements.push(
-                <div className="row">
                     <MapCard/>
-                    <MapCard/>
-                    <MapCard/>
-                </div>
             );
 
             setRow(row + 1);

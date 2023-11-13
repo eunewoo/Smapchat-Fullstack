@@ -8,8 +8,10 @@
     scrollbar-width: none; 
     scroll-behavior: smooth;
     height: 500px;
+    width: 100%;
 } 
 
 .row {
+    display: flex;
     width: 100%;
 }
