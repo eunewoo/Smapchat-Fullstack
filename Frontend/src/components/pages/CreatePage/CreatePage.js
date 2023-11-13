@@ -1,12 +1,15 @@
 import React from "react";
 import "./CreatePage.css";
+import MapTypes from "./MapTypes";
 
 const CreatePage = () => {
   return (
     <div className="container-fluid mt-4">
       {/* remove height and color from the css when you add components */}
       <div className="row justify-content-center">
-        <div className="leftC">Types of maps</div>
+        <div className="leftC p-0 rounded">
+          <MapTypes />
+        </div>
         <div className="middleC">Display Map</div>
         <div className="rightC d-flex align-items-center">
           <div className="col align-items-center justify-content-center text-center">
