@@ -42,124 +42,7 @@ export default function UserPage() {
     }
   });
 
-  ///All user related api
-
-  //1 function for getting user profile
-  const UserProfile = () => {
-    const userEmail = "alex@email.com";
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`/User/${userEmail}`);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          setUserData(data);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      };
-
-    fetchData();
-  };
-  //2
-  const DeleteUser = () => {
-    const userId = '00000'; 
-
-    // Function to handle user deletion
-    const deleteUser = async () => {
-      try {
-        const response = await fetch(`/User/delete/${userId}`, {
-          method: 'DELETE',
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-      } catch (error) {
-        console.error('Error deleting user:', error);
-      }
-    }
-  };
-  //3
-  // Function to handle user creation
-  const createUser = async () => {
-    const user = {
-      email: 'example@email.com',
-      username: 'exampleUsername',
-      password: 'examplePassword',
-      avatar: 'exampleAvatarUrl',
-    };
-
-    try {
-      const response = await fetch('/User/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      console.log(data); // Handle the response data as needed
-    } catch (error) {
-      console.error('Error creating user:', error);
-    }
-  };
-  //4
-  // Function to handle user profile update
-  const updateUserProfile = async () => {
-    const updatedData = {
-      // placeholder for the updated data
-    };
-
-    try {
-      const response = await fetch(`/User/update/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-    } catch (error) {
-      console.error('Error updating user profile:', error);
-    }
-  };
-  //5
-  // Function to handle user activation status
-  const updateActivationStatus = async () => {
-    const isActive = true; 
-
-    try {
-      const response = await fetch(`/User/update/activate/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ isActive }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-    } catch (error) {
-      console.error('Error updating activation status:', error);
-    }
-  };
+/*
 
   ///all map related api
   //1
@@ -473,6 +356,7 @@ export default function UserPage() {
       console.error("Error deleting map:", error);
     }
   };
+  */
 
   return <>{elems}</>;
 }

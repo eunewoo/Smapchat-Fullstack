@@ -22,6 +22,7 @@ import CategoryMapToolbox from "../editor/CategoryMapToolbox";
 
 import pictureData from "../editor/SamplePictureMap.json";
 import PictureMapToolbox from "../editor/PictureMapToolbox";
+import Customer from "../reuseable/Customer";
 
 export default function PublicGallery() {
 
@@ -58,6 +59,7 @@ export default function PublicGallery() {
             <SearchWidget/>
             <ScrollableGallery/>  
             <ScrollableComments/>     
+            <Customer/>
 
             <ArrowMapToolbox handler={handler} arrowMap={data}/>
             <BubbleMapToolbox handler={bHandler} bubbleMap={bData}/>
