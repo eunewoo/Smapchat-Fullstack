@@ -57,9 +57,7 @@ export default function ElementDemo() {
             
             Hello, I am the map page!
 
-            <div className="test-map-renderer">
-                {page}
-            </div>
+            
 
             <Comment/>
             <MapCard/>  
@@ -74,7 +72,9 @@ export default function ElementDemo() {
             <CategoryMapToolbox handler={cHandler} categoryMap={cData}/>
             <PictureMapToolbox handler={pHandler} pictureMap={pData}/>
             
-
+            <div className="test-map-renderer">
+                {page}
+            </div>
 
         </>
         

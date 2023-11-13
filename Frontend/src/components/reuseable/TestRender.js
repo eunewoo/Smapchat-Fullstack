@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import MapRenderer from './MapRenderer';
 
 export default function TestMapRenderer() {
-    const [geoJsonData, setGeoJsonData] = useState(null);
+    const [geoJsonData, setGeoJsonData] = useState({});
     const [mapType, setMapType] = useState(0);
 
     const mapTypeNames = {
