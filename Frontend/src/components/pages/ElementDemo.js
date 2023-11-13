@@ -24,9 +24,6 @@ import pictureData from "../editor/SamplePictureMap.json";
 import PictureMapToolbox from "../editor/PictureMapToolbox";
 import Customer from "../reuseable/Customer";
 
-import TestMapRender from '../reuseable/TestRender';
-import './ElementDemo.css'; 
-
 export default function ElementDemo() {
 
     /// This is for testing, but serves as an example of how to use the TransactionHandler
