@@ -33,6 +33,8 @@ export default function TestMapRenderer() {
         setMapType(parseInt(event.target.value, 10));
     };
 
+    console.log("GeoJSON Data:", geoJsonData);
+
     return (
         <div>
             <div>

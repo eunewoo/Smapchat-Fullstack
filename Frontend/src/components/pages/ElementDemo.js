@@ -24,6 +24,9 @@ import pictureData from "../editor/SamplePictureMap.json";
 import PictureMapToolbox from "../editor/PictureMapToolbox";
 import Customer from "../reuseable/Customer";
 
+import TestMapRender from '../reuseable/TestRender';
+import './ElementDemo.css'; 
+
 export default function ElementDemo() {
 
     /// This is for testing, but serves as an example of how to use the TransactionHandler
@@ -47,9 +50,16 @@ export default function ElementDemo() {
     const [pData] = useState(pictureData);
     const pHandler = useState(new TransactionHandler(pData, forceUpdate))[0];
 
+    const [page, setPage] = useState(<TestMapRender />)
+
     return (
         <>
+            
             Hello, I am the map page!
+
+            <div className="test-map-renderer">
+                {page}
+            </div>
 
             <Comment/>
             <MapCard/>  
@@ -63,6 +73,10 @@ export default function ElementDemo() {
             <ScaleMapToolbox handler={sHandler} scaleMap={sData}/>
             <CategoryMapToolbox handler={cHandler} categoryMap={cData}/>
             <PictureMapToolbox handler={pHandler} pictureMap={pData}/>
+            
+
+
         </>
+        
     );
 }

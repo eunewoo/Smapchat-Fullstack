@@ -14,6 +14,7 @@ import LoginPage from "../components/pages/AuthPages/LoginPage";
 import SignupPage from "../components/pages/AuthPages/SignupPage";
 import PasswordRecoveryPage from "../components/pages/AuthPages/PasswordRecoveryPage";
 import ElementDemo from "../components/pages/ElementDemo";
+import TestRender from "../components/reuseable/TestRender";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ export const router = createBrowserRouter(
       <Route path="signup-page" element={<SignupPage />} />
       <Route path="password-recovery-page" element={<PasswordRecoveryPage />} />
       <Route path="element-demo" element={<ElementDemo/>}/>
+      <Route path="test-render" element={<TestRender/>}/>
     </Route>
   )
 );

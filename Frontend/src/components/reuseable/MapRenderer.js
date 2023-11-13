@@ -7,7 +7,7 @@ import { renderBubbleMap } from './mapgraphics/BubbleMap';
 import { renderCategoryMap } from './mapgraphics/CategoryMap'; 
 import { renderScaleMap } from './mapgraphics/ScaleMap';
 import 'leaflet/dist/leaflet.css';
-import './MapRenderer.css';
+// import './MapRenderer.css';
 
 /// Component which handles rendering a map in the application.
 /// Takes a valid GeoJSON object in the Geometry prop, and a custom
