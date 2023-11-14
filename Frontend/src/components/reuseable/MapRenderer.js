@@ -23,19 +23,19 @@ export default function MapRenderer(props) {
             mapRef.current.fitBounds(bounds);
         }
 
-        if (props.mapType === 1 && mapRef.current) {
+        if (props.mapType === "PictureMap" && mapRef.current) {
             renderPictureMap(mapRef.current);
         } 
-        else if (props.mapType === 2 && mapRef.current) {
+        else if (props.mapType === "ArrowMap" && mapRef.current) {
             renderArrowMap(mapRef.current);
         } 
-        else if (props.mapType === 3 && mapRef.current) {
+        else if (props.mapType === "BubbleMap" && mapRef.current) {
             renderBubbleMap(mapRef.current);
         }
-        else if (props.mapType === 4 && mapRef.current && props.GeoJsonData) {
+        else if (props.mapType === "CategoryMap" && mapRef.current && props.GeoJsonData) {
             renderCategoryMap(mapRef.current, props.GeoJsonData); // Pass the GeoJSON data
         }
-        else if (props.mapType === 5 && mapRef.current && props.GeoJsonData) {
+        else if (props.mapType === "ScaleMap" && mapRef.current && props.GeoJsonData) {
             renderScaleMap(mapRef.current, props.GeoJsonData); // Pass the GeoJSON data
         }
 
