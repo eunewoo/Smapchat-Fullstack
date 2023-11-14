@@ -1,6 +1,8 @@
 .wholePage {
-    background-color: #191D3D;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+  background-color: #191d3d;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  padding-top: [HeightOfHeader]px;
 }

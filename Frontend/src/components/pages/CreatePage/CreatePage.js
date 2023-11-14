@@ -15,10 +15,21 @@ const CreatePage = () => {
       {/* remove height and color from the css when you add components */}
       <div className="row justify-content-center">
         <div className="leftC p-0 rounded">
-          <MapTypes mapType ={mapType} setMapType={setMapType}/>
+          <MapTypes mapType={mapType} setMapType={setMapType} />
         </div>
         <div className="middleC p-0 rounded ms-2">
-          <MapRenderer width="100%" height="100%" mapType={mapType}/>
+          <div
+            className="position-relative text-center"
+            style={{ width: "100%", height: "100%" }}
+          >
+            <MapRenderer width="100%" height="100%" mapType={mapType} />
+            <button
+              className="btn btn-edit-map position-absolute"
+              style={{ top: "16px", right: "16px" }}
+            >
+              UPLOAD
+            </button>
+          </div>
         </div>
         <div className="rightC d-flex align-items-center">
           <div className="col align-items-center justify-content-center text-center">

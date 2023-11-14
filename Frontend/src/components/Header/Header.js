@@ -29,7 +29,11 @@ const Header = () => {
     return null;
   }
   return (
-    <Navbar expand="lg" style={{ backgroundColor: "#0C0D34" }}>
+    <Navbar
+      className="navbar"
+      expand="lg"
+      style={{ backgroundColor: "#0C0D34" }}
+    >
       <Container>
         <Navbar.Brand href="/">
           <img src={Logo} width="300" height="auto" alt="Logo" />
