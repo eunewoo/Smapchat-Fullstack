@@ -1,5 +1,5 @@
 import Leaflet from "leaflet";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { renderPictureMap } from "./mapgraphics/PictureMap";
 import { renderArrowMap } from "./mapgraphics/ArrowMap";
@@ -15,43 +15,50 @@ import "./MapRenderer.css";
 /// GraphicData prop.
 export default function MapRenderer(props) {
   const mapRef = useRef(null);
+  const [zoom, setZoom] = useState(2);
+  const [layerGroup] = useState(Leaflet.layerGroup());
 
-  useEffect(() => {
+    useEffect(() => {
+        if (mapRef.current) {
+            layerGroup.addTo(mapRef.current);
+        }
+    });
+
+    layerGroup.eachLayer((layer) => layer.remove());
+
     if (props.Geometry && mapRef.current) {
       const geoJsonLayer = Leaflet.geoJSON(props.Geometry.features);
-      const bounds = geoJsonLayer.getBounds();
-      mapRef.current.fitBounds(bounds);
+      geoJsonLayer.addTo(layerGroup);
+      mapRef.current.on('zoomend', () => setZoom(mapRef.current.getZoom()));
     }
 
     if (props.mapType === "PictureMap" && mapRef.current) {
-      renderPictureMap(mapRef.current);
+      renderPictureMap(layerGroup, props.GeoJsonData);
     } else if (props.mapType === "ArrowMap" && mapRef.current) {
-      renderArrowMap(mapRef.current);
+      renderArrowMap(layerGroup, props.GeoJsonData);
     } else if (props.mapType === "BubbleMap" && mapRef.current) {
-      renderBubbleMap(mapRef.current);
+      renderBubbleMap(layerGroup, props.GeoJsonData);
     } else if (
       props.mapType === "CategoryMap" &&
       mapRef.current &&
       props.GeoJsonData
     ) {
-      renderCategoryMap(mapRef.current, props.GeoJsonData); // Pass the GeoJSON data
+      renderCategoryMap(layerGroup, props.GeoJsonData); // Pass the GeoJSON data
     } else if (
       props.mapType === "ScaleMap" &&
       mapRef.current &&
       props.GeoJsonData
     ) {
-      renderScaleMap(mapRef.current, props.GeoJsonData); // Pass the GeoJSON data
+      renderScaleMap(layerGroup, props.GeoJsonData); // Pass the GeoJSON data
     }
 
-    // ... other map types
-  }, [props.Geometry, mapRef, props.mapType, props.GeoJsonData]);
 
     return (
         <div style={{width: props.width, height: props.height}}>
             <MapContainer
                 style={{ height: props.height }}
-                zoom={2}
-                center={[127.024, 37.532]}
+                zoom={zoom}
+                center={[200, 40]}
                 minZoom={2}
                 maxBoundsViscosity={1}
                 ref = {mapRef}

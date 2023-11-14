@@ -1,64 +1,25 @@
-// pictureMap.js
 import L from 'leaflet';
-import sampleData from '../../editor/SamplePictureMap.json'; // Update the path accordingly
 
+export const renderPictureMap = (map, data) => {
 
-// Sample data of PictureMapLocation
-// replace with real data from database later
-// const samplePictureMapLocation = [
-//   {
-//   LocationID: 111,  
-//   name: "New York 1",
-//   libraryIds: [1, 2],  
-//   longitude: "-73.9654",  
-//   latitude: "40.7829"  
-//   },
-//   {
-//     LocationID: 222,  
-//     name: "New York 2",
-//     libraryIds: [3],  
-//     longitude: "-73.9776430605575",  
-//     latitude: "40.76157082004316"  
-//   }
+  if (data == null) {
+    return;
+  }
 
-// ];
+  const transformedLocations = data.Location.map(loc => ({
+    name: loc.Name,
+    libraryIds: loc.Library.map(lib => lib.Name),
+    longitude: loc.Longitude.toString(),
+    latitude: loc.Lattitude.toString()
+  }));
+  
+  const transformedLibraries = data.Location.flatMap(loc => 
+    loc.Library.map(lib => ({
+        name: lib.Name,
+        images: lib.Images
+    }))
+  );
 
-// // Sample data of Library schema
-// // replace with real data from database later
-// const sampleLibrary = [
-//     {
-//       LibraryID: 1,
-//       name: "Gershwin Theater",
-//       images: ["https://s1.ticketm.net/dam/a/881/dd224eeb-5c9b-4340-bdbf-57351bf04881_1734241_TABLET_LANDSCAPE_LARGE_16_9.jpg", "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/f1/5f/23/gershwin.jpg?w=1200&h=1200&s=1"]
-//     },
-//     {
-//       LibraryID: 2,
-//       name: "Time Square",
-//       images: ["https://images.ctfassets.net/1aemqu6a6t65/46MJ6ER585Rwl3NraEIoGL/784c5eb5d87f576b5548b1a2255f08e7/tripadvisortimessquare_taggeryanceyiv_5912?w=1200&h=800&q=75", "https://cqh.imgix.net/2023/08/pexels-jose-francisco-fernandez-saura-802024.jpg?auto=compress%2Cformat&ixlib=php-3.3.1&q=70"]
-//     },
-//     {
-//       LibraryID: 3,
-//       name: "Museum of Modern Art",
-//       images: ["https://images.adsttc.com/media/images/5da4/969e/3312/fd37/2b00/003c/large_jpg/01_MoMA_Photography_by_Brett_Beyer.jpg?1571067518", "https://www.moma.org/d/assets/W1siZiIsIjIwMjIvMDQvMDUvNTdnMml4eThtb180NzJfMTk0MV9DQ0NSX1ByZXNzX1NpdGUuanBnIl0sWyJwIiwiY29udmVydCIsIi1xdWFsaXR5IDkwIC1yZXNpemUgMTE4NHg2NjZeIC1ncmF2aXR5IE5vcnRoIC1jcm9wIDExODR4NjY2KzArNzkiXV0/472_1941_CCCR-Press%20Site.jpg?sha=5bdb603f03db6661"]
-//     },
-// ];
-
-// Transforming JSON data to match the existing data structure
-const transformedLocations = sampleData.Location.map(loc => ({
-  name: loc.Name,
-  libraryIds: loc.Library.map(lib => lib.Name),
-  longitude: loc.Longitude.toString(),
-  latitude: loc.Lattitude.toString()
-}));
-
-const transformedLibraries = sampleData.Location.flatMap(loc => 
-  loc.Library.map(lib => ({
-      name: lib.Name,
-      images: lib.Images
-  }))
-);
-
-export const renderPictureMap = (map) => {
   transformedLocations.forEach(location => {
       createMarkerForLocation(map, location, transformedLibraries);
   });

@@ -14,16 +14,16 @@ const blendColors = (color1, color2, percentage) => {
 const categories = [];
 
 const createCategoriesFromGeoJson = (geoJsonData) => {
-    const totalCategories = geoJsonData.features.length;
-    geoJsonData.features.forEach((feature, index) => {
+    const totalCategories = geoJsonData.Location.length;
+    geoJsonData.Location.forEach((feature, index) => {
         const scalePercentage = index / (totalCategories - 1); // Calculate the percentage (0 to 1)
-        const categoryColor = blendColors('#FF0000', '#00FF00', scalePercentage);
+        const categoryColor = blendColors(geoJsonData.MinColor, geoJsonData.MaxColor, scalePercentage);
 
         const newCategory = {
             CategoryId: index + 1,
             Name: `Category ${index + 1}`,
             Color: categoryColor,
-            Coordinates: feature.geometry.coordinates
+            Coordinates: feature.Polygon.Coordinates
         };
         categories.push(newCategory);
         console.log(`Created category: ${newCategory.Name}`, newCategory);
@@ -33,18 +33,15 @@ const createCategoriesFromGeoJson = (geoJsonData) => {
 };
 
 export const renderScaleMap = (map, geoJsonData) => {
-    if (!geoJsonData || !geoJsonData.features) {
-        console.error("GeoJSON data is not provided or invalid");
+    if (!geoJsonData) {
         return;
     }
 
     createCategoriesFromGeoJson(geoJsonData);
 
     categories.forEach(category => {
-        category.Coordinates.forEach(polygonCoordinates => {
-            const leafletCoordinates = polygonCoordinates.map(coord => 
-                coord.map(point => [point[1], point[0]])
-            );
+        const leafletCoordinates = category.Coordinates.map(coord => 
+            [coord[1], coord[0]]);
 
             L.polygon(leafletCoordinates, {
                 color: category.Color,
@@ -53,5 +50,4 @@ export const renderScaleMap = (map, geoJsonData) => {
                 weight: 2
             }).addTo(map);
         });
-    });
 };

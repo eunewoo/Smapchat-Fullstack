@@ -1,37 +1,12 @@
-// BubbleMap.js
 import L from 'leaflet';
-import sampleBubbleMapJson from '../../editor/SampleBubbleMap.json'; 
 
+export const renderBubbleMap = (map, data) => {
 
-// Sample bubble data
-// const sampleBubbleData = [
-//     {
-//         latitude: 40.76242991263874, 
-//         longitude: -73.98521056649075, 
-//         name: "Gershwin Theater", 
-//         color:5,
-//         size: 5
-//     },
-//     {
-//         latitude: 40.75811079104577, 
-//         longitude: -73.98534622655546, 
-//         name: "Time Square", 
-//         color: 5,
-//         size: 1
-//     },
-//     {
-//         latitude: 40.76157082004316, 
-//         longitude: -73.9776430605575, 
-//         name: "MoMA", 
-//         color: 5,
-//         size: 3
-//     }
-// ];
+    if (data == null) {
+        return;
+    }
 
-export const renderBubbleMap = (map) => {
-    const bubbleMapData = convertJsonToBubbleMapData(sampleBubbleMapJson);
-
-    console.log("Rendering Bubble Map with data:", bubbleMapData); 
+    const bubbleMapData = convertJsonToBubbleMapData(data);
 
     bubbleMapData.forEach(point => {
         const bubbleColor = point.color;

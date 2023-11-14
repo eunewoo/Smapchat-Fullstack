@@ -1,18 +1,12 @@
-// arrowMap.js
-
-
-// const sampleArrowMapData = [
-//     { name: "Gershwin Theater", latitude: 40.76242991263874, longitude: -73.98521056649075, order: 1, date: "2023-11-10"},
-//     { name: "Time Square", latitude: 40.75811079104577, longitude: -73.98534622655546, order: 2, date: "2023-11-11"},
-//     { name: "MoMA", latitude: 40.76157082004316, longitude: -73.9776430605575, order: 3, date: "2023-11-12"}
-// ];
-
-
 import L from 'leaflet';
-import sampleArrowMapJson from '../../editor/SampleArrowMap.json'; 
 
-export const renderArrowMap = (map) => {
-    const arrowMapData = convertJsonToArrowMapData(sampleArrowMapJson);
+export const renderArrowMap = (map, data) => {
+
+    if (data == null) {
+        return;
+    }
+
+    const arrowMapData = convertJsonToArrowMapData(data);
     const processedData = processArrowData(arrowMapData);
 
     // Marker (pinpoint) drawing on map
