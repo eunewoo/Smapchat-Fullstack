@@ -56,11 +56,20 @@ const Header = () => {
           </Nav.Link>
           <Nav.Link
             as={NavLink}
-            to="/element-demo"
+            to="/my-maps-page"
             className="me-5 text-white"
             style={{ fontSize: "1.2em" }}
           >
             My Maps
+          </Nav.Link>
+
+          <Nav.Link
+            as={NavLink}
+            to="/manage-user-page"
+            className="me-5 text-white"
+            style={{ fontSize: "1.2em" }}
+          >
+            Customers
           </Nav.Link>
         </Nav>
         {!isLoggedIn && (

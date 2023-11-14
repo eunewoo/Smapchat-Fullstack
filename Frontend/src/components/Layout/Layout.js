@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <div className="wholePage">
       <Header />
-      <Outlet />
+      <Outlet className="outlet" />
     </div>
   );
 };
