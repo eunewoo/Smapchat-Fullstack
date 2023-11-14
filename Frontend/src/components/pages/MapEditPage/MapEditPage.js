@@ -48,7 +48,7 @@ const MapEditPage = () => {
       break;
   }
 
-  const [data, setData] = useState(defaultData);
+  const [data] = useState(defaultData);
   const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const handler = useState(new TransactionHandler(data, forceUpdate))[0];
