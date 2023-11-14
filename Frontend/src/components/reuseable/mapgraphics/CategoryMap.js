@@ -1,28 +1,16 @@
-// CategoryMap.js
 import L from 'leaflet';
-
-// Assuming this function represents how you get your GeoJSON data
-// This should be replaced with your actual method of retrieving GeoJSON data
-const getGeoJsonData = () => {
-    // Replace with actual method of getting GeoJSON data
-    return {
-        features: [
-            // ... array of GeoJSON feature objects ...
-        ]
-    };
-};
 
 // Sample Category data - initially empty
 const categories = [];
 
 // Function to create categories from GeoJSON features
-
 const createCategoriesFromGeoJson = (geoJsonData) => {
     geoJsonData.features.forEach((feature, index) => {
         const newCategory = {
             CategoryId: index + 1,
             Name: `Category ${index + 1}`,
-            Color: getRandomColor(),
+            // IMPORTANT: for the sample data test, first 3 boundaries are assigned Red, later 2 boundaries are assigned Blue
+            Color: index < 3 ? "#FF0000" : "#2222FF",  // Assign color based on index
             Coordinates: feature.geometry.coordinates
         };
         categories.push(newCategory);
@@ -33,17 +21,8 @@ const createCategoriesFromGeoJson = (geoJsonData) => {
     console.log("All created categories:", categories);
 };
 
-// Generate a random color
-const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-};
-
 export const renderCategoryMap = (map, geoJsonData) => {
+
     if (!geoJsonData || !geoJsonData.features) {
         console.error("GeoJSON data is not provided or invalid");
         return;

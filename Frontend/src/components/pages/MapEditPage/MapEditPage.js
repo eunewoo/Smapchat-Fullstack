@@ -88,7 +88,7 @@ const MapEditPage = () => {
       <div className="row justify-content-center">
         <div className="col leftF p-0 rounded ms-2">
           <input type="file" onChange={handleFileChange} accept=".json" />
-          <MapRenderer width="100%" height="100%" Geometry={geoJsonData} mapType={params.mapType} graphicData={geoJsonData}/>
+          <MapRenderer width="100%" height="100%" Geometry={geoJsonData} mapType={params.mapType} GeoJsonData={geoJsonData}/>
         </div>
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}
