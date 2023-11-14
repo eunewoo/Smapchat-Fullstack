@@ -53,7 +53,7 @@ const Header = () => {
           </Nav.Link>
           <Nav.Link
             as={NavLink}
-            to="/my-maps-page"
+            to="/element-demo"
             className="me-5 text-white"
             style={{ fontSize: "1.2em" }}
           >

@@ -44,7 +44,7 @@ export default function MapCard(props) {
         width="100%"
         height="300px"
       />
-      <RatingDisplay value={mapData.avgRate} />
+      <RatingDisplay value={mapData.avgRate} from="map-card" />
       <Card.Body
         className=""
         style={{ backgroundColor: "#141488", color: "white" }}
@@ -55,4 +55,3 @@ export default function MapCard(props) {
     </Card>
   );
 }
-
