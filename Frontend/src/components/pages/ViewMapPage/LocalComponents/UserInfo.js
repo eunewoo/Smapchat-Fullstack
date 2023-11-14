@@ -1,6 +1,5 @@
 import React from "react";
 import userAvatar from "../../../../assets/images/userAvatar.png";
-import "./styles.css";
 import RatingDisplay from "../../../reuseable/RatingDisplay";
 const UserInfo = () => {
   return (

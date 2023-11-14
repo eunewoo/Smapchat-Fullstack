@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import UserInfo from "./LocalComponents/UserInfo";
 import MapRenderer from "../../reuseable/MapRenderer";
 import "./ViewMapPageStyles.css";
+import Comments from "./LocalComponents/Comments";
 
 const ViewMapPage = () => {
   const [mapType, setMapType] = useState("ArrowMap");
@@ -26,7 +27,7 @@ const ViewMapPage = () => {
           </button>
         </div>
 
-        <div className="text-white">comments</div>
+        <Comments />
       </div>
     </div>
   );

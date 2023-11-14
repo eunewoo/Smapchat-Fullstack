@@ -24,7 +24,7 @@ import pictureData from "../editor/SamplePictureMap.json";
 import PictureMapToolbox from "../editor/PictureMapToolbox";
 import Customer from "../reuseable/Customer";
 
-export default function ElementDemo() {
+export default function PublicGallery() {
   /// This is for testing, but serves as an example of how to use the TransactionHandler
   /// we should set up a state variable for the JSON data we are mutating, a reducer
   /// so our transaction handler can force re-renders on un/redo, and then pass those
