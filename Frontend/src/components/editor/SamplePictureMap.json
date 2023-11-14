@@ -1,0 +1,40 @@
+{
+  "MapID": "1234TEST1234",
+  "Location": [
+    {
+      "Name": "New York 1",
+      "Library": [
+        {
+          "Name": "Gershwin Theater",
+          "Images": [
+            "https://s1.ticketm.net/dam/a/881/dd224eeb-5c9b-4340-bdbf-57351bf04881_1734241_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+            "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/f1/5f/23/gershwin.jpg?w=1200&h=1200&s=1"
+          ]
+        },
+        {
+          "Name": "Time Square",
+          "Images": [
+            "https://images.ctfassets.net/1aemqu6a6t65/46MJ6ER585Rwl3NraEIoGL/784c5eb5d87f576b5548b1a2255f08e7/tripadvisortimessquare_taggeryanceyiv_5912?w=1200&h=800&q=75",
+            "https://cqh.imgix.net/2023/08/pexels-jose-francisco-fernandez-saura-802024.jpg?auto=compress%2Cformat&ixlib=php-3.3.1&q=70"
+          ]
+        }
+      ],
+      "Longitude": "-73.9654",
+      "Lattitude": "40.7829"
+    },
+    {
+      "Name": "New York 2",
+      "Library": [
+        {
+          "Name": "Museum of Modern Art",
+          "Images": [
+            "https://images.adsttc.com/media/images/5da4/969e/3312/fd37/2b00/003c/large_jpg/01_MoMA_Photography_by_Brett_Beyer.jpg?1571067518",
+            "https://www.moma.org/d/assets/W1siZiIsIjIwMjIvMDQvMDUvNTdnMml4eThtb180NzJfMTk0MV9DQ0NSX1ByZXNzX1NpdGUuanBnIl0sWyJwIiwiY29udmVydCIsIi1xdWFsaXR5IDkwIC1yZXNpemUgMTE4NHg2NjZeIC1ncmF2aXR5IE5vcnRoIC1jcm9wIDExODR4NjY2KzArNzkiXV0/472_1941_CCCR-Press%20Site.jpg?sha=5bdb603f03db6661"
+          ]
+        }
+      ],
+      "Longitude": "-73.9776",
+      "Lattitude": "40.7615"
+    }
+  ]
+}

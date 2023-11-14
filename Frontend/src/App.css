@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+.popupContainer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #111111aa;
+  padding-top: 100px;
+}
+
+.btn {
+  background-color: #141488 !important;
+  border: 1px solid #141488 !important;
+}
+
+.btn:active {
+  background-color: #040444 !important;
+  border: 1px solid #040444 !important;
+}
+
+.btn:hover {
+  background-color: #4444ff !important;
+  border: 1px solid #4444ff !important;
+}
+
+.card {
+  border: 1px solid gray;
+}

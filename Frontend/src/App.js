@@ -1,11 +1,32 @@
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/router";
+import { AuthProvider } from "./contexts/AuthContext";
 import './App.css';
-import UserPage from './components/pages/UserPage.js';
+
+import {createContext, useState } from "react";
+
+// Popup is much the same idea.
+export const popContext = createContext();
 
 function App() {
-  return (
-    <div className="App">
-      <UserPage ID={"6549247ab828517fbe1969a1"} />
+
+  const [popup, setPopup] = useState(null);
+
+  const fullPopup = popup == null ? <></> : ( 
+    <div className='popupContainer'>
+      {popup}
     </div>
+  );
+
+  return (
+      <popContext.Provider value={setPopup}>
+
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+
+        {fullPopup}
+      </popContext.Provider>
   );
 }
 

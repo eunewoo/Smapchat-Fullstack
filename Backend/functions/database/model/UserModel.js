@@ -1,27 +1,27 @@
 const mongodb = require('mongodb');
-const UserModel = require('../schema/User.js');
+const UserSchema = require('../schema/User.js');
 const bcrypt = require("bcryptjs");
 
-class User {
+class UserModel {
 
   static async findAll() {
 
-    const users = await UserModel.find({}, '_id').exec();
+    const users = await UserSchema.find({}, '_id').exec();
     return users;
   }
 
   static async findByEmail(email) {
-    return await UserModel.findOne({ 'email' : email }).exec();
+    return await UserSchema.findOne({ 'email' : email }).exec();
   }
 
   static async findByID(id) {
-    const value = await UserModel.findOne({ '_id' : new mongodb.ObjectId(id) }).exec();
+    const value = await UserSchema.findOne({ '_id' : new mongodb.ObjectId(id) }).exec();
     return value;
   }
 
   static async createUser(email, username, password, avatar) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new UserModel({
+    const newUser = new UserSchema({
       email,
       username,
       password: hashedPassword,
@@ -62,4 +62,4 @@ class User {
   }
 }
 
-module.exports = User;
+module.exports = UserModel;
