@@ -5,7 +5,7 @@ import "./ViewMapPageStyles.css";
 import Comments from "./LocalComponents/Comments";
 
 const ViewMapPage = () => {
-  const [mapType, setMapType] = useState("ArrowMap");
+  const [mapType] = useState("ArrowMap");
 
   return (
     <div className="Container-fluid mx-5 my-3 px-5">
