@@ -1,5 +1,5 @@
 import Leaflet from "leaflet";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { renderPictureMap } from "./mapgraphics/PictureMap";
 import { renderArrowMap } from "./mapgraphics/ArrowMap";

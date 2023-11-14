@@ -1,17 +1,6 @@
 // CategoryMap.js
 import L from 'leaflet';
 
-// Assuming this function represents how you get your GeoJSON data
-// This should be replaced with your actual method of retrieving GeoJSON data
-const getGeoJsonData = () => {
-    // Replace with actual method of getting GeoJSON data
-    return {
-        features: [
-            // ... array of GeoJSON feature objects ...
-        ]
-    };
-};
-
 // Sample Category data - initially empty
 const categories = [];
 

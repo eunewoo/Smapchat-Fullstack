@@ -79,11 +79,6 @@ const createCategoriesFromGeoJson = (geoJsonData) => {
     console.log("All created categories:", categories);
 };
 
-// Assuming you have a function to get GeoJSON data
-const getGeoJsonData = () => {
-    // ... your method to get GeoJSON data ...
-};
-
 export const renderScaleMap = (map, geoJsonData) => {
     // ... existing checks for GeoJSON data ...
 

@@ -53,11 +53,3 @@ const sizeToRadius = (size) => {
     const maxRadius = 1000; 
     return ((size - minSize) / (maxSize - minSize)) * (maxRadius - minRadius) + minRadius;
 };
-
-const getRandomColor = () => {
-    return Math.floor(Math.random() * 16777215); 
-};
-
-const getRandomSize = () => {
-    return Math.floor(Math.random() * 10) + 1; 
-};

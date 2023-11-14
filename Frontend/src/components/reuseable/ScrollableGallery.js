@@ -36,7 +36,7 @@ export default function ScrollableGallery(props) {
     if (elements.length === 0) {
       addRowOfMapCards();
     }
-  }, [elements.length]); // Dependency array ensures this only runs when elements.length changes
+  }); // Dependency array ensures this only runs when elements.length changes
 
   // This handler handles the scrolling event, which will
   // fetch a new set of maps and create map cards for them

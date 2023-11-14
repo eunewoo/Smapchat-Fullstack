@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import Logo from "../../assets/images/Logo1.png";
@@ -8,7 +8,6 @@ import "./Header.css";
 
 const Header = () => {
   // states, contexts, and variables
-  const [menu, setMenu] = useState(false);
   const { auth } = useContext(AuthContext);
 
   const navigate = useNavigate();

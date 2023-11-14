@@ -7,7 +7,7 @@ const UserInfo = () => {
       <div className="col-9">
         <div className="row m-0">
           <div className="col-auto">
-            <img src={userAvatar} className="rounded" width="70" height="80" />
+            <img src={userAvatar} className="rounded" width="70" height="80" alt="Avatar" />
           </div>
           <div className="col d-flex align-items-center">
             <div className="row text-start">

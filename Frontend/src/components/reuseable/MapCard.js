@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import MapRenderer from "./MapRenderer";
 import RatingDisplay from "./RatingDisplay";
 import { useNavigate } from "react-router-dom";
-import { navContext } from "../../App";
 import Card from "react-bootstrap/Card";
 import "./MapCard.css";
 

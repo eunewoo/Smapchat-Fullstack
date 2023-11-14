@@ -1,6 +1,5 @@
-import { useContext, useReducer, useState } from "react";
+import { useReducer, useState } from "react";
 
-import UserPage from "./UserPage";
 import MapCard from "../reuseable/MapCard";
 import CommentComponent from "../reuseable/CommentComponent";
 import ScrollableGallery from "../reuseable/ScrollableGallery";

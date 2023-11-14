@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import Commment from "../../../reuseable/CommentComponent.js";
 import CommentComponent from "../../../reuseable/CommentComponent.js";
 import "../ViewMapPageStyles.css";
 
 const Comments = () => {
-  const [comment, setComment] = useState("");
+  const [comment] = useState("");
 
   const handleSubmit = () => {
     console.log("Submitted comment:", comment);

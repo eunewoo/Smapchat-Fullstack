@@ -1,5 +1,5 @@
 import { Card, Container, Image } from 'react-bootstrap';
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 import "./UserPopup.css";
 import "./CommonPopup.css";
 import { BsXLg } from 'react-icons/bs';

@@ -42,6 +42,9 @@ const MapEditPage = () => {
     case "ScaleMap":
       defaultData = scaleData;
       break;
+    default:
+      defaultData = {};
+      break;
   }
 
   const [data] = useState(defaultData);
@@ -63,6 +66,9 @@ const MapEditPage = () => {
       break;
     case "ScaleMap": 
       toolbox = (<ScaleMapToolbox handler={handler} scaleMap={data} />);
+      break;
+    default:
+      toolbox = (<></>);
       break;
   }
 
