@@ -1,4 +1,3 @@
-const User = require('../database/model/User.js');
 const express = require('express');
 
 var router = express.Router();

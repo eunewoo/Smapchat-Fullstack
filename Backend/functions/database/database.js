@@ -1,6 +1,6 @@
 /* eslint-disable */
 const mongoose = require("mongoose");
-const User = require("./model/User.js");
+const User = require("./model/UserModel.js");
 
 /**
  * Start the database and create a default admin if it doesn't exist
