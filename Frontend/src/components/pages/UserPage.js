@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import UserPopup from "../popups/UserPopup";
-import { webFetch } from "../../util/webUtil";
+//import { webFetch } from "../../util/webUtil";
 
 export default function UserPage() {
   const [users, setUsers] = useState([]);
