@@ -86,8 +86,8 @@ function buildCreateTransaction(path, newValue) {
       // This is a really annoying way to do this but JS's nature of
       // how it handles object equality forces this or something similar
 
-      // eslint-disable-next-line eqeqeq
       const ind = ref.findIndex(
+        // eslint-disable-next-line eqeqeq
         (val) => JSON.stringify(val) == JSON.stringify(newValue),
       );
       ref.splice(ind, 1);
@@ -99,8 +99,8 @@ function buildCreateTransaction(path, newValue) {
 function buildDeleteTransaction(obj, path, toRemove) {
   const oldValue = toRemove;
   const ref = getRef(obj, path);
-  // eslint-disable-next-line eqeqeq
   const oldIndex = ref.findIndex(
+    // eslint-disable-next-line eqeqeq
     (val) => JSON.stringify(val) == JSON.stringify(toRemove),
   );
 
@@ -110,8 +110,8 @@ function buildDeleteTransaction(obj, path, toRemove) {
       // This is a really annoying way to do this but JS's nature of
       // how it handles object equality forces this or something similar
 
-      // eslint-disable-next-line eqeqeq
       const ind = ref.findIndex(
+        // eslint-disable-next-line eqeqeq
         (val) => JSON.stringify(val) == JSON.stringify(toRemove),
       );
       ref.splice(ind, 1);
