@@ -22,7 +22,7 @@ export default function Customer(props) {
     <Card className="my-2">
       <Card.Body
         style={{
-          backgroundColor: "#141488",
+          backgroundColor: "#0C0D34",
           color: "white",
           height: "40px",
           padding: "5px",

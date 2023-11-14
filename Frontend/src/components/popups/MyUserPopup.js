@@ -12,7 +12,7 @@ export default function UserPopup(props) {
     <Card className="popup">
       <Card.Body
         style={{
-          backgroundColor: "#141488",
+          backgroundColor: "#0C0D34",
           color: "white",
           height: "40px",
           padding: "5px",

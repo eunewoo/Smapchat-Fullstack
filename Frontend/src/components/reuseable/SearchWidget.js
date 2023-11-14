@@ -17,7 +17,7 @@ export default function SearchWidget(props) {
 
   return (
     <Card style={{ width: "350px" }}>
-      <Card.Body style={{ backgroundColor: "#141488", color: "white" }}>
+      <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
         <Card.Title>Search & Sort</Card.Title>
       </Card.Body>
       <Container style={{ padding: "20px" }}>

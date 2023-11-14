@@ -24,7 +24,7 @@ export default function PictureMapToolbox(props) {
 
   return (
     <Card className="toolbox">
-      <Card.Body style={{ backgroundColor: "#141488", color: "white" }}>
+      <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
         <Card.Text>Picture Map Editor</Card.Text>
       </Card.Body>
 
@@ -85,7 +85,7 @@ function PictureMapLocation(props) {
     <Card className="inner">
       <Card.Body
         style={{
-          backgroundColor: "#141488",
+          backgroundColor: "#0C0D34",
           color: "white",
           height: "40px",
           padding: "5px",
@@ -145,7 +145,7 @@ function PictureMapLibrary(props) {
     <Card className="inner">
       <Card.Body
         style={{
-          backgroundColor: "#141488",
+          backgroundColor: "#0C0D34",
           color: "white",
           height: "40px",
           padding: "5px",

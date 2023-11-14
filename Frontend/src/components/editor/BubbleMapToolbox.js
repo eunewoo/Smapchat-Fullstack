@@ -24,7 +24,7 @@ export default function BubbleMapToolbox(props) {
 
   return (
     <Card className="toolbox">
-      <Card.Body style={{ backgroundColor: "#141488", color: "white" }}>
+      <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
         <Card.Text>Bubble Map Editor</Card.Text>
       </Card.Body>
 
@@ -74,7 +74,7 @@ function BubbleMapLocation(props) {
     <Card className="inner">
       <Card.Body
         style={{
-          backgroundColor: "#141488",
+          backgroundColor: "#0C0D34",
           color: "white",
           height: "40px",
           padding: "5px",

@@ -44,7 +44,7 @@ export default function MapCard(props) {
       <RatingDisplay value={mapData.avgRate} from="map-card" />
       <Card.Body
         className=""
-        style={{ backgroundColor: "#141488", color: "white" }}
+        style={{ backgroundColor: "#0C0D34", color: "white" }}
       >
         <Card.Title>{mapData.title ?? "Loading..."}</Card.Title>
         <Card.Text>by {mapData.author ?? "Loading..."}</Card.Text>
