@@ -54,8 +54,8 @@ export default function MapRenderer(props) {
             >
                 <TileLayer
                     noWrap={true}
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://carto.com/">carto.com</a> contributors'
                 />
                 {props.Geometry && (
                     <GeoJSON data={props.Geometry.features} />

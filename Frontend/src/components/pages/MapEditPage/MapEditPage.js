@@ -44,9 +44,26 @@ const MapEditPage = () => {
       break;
   }
 
-  const [data] = useState(defaultData);
+  const [data, setData] = useState(defaultData);
+  const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const handler = useState(new TransactionHandler(data, forceUpdate))[0];
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const uploadedData = JSON.parse(e.target.result);
+          setGeoJsonData(uploadedData);
+        } catch (error) {
+          console.error('Error reading GeoJSON file:', error);
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
 
   switch(params.mapType) {
     case "ArrowMap": 
@@ -70,7 +87,8 @@ const MapEditPage = () => {
     <div className="container-fluid mt-4">
       <div className="row justify-content-center">
         <div className="col leftF p-0 rounded ms-2">
-          <MapRenderer width="100%" height="100%" mapType={params.mapType} graphicData={data}/>
+          <input type="file" onChange={handleFileChange} accept=".json" />
+          <MapRenderer width="100%" height="100%" Geometry={geoJsonData} mapType={params.mapType} graphicData={geoJsonData}/>
         </div>
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}
