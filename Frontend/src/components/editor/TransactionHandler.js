@@ -89,7 +89,7 @@ function buildCreateTransaction(path, newValue) {
             const ref = getRef(obj, path);
             // This is a really annoying way to do this but JS's nature of
             // how it handles object equality forces this or something similar
-            const ind = ref.findIndex((val) => JSON.stringify(val) === JSON.stringify(newValue));
+            const ind = ref.findIndex((val) => JSON.stringify(val) == JSON.stringify(newValue));
             ref.splice(ind, 1);
         }
     };
@@ -100,14 +100,14 @@ function buildDeleteTransaction(obj, path, toRemove) {
 
     const oldValue = toRemove;
     const ref = getRef(obj, path);
-    const oldIndex = ref.findIndex((val) => JSON.stringify(val) === JSON.stringify(toRemove));
+    const oldIndex = ref.findIndex((val) => JSON.stringify(val) == JSON.stringify(toRemove));
 
     return {
         do: (obj) => {
             const ref = getRef(obj, path);
             // This is a really annoying way to do this but JS's nature of
             // how it handles object equality forces this or something similar
-            const ind = ref.findIndex((val) => JSON.stringify(val) === JSON.stringify(toRemove));
+            const ind = ref.findIndex((val) => JSON.stringify(val) == JSON.stringify(toRemove));
             ref.splice(ind, 1);
         },
 
@@ -121,6 +121,7 @@ function buildDeleteTransaction(obj, path, toRemove) {
 /// builds the transaction object for changing a value on the object somewhere
 function buildUpdateTransaction(obj, path, newValue) {
 
+    console.log(path);
     const oldRef = getRefPrimitive(obj, path);
     const oldValue = oldRef.ref[oldRef.key];
 
@@ -183,7 +184,7 @@ function getRefPrimitive(obj, path) {
             const index = parseInt(split[1]);
 
             latest = latest[key];
-            if (pathIndex !== pathParts.length - 1)
+            if (pathIndex != pathParts.length - 1)
             {
                 latest = latest[index];
             }
@@ -194,7 +195,7 @@ function getRefPrimitive(obj, path) {
         }
         else
         {
-            if (pathIndex !== pathParts.length - 1)
+            if (pathIndex != pathParts.length - 1)
             {
                 latest = latest[key];
             }

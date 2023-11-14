@@ -1,0 +1,10 @@
+ .btn.transparent-button {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.btn.transparent-button:hover {
+    background-color: white;
+    color: #0C0D34;
+}

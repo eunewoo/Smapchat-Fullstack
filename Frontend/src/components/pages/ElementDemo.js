@@ -1,5 +1,5 @@
 import { useContext, useReducer, useState } from "react"
-import { navContext } from "../../App";
+
 import UserPage from "./UserPage";
 import MapCard from "../reuseable/MapCard";
 import Comment from "../reuseable/Comment";
@@ -24,9 +24,7 @@ import pictureData from "../editor/SamplePictureMap.json";
 import PictureMapToolbox from "../editor/PictureMapToolbox";
 import Customer from "../reuseable/Customer";
 
-export default function PublicGallery() {
-
-    const nav = useContext(navContext);
+export default function ElementDemo() {
 
     /// This is for testing, but serves as an example of how to use the TransactionHandler
     /// we should set up a state variable for the JSON data we are mutating, a reducer
@@ -52,7 +50,6 @@ export default function PublicGallery() {
     return (
         <>
             Hello, I am the map page!
-            <button onClick={() => nav(<UserPage/>)}> Users </button>
 
             <Comment/>
             <MapCard/>  
