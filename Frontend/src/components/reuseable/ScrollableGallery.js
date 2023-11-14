@@ -49,7 +49,7 @@ export default function ScrollableGallery(props) {
       console.log(
         `${event.currentTarget.scrollTop} exceeds ${
           event.currentTarget.scrollTopMax * 0.9
-        } expanding list`
+        } expanding list`,
       );
       // TODO: Replace with actual get to fetch a row
       addRowOfMapCards();

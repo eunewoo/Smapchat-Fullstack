@@ -1,33 +1,35 @@
-import L from 'leaflet';
+import L from "leaflet";
 
 export const renderPictureMap = (map, data) => {
-
   if (data == null) {
     return;
   }
 
-  const transformedLocations = data.Location.map(loc => ({
+  const transformedLocations = data.Location.map((loc) => ({
     name: loc.Name,
-    libraryIds: loc.Library.map(lib => lib.Name),
+    libraryIds: loc.Library.map((lib) => lib.Name),
     longitude: loc.Longitude.toString(),
-    latitude: loc.Lattitude.toString()
+    latitude: loc.Lattitude.toString(),
   }));
-  
-  const transformedLibraries = data.Location.flatMap(loc => 
-    loc.Library.map(lib => ({
-        name: lib.Name,
-        images: lib.Images
-    }))
+
+  const transformedLibraries = data.Location.flatMap((loc) =>
+    loc.Library.map((lib) => ({
+      name: lib.Name,
+      images: lib.Images,
+    })),
   );
 
-  transformedLocations.forEach(location => {
-      createMarkerForLocation(map, location, transformedLibraries);
+  transformedLocations.forEach((location) => {
+    createMarkerForLocation(map, location, transformedLibraries);
   });
 };
 
 function createMarkerForLocation(map, location, libraries) {
   const customIcon = createCustomIcon(location.name); // Assuming location.name can serve as an identifier
-  const marker = L.marker([parseFloat(location.latitude), parseFloat(location.longitude)], { icon: customIcon }).addTo(map);
+  const marker = L.marker(
+    [parseFloat(location.latitude), parseFloat(location.longitude)],
+    { icon: customIcon },
+  ).addTo(map);
 
   const matchingLibraries = findMatchingLibraries(location, libraries);
   const popupContent = createPopupContent(location, matchingLibraries);
@@ -37,77 +39,77 @@ function createMarkerForLocation(map, location, libraries) {
 
 function createCustomIcon(locationName) {
   return L.divIcon({
-      html: `<div style="background-color: black; padding: 5px; border-radius: 100%; text-align: center;">${locationName}</div>`,
-      className: 'custom-div-icon'
+    html: `<div style="background-color: black; padding: 5px; border-radius: 100%; text-align: center;">${locationName}</div>`,
+    className: "custom-div-icon",
   });
 }
 
 function findMatchingLibraries(location, libraries) {
-  return libraries.filter(lib => location.libraryIds.includes(lib.name));
+  return libraries.filter((lib) => location.libraryIds.includes(lib.name));
 }
 
 function createPopupContent(location, libraries) {
-  const popupContent = document.createElement('div');
+  const popupContent = document.createElement("div");
   const firstLibrary = libraries[0];
 
   if (firstLibrary && firstLibrary.images.length > 0) {
-      const firstImage = createFirstImageElement(firstLibrary);
-      popupContent.appendChild(firstImage);
+    const firstImage = createFirstImageElement(firstLibrary);
+    popupContent.appendChild(firstImage);
 
-      const locationName = createLocationNameElement(location);
-      popupContent.appendChild(locationName);
+    const locationName = createLocationNameElement(location);
+    popupContent.appendChild(locationName);
 
-      setupImageClickEvent(firstImage, libraries, popupContent);
+    setupImageClickEvent(firstImage, libraries, popupContent);
   }
 
   return popupContent;
 }
 
 function createFirstImageElement(library) {
-  const firstImage = document.createElement('img');
+  const firstImage = document.createElement("img");
   firstImage.src = library.images[0];
-  firstImage.style.maxWidth = '100px';
-  firstImage.style.cursor = 'pointer';
+  firstImage.style.maxWidth = "100px";
+  firstImage.style.cursor = "pointer";
   return firstImage;
 }
 
 function createLocationNameElement(location) {
-  const locationName = document.createElement('div');
+  const locationName = document.createElement("div");
   locationName.textContent = location.name;
   return locationName;
 }
 
 function setupImageClickEvent(imageElement, libraries, popupContent) {
   imageElement.onclick = () => {
-      const gridContainer = createGridContainer(libraries);
-      popupContent.innerHTML = '';
-      popupContent.appendChild(gridContainer);
+    const gridContainer = createGridContainer(libraries);
+    popupContent.innerHTML = "";
+    popupContent.appendChild(gridContainer);
   };
 }
 
 function createGridContainer(libraries) {
-  const gridContainer = document.createElement('div');
-  gridContainer.style.display = 'grid';
-  gridContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
-  gridContainer.style.gap = '10px';
-  gridContainer.style.maxWidth = '200px';
+  const gridContainer = document.createElement("div");
+  gridContainer.style.display = "grid";
+  gridContainer.style.gridTemplateColumns = "repeat(2, 1fr)";
+  gridContainer.style.gap = "10px";
+  gridContainer.style.maxWidth = "200px";
 
-  libraries.forEach(lib => {
-      appendLibraryImagesToGrid(lib, gridContainer);
+  libraries.forEach((lib) => {
+    appendLibraryImagesToGrid(lib, gridContainer);
   });
 
   return gridContainer;
 }
 
 function appendLibraryImagesToGrid(library, gridContainer) {
-  const libraryName = document.createElement('div');
+  const libraryName = document.createElement("div");
   libraryName.textContent = library.name;
   gridContainer.appendChild(libraryName);
 
-  library.images.forEach(imageUrl => {
-      const img = document.createElement('img');
-      img.src = imageUrl;
-      img.style.maxWidth = '100%';
-      gridContainer.appendChild(img);
+  library.images.forEach((imageUrl) => {
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.style.maxWidth = "100%";
+    gridContainer.appendChild(img);
   });
 }

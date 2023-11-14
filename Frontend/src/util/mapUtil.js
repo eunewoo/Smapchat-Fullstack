@@ -2,26 +2,26 @@ import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 ///all map related api
 //1
 const fetchUserMaps = async (userId) => {
-    return await webFetch(`/api/user/maps/${userId}`);
+  return await webFetch(`/api/user/maps/${userId}`);
 };
 
 //2
 const fetchPublicMaps = async () => {
-    return await webFetch("/api/map/public");
-}
+  return await webFetch("/api/map/public");
+};
 //3
 const fetchSpecificMap = async (mapId) => {
   return await webFetch(`/api/map/specific/${mapId}`);
 };
 const fetchPublicSearchMaps = async (query, page, limit) => {
   return await webFetch(
-    `/api/map/public/search?query=${query}&page=${page}&limit=${limit}`
+    `/api/map/public/search?query=${query}&page=${page}&limit=${limit}`,
   );
 };
 
 const fetchTopRatedPublicMaps = async (page, limit) => {
   return await webFetch(
-    `/api/map/public/top-rated?page=${page}&limit=${limit}`
+    `/api/map/public/top-rated?page=${page}&limit=${limit}`,
   );
 };
 
@@ -31,19 +31,19 @@ const fetchRecentPublicMaps = async (page, limit) => {
 
 const fetchUserSearchMaps = async (query, page, limit) => {
   return await webFetch(
-    `/api/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`
+    `/api/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`,
   );
 };
 
 const fetchTopRatedUserMaps = async (page, limit) => {
   return await webFetch(
-    `/api/map/${userId}/top-rated?page=${page}&limit=${limit}`
+    `/api/map/${userId}/top-rated?page=${page}&limit=${limit}`,
   );
 };
 
 const fetchRecentUserMaps = async (page, limit) => {
   return await webFetch(
-    `/api/map/${userId}/recent?page=${page}&limit=${limit}`
+    `/api/map/${userId}/recent?page=${page}&limit=${limit}`,
   );
 };
 
