@@ -2,7 +2,12 @@ import L from 'leaflet';
 
 // Function to blend two colors based on a percentage
 const blendColors = (color1, color2, percentage) => {
-    // ...existing blendColors code...
+    // Assuming color1 and color2 are hex colors (e.g., #FF0000)
+    let r = Math.round(parseInt(color1.substring(1, 3), 16) * (1 - percentage) + parseInt(color2.substring(1, 3), 16) * percentage);
+    let g = Math.round(parseInt(color1.substring(3, 5), 16) * (1 - percentage) + parseInt(color2.substring(3, 5), 16) * percentage);
+    let b = Math.round(parseInt(color1.substring(5, 7), 16) * (1 - percentage) + parseInt(color2.substring(5, 7), 16) * percentage);
+
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 };
 
 // Sample Category data - initially empty
@@ -18,11 +23,13 @@ const createCategoriesFromGeoJson = (geoJsonData) => {
             CategoryId: index + 1,
             Name: `Category ${index + 1}`,
             Color: categoryColor,
-            Coordinates: feature.geometry.coordinates,
-            Percentage: Math.round(scalePercentage * 100) // Percentage rounded to nearest whole number
+            Coordinates: feature.geometry.coordinates
         };
         categories.push(newCategory);
+        console.log(`Created category: ${newCategory.Name}`, newCategory);
     });
+
+    console.log("All created categories:", categories);
 };
 
 export const renderScaleMap = (map, geoJsonData) => {
@@ -39,33 +46,12 @@ export const renderScaleMap = (map, geoJsonData) => {
                 coord.map(point => [point[1], point[0]])
             );
 
-            const polygon = L.polygon(leafletCoordinates, {
+            L.polygon(leafletCoordinates, {
                 color: category.Color,
                 fillColor: category.Color,
                 fillOpacity: 0.5,
                 weight: 2
             }).addTo(map);
-
-            // Get the center of the polygon to place the marker
-            const center = polygon.getBounds().getCenter();
-
-            // Create a marker to display the percentage
-            const marker = L.marker(center, {
-                icon: L.divIcon({
-                    className: 'scale-map-percentage',
-                    html: `<div style="background-color: white; padding: 2px 5px; border-radius: 5px;">${category.Percentage}%</div>`
-                })
-            }).addTo(map);
         });
     });
 };
-
-// Add a style for the percentage marker
-const style = document.createElement('style');
-style.innerHTML = `
-    .scale-map-percentage {
-        font-size: 12px;
-        text-align: center;
-    }
-`;
-document.head.appendChild(style);
