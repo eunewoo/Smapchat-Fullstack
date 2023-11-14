@@ -25,9 +25,11 @@ const blendColors = (color1, color2, percentage) => {
 const categories = [];
 
 const createCategoriesFromGeoJson = (geoJsonData) => {
-  const totalCategories = geoJsonData.Location.length;
+
+  const max = geoJsonData.Location.reduce((a, b) => a.Value > b.Value ? a : b).Value;
+
   geoJsonData.Location.forEach((feature, index) => {
-    const scalePercentage = index / (totalCategories - 1); // Calculate the percentage (0 to 1)
+    const scalePercentage = feature.Value / max; // Calculate the percentage (0 to 1)
     const categoryColor = blendColors(
       geoJsonData.MinColor,
       geoJsonData.MaxColor,
