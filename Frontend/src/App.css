@@ -61,3 +61,7 @@
   background-color: #4444FF !important;
   border: 1px solid #4444FF !important;
 }
+
+.card {
+  border: 1px solid gray;
+}
