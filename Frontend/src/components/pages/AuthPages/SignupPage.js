@@ -7,7 +7,6 @@ import Logo from "../../../assets/images/logo2.png";
 const SignupPage = () => {
   const navigate = useNavigate();
   const handleRouteToHome = () => navigate("/");
-  const handleRouteToLogin = () => navigate("/login-page");
 
   return (
     <Container className="d-flex vh-100">

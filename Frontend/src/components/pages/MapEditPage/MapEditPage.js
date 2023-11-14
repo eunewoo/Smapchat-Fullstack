@@ -17,6 +17,7 @@ import TransactionHandler from "../../editor/TransactionHandler";
 import MapRenderer from "../../reuseable/MapRenderer";
 
 import { useParams } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const MapEditPage = () => {
 
@@ -41,6 +42,9 @@ const MapEditPage = () => {
       break;
     case "ScaleMap":
       defaultData = scaleData;
+      break;
+    default:
+      defaultData = {};
       break;
   }
 
@@ -81,6 +85,9 @@ const MapEditPage = () => {
     case "ScaleMap": 
       toolbox = (<ScaleMapToolbox handler={handler} scaleMap={data} />);
       break;
+    default:
+      toolbox = (<></>);
+      break;
   }
 
   return (
@@ -92,6 +99,10 @@ const MapEditPage = () => {
         </div>
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}
+          <div style={{width:"100%", display:"flex", marginTop: "60px"}}>
+            <Button style={{width: "40%", margin: "auto"}}>Save</Button>
+            <Button style={{width: "40%", margin: "auto"}}>Upload</Button>
+          </div>
         </div>
       </div>
     </div>

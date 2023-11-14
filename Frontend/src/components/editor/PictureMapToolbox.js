@@ -144,7 +144,7 @@ function PictureMapPicture(props) {
     return (
         <div style={{display:"inline-block", position:"relative", width: "129px", height: "100px", margin: "5px"}}>
             <img 
-                alt="Custom image"
+                alt="Custom"
                 style={{width: "129px", height: "100px"}}
                 src={props.src}>
             </img>

@@ -1,9 +1,9 @@
-import React, { createContext, useState, useContext, useCallback } from "react";
+import React, { createContext, useState, useCallback } from "react";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({ user: null, loggedIn: false });
+  const [auth] = useState({ user: null, loggedIn: false });
 
   const getLoggedIn = useCallback(async () => {}, []);
 
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
   const registerUser = useCallback(async (userData) => {}, []);
 
-  const getUserName = useCallback(() => {}, [auth]);
+  const getUserName = useCallback(() => {}, []);
 
   const resetPassword = useCallback(async () => {}, []);
 

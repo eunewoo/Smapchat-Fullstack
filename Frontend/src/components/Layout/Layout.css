@@ -3,4 +3,9 @@
   height: 100vh;
   margin: 0;
   padding: 0;
+<<<<<<< HEAD
+=======
+  overflow-y: auto;
+  padding-top: [HeightOfHeader]px;
+>>>>>>> origin/build2
 }

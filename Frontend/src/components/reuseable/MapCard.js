@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import MapRenderer from "./MapRenderer";
 import RatingDisplay from "./RatingDisplay";
 import { useNavigate } from "react-router-dom";
-import { navContext } from "../../App";
 import Card from "react-bootstrap/Card";
 import "./MapCard.css";
 
@@ -42,7 +41,7 @@ export default function MapCard(props) {
         width="100%"
         height="300px"
       />
-      <RatingDisplay value={mapData.avgRate} />
+      <RatingDisplay value={mapData.avgRate} from="map-card" />
       <Card.Body
         className=""
         style={{ backgroundColor: "#141488", color: "white" }}
@@ -53,4 +52,3 @@ export default function MapCard(props) {
     </Card>
   );
 }
-

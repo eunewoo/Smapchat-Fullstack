@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import Logo from "../../assets/images/Logo1.png";
@@ -8,7 +8,6 @@ import "./Header.css";
 
 const Header = () => {
   // states, contexts, and variables
-  const [menu, setMenu] = useState(false);
   const { auth } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -29,7 +28,11 @@ const Header = () => {
     return null;
   }
   return (
-    <Navbar expand="lg" style={{ backgroundColor: "#0C0D34" }}>
+    <Navbar
+      className="navbar"
+      expand="lg"
+      style={{ backgroundColor: "#0C0D34" }}
+    >
       <Container>
         <Navbar.Brand href="/">
           <img src={Logo} width="300" height="auto" alt="Logo" />
@@ -58,6 +61,15 @@ const Header = () => {
             style={{ fontSize: "1.2em" }}
           >
             My Maps
+          </Nav.Link>
+
+          <Nav.Link
+            as={NavLink}
+            to="/manage-user-page"
+            className="me-5 text-white"
+            style={{ fontSize: "1.2em" }}
+          >
+            Customers
           </Nav.Link>
         </Nav>
         {!isLoggedIn && (

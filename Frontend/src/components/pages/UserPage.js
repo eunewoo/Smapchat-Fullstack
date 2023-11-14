@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import UserPopup from "../popups/UserPopup";
-import { webFetch } from "../../util/webUtil";
+//import { webFetch } from "../../util/webUtil";
 
 export default function UserPage() {
   const [users, setUsers] = useState([]);
   var elems = [];
-  const [userData, setUserData] = useState({});
+  //const [userData, setUserData] = useState({});
   
 
   if (users.length <= 0) {
@@ -32,9 +32,9 @@ export default function UserPage() {
       setUsers([{ test: { username: "test", email: "test@test.com" } }]);
       return;
 
-      webFetch("/Users")
+      /*webFetch("/Users")
         .then((val) => setUsers(val))
-        .catch(() => console.log("Could not retrieve users"));
+        .catch(() => console.log("Could not retrieve users"));*/
     } else {
       users.forEach((id) => {
         elems.push(<UserPopup ID={id._id} />);
