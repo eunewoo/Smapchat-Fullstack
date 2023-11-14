@@ -5,12 +5,12 @@ const fetchComments = async (mapId) => {
 };
 //2
 const handleCreateComment = async (mapId, userId, content) => {
-    return await webPost("/api/comment/create", {mapId,userId, content});
+  return await webPost("/api/comment/create", { mapId, userId, content });
 };
 
 //3
 const handleLikeComment = async (userId, mapId) => {
-    return await webPut("/api/comment/like",{userId, mapId});
+  return await webPut("/api/comment/like", { userId, mapId });
 };
 //4
 const handleDislikeComment = async (userId, mapId) => {
@@ -18,9 +18,9 @@ const handleDislikeComment = async (userId, mapId) => {
 };
 //5
 const handleUpdateComment = async (userId, commentId, content) => {
-  return await webPut("/api/comment/update", {userId, commentId, content});
+  return await webPut("/api/comment/update", { userId, commentId, content });
 };
 //6
 const handleDeleteComment = async (userId, commentId) => {
-  return await webDelete("/api/comment/delete", { userId, commentId});
+  return await webDelete("/api/comment/delete", { userId, commentId });
 };

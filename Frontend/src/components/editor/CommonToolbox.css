@@ -1,49 +1,49 @@
 .toolbox {
-    width: 400px;
+  width: 400px;
 }
 
- .scroller::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .scroller {
-    overflow-y: scroll;
-    -ms-overflow-style: none; 
-    scrollbar-width: none; 
-  } 
+.scroller::-webkit-scrollbar {
+  display: none;
+}
 
-  .undoredo {
-    color: white;
-    margin: 10px;
-    width: 44%;
-  }
+.scroller {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-  .inner {
-    margin: 10px;
-    width: 96%;
-  }
+.undoredo {
+  color: white;
+  margin: 10px;
+  width: 44%;
+}
 
-  .invisibleInput {
-    width: 90%;
-    height: 25px;
-    background-color: transparent;
-    color: white;
-    border: none;
+.inner {
+  margin: 10px;
+  width: 96%;
+}
+
+.invisibleInput {
+  width: 90%;
+  height: 25px;
+  background-color: transparent;
+  color: white;
+  border: none;
 }
 
 .invisibleButton {
-    width: 10%;
+  width: 10%;
 }
 
 .input {
-    width: 100%;
-    margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .smallCross {
-    border-radius: 2px;
-    color: white;
-    background-color: "#040488";
-    width: 10px;
-    height: 25px;
+  border-radius: 2px;
+  color: white;
+  background-color: "#040488";
+  width: 10px;
+  height: 25px;
 }

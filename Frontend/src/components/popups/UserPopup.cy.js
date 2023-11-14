@@ -1,9 +1,9 @@
-import React from 'react'
-import UserPopup from './UserPopup'
+import React from "react";
+import UserPopup from "./UserPopup";
 
-describe('<UserPopup />', () => {
-  it('renders', () => {
+describe("<UserPopup />", () => {
+  it("renders", () => {
     // see: https://on.cypress.io/mounting-react
     cy.mount(<UserPopup />);
-  })
-})
+  });
+});

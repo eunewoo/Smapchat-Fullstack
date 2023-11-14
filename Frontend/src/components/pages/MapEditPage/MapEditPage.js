@@ -20,15 +20,14 @@ import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 const MapEditPage = () => {
-
   var params = useParams();
   var defaultData = {};
-  var toolbox = <></>
+  var toolbox = <></>;
 
-  console.log(params.mapType)
+  console.log(params.mapType);
 
-  switch(params.mapType) {
-    case "ArrowMap": 
+  switch (params.mapType) {
+    case "ArrowMap":
       defaultData = arrowData;
       break;
     case "BubbleMap":
@@ -62,31 +61,31 @@ const MapEditPage = () => {
           const uploadedData = JSON.parse(e.target.result);
           setGeoJsonData(uploadedData);
         } catch (error) {
-          console.error('Error reading GeoJSON file:', error);
+          console.error("Error reading GeoJSON file:", error);
         }
       };
       reader.readAsText(file);
     }
   };
 
-  switch(params.mapType) {
-    case "ArrowMap": 
-      toolbox = (<ArrowMapToolbox handler={handler} arrowMap={data} />);
+  switch (params.mapType) {
+    case "ArrowMap":
+      toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} />;
       break;
-    case "BubbleMap": 
-      toolbox = (<BubbleMapToolbox handler={handler} bubbleMap={data} />);
+    case "BubbleMap":
+      toolbox = <BubbleMapToolbox handler={handler} bubbleMap={data} />;
       break;
-    case "PictureMap": 
-      toolbox = (<PictureMapToolbox handler={handler} pictureMap={data} />);
+    case "PictureMap":
+      toolbox = <PictureMapToolbox handler={handler} pictureMap={data} />;
       break;
-    case "CategoryMap": 
-      toolbox = (<CategoryMapToolbox handler={handler} categoryMap={data} />);
+    case "CategoryMap":
+      toolbox = <CategoryMapToolbox handler={handler} categoryMap={data} />;
       break;
-    case "ScaleMap": 
-      toolbox = (<ScaleMapToolbox handler={handler} scaleMap={data} />);
+    case "ScaleMap":
+      toolbox = <ScaleMapToolbox handler={handler} scaleMap={data} />;
       break;
     default:
-      toolbox = (<></>);
+      toolbox = <></>;
       break;
   }
 
@@ -95,13 +94,19 @@ const MapEditPage = () => {
       <div className="row justify-content-center">
         <div className="col leftF p-0 rounded ms-2">
           <input type="file" onChange={handleFileChange} accept=".json" />
-          <MapRenderer width="100%" height="100%" Geometry={geoJsonData} mapType={params.mapType} GeoJsonData={data}/>
+          <MapRenderer
+            width="100%"
+            height="100%"
+            Geometry={geoJsonData}
+            mapType={params.mapType}
+            GeoJsonData={data}
+          />
         </div>
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}
-          <div style={{width:"100%", display:"flex", marginTop: "60px"}}>
-            <Button style={{width: "40%", margin: "auto"}}>Save</Button>
-            <Button style={{width: "40%", margin: "auto"}}>Upload</Button>
+          <div style={{ width: "100%", display: "flex", marginTop: "60px" }}>
+            <Button style={{ width: "40%", margin: "auto" }}>Save</Button>
+            <Button style={{ width: "40%", margin: "auto" }}>Upload</Button>
           </div>
         </div>
       </div>
