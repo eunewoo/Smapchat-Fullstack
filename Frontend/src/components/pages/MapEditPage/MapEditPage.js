@@ -70,7 +70,7 @@ const MapEditPage = () => {
     <div className="container-fluid mt-4">
       <div className="row justify-content-center">
         <div className="col leftF p-0 rounded ms-2">
-          <MapRenderer width="100%" height="100%" mapType={params.mapType} />
+          <MapRenderer width="100%" height="100%" mapType={params.mapType} graphicData={data}/>
         </div>
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}
