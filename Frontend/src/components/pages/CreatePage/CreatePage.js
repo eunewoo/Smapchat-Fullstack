@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "./CreatePage.css";
 import MapTypes from "./LocalComponents/MapTypes";
-import ShowMap from "./LocalComponents/ShowMap";
 import { useNavigate } from "react-router-dom";
+import MapRenderer from "../../reuseable/MapRenderer";
 
 const CreatePage = () => {
   const navigate = useNavigate();
 
-  const handleRouteToEditPage = () => navigate("/map-edit-page");
+  const [mapType, setMapType] = useState("ArrowMap");
+
+  const handleRouteToEditPage = () => navigate("/map-edit-page/" + mapType);
   return (
     <div className="container-fluid mt-4">
       {/* remove height and color from the css when you add components */}
       <div className="row justify-content-center">
         <div className="leftC p-0 rounded">
-          <MapTypes />
+          <MapTypes mapType ={mapType} setMapType={setMapType}/>
         </div>
         <div className="middleC p-0 rounded ms-2">
-          <ShowMap />
+          <MapRenderer width="100%" height="100%" mapType={mapType}/>
         </div>
         <div className="rightC d-flex align-items-center">
           <div className="col align-items-center justify-content-center text-center">

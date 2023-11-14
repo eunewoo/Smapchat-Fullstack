@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles.css";
 
-const MapTypes = () => {
-  const [selectedMapType, setSelectedMapType] = useState(null);
-
+const MapTypes = (props) => {
+  
   const mapTypes = [
     "Arrow Map",
     "Bubble Map",
@@ -14,7 +13,7 @@ const MapTypes = () => {
   ];
 
   const handleSelection = (mapType) => {
-    setSelectedMapType(mapType);
+    props.setMapType(mapType.replaceAll(" ", ""));
   };
 
   return (
@@ -35,7 +34,7 @@ const MapTypes = () => {
         <button
           key={index}
           className={`btn mx-3 mb-2 text-start ${
-            selectedMapType === type ? "button-selected" : "button-default"
+            props.mapType === type.replaceAll(" ", "") ? "button-selected" : "button-default"
           }`}
           onClick={() => handleSelection(type)}
         >
