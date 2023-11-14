@@ -10,7 +10,7 @@ const ViewMapPage = () => {
   return (
     <div className="Container-fluid mx-5 my-3 px-5">
       <div className="col text-center">
-        <div className="text-white">
+        <div className="text-black">
           <UserInfo />
         </div>
 

@@ -18,7 +18,7 @@ const MyMapsPage = () => {
         <div className="col text-white">Your Maps</div>
         <div className="col-auto justify-content-end">
           <div className="filter d-flex align-items-center">
-            <div className="text-white me-3">Date</div>
+            <div className="text-black me-3">Date</div>
             <Form className="me-4">
               <Form.Check
                 type="switch"
@@ -28,7 +28,7 @@ const MyMapsPage = () => {
                 onChange={handleToggleDate}
               />
             </Form>
-            <div className="text-white me-3">Rating</div>
+            <div className="text-black me-3">Rating</div>
             <Form className="me-4">
               <Form.Check
                 type="switch"

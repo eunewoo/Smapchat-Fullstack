@@ -23,13 +23,13 @@
 
 .rightC {
   flex: 0 0 20%;
-  color: #fff;
+  color: #000000;
 }
 
 .custom-button {
-  color: white;
+  color: black;
   background-color: transparent;
-  border: 1px solid white;
+  border: 1px solid black;
   border-radius: 25px;
   padding: 10px 25px;
   text-transform: none;
