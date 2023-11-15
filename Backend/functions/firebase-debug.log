@@ -1,0 +1,75 @@
+[debug] [2023-11-15T02:11:02.660Z] ----------------------------------------------------------------------
+[debug] [2023-11-15T02:11:02.662Z] Command:       /usr/local/bin/node /usr/local/bin/firebase functions:shell
+[debug] [2023-11-15T02:11:02.663Z] CLI Version:   12.8.1
+[debug] [2023-11-15T02:11:02.663Z] Platform:      darwin
+[debug] [2023-11-15T02:11:02.663Z] Node Version:  v18.14.2
+[debug] [2023-11-15T02:11:02.665Z] Time:          Tue Nov 14 2023 21:11:02 GMT-0500 (Eastern Standard Time)
+[debug] [2023-11-15T02:11:02.665Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-11-15T02:11:02.767Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-11-15T02:11:02.767Z] > authorizing via signed-in user (markosbiniam@gmail.com)
+[debug] [2023-11-15T02:11:02.767Z] [iam] checking project smapchat-back for permissions ["firebase.projects.get"]
+[debug] [2023-11-15T02:11:02.771Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions [none]
+[debug] [2023-11-15T02:11:02.772Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions x-goog-quota-user=projects/smapchat-back
+[debug] [2023-11-15T02:11:02.772Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-11-15T02:11:03.118Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions 200
+[debug] [2023-11-15T02:11:03.119Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-11-15T02:11:03.281Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-11-15T02:11:03.283Z] defaultcredentials: writing to file /Users/binimark/.config/firebase/markosbiniam_gmail_com_application_default_credentials.json
+[debug] [2023-11-15T02:11:03.288Z] DEBUG: Setting GAC to /Users/binimark/.config/firebase/markosbiniam_gmail_com_application_default_credentials.json
+[debug] [2023-11-15T02:11:03.288Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig [none]
+[debug] [2023-11-15T02:11:03.717Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig 200
+[debug] [2023-11-15T02:11:03.717Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig {"projectId":"smapchat-back","storageBucket":"smapchat-back.appspot.com"}
+[debug] [2023-11-15T02:11:03.738Z] [functions] Watching "/Users/binimark/Desktop/Smapchat/Backend/functions" for Cloud Functions...
+[debug] [2023-11-15T02:11:03.744Z] Validating nodejs source
+[debug] [2023-11-15T02:11:05.236Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "jest --detectOpenHandles --forceExit"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-11-15T02:11:05.236Z] Building nodejs source
+[debug] [2023-11-15T02:11:05.237Z] Failed to find version of module node: reached end of search path /Users/binimark/Desktop/Smapchat/Backend/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-11-15T02:11:05.244Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-15T02:11:05.253Z] Found firebase-functions binary at '/Users/binimark/Desktop/Smapchat/Backend/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8105
+
+[error] (node:12029) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[error] (node:12029) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+
+[debug] [2023-11-15T02:11:07.304Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[info] Connected to MongoDB Atlas
+
+[debug] [2023-11-15T02:11:17.326Z] [functions] Loaded functions definitions from source: api.
+[debug] [2023-11-15T02:11:17.327Z] [functions[us-central1-api]] http function initialized (http://127.0.0.1:5000/smapchat-back/us-central1/api).
+[info] i  functions: Loaded functions: api 
+[warn] ⚠  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage, eventarc 
