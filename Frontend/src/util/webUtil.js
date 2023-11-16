@@ -3,9 +3,9 @@
 /// should start with a /. Logs an error and throws null if the
 /// server responds with a non-200 response code.
 export async function webFetch(route) {
-  fetch(`${process.env.REACT_APP_URL}${route}`).then((res) => {
+  return fetch(`${process.env.REACT_APP_URL}${route}`).then(async (res) => {
     if (res.status === 200) {
-      res.json().then((val) => {
+      const data = res.json().then((val) => {
         if (val != null) {
           console.log("webFetch", val);
           return val;
@@ -14,6 +14,7 @@ export async function webFetch(route) {
           throw new Error("Response body was null");
         }
       });
+      return data;
     } else {
       console.log(`Error from server when requesting ${route}: ` + res.status);
 

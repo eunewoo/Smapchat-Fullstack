@@ -9,20 +9,13 @@ export async function userProfile(email) {
 }
 
 export async function getUsers() {
-  console.log("sada", baseUrl);
-
-  const response = await webFetch(`${baseUrl}/Users`);
-
-  const responseData = await response.json();
-  console.log(response.ok);
-
-  if (response.ok) {
-    return { success: true, data: responseData };
-  } else {
-    return { success: false, data: "errorm1" };
+  try {
+    const response = await webFetch(`/Users`);
+    return { success: true, data: response };
+  } catch (error) {
+    console.log("Error in fetching Users", error);
+    return { success: false, error: error };
   }
-
-  return response;
 }
 
 /// Deletes a user of the given userID

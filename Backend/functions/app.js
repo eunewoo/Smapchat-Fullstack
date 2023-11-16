@@ -20,7 +20,7 @@ startDB();
 var app = express();
 
 var corsOptions = {
-  origin: ["https://smapchat-bc4cd.web.app", "http://localhost:3002"],
+  origin: ["https://smapchat-bc4cd.web.app", "http://localhost:3000"],
   credentials: true,
   optionsSuccessStatus: 200,
 };
