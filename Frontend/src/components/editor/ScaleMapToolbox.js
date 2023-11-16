@@ -25,7 +25,9 @@ export default function ScaleMapToolbox(props) {
   return (
     <Card className="toolbox">
       <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
-        <Card.Text>Scale Map Editor</Card.Text>
+        <Card.Title>Scale Map Editor</Card.Title>
+        <Card.Subtitle>Choose Min,Max color and </Card.Subtitle>
+        <Card.Subtitle>Scale it from 0% to 100% by input num </Card.Subtitle>
       </Card.Body>
 
       <Container>

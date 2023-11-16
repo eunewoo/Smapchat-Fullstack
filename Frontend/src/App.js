@@ -4,6 +4,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import "./App.css";
 
 import { createContext, useState } from "react";
+import { StoreProvider } from "./contexts/GlobalStoreContext";
 
 // Popup is much the same idea.
 export const popContext = createContext();
@@ -16,10 +17,11 @@ function App() {
 
   return (
     <popContext.Provider value={setPopup}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-
+      <StoreProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </StoreProvider>
       {fullPopup}
     </popContext.Provider>
   );
