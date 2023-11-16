@@ -1,9 +1,28 @@
 import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 
+const baseUrl = process.env.REACT_APP_URL;
+
 /// Fetches a users profile as a JSON object based on a
 /// provided e-mail address
 export async function userProfile(email) {
   return await webFetch(`/User/${email}`);
+}
+
+export async function getUsers() {
+  console.log("sada", baseUrl);
+
+  const response = await webFetch(`${baseUrl}/Users`);
+
+  const responseData = await response.json();
+  console.log(response.ok);
+
+  if (response.ok) {
+    return { success: true, data: responseData };
+  } else {
+    return { success: false, data: "errorm1" };
+  }
+
+  return response;
 }
 
 /// Deletes a user of the given userID
