@@ -22,7 +22,7 @@ import { Button, Alert } from "react-bootstrap";
 import { BubbleSave, BubblePublish } from "./BubbleEdit";
 import { CategorySave, CategoryPublish } from "./CategoryEdit";
 import { ScaleSave, ScalePublish } from "./ScaleEdit";
-import { ArrowSave, ArrowPublish, ArrowClick } from "./ArrowEdit";
+import { ArrowSave, ArrowPublish } from "./ArrowEdit";
 import { PictureSave, PicturePublish } from "./PictureEdit";
 
 const MapEditPage = () => {
@@ -63,12 +63,10 @@ const MapEditPage = () => {
   // map type's click handler will fire with placingPath. placingHint is set to
   // give a hint to the handler what kind of transaction needs to be made.
   const [placing, setPlacing] = useState(false);
-  const [placingPath, setPlacingPath] = useState("");
-  const [placingHint, setPlacingHint] = useState("");
-  const readyPlace = (path, hint) => {
-    setPlacingPath(path);
+  const [placeFunction, setPlaceFunction] = useState((latlng) => {})
+  const readyPlace = (placeFunction) => {
     setPlacing(true);
-    setPlacingHint(hint);
+    setPlaceFunction(placeFunction);
   }
 
   const handleFileChange = (event) => {
@@ -149,13 +147,10 @@ const MapEditPage = () => {
       return;
     }
 
-    if (params.mapType == "ArrowMap") {
-      ArrowClick(latlng, handler, placingPath, placingHint);
-    }
+    placeFunction(latlng);
 
     setPlacing(false);
-    setPlacingPath("");
-    setPlacingHint("");
+    setPlaceFunction((latlng) => {})
   };
 
   const notification = placing ? (

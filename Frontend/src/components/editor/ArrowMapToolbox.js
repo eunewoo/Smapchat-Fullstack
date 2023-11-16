@@ -53,7 +53,16 @@ export default function ArrowMapToolbox(props) {
         {cards}
         <Button
           className="inner"
-          onClick={() => props.readyPlace(`Location`, "create")}
+          onClick={() => props.readyPlace(() => (latlng) => {
+            console.log("Help! I Fired!");
+            props.handler.createTrans("Location", {
+                Name: "",
+                Lattitude: latlng.lat,
+                Longitude: latlng.lng,
+                Order: 0,
+                Date: "",
+              });
+          })}
         >
           Add new
         </Button>
@@ -118,7 +127,12 @@ function ArrowMapLocation(props) {
           }
         />
         <Button
-        onClick={() => props.readyPlace(`Location[${props.index}]`, "move")}> 
+        onClick={() => props.readyPlace(() => (latlng) => {
+            props.handler.compoundTrans([
+                {path: `Location[${props.index}].Lattitude`, newValue: latlng.lat},
+                {path: `Location[${props.index}].Longitude`, newValue: latlng.lng},
+            ]);
+        })}> 
           Move 
         </Button>
       </Container>
