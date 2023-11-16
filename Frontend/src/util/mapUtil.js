@@ -29,52 +29,56 @@ export const fetchRecentPublicMaps = async (page, limit) => {
   return await webFetch(`/api/map/public/recent?page=${page}&limit=${limit}`);
 };
 
-export const fetchUserSearchMaps = async (query, page, limit) => {
+
+const fetchUserSearchMaps = async (query, page, limit, userId) => {
   return await webFetch(
     `/api/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`
   );
 };
 
-export const fetchTopRatedUserMaps = async (page, limit) => {
+
+const fetchTopRatedUserMaps = async (page, limit, userId) => {
   return await webFetch(
     `/api/map/${userId}/top-rated?page=${page}&limit=${limit}`
   );
 };
 
-export const fetchRecentUserMaps = async (page, limit) => {
+
+const fetchRecentUserMaps = async (page, limit, userId) => {
   return await webFetch(
     `/api/map/${userId}/recent?page=${page}&limit=${limit}`
   );
 };
 
-export const createPictureMap = async (mapData) => {
+
+const createPictureMap = async (mapData, userId) => {
   return await webPost("/api/map/create/pictureMap", { userId, mapData });
 };
 
-export const createArrowMap = async (mapData) => {
+const createArrowMap = async (mapData, userId) => {
   return await webPost("/api/map/create/arrowMap", { userId, mapData });
 };
 
-export const createBubbleMap = async (mapData) => {
+const createBubbleMap = async (mapData, userId) => {
   return await webPost("/api/map/create/bubbleMap", { userId, mapData });
 };
 
-export const createCategoryMap = async (mapData) => {
+const createCategoryMap = async (mapData, userId) => {
   return await webPost("/api/map/create/categoryMap", { userId, mapData });
 };
 
-export const createScaleMap = async (mapData) => {
+const createScaleMap = async (mapData, userId) => {
   return await webPost("/api/map/create/scaleMap", { userId, mapData });
 };
 
-export const updateMap = async (mapId, mapData) => {
+const updateMap = async (mapId, mapData, userId) => {
   return await webPut("/api/map/update", { userId, mapId, mapData });
 };
 
-export const updateMapStatus = async (mapId, isPublic) => {
+const updateMapStatus = async (mapId, isPublic, userId) => {
   return await webPut("/api/map/statusUpdate", { userId, mapId, isPublic });
 };
 
-export const deleteMap = async (mapId) => {
+const deleteMap = async (mapId, userId) => {
   return await webDelete(`/api/map/${mapId}`, { userId });
 };
