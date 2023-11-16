@@ -7,6 +7,7 @@ export async function webFetch(route) {
     if (res.status === 200) {
       res.json().then((val) => {
         if (val != null) {
+          console.log("webFetch", val);
           return val;
         } else {
           console.log("Response body was null!");
@@ -66,7 +67,7 @@ async function bodiedRequest(route, data, method) {
       });
     } else {
       console.log(
-        `Error from server when ${method}ing ${route}: ` + res.status,
+        `Error from server when ${method}ing ${route}: ` + res.status
       );
 
       throw new Error("Server responded with non-200 code");
