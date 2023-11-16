@@ -58,7 +58,6 @@ async function bodiedRequest(route, data, method) {
     if (res.status === 200) {
       res.json().then((val) => {
         if (val != null) {
-          console.log("ready")
           return val;
         } else {
           console.log("Response body was null!");
