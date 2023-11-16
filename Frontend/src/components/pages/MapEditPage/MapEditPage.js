@@ -59,9 +59,10 @@ const MapEditPage = () => {
   const handler = useState(new TransactionHandler(data, forceUpdate))[0];
 
   // This state controls if the editor screen is in a mode where we can click
-  // on the map. In this state, the next time the user clicks on the map, the appropriate
-  // map type's click handler will fire with placingPath. placingHint is set to
-  // give a hint to the handler what kind of transaction needs to be made.
+  // on the map. In this state, the next time the user clicks on the map, the
+  // placeFunction will fire. you need to pass a double closure as the function
+  // because of javascript weirdness, so the form would look something like:
+  // readyPlace(() => (latlng) => DoSomeSuff(latlng)); when set in an onClick.
   const [placing, setPlacing] = useState(false);
   const [placeFunction, setPlaceFunction] = useState((latlng) => {})
   const readyPlace = (placeFunction) => {
