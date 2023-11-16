@@ -1,5 +1,7 @@
 import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 
+const baseUrl = process.env.REACT_APP_URL;
+
 /// Fetches a users profile as a JSON object based on a
 /// provided e-mail address
 export async function userProfile(email) {
@@ -7,7 +9,9 @@ export async function userProfile(email) {
 }
 
 export async function getUsers() {
-  const response = await webFetch(`/Users`);
+  console.log("sada", baseUrl);
+
+  const response = await webFetch(`${baseUrl}/Users`);
 
   const responseData = await response.json();
   console.log(response.ok);
