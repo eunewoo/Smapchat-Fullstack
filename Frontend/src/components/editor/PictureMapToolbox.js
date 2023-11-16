@@ -7,6 +7,7 @@ import {
   BsPlusLg,
 } from "react-icons/bs";
 import "./CommonToolbox.css";
+import DebouncedInput from "./DebouncedInput";
 
 /// The toolbox for editing an picture map. Expects the map data and a TransactionHandler
 /// for that data as the pictureMap and handler props respectively.

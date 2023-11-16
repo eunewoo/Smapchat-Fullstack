@@ -7,6 +7,7 @@ import {
 } from "react-icons/bs";
 import "./CommonToolbox.css";
 import ColorWidget from "./ColorWidget";
+import DebouncedInput from "./DebouncedInput";
 
 /// The toolbox for editing an category map. Expects the map data and a TransactionHandler
 /// for that data as the categoryMap and handler props respectively.
@@ -92,7 +93,7 @@ function CategoryMapLocation(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.categoryPointLocation.Name}

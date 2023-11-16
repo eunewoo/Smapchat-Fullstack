@@ -7,6 +7,7 @@ import {
 } from "react-icons/bs";
 import "./CommonToolbox.css";
 import ColorWidget from "./ColorWidget";
+import DebouncedInput from "./DebouncedInput";
 
 /// The toolbox for editing an scale map. Expects the map data and a TransactionHandler
 /// for that data as the scaleMap and handler props respectively.
@@ -93,7 +94,7 @@ function ScaleMapLocation(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.scalePointLocation.Name}
@@ -112,7 +113,7 @@ function ScaleMapLocation(props) {
         />
       </Card.Body>
       <Container style={{ padding: "20px" }}>
-        <input
+        <DebouncedInput
           className="input"
           placeholder="Value"
           value={props.scalePointLocation.Value}

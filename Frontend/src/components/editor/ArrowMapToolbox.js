@@ -1,5 +1,6 @@
 import { Card, Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import DebouncedInput from "./DebouncedInput";
 import {
   BsXLg,
   BsArrowCounterclockwise,
@@ -85,14 +86,14 @@ function ArrowMapLocation(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.arrowPointLocation.Name}
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Name`,
-              val.target.value,
+              val,
             )
           }
         />
@@ -104,7 +105,7 @@ function ArrowMapLocation(props) {
         />
       </Card.Body>
       <Container style={{ padding: "20px" }}>
-        <input
+        <DebouncedInput
           className="input"
           placeholder="Order"
           value={props.arrowPointLocation.Order}
@@ -115,7 +116,7 @@ function ArrowMapLocation(props) {
             )
           }
         />
-        <input
+        <DebouncedInput
           className="input"
           placeholder="Date"
           value={props.arrowPointLocation.Date}
