@@ -19,6 +19,12 @@ import MapRenderer from "../../reuseable/MapRenderer";
 import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
+import { BubbleSave, BubblePublish } from "./BubbleEdit";
+import { CategorySave, CategoryPublish } from "./CategoryEdit";
+import { ScaleSave, ScalePublish } from "./ScaleEdit";
+import { ArrowSave, ArrowPublish } from "./ArrowEdit";
+import { PictureSave, PicturePublish } from "./PictureEdit";
+
 const MapEditPage = () => {
   var params = useParams();
   var defaultData = {};
@@ -68,6 +74,40 @@ const MapEditPage = () => {
     }
   };
 
+  //save button
+  const handleSaveButton = () => {
+      if (params.mapType === "BubbleMap") {
+        BubbleSave();
+      } else if (params.mapType === "ArrowMap") {
+        ArrowSave();
+      } else if (params.mapType === "ScaleMap") {
+        ScaleSave();
+      } else if (params.mapType === "PictureMap") {
+        PictureSave();
+      } else if (params.mapType === "CategoryMap") {
+        CategorySave();
+      } else {
+        // Handle the default case if needed
+      }
+  };
+
+  //publish button
+  const handlePublishButton = () => {
+      if (params.mapType === "BubbleMap") {
+        BubblePublish();
+      } else if (params.mapType === "ArrowMap") {
+        ArrowPublish();
+      } else if (params.mapType === "ScaleMap") {
+        ScalePublish();
+      } else if (params.mapType === "PictureMap") {
+        PicturePublish();
+      } else if (params.mapType === "CategoryMap") {
+        CategoryPublish();
+      } else {
+        // Handle the default case if needed
+      }
+  };
+
   switch (params.mapType) {
     case "ArrowMap":
       toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} />;
@@ -105,8 +145,18 @@ const MapEditPage = () => {
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}
           <div style={{ width: "100%", display: "flex", marginTop: "60px" }}>
-            <Button style={{ width: "40%", margin: "auto" }}>Save</Button>
-            <Button style={{ width: "40%", margin: "auto" }}>Upload</Button>
+            <Button
+              style={{ width: "40%", margin: "auto" }}
+              onClick={handleSaveButton}
+            >
+              Save
+            </Button>
+            <Button
+              style={{ width: "40%", margin: "auto" }}
+              onClick={handlePublishButton}
+            >
+              Upload
+            </Button>
           </div>
         </div>
       </div>
