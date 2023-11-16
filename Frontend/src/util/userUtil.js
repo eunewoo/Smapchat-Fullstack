@@ -6,6 +6,21 @@ export async function userProfile(email) {
   return await webFetch(`/User/${email}`);
 }
 
+export async function getUsers() {
+  const response = await webFetch(`/Users`);
+
+  const responseData = await response.json();
+  console.log(response.ok);
+
+  if (response.ok) {
+    return { success: true, data: responseData };
+  } else {
+    return { success: false, data: "errorm1" };
+  }
+
+  return response;
+}
+
 /// Deletes a user of the given userID
 export async function deleteUser(userId) {
   return await webDelete(`/User/delete/${userId}`, {});
