@@ -77,7 +77,9 @@ export default function MapRenderer(props) {
 function ClickHandler(props) {
     useMapEvents({
         click(e){
-            props.onClick(e.latlng);
+            if(props.onClick != null) {
+                props.onClick(e.latlng);
+            }
         }
       })
 
