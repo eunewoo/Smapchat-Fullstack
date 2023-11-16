@@ -17,12 +17,12 @@ import TransactionHandler from "../../editor/TransactionHandler";
 import MapRenderer from "../../reuseable/MapRenderer";
 
 import { useParams } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 
 import { BubbleSave, BubblePublish } from "./BubbleEdit";
 import { CategorySave, CategoryPublish } from "./CategoryEdit";
 import { ScaleSave, ScalePublish } from "./ScaleEdit";
-import { ArrowSave, ArrowPublish } from "./ArrowEdit";
+import { ArrowSave, ArrowPublish, ArrowClick } from "./ArrowEdit";
 import { PictureSave, PicturePublish } from "./PictureEdit";
 
 const MapEditPage = () => {
@@ -57,6 +57,17 @@ const MapEditPage = () => {
   const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const handler = useState(new TransactionHandler(data, forceUpdate))[0];
+
+  // This state controls if the editor screen is in a mode where we can click
+  // on the map. In this state, the next time the user clicks on the map, the appropriate
+  // map type's click handler will fire with placingPath.
+  const [placing, setPlacing] = useState(false);
+  const [placingPath, setPlacingPath] = useState("");
+  const readyPlace = (path) => {
+    setPlacingPath(path);
+    setPlacing(true);
+    console.log("ReadyPlace with path " + path);
+  }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -110,24 +121,46 @@ const MapEditPage = () => {
 
   switch (params.mapType) {
     case "ArrowMap":
-      toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} />;
+      toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} readyPlace={readyPlace}/>;
       break;
     case "BubbleMap":
-      toolbox = <BubbleMapToolbox handler={handler} bubbleMap={data} />;
+      toolbox = <BubbleMapToolbox handler={handler} bubbleMap={data} readyPlace={readyPlace}/>;
       break;
     case "PictureMap":
-      toolbox = <PictureMapToolbox handler={handler} pictureMap={data} />;
+      toolbox = <PictureMapToolbox handler={handler} pictureMap={data} readyPlace={readyPlace}/>;
       break;
     case "CategoryMap":
-      toolbox = <CategoryMapToolbox handler={handler} categoryMap={data} />;
+      toolbox = <CategoryMapToolbox handler={handler} categoryMap={data} readyPlace={readyPlace}/>;
       break;
     case "ScaleMap":
-      toolbox = <ScaleMapToolbox handler={handler} scaleMap={data} />;
+      toolbox = <ScaleMapToolbox handler={handler} scaleMap={data} readyPlace={readyPlace}/>;
       break;
     default:
       toolbox = <></>;
       break;
   }
+
+  const handleMapClick = (latlng) => {
+
+    if (!placing) {
+      console.log("Clicked not placing");
+      return;
+    }
+
+    if (params.mapType == "ArrowMap") {
+      ArrowClick(latlng, handler, placingPath);
+    }
+
+    setPlacing(false);
+    setPlacingPath("");
+  };
+
+  const notification = placing ? (
+    <Alert
+      style={{position:"absolute", margin:"auto", bottom:"20px"}}>
+      Click anywhere on the map!
+    </Alert>
+    ) : (<></>);
 
   return (
     <div className="container-fluid mt-4">
@@ -140,7 +173,9 @@ const MapEditPage = () => {
             Geometry={geoJsonData}
             mapType={params.mapType}
             GeoJsonData={data}
+            onClick={handleMapClick}
           />
+          {notification}
         </div>
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}

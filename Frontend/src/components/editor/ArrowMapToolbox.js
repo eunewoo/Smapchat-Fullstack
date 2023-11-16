@@ -19,6 +19,7 @@ export default function ArrowMapToolbox(props) {
     cards.push(
       <ArrowMapLocation
         handler={props.handler}
+        readyPlace={props.readyPlace}
         index={arrowPointLocation}
         arrowPointLocation={props.arrowMap.Location[arrowPointLocation]}
       />,
@@ -124,6 +125,10 @@ function ArrowMapLocation(props) {
             )
           }
         />
+        <Button
+        onClick={() => props.readyPlace(`Location[${props.index}]`)}> 
+          Move 
+        </Button>
       </Container>
     </Card>
   );

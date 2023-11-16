@@ -1,6 +1,6 @@
 import Leaflet from "leaflet";
 import React, { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON, useMapEvent, useMapEvents } from "react-leaflet";
 import { renderPictureMap } from "./mapgraphics/PictureMap";
 import { renderArrowMap } from "./mapgraphics/ArrowMap";
 import { renderBubbleMap } from "./mapgraphics/BubbleMap";
@@ -62,6 +62,7 @@ export default function MapRenderer(props) {
         maxBoundsViscosity={1}
         ref={mapRef}
       >
+        <ClickHandler onClick={props.onClick}/>
         <TileLayer
           noWrap={true}
           url="http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"
@@ -71,4 +72,14 @@ export default function MapRenderer(props) {
       </MapContainer>
     </div>
   );
+}
+
+function ClickHandler(props) {
+    useMapEvents({
+        click(e){
+            props.onClick(e.latlng);
+        }
+      })
+
+    return(<></>);
 }
