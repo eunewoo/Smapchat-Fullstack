@@ -181,7 +181,6 @@ class MapModel {
   static async createBubbleMap(userId, mapData) {
     try {
       const { bubblemap } = mapData;
-
       // Update user's mapList
       await UserModel.findByIdAndUpdate(userId, {
         $push: { mapList: bubblemap.mapID },

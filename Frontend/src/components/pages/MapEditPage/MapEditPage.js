@@ -18,13 +18,13 @@ import MapRenderer from "../../reuseable/MapRenderer";
 
 import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
+//importing routers from map Util
+import { createBubbleMap } from "../../../util/mapUtil";
 
-const MapEditPage = () => {
+const MapEditPage = () => { 
   var params = useParams();
   var defaultData = {};
   var toolbox = <></>;
-
-  console.log(params.mapType);
 
   switch (params.mapType) {
     case "ArrowMap":
@@ -68,6 +68,17 @@ const MapEditPage = () => {
     }
   };
 
+  //save button
+  const handleSaveButton = () => { 
+    if (params.mapType === "BubbleMap") { 
+      createBubbleMap("6549247ab828517fbe1969a1", data);
+    }
+  }
+  //publish button
+  const handlePublishButton = () => {
+    console.log("published");
+  };
+
   switch (params.mapType) {
     case "ArrowMap":
       toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} />;
@@ -105,8 +116,8 @@ const MapEditPage = () => {
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}
           <div style={{ width: "100%", display: "flex", marginTop: "60px" }}>
-            <Button style={{ width: "40%", margin: "auto" }}>Save</Button>
-            <Button style={{ width: "40%", margin: "auto" }}>Upload</Button>
+            <Button style={{ width: "40%", margin: "auto" }} onClick={handleSaveButton}>Save</Button>
+            <Button style={{ width: "40%", margin: "auto" }} onClick={handlePublishButton}>Publish</Button>
           </div>
         </div>
       </div>

@@ -148,7 +148,7 @@ router.post("/api/map/create/pictureMap", async (req, res) => {
   const { userId, mapData } = req.body;
 
   try {
-    const createdPictureMap = await PictureMapModel.createPictureMap(
+    const createdPictureMap = await MapModel.createPictureMap(
       userId,
       mapData
     );
@@ -164,7 +164,7 @@ router.post("/api/map/create/arrowMap", async (req, res) => {
   const { userId, mapData } = req.body;
 
   try {
-    const result = await ArrowMapModel.createArrowMap(userId, mapData);
+    const result = await MapModel.createArrowMap(userId, mapData);
 
     res.json(result);
   } catch (error) {
@@ -178,10 +178,7 @@ router.post("/api/map/create/bubbleMap", async (req, res) => {
   const { userId, mapData } = req.body;
 
   try {
-    const createdBubbleMap = await BubbleMapModel.createBubbleMap(
-      userId,
-      mapData
-    );
+    const createdBubbleMap = await MapModel.createBubbleMap(userId, mapData);
     res.json(createdBubbleMap);
   } catch (error) {
     console.error(error);
@@ -194,7 +191,7 @@ router.post("/api/map/create/categoryMap", async (req, res) => {
   const { userId, mapData } = req.body;
 
   try {
-    const createdCategoryMap = await CategoryMapModel.createCategoryMap(
+    const createdCategoryMap = await MapModel.createCategoryMap(
       userId,
       mapData
     );
@@ -208,9 +205,9 @@ router.post("/api/map/create/categoryMap", async (req, res) => {
 //14
 router.post("/api/map/create/scaleMap", async (req, res) => {
   const { userId, mapData } = req.body;
-
+  console.log("hii")
   try {
-    const createdScaleMap = await ScaleMapModel.createScaleMap(userId, mapData);
+    const createdScaleMap = await MapModel.createScaleMap(userId, mapData);
     res.json(createdScaleMap);
   } catch (error) {
     console.error(error);

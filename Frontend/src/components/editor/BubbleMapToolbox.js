@@ -18,7 +18,7 @@ export default function BubbleMapToolbox(props) {
         handler={props.handler}
         index={bubblePointLocation}
         bubblePointLocation={props.bubbleMap.Location[bubblePointLocation]}
-      />,
+      />
     );
   }
 
@@ -87,7 +87,7 @@ function BubbleMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Name`,
-              val.target.value,
+              val.target.value
             )
           }
         />
@@ -106,7 +106,7 @@ function BubbleMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Size`,
-              val.target.value,
+              val.target.value
             )
           }
         />
