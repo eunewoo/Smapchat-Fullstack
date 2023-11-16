@@ -21,17 +21,17 @@ startDB();
 var app = express();
 
 app.use(cors({origin: ['https://smapchat-bc4cd.web.app', "http://10.1.181.129:3002"]}));
-// app.use(cors({ origin: "http://10.1.181.129:3002" }));
+
 app.use(logMiddleware);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
+app.use("/", mapRoutes);
 app.use('/', indexRouter);
 app.use('/', userRoutes);
-app.use('/', mapRoutes)
+
 
 // error handler
 app.use(function(err, req, res, next) {

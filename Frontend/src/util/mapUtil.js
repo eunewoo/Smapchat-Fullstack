@@ -56,34 +56,32 @@ export const createArrowMap = async (userId, mapData) => {
 };
 
 export const createBubbleMap = async (userId, mapData) => {
-  // return await webPost("/api/map/create/bubbleMap", { userId, mapData });
-  fetch(
-    "http://127.0.0.1:5001/smapchat-back/us-central1/api/map/create/bubbleMap",
-    {
+  const apiUrl = `${process.env.REACT_APP_URL}/api/map/create/bubbleMap`;
+
+  try {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ userId, mapData }),
-    }
-  )
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(
-          `Network response was not ok. Status: ${response.status} - ${response.statusText}`
-        );
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Created Bubble Map:", data);
-      // Handle the response data as needed
-    })
-    .catch((error) => {
-      console.error("Error creating Bubble Map:", error);
-      // Handle errors, show an alert, etc.
     });
+
+    if (!response.ok) {
+      throw new Error(
+        `Network response was not ok. Status: ${response.status} - ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+    console.log("Created Bubble Map:", data);
+    // Handle the response data as needed
+  } catch (error) {
+    console.error("Error creating Bubble Map(frontend):", error);
+    // Handle errors, show an alert, etc.
+  }
 };
+
 
 export const createCategoryMap = async (userId, mapData) => {
   return await webPost("/api/map/create/categoryMap", { userId, mapData });

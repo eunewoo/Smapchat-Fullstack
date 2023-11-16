@@ -174,20 +174,17 @@ router.post("/api/map/create/arrowMap", async (req, res) => {
 });
 
 //12
-router.post(
-  "/api/map/create/bubbleMap",
-  async (req, res) => {
-    const { userId, mapData } = req.body;
+router.post("/api/map/create/bubbleMap", async (req, res) => {
+  const { userId, mapData } = req.body;
 
-    try {
-      const createdBubbleMap = await MapModel.createBubbleMap(userId, mapData);
-      res.json(createdBubbleMap);
-    } catch (error) {
-      console.error(error);
-      res.status(400).send("Server Error");
-    }
+  try {
+    const createdBubbleMap = await MapModel.createBubbleMap(userId, mapData);
+    res.json(createdBubbleMap);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
   }
-);
+});
 
 //13
 router.post("/api/map/create/categoryMap", async (req, res) => {
