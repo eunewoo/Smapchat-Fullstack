@@ -101,7 +101,7 @@ function ScaleMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Name`,
-              val.target.value,
+              val,
             )
           }
         />
@@ -120,7 +120,7 @@ function ScaleMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Value`,
-              val.target.value,
+              val,
             )
           }
         />

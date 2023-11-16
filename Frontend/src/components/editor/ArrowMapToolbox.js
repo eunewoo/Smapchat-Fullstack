@@ -112,7 +112,7 @@ function ArrowMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Order`,
-              val.target.value,
+              val,
             )
           }
         />
@@ -123,7 +123,7 @@ function ArrowMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Date`,
-              val.target.value,
+              val,
             )
           }
         />

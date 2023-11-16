@@ -88,7 +88,7 @@ function BubbleMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Name`,
-              val.target.value,
+              val,
             )
           }
         />
@@ -107,7 +107,7 @@ function BubbleMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Size`,
-              val.target.value,
+              val,
             )
           }
         />

@@ -100,7 +100,7 @@ function CategoryMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Category[${props.index}].Name`,
-              val.target.value,
+              val,
             )
           }
         />
