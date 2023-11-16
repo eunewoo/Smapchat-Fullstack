@@ -60,13 +60,15 @@ const MapEditPage = () => {
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the appropriate
-  // map type's click handler will fire with placingPath.
+  // map type's click handler will fire with placingPath. placingHint is set to
+  // give a hint to the handler what kind of transaction needs to be made.
   const [placing, setPlacing] = useState(false);
   const [placingPath, setPlacingPath] = useState("");
-  const readyPlace = (path) => {
+  const [placingHint, setPlacingHint] = useState("");
+  const readyPlace = (path, hint) => {
     setPlacingPath(path);
     setPlacing(true);
-    console.log("ReadyPlace with path " + path);
+    setPlacingHint(hint);
   }
 
   const handleFileChange = (event) => {
@@ -148,11 +150,12 @@ const MapEditPage = () => {
     }
 
     if (params.mapType == "ArrowMap") {
-      ArrowClick(latlng, handler, placingPath);
+      ArrowClick(latlng, handler, placingPath, placingHint);
     }
 
     setPlacing(false);
     setPlacingPath("");
+    setPlacingHint("");
   };
 
   const notification = placing ? (

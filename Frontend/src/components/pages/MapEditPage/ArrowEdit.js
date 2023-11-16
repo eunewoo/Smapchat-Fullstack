@@ -5,12 +5,24 @@ export const ArrowSave = async () => {};
 
 export const ArrowPublish = async () => {};
 
-export const ArrowClick = (latlng, handler, path) => {
+export const ArrowClick = (latlng, handler, path, hint) => {
 
-    console.log("Arrow click path: " + path);
+    if (hint == "move")
+    {
+        handler.compoundTrans([
+            {path: path + ".Lattitude", newValue: latlng.lat},
+            {path: path + ".Longitude", newValue: latlng.lng},
+        ]);
+    }
 
-    handler.compoundTrans([
-        {path: path + ".Lattitude", newValue: latlng.lat},
-        {path: path + ".Longitude", newValue: latlng.lng},
-    ]);
+    if (hint == "create")
+    {
+        handler.createTrans(path, {
+            Name: "",
+            Lattitude: latlng.lat,
+            Longitude: latlng.lng,
+            Order: 0,
+            Date: "",
+          });
+    }
 }

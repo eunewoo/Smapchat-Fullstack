@@ -20,7 +20,7 @@ export const renderArrowMap = (map, data) => {
     }).addTo(map);
 
     // Bind a popup with name and date information
-    marker.bindPopup(`<b>${point.name}</b><br>Date: ${point.date}`).openPopup();
+    marker.bindPopup(`<b>${point.name}</b><br>Date: ${point.date}`);
   });
 
   // Draw arrows (polylines) between points
