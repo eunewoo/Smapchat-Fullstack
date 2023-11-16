@@ -17,7 +17,7 @@ import TransactionHandler from "../../editor/TransactionHandler";
 import MapRenderer from "../../reuseable/MapRenderer";
 
 import { useParams } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 
 import { BubbleSave, BubblePublish } from "./BubbleEdit";
 import { CategorySave, CategoryPublish } from "./CategoryEdit";
@@ -32,6 +32,8 @@ const MapEditPage = () => {
 
   console.log(params.mapType);
 
+  //TODO: Make the sample data 'blank templates' instead of samples
+  // for the final product.
   switch (params.mapType) {
     case "ArrowMap":
       defaultData = arrowData;
@@ -53,11 +55,28 @@ const MapEditPage = () => {
       break;
   }
 
+  // This contains the current map graphic data and geoJson. A transaction
+  // handler is initialized to handle operating on the data. See 
+  // TransactionHandler.js for details.
   const [data] = useState(defaultData);
   const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const handler = useState(new TransactionHandler(data, forceUpdate))[0];
 
+  // This state controls if the editor screen is in a mode where we can click
+  // on the map. In this state, the next time the user clicks on the map, the
+  // placeFunction will fire. you need to pass a double closure as the function
+  // because of javascript weirdness, so the form would look something like:
+  // readyPlace(() => (latlng) => DoSomeSuff(latlng)); when set in an onClick.
+  const [placing, setPlacing] = useState(false);
+  const [placeFunction, setPlaceFunction] = useState((latlng) => {})
+  const readyPlace = (placeFunction) => {
+    setPlacing(true);
+    setPlaceFunction(placeFunction);
+  }
+
+  // TOOD: Remove this and instead have the GeoJSON data come from the previous
+  // page somehow.
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -108,26 +127,52 @@ const MapEditPage = () => {
       }
   };
 
+  // Load an appropriate toolbox based on which map type we're editing.
+  // May be a nicer way to clean this up later...
   switch (params.mapType) {
     case "ArrowMap":
-      toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} />;
+      toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} readyPlace={readyPlace}/>;
       break;
     case "BubbleMap":
-      toolbox = <BubbleMapToolbox handler={handler} bubbleMap={data} />;
+      toolbox = <BubbleMapToolbox handler={handler} bubbleMap={data} readyPlace={readyPlace}/>;
       break;
     case "PictureMap":
-      toolbox = <PictureMapToolbox handler={handler} pictureMap={data} />;
+      toolbox = <PictureMapToolbox handler={handler} pictureMap={data} readyPlace={readyPlace}/>;
       break;
     case "CategoryMap":
-      toolbox = <CategoryMapToolbox handler={handler} categoryMap={data} />;
+      toolbox = <CategoryMapToolbox handler={handler} categoryMap={data} readyPlace={readyPlace}/>;
       break;
     case "ScaleMap":
-      toolbox = <ScaleMapToolbox handler={handler} scaleMap={data} />;
+      toolbox = <ScaleMapToolbox handler={handler} scaleMap={data} readyPlace={readyPlace}/>;
       break;
     default:
       toolbox = <></>;
       break;
   }
+
+  // Handles firing the appropriate events if possible when the map is clicked.
+  // Will only fire anything if we're in the placing state.
+  const handleMapClick = (latlng) => {
+
+    if (!placing) {
+      console.log("Clicked not placing");
+      return;
+    }
+
+    placeFunction(latlng);
+
+    setPlacing(false);
+    setPlaceFunction((latlng) => {})
+  };
+
+  // Display a notification the user can click in the map when in the placing
+  // state. This is the main visual distinction for this state.
+  const notification = placing ? (
+    <Alert
+      style={{position:"absolute", margin:"auto", bottom:"20px"}}>
+      Click anywhere on the map!
+    </Alert>
+    ) : (<></>);
 
   return (
     <div className="container-fluid mt-4">
@@ -140,7 +185,9 @@ const MapEditPage = () => {
             Geometry={geoJsonData}
             mapType={params.mapType}
             GeoJsonData={data}
+            onClick={handleMapClick}
           />
+          {notification}
         </div>
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}

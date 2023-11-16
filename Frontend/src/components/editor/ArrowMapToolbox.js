@@ -1,5 +1,6 @@
 import { Card, Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import DebouncedInput from "./DebouncedInput";
 import {
   BsXLg,
   BsArrowCounterclockwise,
@@ -19,6 +20,7 @@ export default function ArrowMapToolbox(props) {
     cards.push(
       <ArrowMapLocation
         handler={props.handler}
+        readyPlace={props.readyPlace}
         index={arrowPointLocation}
         arrowPointLocation={props.arrowMap.Location[arrowPointLocation]}
       />,
@@ -52,15 +54,16 @@ export default function ArrowMapToolbox(props) {
         {cards}
         <Button
           className="inner"
-          onClick={() =>
+          onClick={() => props.readyPlace(() => (latlng) => {
+            console.log("Help! I Fired!");
             props.handler.createTrans("Location", {
-              Name: "",
-              Longitude: 0,
-              Lattitude: 0,
-              Order: null,
-              Date: "",
-            })
-          }
+                Name: "",
+                Lattitude: latlng.lat,
+                Longitude: latlng.lng,
+                Order: 0,
+                Date: "",
+              });
+          })}
         >
           Add new
         </Button>
@@ -83,14 +86,14 @@ function ArrowMapLocation(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.arrowPointLocation.Name}
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Name`,
-              val.target.value,
+              val,
             )
           }
         />
@@ -102,28 +105,37 @@ function ArrowMapLocation(props) {
         />
       </Card.Body>
       <Container style={{ padding: "20px" }}>
-        <input
+        <DebouncedInput
           className="input"
           placeholder="Order"
           value={props.arrowPointLocation.Order}
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Order`,
-              val.target.value,
+              val,
             )
           }
         />
-        <input
+        <DebouncedInput
           className="input"
           placeholder="Date"
           value={props.arrowPointLocation.Date}
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Date`,
-              val.target.value,
+              val,
             )
           }
         />
+        <Button
+        onClick={() => props.readyPlace(() => (latlng) => {
+            props.handler.compoundTrans([
+                {path: `Location[${props.index}].Lattitude`, newValue: latlng.lat},
+                {path: `Location[${props.index}].Longitude`, newValue: latlng.lng},
+            ]);
+        })}> 
+          Move 
+        </Button>
       </Container>
     </Card>
   );

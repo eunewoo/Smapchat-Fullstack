@@ -7,6 +7,7 @@ import {
 } from "react-icons/bs";
 import "./CommonToolbox.css";
 import ColorWidget from "./ColorWidget";
+import DebouncedInput from "./DebouncedInput";
 
 /// The toolbox for editing an bubble map. Expects the map data and a TransactionHandler
 /// for that data as the bubbleMap and handler props respectively.
@@ -80,14 +81,14 @@ function BubbleMapLocation(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.bubblePointLocation.Name}
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Name`,
-              val.target.value,
+              val,
             )
           }
         />
@@ -99,14 +100,14 @@ function BubbleMapLocation(props) {
         />
       </Card.Body>
       <Container style={{ padding: "20px" }}>
-        <input
+        <DebouncedInput
           className="input"
           placeholder="Size"
           value={props.bubblePointLocation.Size}
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Size`,
-              val.target.value,
+              val,
             )
           }
         />
