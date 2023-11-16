@@ -32,6 +32,8 @@ const MapEditPage = () => {
 
   console.log(params.mapType);
 
+  //TODO: Make the sample data 'blank templates' instead of samples
+  // for the final product.
   switch (params.mapType) {
     case "ArrowMap":
       defaultData = arrowData;
@@ -53,6 +55,9 @@ const MapEditPage = () => {
       break;
   }
 
+  // This contains the current map graphic data and geoJson. A transaction
+  // handler is initialized to handle operating on the data. See 
+  // TransactionHandler.js for details.
   const [data] = useState(defaultData);
   const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -70,6 +75,8 @@ const MapEditPage = () => {
     setPlaceFunction(placeFunction);
   }
 
+  // TOOD: Remove this and instead have the GeoJSON data come from the previous
+  // page somehow.
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -120,6 +127,8 @@ const MapEditPage = () => {
       }
   };
 
+  // Load an appropriate toolbox based on which map type we're editing.
+  // May be a nicer way to clean this up later...
   switch (params.mapType) {
     case "ArrowMap":
       toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} readyPlace={readyPlace}/>;
@@ -141,6 +150,8 @@ const MapEditPage = () => {
       break;
   }
 
+  // Handles firing the appropriate events if possible when the map is clicked.
+  // Will only fire anything if we're in the placing state.
   const handleMapClick = (latlng) => {
 
     if (!placing) {
@@ -154,6 +165,8 @@ const MapEditPage = () => {
     setPlaceFunction((latlng) => {})
   };
 
+  // Display a notification the user can click in the map when in the placing
+  // state. This is the main visual distinction for this state.
   const notification = placing ? (
     <Alert
       style={{position:"absolute", margin:"auto", bottom:"20px"}}>
