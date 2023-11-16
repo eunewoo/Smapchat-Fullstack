@@ -1,4 +1,5 @@
 import { webFetch, webDelete, webPost, webPut } from "./webUtil";
+import axios from "axios";
 ///all map related api
 //1
 export const fetchUserMaps = async (userId) => {
@@ -59,8 +60,26 @@ const createArrowMap = async (mapData, userId) => {
   return await webPost("/api/map/create/arrowMap", { userId, mapData });
 };
 
-const createBubbleMap = async (mapData, userId) => {
-  return await webPost("/api/map/create/bubbleMap", { userId, mapData });
+// const createBubbleMap = async (mapData, userId) => {
+//   return await webPost("/api/map/create/bubbleMap", { userId, mapData });
+// };
+export const createBubbleMap = async (mapData) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/create/bubbleMap`;
+  console.log(mapData);
+
+  try {
+    const response = await axios.post(apiUrl, mapData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Created Bubble Map:", response.data);
+    // Handle the response data as needed
+  } catch (error) {
+    console.error("Error creating Bubble Map (frontend):", error);
+    // Handle errors, show an alert, etc.
+  }
 };
 
 const createCategoryMap = async (mapData, userId) => {
