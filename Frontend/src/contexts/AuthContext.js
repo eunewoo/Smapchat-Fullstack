@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from "react";
-import { createUser } from "../util/userUtil";
+import { createUser, loginUserApi } from "../util/userUtil";
 
 export const AuthContext = createContext(null);
 
@@ -10,7 +10,22 @@ export const AuthProvider = ({ children }) => {
 
   const getLoggedIn = useCallback(async () => {}, []);
 
-  const loginUser = async ({ email, password }) => {};
+  const loginUser = async ({ email, password }) => {
+    setIsLoading(true);
+
+    const { success, data, error } = await loginUserApi(email, password);
+    if (success) {
+      setAuth({
+        user: data,
+        loggedIn: true,
+      });
+    } else {
+      console.error("Error in logging in:", error);
+    }
+
+    setIsLoading(false);
+    return { success, error };
+  };
 
   const logoutUser = useCallback(async () => {}, []);
 

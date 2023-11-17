@@ -40,6 +40,20 @@ export async function createUser(email, username, password) {
   }
 }
 
+export async function loginUserApi(email, password) {
+  const credentials = {
+    email: email,
+    password: password,
+  };
+  try {
+    const response = await webPost(`/User/login`, credentials);
+    return { success: true, data: response };
+  } catch (error) {
+    console.log("Error in logging in", error);
+    return { success: false, error: error };
+  }
+}
+
 /// Updates a user on the database with the given user data
 export async function updateUserProfile(newProfile) {
   return await webPut(`/User/update/${newProfile.userId}`, newProfile);
