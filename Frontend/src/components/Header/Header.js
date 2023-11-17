@@ -24,7 +24,6 @@ const Header = () => {
   const handleNavigateToSignup = () => navigate("/signup-page");
 
   if (authPages) {
-    console.log("nulls");
     return null;
   }
   return (
