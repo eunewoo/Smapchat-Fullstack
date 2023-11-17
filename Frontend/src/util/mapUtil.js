@@ -114,3 +114,20 @@ export const updateMapStatus = async (mapId, isPublic, userId) => {
 export const deleteMap = async (mapId, userId) => {
   return await webDelete(`/api/map/${mapId}`, { userId });
 };
+
+export const getBubbleMap = async (mapID) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/get/bubble/${mapID}`;
+
+  try {
+    const response = await axios.get(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching specific map:", error);
+    throw error;
+  }
+};

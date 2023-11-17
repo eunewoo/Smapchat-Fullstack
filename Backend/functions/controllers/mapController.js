@@ -211,3 +211,15 @@ exports.deleteMap = async (req, res, next) => {
   }
 };
 
+exports.getBubbleMap = async (req, res, next) => {
+  const { mapID } = req.params;
+
+  try {
+    const result = await MapModel.getBubbleMapByMapId(mapID);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};
+

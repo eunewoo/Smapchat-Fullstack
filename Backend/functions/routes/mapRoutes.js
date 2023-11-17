@@ -14,6 +14,7 @@ router.get("/map/public/recent", mapController.getRecentPublicMaps);
 router.get("/map/:userId/search", mapController.searchUserMapsByQuery);
 router.get("/map/:userId/top-rated", mapController.getTopRatedUserMaps);
 router.get("/map/:userId/recent", mapController.getRecentUserMaps);
+router.get("/map/get/bubble/:mapID", mapController.getBubbleMap);
 
 router.post("/map/create/pictureMap", mapController.createPictureMap);
 router.post("/map/create/arrowMap", mapController.createArrowMap);

@@ -1,5 +1,9 @@
 //importing routers from map Util
-import { createBubbleMap, fetchSpecificMap } from "../../../util/mapUtil";
+import {
+  createBubbleMap,
+  fetchSpecificMap,
+  getBubbleMap,
+} from "../../../util/mapUtil";
 const exampleMap = {
   MapID: 12345,
   Location: [
@@ -45,20 +49,23 @@ const exampleUser = {
   isActive: true,
   mapList: [1, 55],
   userType: 1,
-  verificationCode: "abc123", 
+  verificationCode: "abc123",
   isVerified: true,
 };
 
-export const getBubbleMap = async () => { 
-    const r = await fetchSpecificMap(12345);
-    console.log(r);
-}
+export const fetchBubbleMap = async () => {
+  //2this is for general map
+  // const map = await fetchSpecificMap(12345);
+
+  //2this is for only bubble map
+  const map = await getBubbleMap(12345);
+  return map;
+};
 export const makeBubbleMap = async () => {
-  createBubbleMap("6556b9cde82b7d9bd50261ff",exampleUser, exampleMap);
+  createBubbleMap("6556b9cde82b7d9bd50261ff", exampleUser, exampleMap);
 };
 export const BubbleSave = async () => {
-      // createBubbleMap("6556b9cde82b7d9bd50261ff",exampleUser, exampleMap, mapInfo);
-  
+  // createBubbleMap("6556b9cde82b7d9bd50261ff",exampleUser, exampleMap, mapInfo);
 };
 
 export const BubblePublish = async () => {};

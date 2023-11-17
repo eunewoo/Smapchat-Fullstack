@@ -182,10 +182,10 @@ class MapModel {
     try {
       // Update user's mapList
       await UserModel.findByIdAndUpdate(userId, userData);
-        const createdBubbleMap = await BubbleMapSchema.create({
-          MapID: mapData.MapID,
-          Location: mapData.Location,
-        });
+      const createdBubbleMap = await BubbleMapSchema.create({
+        MapID: mapData.MapID,
+        Location: mapData.Location,
+      });
       const createdMap = MapSchema.create(mapInfo)
         .then((createdMap) => {
           console.log("Map created:", createdMap);
@@ -193,9 +193,9 @@ class MapModel {
         .catch((error) => {
           console.error("Error creating map:", error);
         });
-        console.log("Created Bubble Map:", createdBubbleMap);
+      console.log("Created Bubble Map:", createdBubbleMap);
     } catch (error) {
-      console.log("bE error")
+      console.log("bE error");
       throw new Error(error.message);
     }
   }
@@ -280,13 +280,30 @@ class MapModel {
   //17
   static async deleteMapByMapId(mapId, userId) {
     try {
-      const deletedMap = await MapSchema.findOneAndDelete({ _id: mapId, userId });
+      const deletedMap = await MapSchema.findOneAndDelete({
+        _id: mapId,
+        userId,
+      });
 
       if (!deletedMap) {
         throw new Error("Map not found");
       }
 
       return deletedMap;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  //18
+  static async getBubbleMapByMapId(mapID) {
+    try {
+      console.log(mapID)
+      const map = await BubbleMapSchema.findOne({
+        MapID: mapID, 
+      }).exec();
+
+      return map;
     } catch (error) {
       throw new Error(error.message);
     }
