@@ -33,11 +33,10 @@ class MapModel {
     }
   }
   //3
-  static async getSpecificMapByMapId(userId, mapId) {
+  static async getSpecificMapByMapId(mapID) {
     try {
       const map = await MapSchema.findOne({
-        _id: new ObjectId(mapId),
-        userId: new ObjectId(userId),
+        MapID: mapID,
       }).exec();
 
       return map;
@@ -179,13 +178,20 @@ class MapModel {
   }
 
   //12
-  static async createBubbleMap(userId, userData, mapData) {
+  static async createBubbleMap(userId, userData, mapData, mapInfo) {
     try {
       // Update user's mapList
       await UserModel.findByIdAndUpdate(userId, userData);
         const createdBubbleMap = await BubbleMapSchema.create({
           MapID: mapData.MapID,
           Location: mapData.Location,
+        });
+      const createdMap = MapSchema.create(mapInfo)
+        .then((createdMap) => {
+          console.log("Map created:", createdMap);
+        })
+        .catch((error) => {
+          console.error("Error creating map:", error);
         });
         console.log("Created Bubble Map:", createdBubbleMap);
     } catch (error) {

@@ -11,9 +11,26 @@ export const fetchPublicMaps = async () => {
   return await webFetch("/api/map/public");
 };
 //3
-export const fetchSpecificMap = async (mapId) => {
-  return await webFetch(`/api/map/specific/${mapId}`);
+// export const fetchSpecificMap = async (mapId) => {
+//   return await webFetch(`/api/map/specific/${mapId}`);
+// };
+export const fetchSpecificMap = async (mapID) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/specific/${mapID}`;
+
+  try {
+    const response = await axios.get(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log(response.data); 
+  } catch (error) {
+    console.error("Error fetching specific map:", error);
+    throw error; 
+  }
 };
+
 export const fetchPublicSearchMaps = async (query, page, limit) => {
   return await webFetch(
     `/api/map/public/search?query=${query}&page=${page}&limit=${limit}`
@@ -59,11 +76,12 @@ export const createPictureMap = async (mapData, userId) => {
 export const createArrowMap = async (mapData, userId) => {
   return await webPost("/api/map/create/arrowMap", { userId, mapData });
 };
-export const createBubbleMap = async (userId, userData, mapData) => {
+
+export const createBubbleMap = async (userId, userData, mapData, mapInfo) => {
   const apiUrl = `${process.env.REACT_APP_URL}/map/create/bubbleMap`;
 
   try {
-    const response = await axios.post(apiUrl, { userId, userData, mapData }, {
+    const response = await axios.post(apiUrl, { userId, userData, mapData, mapInfo }, {
       headers: {
         "Content-Type": "application/json",
       },

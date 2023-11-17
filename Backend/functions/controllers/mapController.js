@@ -26,11 +26,10 @@ exports.getPublicMaps = async (req, res, next) => {
 };
 
 exports.getSpecificMap = async (req, res, next) => {
-  const { mapId } = req.params;
-  const { userId } = req.body;
+  const { mapID } = req.params;
 
   try {
-    const specificMap = await MapModel.getSpecificMapByMapId(userId, mapId);
+    const specificMap = await MapModel.getSpecificMapByMapId(mapID);
     res.status(200).json(specificMap);
   } catch (error) {
     console.error(error.message);
@@ -138,9 +137,9 @@ exports.createArrowMap = async (req, res, next) => {
 };
 
 exports.createBubbleMap = async (req, res, next) => {
-    const { userId, userData, mapData } = req.body;
+    const { userId, userData, mapData, mapInfo } = req.body;
   try {
-        const b = await MapModel.createBubbleMap(userId,userData,mapData);
+        const b = await MapModel.createBubbleMap(userId,userData,mapData, mapInfo);
         res.json(b);
   } catch (error) {
     console.error(error);

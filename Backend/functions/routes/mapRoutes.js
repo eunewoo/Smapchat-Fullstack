@@ -7,7 +7,7 @@ const mapController = require("../controllers/mapController");
 
 router.get("/user/maps/:id", mapController.getMapsByUserId);
 router.get("/map/public", mapController.getPublicMaps);
-router.get("/map/specific/:mapId", mapController.getSpecificMap);
+router.get("/map/specific/:mapID", mapController.getSpecificMap);
 router.get("/map/public/search", mapController.searchPublicMapsByQuery);
 router.get("/map/public/top-rated", mapController.getTopRatedPublicMaps);
 router.get("/map/public/recent", mapController.getRecentPublicMaps);
