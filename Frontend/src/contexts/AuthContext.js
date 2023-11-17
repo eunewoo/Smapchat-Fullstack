@@ -1,17 +1,44 @@
 import React, { createContext, useState, useCallback } from "react";
+import { createUser } from "../util/userUtil";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [auth] = useState({ user: null, loggedIn: false });
+  const [auth, setAuth] = useState({ user: null, loggedIn: false });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const getLoggedIn = useCallback(async () => {}, []);
 
-  const loginUser = useCallback(async (userData) => {}, []);
+  const loginUser = async ({ email, password }) => {};
 
   const logoutUser = useCallback(async () => {}, []);
 
-  const registerUser = useCallback(async (userData) => {}, []);
+  const registerUser = async ({ email, username, password }) => {
+    // while loading we set isLoading to true so that we can show
+    // loading progress bar or icon
+    setIsLoading(true);
+
+    const { success, data, error } = await createUser(
+      email,
+      username,
+      password
+    );
+    if (success) {
+      // here we need to set needed (global) store data
+      console.log("fetched:", data);
+      setAuth({
+        user: data,
+        loggedIn: true,
+      });
+    } else {
+      // on error, we need 1 general popup for errors handling
+      console.error("Error in fetching users:", error);
+    }
+    // when loading is complete setting isLoading to false and removing progress bar or icon
+    setIsLoading(false);
+    return { success, error };
+  };
 
   const getUserName = useCallback(() => {}, []);
 

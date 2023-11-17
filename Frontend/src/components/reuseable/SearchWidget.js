@@ -17,8 +17,8 @@ export default function SearchWidget(props) {
     { name: "Rating", value: "rating" },
   ];
 
-  const handleButtonClick = async () => {
-    await handleFetchUsers();
+  const handleButtonClick = () => {
+    handleFetchUsers();
   };
 
   return (

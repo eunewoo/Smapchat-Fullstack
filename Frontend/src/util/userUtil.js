@@ -31,7 +31,13 @@ export async function createUser(email, username, password) {
     password: password,
     avatar: "",
   };
-  return await webPost(`/User/create`, user);
+  try {
+    const response = await webPost(`/User/create`, user);
+    return { success: true, data: response };
+  } catch (error) {
+    console.log("Error in fetching Users", error);
+    return { success: false, error: error };
+  }
 }
 
 /// Updates a user on the database with the given user data
