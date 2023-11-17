@@ -178,21 +178,18 @@ class MapModel {
   }
 
   //12
-  static async createBubbleMap(userId, mapData) {
+  static async createBubbleMap(mapData) {
     try {
-      const { bubblemap } = mapData;
-
       // Update user's mapList
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: bubblemap.mapID },
-      });
+      // await UserModel.findByIdAndUpdate(userId, {
+      //   $push: { mapList: bubblemap.mapID },
+      // });
 
       // Create BubbleMap
       const createdBubbleMap = await BubbleMapSchema.create({
-        mapId: bubblemap.mapID,
-        locationIds: bubblemap.locationIds,
+        mapID: mapData.mapID,
+        locationIds: mapData.locationIds,
       });
-
       return createdBubbleMap;
     } catch (error) {
       throw new Error(error.message);

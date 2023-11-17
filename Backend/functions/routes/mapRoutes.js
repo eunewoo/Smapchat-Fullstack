@@ -174,18 +174,20 @@ router.post("/api/map/create/arrowMap", async (req, res) => {
 });
 
 //12
-router.post("/api/map/create/bubbleMap", async (req, res) => {
-  const { userId, mapData } = req.body;
-
+router.post("/map/create/bubbleMap", async (req, res) => {
+  const mapData = req.body;
   try {
-    const createdBubbleMap = await BubbleMapModel.createBubbleMap(
-      userId,
-      mapData
-    );
-    res.json(createdBubbleMap);
+    // const BubbleMapSchema = require("../database/schema/BubbleMap.js");
+    // const b = await BubbleMapSchema.create({
+    //   mapID: mapData.mapID,
+    //   locationIds: mapData.locationIds,
+    // });
+
+    const b = await MapModel.createBubbleMap(mapData);
+    res.json(b);
   } catch (error) {
     console.error(error);
-    res.status(400).send("Server Error");
+    res.status(400).send(mapData);
   }
 });
 
