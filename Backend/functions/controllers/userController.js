@@ -134,3 +134,21 @@ exports.deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.resetPassword = async (req, res, next) => {
+  try {
+    await UserModel.recoverPasswordByEmail(req.body.email);
+    res
+      .status(200)
+      .json({ successMessage: "Password recovery email sent successfully." });
+  } catch (error) {
+    console.error(error);
+    if (error.message === "User not found") {
+      res.status(404).json({ errorMessage: "User not found" });
+    } else {
+      res
+        .status(500)
+        .json({ errorMessage: "An error occurred during password recovery." });
+    }
+  }
+};
