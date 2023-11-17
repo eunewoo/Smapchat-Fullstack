@@ -76,8 +76,8 @@ async function bodiedRequest(route, data, method) {
       console.log(
         `Error from server when ${method}ing ${route}: ` + res.status
       );
-
-      throw new Error("Server responded with non-200 code");
+      const data = await res.json();
+      throw new Error(data.errorMessage);
     }
   });
 }

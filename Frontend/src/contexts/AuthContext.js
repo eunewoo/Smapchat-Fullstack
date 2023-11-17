@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from "react";
-import { createUser, loginUserApi } from "../util/userUtil";
+import { createUser, loginUserApi, resetPasswordApi } from "../util/userUtil";
 
 export const AuthContext = createContext(null);
 
@@ -55,9 +55,19 @@ export const AuthProvider = ({ children }) => {
     return { success, error };
   };
 
-  const getUserName = useCallback(() => {}, []);
+  const resetPassword = async (email) => {
+    setIsLoading(true);
 
-  const resetPassword = useCallback(async () => {}, []);
+    const { success, error } = await resetPasswordApi(email);
+    if (!success) {
+      console.error("Error in resetting password:", error);
+    }
+
+    setIsLoading(false);
+    return { success, error };
+  };
+
+  const getUserName = useCallback(() => {}, []);
 
   const updateUserName = useCallback(async () => {}, []);
 
@@ -74,6 +84,7 @@ export const AuthProvider = ({ children }) => {
   // Auth context value that will be provided to components
   const authContextValue = {
     auth,
+    isLoading,
     getLoggedIn,
     loginUser,
     logoutUser,
