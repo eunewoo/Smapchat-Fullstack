@@ -16,8 +16,8 @@ export const AuthProvider = ({ children }) => {
     const { success, data, error } = await loginUserApi(email, password);
     if (success) {
       setAuth({
-        user: data,
-        loggedIn: true,
+        user: data.user,
+        loggedIn: data.loggedIn,
       });
     } else {
       console.error("Error in logging in:", error);
@@ -43,8 +43,8 @@ export const AuthProvider = ({ children }) => {
       // here we need to set needed (global) store data
       console.log("fetched:", data);
       setAuth({
-        user: data,
-        loggedIn: true,
+        user: data.user,
+        loggedIn: data.loggedIn,
       });
     } else {
       // on error, we need 1 general popup for errors handling

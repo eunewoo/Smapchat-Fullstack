@@ -31,7 +31,7 @@ exports.getUserByEmail = async (req, res, next) => {
   }
 };
 
-exports.createUser = async (req, res, next) => {
+exports.register = async (req, res, next) => {
   try {
     const newUser = await UserModel.createUser(
       req.body.email,
@@ -39,7 +39,7 @@ exports.createUser = async (req, res, next) => {
       req.body.password,
       req.body.avatar
     );
-    res.status(201).json(newUser);
+    res.status(201).json({ loggedIn: true, user: newUser });
   } catch (error) {
     console.error(error);
     next(error);
@@ -73,10 +73,10 @@ exports.login = async (req, res, next) => {
     // And then return the token or a success message
     // res.status(200).json({ message: "Login successful", token });
 
-    const userWithoutPassword = { ...user._doc, password: undefined };
+    const userWithoutPassword = { ...user, password: undefined };
 
     // Placeholder response for this example
-    res.status(200).json(userWithoutPassword);
+    res.status(200).json({ loggedIn: true, user: userWithoutPassword });
   } catch (error) {
     console.error(error);
     next(error);

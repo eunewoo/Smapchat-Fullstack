@@ -1,21 +1,43 @@
-const mongodb = require('mongodb');
-const UserSchema = require('../schema/User.js');
+const mongodb = require("mongodb");
+const UserSchema = require("../schema/User.js");
 const bcrypt = require("bcryptjs");
 
 class UserModel {
-
   static async findAll() {
-
-    const users = await UserSchema.find({}, '_id').exec();
+    const users = await UserSchema.find({}, "_id").exec();
     return users;
   }
 
   static async findByEmail(email) {
-    return await UserSchema.findOne({ 'email' : email }).exec();
+    const userDoc = await UserSchema.findOne({ email: email }).exec();
+
+    if (!userDoc) {
+      return null; // Or handle the user not found scenario
+    }
+
+    // Convert MongoDB ObjectId to String for userId
+    const userId = userDoc._id.toString();
+
+    // Creating a new object with the desired structure
+    const user = {
+      userId: userId,
+      email: userDoc.email,
+      username: userDoc.username,
+      password: userDoc.password,
+      avatar: userDoc.avatar,
+      isActive: userDoc.isActive,
+      mapList: userDoc.mapList,
+      userType: userDoc.userType,
+      isVerified: userDoc.isVerified,
+    };
+
+    return user;
   }
 
   static async findByID(id) {
-    const value = await UserSchema.findOne({ '_id' : new mongodb.ObjectId(id) }).exec();
+    const value = await UserSchema.findOne({
+      _id: new mongodb.ObjectId(id),
+    }).exec();
     return value;
   }
 
@@ -28,7 +50,21 @@ class UserModel {
       avatar,
     });
     await newUser.save();
-    return newUser;
+    const userId = newUser._id.toString();
+
+    // Creating a new object with the desired structure
+    const user = {
+      userId: userId,
+      email: newUser.email,
+      username: newUser.username,
+      avatar: newUser.avatar,
+      isActive: newUser.isActive,
+      mapList: newUser.mapList || [],
+      userType: newUser.userType,
+      isVerified: newUser.isVerified,
+    };
+
+    return user;
   }
 
   static async updateProfile(userId, updatedData) {
@@ -50,11 +86,7 @@ class UserModel {
   }
 
   static async updateActivationStatus(userId, isActive) {
-    return await findByIdAndUpdate(
-      userId,
-      { isActive },
-      { new: true }
-    );
+    return await findByIdAndUpdate(userId, { isActive }, { new: true });
   }
 
   static async deleteUserById(userId) {
