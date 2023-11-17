@@ -18,6 +18,7 @@ export default function PictureMapToolbox(props) {
       <PictureMapLocation
         handler={props.handler}
         index={picturePointLocation}
+        readyPlace={props.readyPlace}
         picturePointLocation={props.pictureMap.Location[picturePointLocation]}
       />,
     );
@@ -50,13 +51,14 @@ export default function PictureMapToolbox(props) {
         {cards}
         <Button
           className="inner"
-          onClick={() =>
+          onClick={() => props.readyPlace(() => (latlng) => {
             props.handler.createTrans("Location", {
               Name: "",
               Library: [],
-              Longitude: 0,
-              Lattitude: 0,
-            })
+              Longitude: latlng.lng,
+              Lattitude: latlng.lat,
+            });
+          })
           }
         >
           Add new
@@ -123,6 +125,17 @@ function PictureMapLocation(props) {
         >
           Add new
         </Button>
+
+        <Button
+          onClick={() => props.readyPlace(() => (latlng) => {
+              props.handler.compoundTrans([
+                  {path: `Location[${props.index}].Lattitude`, newValue: latlng.lat},
+                  {path: `Location[${props.index}].Longitude`, newValue: latlng.lng},
+              ]);
+          })}> 
+          Move 
+        </Button>
+
       </Container>
     </Card>
   );

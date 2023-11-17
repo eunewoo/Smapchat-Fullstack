@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useContext, useReducer } from "react";
 import "./MapEditPage.css";
 
 import arrowData from "../../editor/SampleArrowMap.json";
@@ -16,6 +16,8 @@ import ScaleMapToolbox from "../../editor/ScaleMapToolbox";
 import TransactionHandler from "../../editor/TransactionHandler";
 import MapRenderer from "../../reuseable/MapRenderer";
 
+import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
+
 import { useParams } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 
@@ -26,6 +28,9 @@ import { ArrowSave, ArrowPublish } from "./ArrowEdit";
 import { PictureSave, PicturePublish } from "./PictureEdit";
 
 const MapEditPage = () => {
+
+  const globalStore = useContext(GlobalStoreContext);
+
   var params = useParams();
   var defaultData = {};
   var toolbox = <></>;
@@ -59,7 +64,6 @@ const MapEditPage = () => {
   // handler is initialized to handle operating on the data. See 
   // TransactionHandler.js for details.
   const [data] = useState(defaultData);
-  const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const handler = useState(new TransactionHandler(data, forceUpdate))[0];
 
@@ -74,24 +78,6 @@ const MapEditPage = () => {
     setPlacing(true);
     setPlaceFunction(placeFunction);
   }
-
-  // TOOD: Remove this and instead have the GeoJSON data come from the previous
-  // page somehow.
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const uploadedData = JSON.parse(e.target.result);
-          setGeoJsonData(uploadedData);
-        } catch (error) {
-          console.error("Error reading GeoJSON file:", error);
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
 
   //save button
   const handleSaveButton = () => {
@@ -178,11 +164,10 @@ const MapEditPage = () => {
     <div className="container-fluid mt-4">
       <div className="row justify-content-center">
         <div className="col leftF p-0 rounded ms-2">
-          <input type="file" onChange={handleFileChange} accept=".json" />
           <MapRenderer
             width="100%"
             height="100%"
-            Geometry={geoJsonData}
+            Geometry={globalStore.store.currentGeoJson}
             mapType={params.mapType}
             GeoJsonData={data}
             onClick={handleMapClick}

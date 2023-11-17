@@ -76,6 +76,7 @@ function CategoryMapLocation(props) {
     cards.push(
       <CategoryMapRegion
         handler={props.handler}
+        readyPlace={props.readyPlace}
         parentIndex={props.index}
         index={region}
         region={props.categoryPointLocation.Polygons[region]}
@@ -116,10 +117,15 @@ function CategoryMapLocation(props) {
           {cards}
           <Button
             className="inner"
-            onClick={() =>
+            onClick={() => props.readyPlace(() => (latlng) => {
+
+              // TODO: Calculate appropriate coordinates here based on latlng
+              const Coordinates = [];
+
               props.handler.createTrans(`Category[${props.index}].Polygons`, {
-                Coordinates: [],
-              })
+                Coordinates: Coordinates,
+              });
+            })
             }
           >
             Add new

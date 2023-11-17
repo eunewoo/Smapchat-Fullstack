@@ -5,8 +5,9 @@ export const GlobalStoreContext = createContext(null);
 
 export const StoreProvider = ({ children }) => {
   const [store, setStore] = useState({
-    //storing all information
-    // we have to discuss it together what data we will be storing here
+    // The currently loaded GeoJSON data (after conversion). Used by the editors
+    // to carry the data over after upload.
+    currentGeoJson: {}
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +33,7 @@ export const StoreProvider = ({ children }) => {
 
   const contextData = {
     store,
+    setStore,
     isLoading,
     handleFetchUsers,
   };

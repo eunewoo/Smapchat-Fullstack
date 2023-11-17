@@ -55,7 +55,6 @@ export default function ArrowMapToolbox(props) {
         <Button
           className="inner"
           onClick={() => props.readyPlace(() => (latlng) => {
-            console.log("Help! I Fired!");
             props.handler.createTrans("Location", {
                 Name: "",
                 Lattitude: latlng.lat,
