@@ -1,5 +1,6 @@
 const UserModel = require("../database/model/UserModel");
 const bcrypt = require("bcryptjs");
+const admin = require("firebase-admin");
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -33,6 +34,16 @@ exports.getUserByEmail = async (req, res, next) => {
 
 exports.register = async (req, res, next) => {
   try {
+    const existingUser = await UserModel.findByEmail(req.body.email);
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already in use" });
+    }
+
+    const userRecord = await admin.auth().createUser({
+      email: req.body.email,
+      password: req.body.password,
+    });
+
     const newUser = await UserModel.createUser(
       req.body.email,
       req.body.username,
@@ -42,6 +53,11 @@ exports.register = async (req, res, next) => {
     res.status(201).json({ loggedIn: true, user: newUser });
   } catch (error) {
     console.error(error);
+    if (error.code === "auth/email-already-in-use") {
+      return res
+        .status(400)
+        .json({ message: "Email already in use in Firebase" });
+    }
     next(error);
   }
 };

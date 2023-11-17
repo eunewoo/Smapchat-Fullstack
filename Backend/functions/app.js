@@ -9,6 +9,8 @@ const userRoutes = require("./routes/userRoutes.js");
 const logMiddleware = require("./middleware/logger.js");
 
 const dotenv = require("dotenv");
+const admin = require("firebase-admin");
+const credentials = require("./smapchat-back-firebase-adminsdk-mqj8a-926a2ec96b.json");
 
 // read .env file to generate environment variables,
 // this will need to be disabled for production deployment
@@ -27,6 +29,8 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(logMiddleware);
+
+admin.initializeApp({ credential: admin.credential.cert(credentials) });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
