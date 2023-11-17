@@ -3,7 +3,7 @@ import React, { createContext, useState, useCallback } from "react";
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [auth] = useState({ user: null, loggedIn: false });
+  const [auth] = useState({ user: null, loggedIn: true });
 
   const getLoggedIn = useCallback(async () => {}, []);
 

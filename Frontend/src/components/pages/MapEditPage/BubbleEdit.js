@@ -1,6 +1,5 @@
 //importing routers from map Util
 import { createBubbleMap } from "../../../util/mapUtil";
-
 const exampleMap = {
   MapID: 12345,
   Location: [
@@ -33,15 +32,23 @@ const exampleUser = {
   password: "securePassword123",
   avatar: "path/to/avatar.jpg",
   isActive: true,
-  mapList: [1, 2, 3],
+  mapList: [1, 55],
   userType: 1,
   verificationCode: "abc123", 
-  isVerified: false,
+  isVerified: true,
 };
 
+export const getBubbleMap = async () => { 
 
+}
+export const makeBubbleMap = async () => {
+  // for creating map and updating users map list
+  // example user is user information with updated info
+  // example map is map for inserting into map data
+  //working
+  // createBubbleMap("6556b9cde82b7d9bd50261ff",exampleUser, exampleMap);
+};
 export const BubbleSave = async () => {
-    createBubbleMap(exampleMap);
 };
 
 export const BubblePublish = async () => {};

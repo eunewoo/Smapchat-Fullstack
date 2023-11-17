@@ -3,19 +3,19 @@ const UserSchema = require('../schema/User.js');
 const bcrypt = require("bcryptjs");
 
 class UserModel {
-
   static async findAll() {
-
-    const users = await UserSchema.find({}, '_id').exec();
+    const users = await UserSchema.find({}, "_id").exec();
     return users;
   }
 
   static async findByEmail(email) {
-    return await UserSchema.findOne({ 'email' : email }).exec();
+    return await UserSchema.findOne({ email: email }).exec();
   }
 
   static async findByID(id) {
-    const value = await UserSchema.findOne({ '_id' : new mongodb.ObjectId(id) }).exec();
+    const value = await UserSchema.findOne({
+      _id: new mongodb.ObjectId(id),
+    }).exec();
     return value;
   }
 
@@ -50,15 +50,30 @@ class UserModel {
   }
 
   static async updateActivationStatus(userId, isActive) {
-    return await findByIdAndUpdate(
-      userId,
-      { isActive },
-      { new: true }
-    );
+    return await findByIdAndUpdate(userId, { isActive }, { new: true });
   }
 
   static async deleteUserById(userId) {
     return await findByIdAndDelete(userId);
+  }
+
+  static async findByIdAndUpdate(userId, updatedData, options) {
+    try {
+      const updatedUser = await UserSchema.findOneAndUpdate(
+        { _id: new mongodb.ObjectId(userId) },
+        { $set: updatedData },
+        options
+      );
+
+      if (!updatedUser) {
+        throw new Error("User not found");
+      }
+
+      return updatedUser;
+    } catch (error) {
+      console.error("Error updating user by ID:", error);
+      throw new Error(error.message);
+    }
   }
 }
 

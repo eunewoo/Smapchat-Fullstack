@@ -138,9 +138,9 @@ exports.createArrowMap = async (req, res, next) => {
 };
 
 exports.createBubbleMap = async (req, res, next) => {
-  const mapData = req.body;
+    const { userId, userData, mapData } = req.body;
   try {
-        const b = await MapModel.createBubbleMap(mapData);
+        const b = await MapModel.createBubbleMap(userId,userData,mapData);
         res.json(b);
   } catch (error) {
     console.error(error);

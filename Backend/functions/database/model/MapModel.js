@@ -5,6 +5,7 @@ const ArrowMapSchema = require("../schema/ArrowMap.js")
 const ScaleMapSchema = require("../schema/ScaleMap.js")
 const catagoryMapSchema = require("../schema/CatagoryMap.js")
 const BubbleMapSchema = require("../schema/BubbleMap.js")
+const UserModel = require("../model/UserModel.js");
 const bcrypt = require("bcryptjs");
 
 class MapModel {
@@ -178,18 +179,15 @@ class MapModel {
   }
 
   //12
-  static async createBubbleMap(mapData) {
+  static async createBubbleMap(userId, userData, mapData) {
     try {
       // Update user's mapList
-      // await UserModel.findByIdAndUpdate(userId, {
-      //   $push: { mapList: bubblemap.mapID },
-      // });
-
-      // Create BubbleMap
-      const createdBubbleMap = await BubbleMapSchema.create({
-        MapID: mapData.MapID,
-        Location: mapData.Location,
-      });
+      await UserModel.findByIdAndUpdate(userId, userData);
+        const createdBubbleMap = await BubbleMapSchema.create({
+          MapID: mapData.MapID,
+          Location: mapData.Location,
+        });
+        console.log("Created Bubble Map:", createdBubbleMap);
     } catch (error) {
       console.log("bE error")
       throw new Error(error.message);

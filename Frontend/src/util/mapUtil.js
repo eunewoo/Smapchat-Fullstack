@@ -31,43 +31,39 @@ export const fetchRecentPublicMaps = async (page, limit) => {
 };
 
 
-const fetchUserSearchMaps = async (query, page, limit, userId) => {
+export const fetchUserSearchMaps = async (query, page, limit, userId) => {
   return await webFetch(
     `/api/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`
   );
 };
 
 
-const fetchTopRatedUserMaps = async (page, limit, userId) => {
+export const fetchTopRatedUserMaps = async (page, limit, userId) => {
   return await webFetch(
     `/api/map/${userId}/top-rated?page=${page}&limit=${limit}`
   );
 };
 
 
-const fetchRecentUserMaps = async (page, limit, userId) => {
+export const fetchRecentUserMaps = async (page, limit, userId) => {
   return await webFetch(
     `/api/map/${userId}/recent?page=${page}&limit=${limit}`
   );
 };
 
 
-const createPictureMap = async (mapData, userId) => {
+export const createPictureMap = async (mapData, userId) => {
   return await webPost("/api/map/create/pictureMap", { userId, mapData });
 };
 
-const createArrowMap = async (mapData, userId) => {
+export const createArrowMap = async (mapData, userId) => {
   return await webPost("/api/map/create/arrowMap", { userId, mapData });
 };
-
-// const createBubbleMap = async (mapData, userId) => {
-//   return await webPost("/api/map/create/bubbleMap", { userId, mapData });
-// };
-export const createBubbleMap = async (mapData) => {
+export const createBubbleMap = async (userId, userData, mapData) => {
   const apiUrl = `${process.env.REACT_APP_URL}/map/create/bubbleMap`;
 
   try {
-    const response = await axios.post(apiUrl, mapData, {
+    const response = await axios.post(apiUrl, { userId, userData, mapData }, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -81,22 +77,22 @@ export const createBubbleMap = async (mapData) => {
   }
 };
 
-const createCategoryMap = async (mapData, userId) => {
+export const createCategoryMap = async (mapData, userId) => {
   return await webPost("/api/map/create/categoryMap", { userId, mapData });
 };
 
-const createScaleMap = async (mapData, userId) => {
+export const createScaleMap = async (mapData, userId) => {
   return await webPost("/api/map/create/scaleMap", { userId, mapData });
 };
 
-const updateMap = async (mapId, mapData, userId) => {
+export const updateMap = async (mapId, mapData, userId) => {
   return await webPut("/api/map/update", { userId, mapId, mapData });
 };
 
-const updateMapStatus = async (mapId, isPublic, userId) => {
+export const updateMapStatus = async (mapId, isPublic, userId) => {
   return await webPut("/api/map/statusUpdate", { userId, mapId, isPublic });
 };
 
-const deleteMap = async (mapId, userId) => {
+export const deleteMap = async (mapId, userId) => {
   return await webDelete(`/api/map/${mapId}`, { userId });
 };
