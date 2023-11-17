@@ -48,7 +48,10 @@ export const AuthProvider = ({ children }) => {
     return { success, error };
   };
 
-  const logoutUser = useCallback(async () => {}, []);
+  const logoutUser = async () => {
+    setAuth({ user: null, loggedIn: false });
+    localStorage.removeItem("auth");
+  };
 
   const registerUser = async ({ email, username, password }) => {
     // while loading we set isLoading to true so that we can show
@@ -108,6 +111,7 @@ export const AuthProvider = ({ children }) => {
   // Auth context value that will be provided to components
   const authContextValue = {
     auth,
+    setAuth,
     isLoading,
     getLoggedIn,
     loginUser,
