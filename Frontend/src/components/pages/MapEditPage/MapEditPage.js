@@ -201,8 +201,8 @@ const MapEditPage = () => {
             <Button
               style={{ width: "40%", margin: "auto" }}
               onClick={handlePublishButton}
-            >Publish
-              
+            >
+              Publish   
             </Button>
           </div>
         </div>

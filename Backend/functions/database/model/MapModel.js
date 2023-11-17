@@ -187,11 +187,11 @@ class MapModel {
 
       // Create BubbleMap
       const createdBubbleMap = await BubbleMapSchema.create({
-        mapID: mapData.mapID,
-        locationIds: mapData.locationIds,
+        MapID: mapData.MapID,
+        Location: mapData.Location,
       });
-      return createdBubbleMap;
     } catch (error) {
+      console.log("bE error")
       throw new Error(error.message);
     }
   }

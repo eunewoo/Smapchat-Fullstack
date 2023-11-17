@@ -65,7 +65,6 @@ const createArrowMap = async (mapData, userId) => {
 // };
 export const createBubbleMap = async (mapData) => {
   const apiUrl = `${process.env.REACT_APP_URL}/map/create/bubbleMap`;
-  console.log(mapData);
 
   try {
     const response = await axios.post(apiUrl, mapData, {
