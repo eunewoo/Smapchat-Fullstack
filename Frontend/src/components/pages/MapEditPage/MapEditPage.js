@@ -32,35 +32,16 @@ const MapEditPage = () => {
   var defaultData = {};
   var toolbox = <></>;
 
-  var demo = {
-    _id: "6557cf2d77ff333b8859de94",
-    MapID: 12345,
-    Location: [
-      {
-        Name: "Gershwin Theater",
-        Longitude: -73.9852,
-        Latitude: 40.7624,
-        Color: "#FF0000",
-        Size: 5,
-        _id: "6557cf2d77ff333b8859de95",
-      },
-    ],
-    __v: 0,
-  };
-
   // map datas
   // var bubbleData = demo
   const [bubbleData1, setBubbleData] = useState({});
   const [dataFetched, setDataFetched] = useState(false);
   useEffect(() => {
+    console.log('fet')
     const fetchData = async () => {
       try {
         const result = await fetchBubbleMap();
-        if (result) {
-          setBubbleData(result);
-        } else {
-          console.error("Invalid data received:", result);
-        }
+        // setBubbleData(result);
         console.log("fetch set true")
         setDataFetched(true);
       } catch (error) {
@@ -69,7 +50,7 @@ const MapEditPage = () => {
     };
 
     fetchData();
-  }, [params, BubbleMapToolbox]);
+  }, []);
     //TODO: Make the sample data 'blank templates' instead of samples
     // for the final product.
     switch (params.mapType) {
@@ -134,7 +115,7 @@ const MapEditPage = () => {
     //save button
     const handleSaveButton = () => {
       if (params.mapType === "BubbleMap") {
-        BubbleSave();
+        BubbleSave(bubbleData);
       } else if (params.mapType === "ArrowMap") {
         ArrowSave();
       } else if (params.mapType === "ScaleMap") {
@@ -285,10 +266,12 @@ const MapEditPage = () => {
         className="d-flex align-items-center justify-content-center"
         style={{ height: "100vh" }}
       >
-        <Spinner animation="border" role="status" variant="primary">
-          <span className="sr-only"></span>
-        </Spinner>
-        <p className="ml-2">Loading...</p>
+        <div className="text-center">
+          <Spinner animation="border" role="status" variant="primary">
+            <span className="sr-only"></span>
+          </Spinner>
+          <p className="ml-2 mt-2">Loading...</p>
+        </div>
       </div>
     );
   }

@@ -3,7 +3,9 @@ import {
   createBubbleMap,
   fetchSpecificMap,
   getBubbleMap,
+  updateMap,
 } from "../../../util/mapUtil";
+
 const exampleMap = {
   MapID: 12345,
   Location: [
@@ -38,7 +40,7 @@ const mapInfo = {
   avgRate: 4.5,
   comment: [10, 15, 20],
   mapFile: "city_map.pdf",
-  public: 1,
+  public: 0,
 };
 
 const exampleUser = {
@@ -52,20 +54,25 @@ const exampleUser = {
   verificationCode: "abc123",
   isVerified: true,
 };
+const exampleUserId = "6556b9cde82b7d9bd50261ff";
 
+//1 for getting bubble map info
 export const fetchBubbleMap = async () => {
   //2this is for general map
   // const map = await fetchSpecificMap(12345);
 
   //2this is for only bubble map
-  const map = await getBubbleMap(12345);
+  const map = await getBubbleMap(mapInfo.MapID);
   return map;
 };
-export const makeBubbleMap = async () => {
-  createBubbleMap("6556b9cde82b7d9bd50261ff", exampleUser, exampleMap);
-};
+
+//2 for creating or updating if one excits bubble map info
 export const BubbleSave = async () => {
-  // createBubbleMap("6556b9cde82b7d9bd50261ff",exampleUser, exampleMap, mapInfo);
+  // createBubbleMap(exampleUserId, exampleUser, exampleMap);
+  updateMap(exampleUserId, mapInfo.MapID, mapInfo);
 };
 
-export const BubblePublish = async () => {};
+//3 changing the map publish status
+export const BubblePublish = async () => {
+     updateMap(exampleUserId, mapInfo.MapID, mapInfo)
+};

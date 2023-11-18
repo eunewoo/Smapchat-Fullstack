@@ -176,7 +176,6 @@ exports.createScaleMap = async (req, res, next) => {
 
 exports.updateMap = async (req, res, next) => {
   const { userId, mapId, mapData } = req.body;
-
   try {
     const result = await MapModel.updateMap(userId, mapId, mapData);
     res.json(result);

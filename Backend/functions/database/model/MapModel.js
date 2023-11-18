@@ -1,10 +1,10 @@
 const mongodb = require("mongodb");
 const MapSchema = require("../schema/MapSchema.js");
-const PictureSchema = require("../schema/PictureMap.js")
-const ArrowMapSchema = require("../schema/ArrowMap.js")
-const ScaleMapSchema = require("../schema/ScaleMap.js")
-const catagoryMapSchema = require("../schema/CatagoryMap.js")
-const BubbleMapSchema = require("../schema/BubbleMap.js")
+const PictureSchema = require("../schema/PictureMap.js");
+const ArrowMapSchema = require("../schema/ArrowMap.js");
+const ScaleMapSchema = require("../schema/ScaleMap.js");
+const catagoryMapSchema = require("../schema/CatagoryMap.js");
+const BubbleMapSchema = require("../schema/BubbleMap.js");
 const UserModel = require("../model/UserModel.js");
 const bcrypt = require("bcryptjs");
 
@@ -182,18 +182,32 @@ class MapModel {
     try {
       // Update user's mapList
       await UserModel.findByIdAndUpdate(userId, userData);
-      const createdBubbleMap = await BubbleMapSchema.create({
+      const checkBubble = await BubbleMapSchema.findOne({
         MapID: mapData.MapID,
-        Location: mapData.Location,
       });
-      const createdMap = MapSchema.create(mapInfo)
-        .then((createdMap) => {
-          console.log("Map created:", createdMap);
-        })
-        .catch((error) => {
-          console.error("Error creating map:", error);
+      const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
+      if (checkBubble) {
+        const upd = await BubbleMapSchema.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          { Location: mapData.Location }
+        );
+        console.log("Updated Bubble Map:");
+      } else {
+        const createdBubbleMap = await BubbleMapSchema.create({
+          MapID: mapData.MapID,
+          Location: mapData.Location,
         });
-      console.log("Created Bubble Map:", createdBubbleMap);
+        if (!checkMap) {
+          const createdMap = MapSchema.create(mapInfo)
+            .then((createdMap) => {
+              console.log("Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating map:", error);
+            });
+        }
+        console.log("Created Bubble Map:");
+      }
     } catch (error) {
       console.log("bE error");
       throw new Error(error.message);
@@ -243,12 +257,17 @@ class MapModel {
   //15
   static async updateMap(userId, mapId, mapData) {
     try {
-      const updatedMap = await MapSchema.findByIdAndUpdate(mapId, mapData, {
-        new: true,
-      });
+      const updatedMap = await MapSchema.findOneAndUpdate(
+        { MapID: mapId },
+        mapData,
+        {
+          new: true,
+        }
+      );
+      console.log(mapId)
 
       if (!updatedMap) {
-        throw new Error("Map not found");
+        throw new Error(`Map with MapID ${mapId} not found`);
       }
 
       return updatedMap;
@@ -298,9 +317,9 @@ class MapModel {
   //18
   static async getBubbleMapByMapId(mapID) {
     try {
-      console.log(mapID)
+      console.log(mapID);
       const map = await BubbleMapSchema.findOne({
-        MapID: mapID, 
+        MapID: mapID,
       }).exec();
 
       return map;

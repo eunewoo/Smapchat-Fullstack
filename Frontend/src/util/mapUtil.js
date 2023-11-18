@@ -103,8 +103,20 @@ export const createScaleMap = async (mapData, userId) => {
   return await webPost("/api/map/create/scaleMap", { userId, mapData });
 };
 
-export const updateMap = async (mapId, mapData, userId) => {
-  return await webPut("/api/map/update", { userId, mapId, mapData });
+export const updateMap = async (userId, mapId, mapData) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/update`;
+  try {
+    const response = await axios.put(apiUrl, {
+      userId,
+      mapId,
+      mapData,
+    });
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    console.error("Error updating map:", error);
+    throw error;
+  }
 };
 
 export const updateMapStatus = async (mapId, isPublic, userId) => {
