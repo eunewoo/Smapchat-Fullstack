@@ -34,10 +34,14 @@ export default function MapRenderer(props) {
       const geoJsonLayer = Leaflet.geoJSON(props.Geometry.features, {
         onEachFeature: (feature, layer) => {
           // Store each boundary in the array
-          setBoundaries((current) => [
-            ...current,
-            { feature: feature, layer: layer },
-          ]);
+          setBoundaries((current) => {
+            const newBoundaries = [
+              ...current,
+              { feature: feature, layer: layer },
+            ];
+            console.log("Updated boundaries in MapRenderer:", newBoundaries); // Log here
+            return newBoundaries;
+          });
         },
       });
       geoJsonLayer.addTo(layerGroup);
@@ -47,6 +51,7 @@ export default function MapRenderer(props) {
 
   // Render maps based on the type
   useEffect(() => {
+    console.log("render useEffect");
     if (props.mapType === "PictureMap" && mapRef.current) {
       renderPictureMap(layerGroup, props.GeoJsonData);
     } else if (props.mapType === "ArrowMap" && mapRef.current) {
@@ -64,6 +69,7 @@ export default function MapRenderer(props) {
       mapRef.current &&
       props.GeoJsonData
     ) {
+      console.log("renderScaleMap");
       renderScaleMap(layerGroup, props.GeoJsonData, boundaries); // Pass boundaries to ScaleMap
     }
     // [Other map types rendering code...]

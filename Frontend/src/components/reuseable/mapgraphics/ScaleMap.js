@@ -1,4 +1,5 @@
 import L from "leaflet";
+import * as turf from "@turf/turf";
 // import { boundaries } from "./MapRenderer.js"; // Import boundaries from MapRenderer.js
 
 // Function to blend two colors based on a percentage
@@ -25,16 +26,20 @@ const blendColors = (color1, color2, percentage) => {
 
 // Function to color a specific boundary based on lat, lng
 const colorBoundary = (lat, lng, color, boundaries) => {
-  const boundary = boundaries.find((b) =>
-    b.layer.getBounds().contains([lat, lng])
-  );
-  if (boundary) {
-    boundary.layer.setStyle({
-      fillColor: color,
-      fillOpacity: 0.5,
-      weight: 2,
-    });
-  }
+  boundaries.forEach((boundary) => {
+    // Check if the boundary polygon contains the given lat, lng
+    if (
+      L.polygon(boundary.layer.getLatLngs()).getBounds().contains([lat, lng])
+    ) {
+      boundary.layer.setStyle({
+        fillColor: color,
+        fillOpacity: 0.5,
+        weight: 2,
+      });
+    } else {
+      console.log("fail to colorboundary!");
+    }
+  });
 };
 
 // Function to create categories from data
@@ -66,21 +71,12 @@ export const renderScaleMap = (map, data, boundaries) => {
   const categories = createCategoriesFromData(data);
 
   categories.forEach((category) => {
+    console.log("lat,long", category.Position[0]);
     colorBoundary(
       category.Position[0],
       category.Position[1],
       category.Color,
       boundaries
     );
-
-    // Add circle marker (if needed)
-    L.circleMarker(category.Position, {
-      color: category.Color,
-      fillColor: category.Color,
-      fillOpacity: 0.5,
-      radius: 10,
-    })
-      .addTo(map)
-      .bindPopup(`${category.Name}: ${category.Color}`);
   });
 };
