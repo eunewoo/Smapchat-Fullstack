@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CommentComponent from "../../../reuseable/CommentComponent.js";
+import ScrollableComments from "../../../reuseable/ScrollableComments.js";
 import "../ViewMapPageStyles.css";
 
 const Comments = () => {
@@ -15,8 +15,7 @@ const Comments = () => {
         className="m-auto rounded px-3 py-4 mb-3"
         style={{ backgroundColor: "white", width: "80%" }}
       >
-        <CommentComponent />
-        <CommentComponent />
+        <ScrollableComments />
       </div>
       <div>
         <div

@@ -14,7 +14,8 @@ const HomePage = () => {
         </div>
 
         <div className="right">
-          <SearchWidget />
+          <SearchWidget 
+            id="search"/>
         </div>
       </div>
     </div>
