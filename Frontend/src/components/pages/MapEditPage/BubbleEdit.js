@@ -66,6 +66,7 @@ export const fetchBubbleMap = async () => {
 
 //2 for creating or updating if one excits bubble map info
 export const BubbleSave = async () => {
+  createBubbleMap(exampleUserId, exampleUser, exampleMap, mapInfo)
 };
 
 //3 changing the map publish status
@@ -78,8 +79,7 @@ export const BubblePublish = async () => {
 export const updateSpecificMap = async () => {
   updateMap(exampleUserId, mapInfo.MapID, mapInfo);
 };
-
 //5 getting any map
-export const getMap = async () => {
+export const fetchMap = async () => {
   const map = await fetchSpecificMap(exampleMap.MapID);
 }

@@ -163,7 +163,7 @@ const MapEditPage = () => {
           toolbox = (
             <BubbleMapToolbox
               handler={handler}
-              bubbleMap={bubbleData1}
+              bubbleMap={bubbleData}
               readyPlace={readyPlace}
             />
           );
