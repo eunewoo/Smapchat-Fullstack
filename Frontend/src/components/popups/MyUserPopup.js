@@ -43,9 +43,7 @@ export default function UserPopup(props) {
     logoutUser();
   };
 
-  const handleChange = (e) => {
-    setUpdatedUser({ ...updatedUser, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => {};
 
   return (
     <Card className="popup">
@@ -68,6 +66,7 @@ export default function UserPopup(props) {
             value={updatedUser.username}
             name="username"
             onChange={handleChange}
+            disabled={!isEditing}
           />
           <Form.Label>Email</Form.Label>
           <Form.Control
@@ -75,6 +74,7 @@ export default function UserPopup(props) {
             value={updatedUser.email}
             name="email"
             onChange={handleChange}
+            disabled={!isEditing}
           />
         </Form.Group>
 
