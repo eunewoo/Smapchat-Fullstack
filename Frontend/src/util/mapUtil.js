@@ -119,8 +119,20 @@ export const updateMap = async (userId, mapId, mapData) => {
   }
 };
 
-export const updateMapStatus = async (mapId, isPublic, userId) => {
-  return await webPut("/api/map/statusUpdate", { userId, mapId, isPublic });
+export const updateMapStatus = async (userId, mapId, isPublic) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/statusUpdate`;
+  try {
+    const response = await axios.put(apiUrl, {
+      userId,
+      mapId,
+      isPublic,
+    });
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    console.error("Error updating map status:", error);
+    throw error;
+  }
 };
 
 export const deleteMap = async (mapId, userId) => {

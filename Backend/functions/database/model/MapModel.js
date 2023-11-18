@@ -264,7 +264,7 @@ class MapModel {
           new: true,
         }
       );
-      console.log(mapId)
+      console.log(updatedMap)
 
       if (!updatedMap) {
         throw new Error(`Map with MapID ${mapId} not found`);
@@ -279,8 +279,8 @@ class MapModel {
   //16
   static async updatePublicStatus(userId, mapId, isPublic) {
     try {
-      const updatedMap = await MapSchema.findByIdAndUpdate(
-        mapId,
+      const updatedMap = await MapSchema.findOneAndUpdate(
+        { MapID: mapId },
         { public: isPublic },
         { new: true }
       );

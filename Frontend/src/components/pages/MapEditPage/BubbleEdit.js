@@ -4,6 +4,7 @@ import {
   fetchSpecificMap,
   getBubbleMap,
   updateMap,
+  updateMapStatus,
 } from "../../../util/mapUtil";
 
 const exampleMap = {
@@ -40,7 +41,7 @@ const mapInfo = {
   avgRate: 4.5,
   comment: [10, 15, 20],
   mapFile: "city_map.pdf",
-  public: 0,
+  public: 1,
 };
 
 const exampleUser = {
@@ -58,9 +59,6 @@ const exampleUserId = "6556b9cde82b7d9bd50261ff";
 
 //1 for getting bubble map info
 export const fetchBubbleMap = async () => {
-  //2this is for general map
-  // const map = await fetchSpecificMap(12345);
-
   //2this is for only bubble map
   const map = await getBubbleMap(mapInfo.MapID);
   return map;
@@ -68,11 +66,20 @@ export const fetchBubbleMap = async () => {
 
 //2 for creating or updating if one excits bubble map info
 export const BubbleSave = async () => {
-  // createBubbleMap(exampleUserId, exampleUser, exampleMap);
-  updateMap(exampleUserId, mapInfo.MapID, mapInfo);
 };
 
 //3 changing the map publish status
 export const BubblePublish = async () => {
-     updateMap(exampleUserId, mapInfo.MapID, mapInfo)
+  var examplePublicStatus = 0;
+  updateMapStatus(exampleUserId, exampleMap.MapID, examplePublicStatus);
 };
+
+//4 for updating a specfic map
+export const updateSpecificMap = async () => {
+  updateMap(exampleUserId, mapInfo.MapID, mapInfo);
+};
+
+//5 getting any map
+export const getMap = async () => {
+  const map = await fetchSpecificMap(exampleMap.MapID);
+}
