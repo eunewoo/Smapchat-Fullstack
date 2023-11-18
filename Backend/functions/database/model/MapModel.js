@@ -158,20 +158,37 @@ class MapModel {
   }
 
   //11
-  static async createArrowMap(userId, mapData) {
+  static async createArrowMap(userId, userData, mapData, mapInfo) {
     try {
-      const { arrowmap } = mapData;
-
-      const createdArrowMap = await ArrowMapSchema.create({
-        mapID: arrowmap.mapID,
-        maxpin: arrowmap.maxpin,
-        locationIds: arrowmap.locationIds,
-      });
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: createdArrowMap.mapID },
+      // Update user's mapList
+      await UserModel.findByIdAndUpdate(userId, userData);
+      const checkArrow = await ArrowMapSchema.findOne({
+        MapID: mapData.MapID,
       });
 
-      return { createdArrowMap };
+      const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
+      if (checkArrow) {
+        const upd = await BubbleMapSchema.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          { Location: mapData.Location }
+        );
+        console.log("Updated Arrow Map:");
+      } else {
+        const createdArrowMap = await ArrowMapSchema.create({
+          MapID: mapData.MapID,
+          Location: mapData.Location,
+        });
+        if (!checkMap) {
+          const createdMap = MapSchema.create(mapInfo)
+            .then((createdMap) => {
+              console.log("Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating map:", error);
+            });
+        }
+        console.log("Created Arrow Map:");
+      }
     } catch (error) {
       throw new Error(error.message);
     }
@@ -209,7 +226,6 @@ class MapModel {
         console.log("Created Bubble Map:");
       }
     } catch (error) {
-      console.log("bE error");
       throw new Error(error.message);
     }
   }
@@ -264,7 +280,7 @@ class MapModel {
           new: true,
         }
       );
-      console.log(updatedMap)
+      console.log(updatedMap);
 
       if (!updatedMap) {
         throw new Error(`Map with MapID ${mapId} not found`);

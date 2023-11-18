@@ -73,25 +73,35 @@ export const createPictureMap = async (mapData, userId) => {
   return await webPost("/api/map/create/pictureMap", { userId, mapData });
 };
 
-export const createArrowMap = async (mapData, userId) => {
-  return await webPost("/api/map/create/arrowMap", { userId, mapData });
+export const createArrowMap = async (userId,userData, mapData, mapInfo) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/create/arrowMap`;
+  try {
+    const response = await axios.post(
+      apiUrl,
+      { userId, userData, mapData, mapInfo },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log("Created Arrow Map:", response.data);
+  } catch (error) {
+    console.error("Error creating Bubble Map (frontend):", error);
+  }
 };
 
 export const createBubbleMap = async (userId, userData, mapData, mapInfo) => {
   const apiUrl = `${process.env.REACT_APP_URL}/map/create/bubbleMap`;
-
   try {
     const response = await axios.post(apiUrl, { userId, userData, mapData, mapInfo }, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-
     console.log("Created Bubble Map:", response.data);
-    // Handle the response data as needed
   } catch (error) {
     console.error("Error creating Bubble Map (frontend):", error);
-    // Handle errors, show an alert, etc.
   }
 };
 

@@ -125,10 +125,15 @@ exports.createPictureMap = async (req, res, next) => {
 };
 
 exports.createArrowMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
+  const { userId, userData, mapData, mapInfo } = req.body;
 
   try {
-    const result = await MapModel.createArrowMap(userId, mapData);
+    const result = await MapModel.createArrowMap(
+      userId,
+      userData,
+      mapData,
+      mapInfo
+    );
     res.json(result);
   } catch (error) {
     console.error(error);

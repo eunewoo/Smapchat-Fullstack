@@ -115,7 +115,7 @@ const MapEditPage = () => {
     //save button
     const handleSaveButton = () => {
       if (params.mapType === "BubbleMap") {
-        BubbleSave(bubbleData);
+        BubbleSave();
       } else if (params.mapType === "ArrowMap") {
         ArrowSave();
       } else if (params.mapType === "ScaleMap") {
@@ -132,9 +132,9 @@ const MapEditPage = () => {
     //publish button
     const handlePublishButton = () => {
       if (params.mapType === "BubbleMap") {
-        BubblePublish();
+        BubblePublish(1);
       } else if (params.mapType === "ArrowMap") {
-        ArrowPublish();
+        ArrowPublish(1);
       } else if (params.mapType === "ScaleMap") {
         ScalePublish();
       } else if (params.mapType === "PictureMap") {
