@@ -70,7 +70,8 @@ export default function ScaleMapToolbox(props) {
 
             props.handler.createTrans("Location", {
               Name: "",
-              Polygon: { Coordinates: Coordinates },
+              Lattitude: latlng.lat,
+              Longitude: latlng.lng,
               Value: 0,
             });
           })
@@ -119,6 +120,7 @@ function ScaleMapLocation(props) {
         <DebouncedInput
           className="input"
           placeholder="Value"
+          type="number"
           value={props.scalePointLocation.Value}
           onChange={(val) =>
             props.handler.updateTrans(

@@ -26,7 +26,7 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
   boundaries.forEach((boundary) => {
     // If certain point's lat,lng is in the boundary, color the boundary with that point's color value
     if (
-      L.polygon(boundary.layer.getLatLngs()).getBounds().contains([lat, lng])
+      L.polygon(boundary.layer.getLatLngs()).getBounds().contains({lat: lat, lng: lng})
     ) {
       const layer = boundary.layer;
       layer.setStyle({
@@ -44,9 +44,12 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
 
 // Function to create categories array that contains sample datas
 const createCategoriesFromData = (data) => {
-  const max = data.Location.reduce((a, b) => (a.Value > b.Value ? a : b)).Value;
+  console.log(data.Location);
+  const max = data.Location.reduce((a, b) => (parseFloat(a.Value) > parseFloat(b.Value) ? a : b)).Value;
   return data.Location.map((location, index) => {
     const scalePercentage = location.Value / max;
+    console.log("max: " + max);
+    console.log("Percent: " + location.Value / max);
     const categoryColor = blendColors(
       data.MinColor,
       data.MaxColor,
@@ -57,7 +60,8 @@ const createCategoriesFromData = (data) => {
       CategoryId: index + 1,
       Name: location.Name,
       Color: categoryColor,
-      Position: [location.Lattitude, location.Longitude],
+      Lattitude: location.Lattitude,
+      Longitude: location.Longitude
     };
   });
 };
@@ -74,9 +78,10 @@ export const renderScaleMap = (map, data, boundaries) => {
 
   // Color boundaries of geojson data, if it contains data's lat,lng
   categories.forEach((category) => {
+    console.log(category);
     colorBoundary(
-      category.Position[0],
-      category.Position[1],
+      category.Lattitude,
+      category.Longitude,
       category.Color,
       boundaries,
       map
