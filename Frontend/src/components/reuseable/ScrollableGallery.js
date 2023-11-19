@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import MapCard from "./MapCard";
 import { Spinner } from "react-bootstrap";
 import "./ScrollableGallery.css";
@@ -14,9 +14,18 @@ export default function ScrollableGallery(props) {
   const [row, setRow] = useState(0);
   const [dataFetched, setDataFetched] = useState(false);
   const [bottom, setBottom] = useState(false);
+  const [lastSearch, setLastSearch] = useState("");
 
   const numberOfColumns = props.numberOfColumns;
   const height = props.height;
+
+  if (props.lastSearch != lastSearch) {
+    setRow(0);
+    setElements([]);
+    setBottom(false);
+    setDataFetched(false);
+    setLastSearch(props.lastSearch);
+  }
 
   const addRowOfMapCards = () => {
 
@@ -29,6 +38,7 @@ export default function ScrollableGallery(props) {
       console.log(mapDataArray);
 
       if (!mapDataArray || !Array.isArray(mapDataArray) || mapDataArray.length <= 0) {
+        setDataFetched(true);
         setBottom(true);
         console.log("No more maps!");
         return;

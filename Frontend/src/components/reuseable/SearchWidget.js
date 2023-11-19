@@ -10,6 +10,7 @@ import { GlobalStoreContext } from "../../contexts/GlobalStoreContext";
 /// gallery page passed to it as props
 export default function SearchWidget(props) {
   const { handleFetchUsers } = useContext(GlobalStoreContext);
+  const [term, setTerm] = useState("");
   const [radioValue, setRadioValue] = useState("date");
 
   const radios = [
@@ -18,7 +19,7 @@ export default function SearchWidget(props) {
   ];
 
   const handleButtonClick = () => {
-    handleFetchUsers();
+    props.setSearchTerm(term);
   };
 
   return (
@@ -31,7 +32,11 @@ export default function SearchWidget(props) {
         <Button id="searchButton" onClick={handleButtonClick}>
           <BsSearch />
         </Button>
-        <input className="bar" placeholder="Search for maps"></input>
+        <input 
+        className="bar" 
+        placeholder="Search for maps"
+        value={term}
+        onChange={(e) => setTerm(e.target.value)}></input>
 
         <h3>Sort by</h3>
 
