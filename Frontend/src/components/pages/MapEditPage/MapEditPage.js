@@ -1,4 +1,4 @@
-import React, { useState, useContext, useReducer } from "react";
+import React, { useState, useEffect, useContext, useReducer } from "react";
 import "./MapEditPage.css";
 
 import arrowData from "../../editor/SampleArrowMap.json";
@@ -28,7 +28,6 @@ import { ArrowSave, ArrowPublish } from "./ArrowEdit";
 import { PictureSave, PicturePublish } from "./PictureEdit";
 
 const MapEditPage = () => {
-
   const globalStore = useContext(GlobalStoreContext);
 
   var params = useParams();
@@ -61,7 +60,7 @@ const MapEditPage = () => {
   }
 
   // This contains the current map graphic data and geoJson. A transaction
-  // handler is initialized to handle operating on the data. See 
+  // handler is initialized to handle operating on the data. See
   // TransactionHandler.js for details.
   const [data] = useState(defaultData);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -73,63 +72,93 @@ const MapEditPage = () => {
   // because of javascript weirdness, so the form would look something like:
   // readyPlace(() => (latlng) => DoSomeSuff(latlng)); when set in an onClick.
   const [placing, setPlacing] = useState(false);
-  const [placeFunction, setPlaceFunction] = useState((latlng) => {})
+  const [placeFunction, setPlaceFunction] = useState((latlng) => {});
   const readyPlace = (placeFunction) => {
     setPlacing(true);
     setPlaceFunction(placeFunction);
-  }
+  };
 
   //save button
   const handleSaveButton = () => {
-      if (params.mapType === "BubbleMap") {
-        BubbleSave();
-      } else if (params.mapType === "ArrowMap") {
-        ArrowSave();
-      } else if (params.mapType === "ScaleMap") {
-        ScaleSave();
-      } else if (params.mapType === "PictureMap") {
-        PictureSave();
-      } else if (params.mapType === "CategoryMap") {
-        CategorySave();
-      } else {
-        // Handle the default case if needed
-      }
+    if (params.mapType === "BubbleMap") {
+      BubbleSave();
+    } else if (params.mapType === "ArrowMap") {
+      ArrowSave();
+    } else if (params.mapType === "ScaleMap") {
+      ScaleSave();
+    } else if (params.mapType === "PictureMap") {
+      PictureSave();
+    } else if (params.mapType === "CategoryMap") {
+      CategorySave();
+    } else {
+      // Handle the default case if needed
+    }
   };
 
   //publish button
   const handlePublishButton = () => {
-      if (params.mapType === "BubbleMap") {
-        BubblePublish();
-      } else if (params.mapType === "ArrowMap") {
-        ArrowPublish();
-      } else if (params.mapType === "ScaleMap") {
-        ScalePublish();
-      } else if (params.mapType === "PictureMap") {
-        PicturePublish();
-      } else if (params.mapType === "CategoryMap") {
-        CategoryPublish();
-      } else {
-        // Handle the default case if needed
-      }
+    if (params.mapType === "BubbleMap") {
+      BubblePublish();
+    } else if (params.mapType === "ArrowMap") {
+      ArrowPublish();
+    } else if (params.mapType === "ScaleMap") {
+      ScalePublish();
+    } else if (params.mapType === "PictureMap") {
+      PicturePublish();
+    } else if (params.mapType === "CategoryMap") {
+      CategoryPublish();
+    } else {
+      // Handle the default case if needed
+    }
   };
 
   // Load an appropriate toolbox based on which map type we're editing.
   // May be a nicer way to clean this up later...
   switch (params.mapType) {
     case "ArrowMap":
-      toolbox = <ArrowMapToolbox handler={handler} arrowMap={data} readyPlace={readyPlace}/>;
+      toolbox = (
+        <ArrowMapToolbox
+          handler={handler}
+          arrowMap={data}
+          readyPlace={readyPlace}
+        />
+      );
       break;
     case "BubbleMap":
-      toolbox = <BubbleMapToolbox handler={handler} bubbleMap={data} readyPlace={readyPlace}/>;
+      toolbox = (
+        <BubbleMapToolbox
+          handler={handler}
+          bubbleMap={data}
+          readyPlace={readyPlace}
+        />
+      );
       break;
     case "PictureMap":
-      toolbox = <PictureMapToolbox handler={handler} pictureMap={data} readyPlace={readyPlace}/>;
+      toolbox = (
+        <PictureMapToolbox
+          handler={handler}
+          pictureMap={data}
+          readyPlace={readyPlace}
+        />
+      );
       break;
     case "CategoryMap":
-      toolbox = <CategoryMapToolbox handler={handler} categoryMap={data} readyPlace={readyPlace}/>;
+      toolbox = (
+        <CategoryMapToolbox
+          handler={handler}
+          categoryMap={data}
+          readyPlace={readyPlace}
+        />
+      );
       break;
     case "ScaleMap":
-      toolbox = <ScaleMapToolbox handler={handler} scaleMap={data} readyPlace={readyPlace}/>;
+      toolbox = (
+        <ScaleMapToolbox
+          handler={handler}
+          scaleMap={data}
+          readyPlace={readyPlace}
+        />
+      );
       break;
     default:
       toolbox = <></>;
@@ -139,7 +168,6 @@ const MapEditPage = () => {
   // Handles firing the appropriate events if possible when the map is clicked.
   // Will only fire anything if we're in the placing state.
   const handleMapClick = (latlng) => {
-
     if (!placing) {
       console.log("Clicked not placing");
       return;
@@ -148,17 +176,18 @@ const MapEditPage = () => {
     placeFunction(latlng);
 
     setPlacing(false);
-    setPlaceFunction((latlng) => {})
+    setPlaceFunction((latlng) => {});
   };
 
   // Display a notification the user can click in the map when in the placing
   // state. This is the main visual distinction for this state.
   const notification = placing ? (
-    <Alert
-      style={{position:"absolute", margin:"auto", bottom:"20px"}}>
+    <Alert style={{ position: "absolute", margin: "auto", bottom: "20px" }}>
       Click anywhere on the map!
     </Alert>
-    ) : (<></>);
+  ) : (
+    <></>
+  );
 
   return (
     <div className="container-fluid mt-4">
