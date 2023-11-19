@@ -70,21 +70,21 @@ exports.login = async (req, res, next) => {
     }
 
     // Authenticate with Firebase
-    const firebaseUser = await admin
-      .auth()
-      .signInWithEmailAndPassword(req.body.email, req.body.password);
-    if (!firebaseUser) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    // This wont work after password reset since we are not syncing Firebase reset password
-    // const isPasswordValid = await bcrypt.compare(
-    //   req.body.password,
-    //   user.password
-    // );
-    // if (!isPasswordValid) {
+    // const firebaseUser = await admin
+    //   .auth()
+    //   .signInWithEmailAndPassword(req.body.email, req.body.password);
+    // if (!firebaseUser) {
     //   return res.status(401).json({ message: "Invalid credentials" });
     // }
+
+    // This wont work after password reset since we are not syncing Firebase reset password
+    const isPasswordValid = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
     
 
     // If email verification is required, you can check here if the user is verified
