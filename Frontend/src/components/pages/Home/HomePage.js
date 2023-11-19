@@ -1,30 +1,42 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "./HomePage.css";
 import ScrollableGallery from "../../reuseable/ScrollableGallery";
 import SearchWidget from "../../reuseable/SearchWidget";
-import { fetchPublicMaps } from "../../../util/mapUtil";
+import { fetchPublicMaps, fetchPublicSearchMaps } from "../../../util/mapUtil";
 
 const HomePage = () => {
 
-  const [maps, setMaps] = useState([]);
-  const [dataFetched, setDataFetched] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try { // relace this
-        var maps = await fetchPublicMaps();
-        setMaps(maps);
-        console.log("fetch set true");
-        setDataFetched(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const fetchData = async (page, limit) => {
+    try {
+      if (!searchTerm){
+        return await fetchPublicMaps(sortTerm, page, limit);
       }
-    };
-    fetchData();
-  }, []);
+      else {
+        return await fetchPublicSearchMaps(searchTerm, sortTerm, page, limit);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    if (dataFetched) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortTerm, setSortTerm] = useState("date")
+
+  const setSearch = (value) => {
+    if (value !== searchTerm) {
+      setSearchTerm(value);
+    }
+  }
+
+  const setSort = (value) => {
+    console.log(value);
+    if (value !== sortTerm) {
+      setSortTerm(value);
+    }
+  }
+
         return (
           <div className="container-fluid mt-4">
             {/* remove height and color from the css when you add components */}
@@ -34,32 +46,21 @@ const HomePage = () => {
                 <ScrollableGallery
                   numberOfColumns={4}
                   height={125}
-                  mapDataArray={maps}
+                  fetchFunction={fetchData}
+                  lastSearch={searchTerm}
+                  lastSort={sortTerm}
                 />
               </div>
 
               <div className="right">
-                <SearchWidget />
+                <SearchWidget 
+                  setSearchTerm={setSearch}
+                  setSortTerm={setSort}/>
               </div>
             </div>
           </div>
         );
-    } else { 
-      return (
-        <div
-          className="d-flex align-items-center justify-content-center"
-          style={{ height: "100vh" }}
-        >
-          <div className="text-center">
-            <Spinner animation="border" role="status" variant="primary">
-              <span className="sr-only"></span>
-            </Spinner>
-            <p className="ml-2 mt-2">Loading...</p>
-          </div>
-        </div>
-      );
-
-  }
+    
 };
 
 export default HomePage;

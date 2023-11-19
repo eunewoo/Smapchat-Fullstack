@@ -7,8 +7,7 @@ router.get("/user/maps/:id", mapController.getMapsByUserId);
 router.get("/map/public", mapController.getPublicMaps);
 router.get("/map/specific/:mapID", mapController.getSpecificMap);
 router.get("/map/public/search", mapController.searchPublicMapsByQuery);
-router.get("/map/public/top-rated", mapController.getTopRatedPublicMaps);
-router.get("/map/public/recent", mapController.getRecentPublicMaps);
+
 router.get("/map/:userId/search", mapController.searchUserMapsByQuery);
 router.get("/map/:userId/top-rated", mapController.getTopRatedUserMaps);
 router.get("/map/:userId/recent", mapController.getRecentUserMaps);
