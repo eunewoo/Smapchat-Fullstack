@@ -45,7 +45,7 @@ class MapModel {
         // here i assumed our map list is classified by page
         // you can modify as it's needed
         .skip((page - 1) * limit)
-        .limit(parseInt(limit));
+        .limit(parseInt(limit)); 
 
       return maps;
     } catch (error) {
