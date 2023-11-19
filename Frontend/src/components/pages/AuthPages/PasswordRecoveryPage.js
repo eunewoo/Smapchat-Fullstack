@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Row,
+  Col,
+  Card,
+  Spinner,
+} from "react-bootstrap";
 import Logo from "../../../assets/images/logo2.png";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const PasswordRecoveryPage = () => {
   const navigate = useNavigate();
-  const handleRouteToHome = () => navigate("/");
+  const { resetPassword, isLoading } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [feedback, setFeedback] = useState("");
+
+  // const handleRouteToHome = () => navigate("/");
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    const { success, error } = await resetPassword(email);
+    if (success) {
+      setFeedback(
+        "Instructions to reset your password have been sent to your email."
+      );
+      // Optionally navigate to a different page or show a message
+    } else {
+      setFeedback(
+        error || "An error occurred while trying to reset the password."
+      );
+    }
+  };
 
   return (
     <Container className="d-flex vh-100">
@@ -40,20 +68,40 @@ const PasswordRecoveryPage = () => {
             Just enter your registered email address below, and we'll send you
             instructions on how to reset it.
           </div>
-          <Form className="login-form" style={{ maxWidth: "40%" }}>
+          <Form
+            className="login-form"
+            onSubmit={handleResetPassword}
+            style={{ maxWidth: "40%" }}
+          >
             <Form.Group className="mb-3" controlId="formBasicRecoveryEmail">
-              <Form.Control type="email" placeholder="Recovery E-Mail" />
+              <Form.Control
+                type="email"
+                placeholder="Recovery E-Mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </Form.Group>
 
-            <Button
-              className="btn btn-2 mx-auto mb-5"
-              size="lg"
-              type="submit"
-              onClick={handleRouteToHome}
-            >
-              Send Reset Instructions
+            <Button className="btn btn-2 mx-auto mb-5" size="lg" type="submit">
+              {isLoading ? (
+                <>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  <span className="ms-2">Loading...</span>
+                </>
+              ) : (
+                "Send Reset Instructions"
+              )}
             </Button>
           </Form>
+          {feedback && (
+            <div className="feedback-message text-white">{feedback}</div>
+          )}
         </Col>
       </Row>
     </Container>

@@ -24,7 +24,7 @@ export default function ScaleMapToolbox(props) {
   }
 
   return (
-    <Card className="toolbox">
+    <Card id="toolbox" className="toolbox">
       <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
         <Card.Title>Scale Map Editor</Card.Title>
       </Card.Body>

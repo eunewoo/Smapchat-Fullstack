@@ -28,7 +28,7 @@ export default function ArrowMapToolbox(props) {
   }
 
   return (
-    <Card className="toolbox">
+    <Card id="toolbox" className="toolbox">
       <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
         <Card.Text>Arrow Map Editor</Card.Text>
       </Card.Body>

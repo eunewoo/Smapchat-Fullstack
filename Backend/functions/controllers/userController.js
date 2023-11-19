@@ -1,5 +1,6 @@
 const UserModel = require("../database/model/UserModel");
 const bcrypt = require("bcryptjs");
+const admin = require("firebase-admin");
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -10,7 +11,7 @@ exports.getAllUsers = async (req, res, next) => {
     next(error);
   }
 };
-
+ 
 exports.getUserById = async (req, res, next) => {
   try {
     const user = await UserModel.findByID(req.params.Id);
@@ -33,6 +34,16 @@ exports.getUserByEmail = async (req, res, next) => {
 
 exports.register = async (req, res, next) => {
   try {
+    const existingUser = await UserModel.findByEmail(req.body.email);
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already in use" });
+    }
+
+    const userRecord = await admin.auth().createUser({
+      email: req.body.email,
+      password: req.body.password,
+    });
+
     const newUser = await UserModel.createUser(
       req.body.email,
       req.body.username,
@@ -42,6 +53,11 @@ exports.register = async (req, res, next) => {
     res.status(201).json({ loggedIn: true, user: newUser });
   } catch (error) {
     console.error(error);
+    if (error.code === "auth/email-already-in-use") {
+      return res
+        .status(400)
+        .json({ message: "Email already in use in Firebase" });
+    }
     next(error);
   }
 };
@@ -53,13 +69,23 @@ exports.login = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-    if (!isPasswordValid) {
+    // Authenticate with Firebase
+    const firebaseUser = await admin
+      .auth()
+      .signInWithEmailAndPassword(req.body.email, req.body.password);
+    if (!firebaseUser) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
+
+    // This wont work after password reset since we are not syncing Firebase reset password
+    // const isPasswordValid = await bcrypt.compare(
+    //   req.body.password,
+    //   user.password
+    // );
+    // if (!isPasswordValid) {
+    //   return res.status(401).json({ message: "Invalid credentials" });
+    // }
+    
 
     // If email verification is required, you can check here if the user is verified
     // if (!user.isVerified) {
@@ -69,9 +95,6 @@ exports.login = async (req, res, next) => {
     // Here we can create a token or session
     // For example, using JWT (JSON Web Token):
     // const token = jwt.sign({ id: user._id }, "your_jwt_secret", { expiresIn: "1h" });
-
-    // And then return the token or a success message
-    // res.status(200).json({ message: "Login successful", token });
 
     const userWithoutPassword = { ...user, password: undefined };
 
@@ -116,5 +139,23 @@ exports.deleteUser = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next(error);
+  }
+};
+
+exports.resetPassword = async (req, res, next) => {
+  try {
+    await UserModel.recoverPasswordByEmail(req.body.email);
+    res
+      .status(200)
+      .json({ successMessage: "Password recovery email sent successfully." });
+  } catch (error) {
+    console.error(error);
+    if (error.message === "User not found") {
+      res.status(404).json({ errorMessage: "User not found" });
+    } else {
+      res
+        .status(500)
+        .json({ errorMessage: "An error occurred during password recovery." });
+    }
   }
 };
