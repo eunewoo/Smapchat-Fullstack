@@ -4,6 +4,7 @@ import { createUser, loginUserApi } from "../util/userUtil";
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  // const [auth] = useState({ user: null, loggedIn: true });
   const [auth, setAuth] = useState({ user: null, loggedIn: false });
 
   const [isLoading, setIsLoading] = useState(false);

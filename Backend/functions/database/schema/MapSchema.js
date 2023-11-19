@@ -17,7 +17,7 @@ const MapSchema_ = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  mapID: {
+  MapID: {
     type: Number,
     required: true,
     unique: true, 
@@ -50,5 +50,5 @@ const MapSchema_ = new mongoose.Schema({
   },
 });
 
-const MapSchema = mongoose.model("MapSchema", MapSchema_);
+const MapSchema = mongoose.model("Map", MapSchema_);
 module.exports = MapSchema;
