@@ -81,7 +81,6 @@ export default function MapEditPage() {
   // handler is initialized to handle operating on the data. See
   // TransactionHandler.js for details.
   const [data] = useState(defaultData);
-  const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const handler = useState(new TransactionHandler(data, forceUpdate))[0];
 
@@ -99,21 +98,6 @@ export default function MapEditPage() {
 
   // TOOD: Remove this and instead have the GeoJSON data come from the previous
   // page somehow.
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const uploadedData = JSON.parse(e.target.result);
-          setGeoJsonData(uploadedData);
-        } catch (error) {
-          console.error("Error reading GeoJSON file:", error);
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
 
   //save button
   //TODO: Make the sample data 'blank templates' instead of samples

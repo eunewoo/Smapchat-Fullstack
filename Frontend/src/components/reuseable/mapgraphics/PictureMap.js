@@ -1,4 +1,5 @@
-import L from "leaflet";
+import L, { Icon } from "leaflet";
+import locationIcon from "../../../assets/images/location.png";
 
 export const renderPictureMap = (map, data) => {
   if (data == null) {
@@ -16,7 +17,7 @@ export const renderPictureMap = (map, data) => {
     loc.Library.map((lib) => ({
       name: lib.Name,
       images: lib.Images,
-    })),
+    }))
   );
 
   transformedLocations.forEach((location) => {
@@ -25,10 +26,13 @@ export const renderPictureMap = (map, data) => {
 };
 
 function createMarkerForLocation(map, location, libraries) {
-  const customIcon = createCustomIcon(location.name); // Assuming location.name can serve as an identifier
+  const customIcon = L.icon({
+    iconUrl: locationIcon,
+    iconSize: [36, 36],
+  });
   const marker = L.marker(
     [parseFloat(location.latitude), parseFloat(location.longitude)],
-    { icon: customIcon },
+    { icon: customIcon }
   ).addTo(map);
 
   const matchingLibraries = findMatchingLibraries(location, libraries);
