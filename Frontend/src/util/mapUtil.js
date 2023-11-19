@@ -10,7 +10,9 @@ export const fetchUserMaps = async (userId) => {
 
 //2
 export const fetchPublicMaps = async () => {
-  return await webFetch("/map/public");
+  const maps =  await webFetch("/map/public");
+  console.log("publis maps: ",maps);
+  return maps
 };
 //3
 export const fetchSpecificMap = async (mapID) => {
