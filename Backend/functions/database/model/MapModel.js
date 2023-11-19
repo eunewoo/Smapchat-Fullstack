@@ -68,7 +68,7 @@ class MapModel {
   static async searchPublicMapsByQuery(query, page = 1, limit = 20) {
     try {
       const publicMaps = await MapSchema.find({
-        title: { $regex: new RegExp(query, "i") },
+        title: { $regex: query, "$options": "i" },
       })
         .skip((page - 1) * limit)
         .limit(parseInt(limit))

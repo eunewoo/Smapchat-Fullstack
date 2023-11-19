@@ -9,8 +9,8 @@ export const fetchUserMaps = async (userId) => {
 };
 
 //2
-export const fetchPublicMaps = async () => {
-  const maps =  await webFetch("/map/public");
+export const fetchPublicMaps = async (page, limit) => {
+  const maps =  await webFetch(`/map/public?page=${page}&limit=${limit}`);
   console.log("publis maps: ",maps);
   return maps
 };
@@ -34,44 +34,44 @@ export const fetchSpecificMap = async (mapID) => {
 
 export const fetchPublicSearchMaps = async (query, page, limit) => {
   return await webFetch(
-    `/api/map/public/search?query=${query}&page=${page}&limit=${limit}`
+    `/map/public/search?query=${query}&page=${page}&limit=${limit}`
   );
 };
 
 export const fetchTopRatedPublicMaps = async (page, limit) => {
   return await webFetch(
-    `/api/map/public/top-rated?page=${page}&limit=${limit}`
+    `/map/public/top-rated?page=${page}&limit=${limit}`
   );
 };
 
 export const fetchRecentPublicMaps = async (page, limit) => {
-  return await webFetch(`/api/map/public/recent?page=${page}&limit=${limit}`);
+  return await webFetch(`/map/public/recent?page=${page}&limit=${limit}`);
 };
 
 
 export const fetchUserSearchMaps = async (query, page, limit, userId) => {
   return await webFetch(
-    `/api/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`
+    `/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`
   );
 };
 
 
 export const fetchTopRatedUserMaps = async (page, limit, userId) => {
   return await webFetch(
-    `/api/map/${userId}/top-rated?page=${page}&limit=${limit}`
+    `/map/${userId}/top-rated?page=${page}&limit=${limit}`
   );
 };
 
 
 export const fetchRecentUserMaps = async (page, limit, userId) => {
   return await webFetch(
-    `/api/map/${userId}/recent?page=${page}&limit=${limit}`
+    `/map/${userId}/recent?page=${page}&limit=${limit}`
   );
 };
 
 
 export const createPictureMap = async (mapData, userId) => {
-  return await webPost("/api/map/create/pictureMap", { userId, mapData });
+  return await webPost("/map/create/pictureMap", { userId, mapData });
 };
 
 export const createArrowMap = async (userId,userData, mapData, mapInfo) => {
@@ -107,11 +107,11 @@ export const createBubbleMap = async (userId, userData, mapData, mapInfo) => {
 };
 
 export const createCategoryMap = async (mapData, userId) => {
-  return await webPost("/api/map/create/categoryMap", { userId, mapData });
+  return await webPost("/map/create/categoryMap", { userId, mapData });
 };
 
 export const createScaleMap = async (mapData, userId) => {
-  return await webPost("/api/map/create/scaleMap", { userId, mapData });
+  return await webPost("/map/create/scaleMap", { userId, mapData });
 };
 
 export const updateMap = async (userId, mapId, mapData) => {
