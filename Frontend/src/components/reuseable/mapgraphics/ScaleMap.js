@@ -37,7 +37,7 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
       // Add the color changes on map
       map.addLayer(layer);
     } else {
-      console.log("Boundary does not contain the point!");
+      // console.log("Boundary does not contain the point");
     }
   });
 };
@@ -65,7 +65,7 @@ const createCategoriesFromData = (data) => {
 // Main function to render the scale map
 export const renderScaleMap = (map, data, boundaries) => {
   if (!data) {
-    console.log("data is not provided for main function.");
+    console.log("data is not provided for main function");
     return;
   }
 

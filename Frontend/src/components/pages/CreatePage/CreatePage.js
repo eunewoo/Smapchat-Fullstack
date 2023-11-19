@@ -10,7 +10,7 @@ const CreatePage = () => {
   console.log("Rerender!");
   const navigate = useNavigate();
 
-  const [mapType, setMapType] = useState("ArrowMap");
+  const [mapType, setMapType] = useState();
   const [preview, setPreview] = useState({});
 
   const globalStore = useContext(GlobalStoreContext);
