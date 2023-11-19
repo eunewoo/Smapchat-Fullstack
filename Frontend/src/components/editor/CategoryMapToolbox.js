@@ -1,27 +1,26 @@
 import { Card, Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import DebouncedInput from "./DebouncedInput";
+import ColorWidget from "./ColorWidget"; // Reintegrated ColorWidget
 import {
   BsXLg,
   BsArrowCounterclockwise,
   BsArrowClockwise,
 } from "react-icons/bs";
 import "./CommonToolbox.css";
-import ColorWidget from "./ColorWidget";
-import DebouncedInput from "./DebouncedInput";
 
-/// The toolbox for editing an category map. Expects the map data and a TransactionHandler
+/// The toolbox for editing a category map. Expects the map data and a TransactionHandler
 /// for that data as the categoryMap and handler props respectively.
 export default function CategoryMapToolbox(props) {
   const cards = [];
-  for (const categoryPointLocation in props.categoryMap.Category) {
+  for (const location in props.categoryMap.Location) {
     cards.push(
       <CategoryMapLocation
         handler={props.handler}
-        index={categoryPointLocation}
-        categoryPointLocation={
-          props.categoryMap.Category[categoryPointLocation]
-        }
-      />,
+        readyPlace={props.readyPlace}
+        index={location}
+        categoryLocation={props.categoryMap.Location[location]}
+      />
     );
   }
 
@@ -53,10 +52,14 @@ export default function CategoryMapToolbox(props) {
         <Button
           className="inner"
           onClick={() =>
-            props.handler.createTrans("Category", {
-              Name: "",
-              Polygons: [],
-              Color: "#FF0000",
+            props.readyPlace(() => (latlng) => {
+              props.handler.createTrans("Location", {
+                Name: "",
+                Lattitude: latlng.lat,
+                Longitude: latlng.lng,
+                Color: "#FFFFFF",
+                Subname: "",
+              });
             })
           }
         >
@@ -68,22 +71,9 @@ export default function CategoryMapToolbox(props) {
 }
 
 /// Sub-component for the CategoryMapToolbox, expects a location and category map data handler
-/// as the categoryPointLocation and handler props respectively. Also expects the index of the
-/// categoryPointLocation in the Location of the map data as the index prop.
+/// as the categoryLocation and handler props respectively. Also expects the index of the
+/// categoryLocation in the Location of the map data as the index prop.
 function CategoryMapLocation(props) {
-  const cards = [];
-  for (const region in props.categoryPointLocation.Polygons) {
-    cards.push(
-      <CategoryMapRegion
-        handler={props.handler}
-        readyPlace={props.readyPlace}
-        parentIndex={props.index}
-        index={region}
-        region={props.categoryPointLocation.Polygons[region]}
-      />,
-    );
-  }
-
   return (
     <Card className="inner">
       <Card.Body
@@ -97,76 +87,52 @@ function CategoryMapLocation(props) {
         <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
-          value={props.categoryPointLocation.Name}
+          value={props.categoryLocation.Name}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Category[${props.index}].Name`,
-              val,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Name`, val)
+          }
+        />
+        <DebouncedInput
+          className="input"
+          placeholder="Subname"
+          value={props.categoryLocation.Subname}
+          onChange={(val) =>
+            props.handler.updateTrans(`Location[${props.index}].Subname`, val)
           }
         />
         <BsXLg
           className="invisibleButton"
-          onClick={(val) =>
-            props.handler.deleteTrans("Category", props.categoryPointLocation)
+          onClick={() =>
+            props.handler.deleteTrans("Location", props.categoryLocation)
           }
         />
       </Card.Body>
       <Container style={{ padding: "20px" }}>
-        <Container>
-          {cards}
-          <Button
-            className="inner"
-            onClick={() => props.readyPlace(() => (latlng) => {
-
-              // TODO: Calculate appropriate coordinates here based on latlng
-              const Coordinates = [];
-
-              props.handler.createTrans(`Category[${props.index}].Polygons`, {
-                Coordinates: Coordinates,
-              });
-            })
-            }
-          >
-            Add new
-          </Button>
-        </Container>
-
         <ColorWidget
-          color={props.categoryPointLocation.Color}
+          color={props.categoryLocation.Color}
           onChange={(val) =>
-            props.handler.updateTrans(`Category[${props.index}].Color`, val)
+            props.handler.updateTrans(`Location[${props.index}].Color`, val)
           }
         />
+        <Button
+          onClick={() =>
+            props.readyPlace(() => (latlng) => {
+              props.handler.compoundTrans([
+                {
+                  path: `Location[${props.index}].Lattitude`,
+                  newValue: latlng.lat,
+                },
+                {
+                  path: `Location[${props.index}].Longitude`,
+                  newValue: latlng.lng,
+                },
+              ]);
+            })
+          }
+        >
+          Move
+        </Button>
       </Container>
-    </Card>
-  );
-}
-
-function CategoryMapRegion(props) {
-  return (
-    <Card className="inner">
-      <Card.Body
-        style={{
-          border: "1px solid black",
-          borderRadius: "5px",
-          color: "black",
-          height: "40px",
-          padding: "5px",
-        }}
-      >
-        Region {props.index}
-        <BsXLg
-          className="invisibleButton"
-          style={{ position: "absolute", right: "5px", top: "12px" }}
-          onClick={(val) =>
-            props.handler.deleteTrans(
-              `Category[${props.parentIndex}].Polygons`,
-              props.region,
-            )
-          }
-        />
-      </Card.Body>
     </Card>
   );
 }

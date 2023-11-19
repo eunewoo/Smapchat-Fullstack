@@ -1,0 +1,26 @@
+{
+  "MapID": "1234TEST1234",
+  "Location": [
+    {
+      "Name": "Red places",
+      "Longitude": -73.9852,
+      "Lattitude": 40.7624,
+      "Color": "#FF0000",
+      "Subname": "Gershwin Theater"
+    },
+    {
+      "Name": "Red places",
+      "Longitude": -74.13815,
+      "Lattitude": 40.5904,
+      "Color": "#FF0000",
+      "Subname": "Staten Island"
+    },
+    {
+      "Name": "Green places",
+      "Longitude": -73.9654,
+      "Lattitude": 40.6653,
+      "Color": "#00FF00",
+      "Subname": "Dumbo"
+    }
+  ]
+}
