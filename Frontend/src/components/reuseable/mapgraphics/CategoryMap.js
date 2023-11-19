@@ -24,13 +24,15 @@ export const renderCategoryMap = (map, data, boundaries) => {
     return;
   }
 
-  data.Location.forEach((location) => {
-    colorBoundary(
-      location.Lattitude,
-      location.Longitude,
-      location.Color,
-      boundaries,
-      map
-    );
+  data.Category.forEach((category) => {
+    category.Locations.forEach((location) => {
+      colorBoundary(
+        location.Lattitude,
+        location.Longitude,
+        category.Color,
+        boundaries,
+        map
+      );
+    });
   });
 };
