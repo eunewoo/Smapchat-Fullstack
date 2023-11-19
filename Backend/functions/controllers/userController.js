@@ -11,7 +11,7 @@ exports.getAllUsers = async (req, res, next) => {
     next(error);
   }
 };
-
+ 
 exports.getUserById = async (req, res, next) => {
   try {
     const user = await UserModel.findByID(req.params.Id);

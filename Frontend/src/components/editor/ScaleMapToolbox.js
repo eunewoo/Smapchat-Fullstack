@@ -24,11 +24,9 @@ export default function ScaleMapToolbox(props) {
   }
 
   return (
-    <Card className="toolbox">
+    <Card id="toolbox" className="toolbox">
       <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
         <Card.Title>Scale Map Editor</Card.Title>
-        <Card.Subtitle>Choose Min,Max color and </Card.Subtitle>
-        <Card.Subtitle>Scale it from 0% to 100% by input num </Card.Subtitle>
       </Card.Body>
 
       <Container>
@@ -65,12 +63,17 @@ export default function ScaleMapToolbox(props) {
         {cards}
         <Button
           className="inner"
-          onClick={() =>
+          onClick={() => props.readyPlace(() => (latlng) => {
+
+            // TODO: Calculate polygon bounds of the clicked polygon, based on latlng
+            const Coordinates = [];
+
             props.handler.createTrans("Location", {
               Name: "",
-              Polygon: { Coordinates: [] },
+              Polygon: { Coordinates: Coordinates },
               Value: 0,
-            })
+            });
+          })
           }
         >
           Add new

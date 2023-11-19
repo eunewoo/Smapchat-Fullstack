@@ -15,3 +15,4 @@ router.put("/User/update/activate/:Id", userController.updateUserActivation);
 router.delete("/User/delete/:Id", userController.deleteUser);
 
 module.exports = router;
+

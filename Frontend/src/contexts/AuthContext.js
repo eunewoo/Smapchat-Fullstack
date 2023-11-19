@@ -4,6 +4,7 @@ import { createUser, loginUserApi, resetPasswordApi } from "../util/userUtil";
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+
   const [auth, setAuth] = useState(() => {
     const savedAuth = localStorage.getItem("auth");
     return savedAuth ? JSON.parse(savedAuth) : { user: null, loggedIn: false };

@@ -1,11 +1,18 @@
 const cors = require("cors");
-
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "https://smapchat-bc4cd.web.app",
+    "http://10.1.181.129:3000",
+  ],
+};
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const startDB = require("./database/database.js");
 
 const indexRouter = require("./routes/index.js");
 const userRoutes = require("./routes/userRoutes.js");
+const mapRoutes = require("./routes/mapRoutes.js");
 const logMiddleware = require("./middleware/logger.js");
 
 const dotenv = require("dotenv");
@@ -21,14 +28,12 @@ startDB();
 
 var app = express();
 
-var corsOptions = {
-  origin: ["https://smapchat-bc4cd.web.app", "http://localhost:3000"],
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
-app.use(logMiddleware);
+// app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 admin.initializeApp({ credential: admin.credential.cert(credentials) });
 
@@ -36,6 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use("/", mapRoutes);
 app.use("/", indexRouter);
 app.use("/", userRoutes);
 

@@ -1,30 +1,54 @@
 const mongodb = require("mongodb");
+const UserSchema = require("../schema/User.js");
 const MapSchema = require("../schema/MapSchema.js");
-const PictureSchema = require("../schema/PictureMap.js")
-const ArrowMapSchema = require("../schema/ArrowMap.js")
-const ScaleMapSchema = require("../schema/ScaleMap.js")
-const catagoryMapSchema = require("../schema/CatagoryMap.js")
-const BubbleMapSchema = require("../schema/BubbleMap.js")
+const PictureSchema = require("../schema/PictureMap.js");
+const ArrowMapSchema = require("../schema/ArrowMap.js");
+const ScaleMapSchema = require("../schema/ScaleMap.js");
+const catagoryMapSchema = require("../schema/CatagoryMap.js");
+const BubbleMapSchema = require("../schema/BubbleMap.js");
+const UserModel = require("../model/UserModel.js");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
+const { SUPPORTED_REGIONS } = require("firebase-functions/v1");
+const { Types } = mongoose;
 
 class MapModel {
   //1
-  static async getMapsByUserId(id) {
+  static async getMapsUserId(userId) {
+    
     try {
-      const user = await MapSchema.findOne({ _id: new ObjectId(id) }).exec();
-      return user;
+      const user = await UserSchema.findOne({
+        _id: userId,
+      }).exec();
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const mapList = user.mapList || [];
+      // Fetch maps using MapID from the mapList
+      const maps = await Promise.all(
+        mapList.map(async (mapId) => {
+          const map = await MapSchema.findOne({ MapID: mapId }).exec();
+          return map;
+        })
+      );
+
+      return maps;
     } catch (error) {
       throw new Error(error.message);
     }
   }
   //2
-  static async getPublicMaps(page = 1, limit = 20) {
+  static async getPublicMaps(sort = "date", page = 1, limit = 20) {
+
+    const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
+
     try {
       const maps = await MapSchema.find()
-        // here i assumed our map list is classified by page
-        // you can modify as it's needed
+        .sort(sorter)
         .skip((page - 1) * limit)
-        .limit(parseInt(limit));
+        .limit(parseInt(limit)); 
 
       return maps;
     } catch (error) {
@@ -32,11 +56,10 @@ class MapModel {
     }
   }
   //3
-  static async getSpecificMapByMapId(userId, mapId) {
+  static async getSpecificMapByMapId(mapID) {
     try {
       const map = await MapSchema.findOne({
-        _id: new ObjectId(mapId),
-        userId: new ObjectId(userId),
+        MapID: mapID,
       }).exec();
 
       return map;
@@ -45,47 +68,20 @@ class MapModel {
     }
   }
   //4
-  static async searchPublicMapsByQuery(query, page = 1, limit = 20) {
+  static async searchPublicMapsByQuery(query, sort = "date", page = 1, limit = 20) {
+
+    const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
+
     try {
       const publicMaps = await MapSchema.find({
-        title: { $regex: new RegExp(query, "i") },
+        title: { $regex: query, "$options": "i" },
       })
+        .sort(sorter)
         .skip((page - 1) * limit)
         .limit(parseInt(limit))
         .exec();
 
       return publicMaps;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  //5
-  static async getTopRatedPublicMaps(page = 1, limit = 20) {
-    try {
-      const topRatedPublicMaps = await MapSchema.find({})
-        // here i Sorted by avgRate in descending order for give page
-        .sort({ avgRate: -1 })
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit))
-        .exec();
-
-      return topRatedPublicMaps;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  //6
-  static async getRecentPublicMaps(page = 1, limit = 20) {
-    try {
-      const recentPublicMaps = await MapSchema.find({})
-        .sort({ date: -1 }) //here i Sorted by date in descending order (recent first)
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit))
-        .exec();
-
-      return recentPublicMaps;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -158,42 +154,86 @@ class MapModel {
   }
 
   //11
-  static async createArrowMap(userId, mapData) {
+  static async createArrowMap(userId, userData, mapData, mapInfo) {
     try {
-      const { arrowmap } = mapData;
-
-      const createdArrowMap = await ArrowMapSchema.create({
-        mapID: arrowmap.mapID,
-        maxpin: arrowmap.maxpin,
-        locationIds: arrowmap.locationIds,
-      });
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: createdArrowMap.mapID },
+      // Update user's mapList
+      await UserModel.findByIdAndUpdate(userId, userData);
+      const checkArrow = await ArrowMapSchema.findOne({
+        MapID: mapData.MapID,
       });
 
-      return { createdArrowMap };
+      const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
+      if (checkArrow) {
+        const upd = await BubbleMapSchema.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          { Location: mapData.Location }
+        );
+        console.log("Updated Arrow Map:");
+      } else {
+        const createdArrowMap = await ArrowMapSchema.create({
+          MapID: mapData.MapID,
+          Location: mapData.Location,
+        });
+        if (!checkMap) {
+          const createdMap = MapSchema.create(mapInfo)
+            .then((createdMap) => {
+              console.log("Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating map:", error);
+            });
+        }
+        console.log("Created Arrow Map:");
+      }
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
   //12
-  static async createBubbleMap(userId, mapData) {
+  static async createBubbleMap(userId, userData, mapData, mapInfo) {
     try {
-      const { bubblemap } = mapData;
-
       // Update user's mapList
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: bubblemap.mapID },
+      await UserModel.findByIdAndUpdate(userId, userData);
+      const checkBubble = await BubbleMapSchema.findOne({
+        MapID: mapData.MapID,
       });
+      const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
+      if (checkBubble) {
+        const upd = await BubbleMapSchema.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          { Location: mapData.Location }
+        );
+        console.log("Updated Bubble Map:");
+      } else {
+        if (!checkMap) {
+          const createdMap = MapSchema.create(mapInfo)
+            .then((createdMap) => {
+              console.log("Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating map:", error);
+            });
+        }
 
-      // Create BubbleMap
-      const createdBubbleMap = await BubbleMapSchema.create({
-        mapId: bubblemap.mapID,
-        locationIds: bubblemap.locationIds,
-      });
+        if (!checkBubble) { 
+          const BubbleMapIndexes = await BubbleMapSchema.collection.indexes();
+          const indexesToDelete = BubbleMapIndexes.filter((index) =>
+            index.name.startsWith("mapID_")
+          );
 
-      return createdBubbleMap;
+          const dropPromises = indexesToDelete.map(async (index) => {
+            return await BubbleMapSchema.collection.dropIndex(index.name);
+          });
+          const createdBubbleMap = BubbleMapSchema.create(mapData)
+            .then((createdMap) => {
+              console.log("Bubble Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating Bubble map:",error);
+            });
+        }
+      }
     } catch (error) {
       throw new Error(error.message);
     }
@@ -242,12 +282,17 @@ class MapModel {
   //15
   static async updateMap(userId, mapId, mapData) {
     try {
-      const updatedMap = await MapSchema.findByIdAndUpdate(mapId, mapData, {
-        new: true,
-      });
+      const updatedMap = await MapSchema.findOneAndUpdate(
+        { MapID: mapId },
+        mapData,
+        {
+          new: true,
+        }
+      );
+      console.log(updatedMap);
 
       if (!updatedMap) {
-        throw new Error("Map not found");
+        throw new Error(`Map with MapID ${mapId} not found`);
       }
 
       return updatedMap;
@@ -259,8 +304,8 @@ class MapModel {
   //16
   static async updatePublicStatus(userId, mapId, isPublic) {
     try {
-      const updatedMap = await MapSchema.findByIdAndUpdate(
-        mapId,
+      const updatedMap = await MapSchema.findOneAndUpdate(
+        { MapID: mapId },
         { public: isPublic },
         { new: true }
       );
@@ -279,13 +324,30 @@ class MapModel {
   //17
   static async deleteMapByMapId(mapId, userId) {
     try {
-      const deletedMap = await MapSchema.findOneAndDelete({ _id: mapId, userId });
+      const deletedMap = await MapSchema.findOneAndDelete({
+        _id: mapId,
+        userId,
+      });
 
       if (!deletedMap) {
         throw new Error("Map not found");
       }
 
       return deletedMap;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  //18
+  static async getBubbleMapByMapId(mapID) {
+    try {
+      console.log(mapID);
+      const map = await BubbleMapSchema.findOne({
+        MapID: mapID,
+      }).exec();
+
+      return map;
     } catch (error) {
       throw new Error(error.message);
     }
