@@ -32,7 +32,7 @@ const HomePage = () => {
             <div className="row justify-content-center">
               <div className="left">
                 <ScrollableGallery
-                  numberOfColumns={2}
+                  numberOfColumns={4}
                   height={125}
                   mapDataArray={maps}
                 />
