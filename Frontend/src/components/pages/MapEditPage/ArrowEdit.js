@@ -52,11 +52,12 @@ const exampleUser = {
 };
 const exampleUserId = "6556b9cde82b7d9bd50261ff";
 
-
+//1 creating arrow map and if one alr created then it just updates
 export const ArrowSave = async () => {
     createArrowMap(exampleUserId, exampleUser, exampleMap, mapInfo);
 };
 
+//2 changes the public section of the arrowmap
 export const ArrowPublish = async (examplePublicStatus) => {
   updateMapStatus(exampleUserId, exampleMap.MapID, examplePublicStatus);
 };

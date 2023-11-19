@@ -3,17 +3,16 @@ import axios from "axios";
 ///all map related api
 //1
 export const fetchUserMaps = async (userId) => {
-  return await webFetch(`/api/user/maps/${userId}`);
+  const apiUrl = `${process.env.REACT_APP_URL}/user/maps/${userId}`;
+  const response = await axios.get(apiUrl);
+  return response.data;
 };
 
 //2
 export const fetchPublicMaps = async () => {
-  return await webFetch("/api/map/public");
+  return await webFetch("/map/public");
 };
 //3
-// export const fetchSpecificMap = async (mapId) => {
-//   return await webFetch(`/api/map/specific/${mapId}`);
-// };
 export const fetchSpecificMap = async (mapID) => {
   const apiUrl = `${process.env.REACT_APP_URL}/map/specific/${mapID}`;
 

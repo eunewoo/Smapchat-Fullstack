@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
+import {fetchUserMaps} from "../../../util/mapUtil"
 import ScrollableGallery from "../../reuseable/ScrollableGallery";
 
 const MyMapsPage = () => {
@@ -11,6 +12,13 @@ const MyMapsPage = () => {
   const handleToggleDate = () => setIsToggledDate(!isToggledDate);
 
   const handleToggleRating = () => setIsToggledRating(!isToggledRating);
+
+  //this function returns full list of users map
+  const getUserMaps = async () => { 
+    const exampleUserId = "6556b9cde82b7d9bd50261ff";  // relace this 
+    var maps = await fetchUserMaps(exampleUserId)
+    console.log(maps)
+  }
 
   return (
     <div className="container-fluid px-5 py-3 m-0">
@@ -50,6 +58,7 @@ const MyMapsPage = () => {
                   justifyContent: "center",
                   padding: "7px",
                 }}
+                onClick={getUserMaps}
               >
                 <BsSearch color="white" />
               </button>

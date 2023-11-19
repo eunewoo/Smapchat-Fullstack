@@ -1,5 +1,3 @@
-// const MapModel = require("../database/model/MapModel.js");
-// const express = require("express");
 const express = require("express");
 const router = express.Router();
 

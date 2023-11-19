@@ -1,4 +1,5 @@
 const mongodb = require("mongodb");
+const UserSchema = require("../schema/User.js");
 const MapSchema = require("../schema/MapSchema.js");
 const PictureSchema = require("../schema/PictureMap.js");
 const ArrowMapSchema = require("../schema/ArrowMap.js");
@@ -7,13 +8,32 @@ const catagoryMapSchema = require("../schema/CatagoryMap.js");
 const BubbleMapSchema = require("../schema/BubbleMap.js");
 const UserModel = require("../model/UserModel.js");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
+const { Types } = mongoose;
 
 class MapModel {
   //1
-  static async getMapsByUserId(id) {
+  static async getMapsUserId(userId) {
+    
     try {
-      const user = await MapSchema.findOne({ _id: new ObjectId(id) }).exec();
-      return user;
+      const user = await UserSchema.findOne({
+        _id: userId,
+      }).exec();
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const mapList = user.mapList || [];
+      // Fetch maps using MapID from the mapList
+      const maps = await Promise.all(
+        mapList.map(async (mapId) => {
+          const map = await MapSchema.findOne({ MapID: mapId }).exec();
+          return map;
+        })
+      );
+
+      return maps;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -210,10 +230,6 @@ class MapModel {
         );
         console.log("Updated Bubble Map:");
       } else {
-        const createdBubbleMap = await BubbleMapSchema.create({
-          MapID: mapData.MapID,
-          Location: mapData.Location,
-        });
         if (!checkMap) {
           const createdMap = MapSchema.create(mapInfo)
             .then((createdMap) => {
@@ -223,7 +239,24 @@ class MapModel {
               console.error("Error creating map:", error);
             });
         }
-        console.log("Created Bubble Map:");
+
+        if (!checkBubble) { 
+          const BubbleMapIndexes = await BubbleMapSchema.collection.indexes();
+          const indexesToDelete = BubbleMapIndexes.filter((index) =>
+            index.name.startsWith("mapID_")
+          );
+
+          const dropPromises = indexesToDelete.map(async (index) => {
+            return await BubbleMapSchema.collection.dropIndex(index.name);
+          });
+          const createdBubbleMap = BubbleMapSchema.create(mapData)
+            .then((createdMap) => {
+              console.log("Bubble Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating Bubble map:",error);
+            });
+        }
       }
     } catch (error) {
       throw new Error(error.message);

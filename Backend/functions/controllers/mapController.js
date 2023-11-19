@@ -3,9 +3,8 @@ const UserModel = require("../database/model/UserModel");
 
 exports.getMapsByUserId = async (req, res, next) => {
   const { id } = req.params;
-
   try {
-    const user = await UserModel.getMapsByUserId(id);
+    const user = await MapModel.getMapsUserId(id);
     res.status(200).json(user);
   } catch (error) {
     console.error(error);

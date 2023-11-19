@@ -40,7 +40,7 @@ const MapEditPage = () => {
     console.log('fet')
     const fetchData = async () => {
       try {
-        const result = await fetchBubbleMap();
+        // const result = await fetchBubbleMap();
         // setBubbleData(result);
         console.log("fetch set true")
         setDataFetched(true);
