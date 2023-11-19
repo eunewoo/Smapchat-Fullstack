@@ -39,16 +39,18 @@ export default function MapRenderer(props) {
           });
         },
       });
-      layerGroup.clearLayers(); // Clear existing layers
-      geoJsonLayer.addTo(layerGroup);
-      // mapRef.current.on("zoomend", () => setZoom(mapRef.current.getZoom()));
+      
+      if (mapRef.current) {
+        geoJsonLayer.addTo(mapRef.current);
+      }
     }
   }, [props.Geometry, zoom]);
 
+  layerGroup.clearLayers(); // Clear existing layers
+  // mapRef.current.on("zoomend", () => setZoom(mapRef.current.getZoom()));
+
   // Run 2nd
   // Render maps based on the type
-  useEffect(() => {
-    console.log("UseEffect2");
     if (props.mapType === "PictureMap" && props.GeoJsonData) {
       renderPictureMap(layerGroup, props.GeoJsonData);
     } else if (props.mapType === "ArrowMap" && props.GeoJsonData) {
@@ -66,7 +68,6 @@ export default function MapRenderer(props) {
       layerGroup.addTo(mapRef.current);
       console.log("UseEffect 3");
     }
-  }, [layerGroup]);
 
   return (
     <div style={{ width: props.width, height: props.height }}>
