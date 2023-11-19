@@ -13,10 +13,10 @@ exports.getMapsByUserId = async (req, res, next) => {
 };
 
 exports.getPublicMaps = async (req, res, next) => {
-  const { page = 1, limit = 20 } = req.query;
+  const { sort = "date", page = 1, limit = 20 } = req.query;
 
   try {
-    const maps = await MapModel.getPublicMaps(page, limit);
+    const maps = await MapModel.getPublicMaps(sort, page, limit);
     res.status(200).json(maps);
   } catch (error) {
     console.error(error);
@@ -37,37 +37,13 @@ exports.getSpecificMap = async (req, res, next) => {
 };
 
 exports.searchPublicMapsByQuery = async (req, res, next) => {
-  const { query, page = 1, limit = 20 } = req.query;
+  const { query, sort = "date", page = 1, limit = 20 } = req.query;
 
   try {
-    const publicMaps = await MapModel.searchPublicMapsByQuery(query, page, limit);
+    const publicMaps = await MapModel.searchPublicMapsByQuery(query, sort, page, limit);
     res.status(200).json(publicMaps);
   } catch (error) {
     console.error(error.message);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.getTopRatedPublicMaps = async (req, res, next) => {
-  const { page, limit } = req.query;
-
-  try {
-    const topRatedPublicMaps = await MapModel.getTopRatedPublicMaps(page, limit);
-    res.status(200).json(topRatedPublicMaps);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.getRecentPublicMaps = async (req, res, next) => {
-  const { page, limit } = req.query;
-
-  try {
-    const recentPublicMaps = await MapModel.getRecentPublicMaps(page, limit);
-    res.json(recentPublicMaps);
-  } catch (error) {
-    console.error(error);
     res.status(400).send("Server Error");
   }
 };

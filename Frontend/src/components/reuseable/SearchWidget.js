@@ -40,7 +40,6 @@ export default function SearchWidget(props) {
 
         <h3>Sort by</h3>
 
-        {/*TODO: This will need an OnClick handler */}
         {radios.map((radio, idx) => (
           <ToggleButton
             className="button"
@@ -50,7 +49,10 @@ export default function SearchWidget(props) {
             name="radio"
             value={radio.value}
             checked={radioValue === radio.value}
-            onChange={(e) => setRadioValue(e.currentTarget.value)}
+            onChange={(e) => {
+              setRadioValue(e.currentTarget.value);
+              props.setSortTerm(e.currentTarget.value);
+            }}
           >
             {radio.name}
           </ToggleButton>

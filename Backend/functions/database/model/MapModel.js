@@ -9,6 +9,7 @@ const BubbleMapSchema = require("../schema/BubbleMap.js");
 const UserModel = require("../model/UserModel.js");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const { SUPPORTED_REGIONS } = require("firebase-functions/v1");
 const { Types } = mongoose;
 
 class MapModel {
@@ -39,11 +40,13 @@ class MapModel {
     }
   }
   //2
-  static async getPublicMaps(page = 1, limit = 20) {
+  static async getPublicMaps(sort = "date", page = 1, limit = 20) {
+
+    const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
+
     try {
       const maps = await MapSchema.find()
-        // here i assumed our map list is classified by page
-        // you can modify as it's needed
+        .sort(sorter)
         .skip((page - 1) * limit)
         .limit(parseInt(limit)); 
 
@@ -65,47 +68,20 @@ class MapModel {
     }
   }
   //4
-  static async searchPublicMapsByQuery(query, page = 1, limit = 20) {
+  static async searchPublicMapsByQuery(query, sort = "date", page = 1, limit = 20) {
+
+    const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
+
     try {
       const publicMaps = await MapSchema.find({
         title: { $regex: query, "$options": "i" },
       })
+        .sort(sorter)
         .skip((page - 1) * limit)
         .limit(parseInt(limit))
         .exec();
 
       return publicMaps;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  //5
-  static async getTopRatedPublicMaps(page = 1, limit = 20) {
-    try {
-      const topRatedPublicMaps = await MapSchema.find({})
-        // here i Sorted by avgRate in descending order for give page
-        .sort({ avgRate: -1 })
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit))
-        .exec();
-
-      return topRatedPublicMaps;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  //6
-  static async getRecentPublicMaps(page = 1, limit = 20) {
-    try {
-      const recentPublicMaps = await MapSchema.find({})
-        .sort({ date: -1 }) //here i Sorted by date in descending order (recent first)
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit))
-        .exec();
-
-      return recentPublicMaps;
     } catch (error) {
       throw new Error(error.message);
     }
