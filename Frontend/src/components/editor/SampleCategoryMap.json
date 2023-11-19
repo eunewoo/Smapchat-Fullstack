@@ -3,49 +3,17 @@
   "Category": [
     {
       "Name": "Red places",
-      "Polygons": [
+      "Locations": [
         {
-          "Coordinates": [
-            [0, 0],
-            [0, 100],
-            [100, 0]
-          ]
-        },
-        {
-          "Coordinates": [
-            [20, 0],
-            [20, 100],
-            [120, 0]
-          ]
-        },
-        {
-          "Coordinates": [
-            [40, 0],
-            [40, 100],
-            [140, 0]
-          ]
+          "Lattitude": 30.23,
+          "Longitude": 20.25
         }
       ],
-      "Color": "#FF0000"
+      "Color": "#222222"
     },
     {
       "Name": "Blue places",
-      "Polygons": [
-        {
-          "Coordinates": [
-            [60, 0],
-            [60, 100],
-            [160, 0]
-          ]
-        },
-        {
-          "Coordinates": [
-            [80, 0],
-            [80, 100],
-            [180, 0]
-          ]
-        }
-      ],
+      "Locations": [],
       "Color": "#2222FF"
     }
   ]
