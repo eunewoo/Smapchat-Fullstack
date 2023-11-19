@@ -13,12 +13,18 @@
       "Name": "Time Square",
       "Longitude": -73.9853,
       "Lattitude": 40.7581,
-      "Value": 50
+      "Value": 100
     },
     {
-      "Name": "Time Square",
-      "Longitude": -73.9853,
-      "Lattitude": 40.7581,
+      "Name": "MoMA",
+      "Longitude": -73.9776,
+      "Lattitude": 40.7615,
+      "Value": 100
+    },
+    {
+      "Name": "Dumbo",
+      "Longitude": -73.9654,
+      "Lattitude": 40.6653,
       "Value": 0
     }
   ]

@@ -27,10 +27,13 @@ export default function MapRenderer(props) {
     }
   }, [layerGroup]);
 
+  // Refresh rendered layers
   layerGroup.eachLayer((layer) => layer.remove());
 
   useEffect(() => {
     if (props.Geometry && mapRef.current) {
+      layerGroup.clearLayers(); // Clear existing layers
+
       const geoJsonLayer = Leaflet.geoJSON(props.Geometry.features, {
         onEachFeature: (feature, layer) => {
           // Store each boundary in the array
@@ -47,7 +50,7 @@ export default function MapRenderer(props) {
       geoJsonLayer.addTo(layerGroup);
       mapRef.current.on("zoomend", () => setZoom(mapRef.current.getZoom()));
     }
-  }, [props.Geometry, mapRef, layerGroup]);
+  }, [props.Geometry, zoom, mapRef, layerGroup]);
 
   // Render maps based on the type
   useEffect(() => {
@@ -73,7 +76,7 @@ export default function MapRenderer(props) {
       renderScaleMap(layerGroup, props.GeoJsonData, boundaries); // Pass boundaries to ScaleMap
     }
     // [Other map types rendering code...]
-  }, [props, boundaries, layerGroup]);
+  }, [props, zoom, boundaries, layerGroup]);
 
   return (
     <div style={{ width: props.width, height: props.height }}>

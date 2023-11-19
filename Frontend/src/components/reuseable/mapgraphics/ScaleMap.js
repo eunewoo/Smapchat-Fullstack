@@ -1,8 +1,6 @@
 import L from "leaflet";
-import * as turf from "@turf/turf";
-// import { boundaries } from "./MapRenderer.js"; // Import boundaries from MapRenderer.js
 
-// Function to blend two colors based on a percentage
+// Function to convert value into color based on min, max color
 const blendColors = (color1, color2, percentage) => {
   let r = Math.round(
     parseInt(color1.substring(1, 3), 16) * (1 - percentage) +
@@ -22,27 +20,29 @@ const blendColors = (color1, color2, percentage) => {
     .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 };
 
-// Assuming blendColors function is already defined here
-
+// Boundaries is the array of coordinates that is formed when render map data in MapRenderer.js file
 // Function to color a specific boundary based on lat, lng
-const colorBoundary = (lat, lng, color, boundaries) => {
+const colorBoundary = (lat, lng, color, boundaries, map) => {
   boundaries.forEach((boundary) => {
-    // Check if the boundary polygon contains the given lat, lng
+    // If certain point's lat,lng is in the boundary, color the boundary with that point's color value
     if (
       L.polygon(boundary.layer.getLatLngs()).getBounds().contains([lat, lng])
     ) {
-      boundary.layer.setStyle({
+      const layer = boundary.layer;
+      layer.setStyle({
         fillColor: color,
         fillOpacity: 0.5,
         weight: 2,
       });
+      // Add the color changes on map
+      map.addLayer(layer);
     } else {
-      console.log("fail to colorboundary!");
+      console.log("Boundary does not contain the point!");
     }
   });
 };
 
-// Function to create categories from data
+// Function to create categories array that contains sample datas
 const createCategoriesFromData = (data) => {
   const max = data.Location.reduce((a, b) => (a.Value > b.Value ? a : b)).Value;
   return data.Location.map((location, index) => {
@@ -65,18 +65,21 @@ const createCategoriesFromData = (data) => {
 // Main function to render the scale map
 export const renderScaleMap = (map, data, boundaries) => {
   if (!data) {
+    console.log("data is not provided for main function.");
     return;
   }
 
+  // Categories is array that contains sample data
   const categories = createCategoriesFromData(data);
 
+  // Color boundaries of geojson data, if it contains data's lat,lng
   categories.forEach((category) => {
-    console.log("lat,long", category.Position[0]);
     colorBoundary(
       category.Position[0],
       category.Position[1],
       category.Color,
-      boundaries
+      boundaries,
+      map
     );
   });
 };
