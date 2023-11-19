@@ -37,7 +37,6 @@ const MapEditPage = () => {
   const [bubbleData1, setBubbleData] = useState({});
   const [dataFetched, setDataFetched] = useState(false);
   useEffect(() => {
-    console.log('fet')
     const fetchData = async () => {
       try {
         // const result = await fetchBubbleMap();
