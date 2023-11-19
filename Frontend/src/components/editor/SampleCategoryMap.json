@@ -1,52 +1,26 @@
 {
   "MapID": "1234TEST1234",
-  "Category": [
+  "Location": [
     {
       "Name": "Red places",
-      "Polygons": [
-        {
-          "Coordinates": [
-            [0, 0],
-            [0, 100],
-            [100, 0]
-          ]
-        },
-        {
-          "Coordinates": [
-            [20, 0],
-            [20, 100],
-            [120, 0]
-          ]
-        },
-        {
-          "Coordinates": [
-            [40, 0],
-            [40, 100],
-            [140, 0]
-          ]
-        }
-      ],
-      "Color": "#FF0000"
+      "Longitude": -73.9852,
+      "Lattitude": 40.7624,
+      "Color": "#FF0000",
+      "Subname": "Gershwin Theater"
     },
     {
-      "Name": "Blue places",
-      "Polygons": [
-        {
-          "Coordinates": [
-            [60, 0],
-            [60, 100],
-            [160, 0]
-          ]
-        },
-        {
-          "Coordinates": [
-            [80, 0],
-            [80, 100],
-            [180, 0]
-          ]
-        }
-      ],
-      "Color": "#2222FF"
+      "Name": "Red places",
+      "Longitude": -74.13815,
+      "Lattitude": 40.5904,
+      "Color": "#FF0000",
+      "Subname": "Staten Island"
+    },
+    {
+      "Name": "Green places",
+      "Longitude": -73.9654,
+      "Lattitude": 40.6653,
+      "Color": "#00FF00",
+      "Subname": "Dumbo"
     }
   ]
 }

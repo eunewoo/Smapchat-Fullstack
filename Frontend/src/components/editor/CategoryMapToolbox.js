@@ -1,7 +1,7 @@
 import { Card, Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import DebouncedInput from "./DebouncedInput";
-import ColorWidget from "./ColorWidget"; // Reintegrated ColorWidget
+import ColorWidget from "./ColorWidget";
 import {
   BsXLg,
   BsArrowCounterclockwise,
@@ -9,20 +9,8 @@ import {
 } from "react-icons/bs";
 import "./CommonToolbox.css";
 
-/// The toolbox for editing a category map. Expects the map data and a TransactionHandler
-/// for that data as the categoryMap and handler props respectively.
 export default function CategoryMapToolbox(props) {
-  const cards = [];
-  for (const location in props.categoryMap.Location) {
-    cards.push(
-      <CategoryMapLocation
-        handler={props.handler}
-        readyPlace={props.readyPlace}
-        index={location}
-        categoryLocation={props.categoryMap.Location[location]}
-      />
-    );
-  }
+  const groupedLocations = groupLocationsByName(props.categoryMap.Location);
 
   return (
     <Card className="toolbox">
@@ -48,7 +36,14 @@ export default function CategoryMapToolbox(props) {
       </Container>
 
       <Container className="scroller">
-        {cards}
+        {groupedLocations.map((group, index) => (
+          <CategoryMapLocation
+            key={index}
+            handler={props.handler}
+            readyPlace={props.readyPlace}
+            categoryGroup={group}
+          />
+        ))}
         <Button
           className="inner"
           onClick={() =>
@@ -70,69 +65,79 @@ export default function CategoryMapToolbox(props) {
   );
 }
 
-/// Sub-component for the CategoryMapToolbox, expects a location and category map data handler
-/// as the categoryLocation and handler props respectively. Also expects the index of the
-/// categoryLocation in the Location of the map data as the index prop.
-function CategoryMapLocation(props) {
+function CategoryMapLocation({ handler, readyPlace, categoryGroup }) {
+  // Assuming all locations in a group have the same Name and Color
+  const { Name, Color } = categoryGroup[0];
+
   return (
     <Card className="inner">
       <Card.Body
-        style={{
-          backgroundColor: "#0C0D34",
-          color: "white",
-          height: "40px",
-          padding: "5px",
-        }}
+        style={{ backgroundColor: "#0C0D34", color: "white", padding: "5px" }}
       >
         <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
-          value={props.categoryLocation.Name}
+          value={Name}
           onChange={(val) =>
-            props.handler.updateTrans(`Location[${props.index}].Name`, val)
+            categoryGroup.forEach((loc, idx) =>
+              handler.updateTrans(`Location[${idx}].Name`, val)
+            )
           }
         />
-        <DebouncedInput
-          className="input"
-          placeholder="Subname"
-          value={props.categoryLocation.Subname}
+        <ColorWidget
+          color={Color}
           onChange={(val) =>
-            props.handler.updateTrans(`Location[${props.index}].Subname`, val)
-          }
-        />
-        <BsXLg
-          className="invisibleButton"
-          onClick={() =>
-            props.handler.deleteTrans("Location", props.categoryLocation)
+            categoryGroup.forEach((loc, idx) =>
+              handler.updateTrans(`Location[${idx}].Color`, val)
+            )
           }
         />
       </Card.Body>
+      {categoryGroup.map((location, index) => (
+        <Container key={index} style={{ padding: "5px" }}>
+          <DebouncedInput
+            className="input"
+            placeholder="Subname"
+            value={location.Subname}
+            onChange={(val) =>
+              handler.updateTrans(`Location[${index}].Subname`, val)
+            }
+          />
+          <BsXLg
+            className="invisibleButton"
+            onClick={() => handler.deleteTrans("Location", location)}
+          />
+        </Container>
+      ))}
       <Container style={{ padding: "20px" }}>
-        <ColorWidget
-          color={props.categoryLocation.Color}
-          onChange={(val) =>
-            props.handler.updateTrans(`Location[${props.index}].Color`, val)
-          }
-        />
         <Button
           onClick={() =>
-            props.readyPlace(() => (latlng) => {
-              props.handler.compoundTrans([
-                {
-                  path: `Location[${props.index}].Lattitude`,
-                  newValue: latlng.lat,
-                },
-                {
-                  path: `Location[${props.index}].Longitude`,
-                  newValue: latlng.lng,
-                },
-              ]);
+            readyPlace(() => (latlng) => {
+              const newLocation = {
+                Name: Name,
+                Lattitude: latlng.lat,
+                Longitude: latlng.lng,
+                Color: Color,
+                Subname: "",
+              };
+              handler.createTrans("Location", newLocation);
             })
           }
         >
-          Move
+          Add new
         </Button>
       </Container>
     </Card>
   );
+}
+
+function groupLocationsByName(locations) {
+  const grouped = {};
+  locations.forEach((location) => {
+    if (!grouped[location.Name]) {
+      grouped[location.Name] = [];
+    }
+    grouped[location.Name].push(location);
+  });
+  return Object.values(grouped);
 }
