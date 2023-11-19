@@ -9,6 +9,7 @@ const corsOptions = {
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const startDB = require("./database/database.js");
+const stopDB = require("./database/database.js");
 
 const indexRouter = require("./routes/index.js");
 const userRoutes = require("./routes/userRoutes.js");
@@ -18,6 +19,7 @@ const logMiddleware = require("./middleware/logger.js");
 const dotenv = require("dotenv");
 const admin = require("firebase-admin");
 const credentials = require("./smapchat-back-firebase-adminsdk-mqj8a-926a2ec96b.json");
+const { default: mongoose } = require("mongoose");
 
 // read .env file to generate environment variables,
 // this will need to be disabled for production deployment
@@ -50,6 +52,14 @@ app.use(function (err, req, res, next) {
   console.log(err);
   res.status(err.status || 500);
   next();
+});
+
+process.on('SIGTERM', () => {
+  mongoose.disconnect();
+});
+
+process.on('SIGINT', () => {
+  mongoose.disconnect();
 });
 
 module.exports = app;
