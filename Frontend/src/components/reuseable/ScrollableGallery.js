@@ -14,29 +14,66 @@ export default function ScrollableGallery(props) {
 
   const numberOfColumns = props.numberOfColumns;
   const height = props.height;
+  const mapDataArray = props.mapDataArray;
 
   // TODO: Replace with actual get to fetch a row
+  // const addRowOfMapCards = () => {
+  //   const newRow = (
+  //     <div className="row" key={`row-${row}`}>
+  //       {Array.from({ length: 6 }, (_, index) => (
+  //         <MapCard
+  //           key={`row-${row}-card-${index}`}
+  //           numberOfColumns={numberOfColumns}
+  //         />
+  //       ))}
+  //     </div>
+      
+  //   );
+  //   setElements([...elements, newRow]);
+  //   setRow(row + 1);
+  // };
+
+  // // Initial load
+  // useEffect(() => {
+  //   if (elements.length === 0) {
+  //     addRowOfMapCards();
+  //   }
+  // }); // Dependency array ensures this only runs when elements.length changes
+
   const addRowOfMapCards = () => {
     const newRow = (
       <div className="row" key={`row-${row}`}>
-        {Array.from({ length: 6 }, (_, index) => (
-          <MapCard
-            key={`row-${row}-card-${index}`}
-            numberOfColumns={numberOfColumns}
-          />
-        ))}
+        {mapDataArray &&
+          (Array.isArray(mapDataArray)
+            ? mapDataArray
+                .slice(row * numberOfColumns, (row + 1) * numberOfColumns)
+                .map((mapData, index) => (
+                  <MapCard
+                    key={`row-${row}-card-${index}`}
+                    numberOfColumns={numberOfColumns}
+                    mapData={mapData}
+                  />
+                ))
+            : Array.from({ length: 6 }, (_, index) => (
+                <MapCard
+                  key={`row-${row}-card-${index}`}
+                  numberOfColumns={numberOfColumns}
+                />
+              )))}
       </div>
     );
+
     setElements([...elements, newRow]);
     setRow(row + 1);
   };
 
   // Initial load
   useEffect(() => {
-    if (elements.length === 0) {
+    if (elements.length === 0 && Array.isArray(mapDataArray)) {
       addRowOfMapCards();
     }
-  }); // Dependency array ensures this only runs when elements.length changes
+  }, [elements, mapDataArray, numberOfColumns, row]);
+
 
   // This handler handles the scrolling event, which will
   // fetch a new set of maps and create map cards for them

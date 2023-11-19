@@ -96,7 +96,11 @@ const MyMapsPage = () => {
             </div>
           </div>
         </div>
-        <ScrollableGallery numberOfColumns={3} height={170} />
+        <ScrollableGallery
+          numberOfColumns={3}
+          height={170}
+          mapDataArray={maps} 
+        />
       </div>
     );
   }else {

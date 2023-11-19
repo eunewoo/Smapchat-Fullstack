@@ -7,7 +7,13 @@ import "./MapCard.css";
 
 export default function MapCard(props) {
   // The map data that this card is displaying
-  const [mapData, setMapData] = useState({});
+  const [mapData, setMapData] = useState(
+    props.mapData || {
+      avgRate: 0, // Replace with your default values
+      title: "Loading...",
+      author: "Loading...",
+    }
+  );
   const numberOfColumns = props.numberOfColumns;
   const navigate = useNavigate();
   let cardWidth = 45;
