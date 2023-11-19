@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, useContext } from "react";
 import "./MapEditPage.css";
 import { Spinner } from "react-bootstrap";
 
@@ -18,6 +18,8 @@ import ScaleMapToolbox from "../../editor/ScaleMapToolbox";
 import TransactionHandler from "../../editor/TransactionHandler";
 import MapRenderer from "../../reuseable/MapRenderer";
 
+import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
+
 import { useParams } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 
@@ -27,7 +29,9 @@ import { ScaleSave, ScalePublish } from "./ScaleEdit";
 import { ArrowSave, ArrowPublish } from "./ArrowEdit";
 import { PictureSave, PicturePublish } from "./PictureEdit";
 
-const MapEditPage = () => {
+export default function MapEditPage() {
+  const globalStore = useContext(GlobalStoreContext);
+
   var params = useParams();
   var defaultData = {};
   var toolbox = <></>;
@@ -41,7 +45,7 @@ const MapEditPage = () => {
       try {
         // const result = await fetchBubbleMap();
         // setBubbleData(result);
-        console.log("fetch set true")
+        console.log("fetch set true");
         setDataFetched(true);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -50,189 +54,231 @@ const MapEditPage = () => {
 
     fetchData();
   }, []);
-    //TODO: Make the sample data 'blank templates' instead of samples
-    // for the final product.
+  //TODO: Make the sample data 'blank templates' instead of samples
+  // for the final product.
+  switch (params.mapType) {
+    case "ArrowMap":
+      defaultData = arrowData;
+      break;
+    case "BubbleMap":
+      defaultData = bubbleData;
+      break;
+    case "PictureMap":
+      defaultData = pictureData;
+      break;
+    case "CategoryMap":
+      defaultData = categoryData;
+      break;
+    case "ScaleMap":
+      defaultData = scaleData;
+      break;
+    default:
+      defaultData = {};
+      break;
+  }
+
+  // This contains the current map graphic data and geoJson. A transaction
+  // handler is initialized to handle operating on the data. See
+  // TransactionHandler.js for details.
+  const [data] = useState(defaultData);
+  const [geoJsonData, setGeoJsonData] = useState({});
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const handler = useState(new TransactionHandler(data, forceUpdate))[0];
+
+  // This state controls if the editor screen is in a mode where we can click
+  // on the map. In this state, the next time the user clicks on the map, the
+  // placeFunction will fire. you need to pass a double closure as the function
+  // because of javascript weirdness, so the form would look something like:
+  // readyPlace(() => (latlng) => DoSomeSuff(latlng)); when set in an onClick.
+  const [placing, setPlacing] = useState(false);
+  const [placeFunction, setPlaceFunction] = useState((latlng) => {});
+  const readyPlace = (placeFunction) => {
+    setPlacing(true);
+    setPlaceFunction(placeFunction);
+  };
+
+  // TOOD: Remove this and instead have the GeoJSON data come from the previous
+  // page somehow.
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const uploadedData = JSON.parse(e.target.result);
+          setGeoJsonData(uploadedData);
+        } catch (error) {
+          console.error("Error reading GeoJSON file:", error);
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  //save button
+  //TODO: Make the sample data 'blank templates' instead of samples
+  // for the final product.
+  switch (params.mapType) {
+    case "ArrowMap":
+      defaultData = arrowData;
+      break;
+    case "BubbleMap":
+      defaultData = bubbleData;
+      break;
+    case "PictureMap":
+      defaultData = pictureData;
+      break;
+    case "CategoryMap":
+      defaultData = categoryData;
+      break;
+    case "ScaleMap":
+      defaultData = scaleData;
+      break;
+    default:
+      defaultData = {};
+      break;
+  }
+
+  // This contains the current map graphic data and geoJson. A transaction
+  // handler is initialized to handle operating on the data. See
+  // TransactionHandler.js for details.
+  // const [data, setData] = useState(defaultData);
+  // const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  // const handler = useState(new TransactionHandler(data, forceUpdate))[0];
+
+  // // This state controls if the editor screen is in a mode where we can click
+  // // on the map. In this state, the next time the user clicks on the map, the
+  // // placeFunction will fire. you need to pass a double closure as the function
+  // // because of javascript weirdness, so the form would look something like:
+  // // readyPlace(() => (latlng) => DoSomeSuff(latlng)); when set in an onClick.
+  // const [placing, setPlacing] = useState(false);
+  // const [placeFunction, setPlaceFunction] = useState((latlng) => { })
+  // const readyPlace = (placeFunction) => {
+  //   setPlacing(true);
+  //   setPlaceFunction(placeFunction);
+  // }
+
+  //save button
+  const handleSaveButton = () => {
+    if (params.mapType === "BubbleMap") {
+      BubbleSave();
+    } else if (params.mapType === "ArrowMap") {
+      ArrowSave();
+    } else if (params.mapType === "ScaleMap") {
+      ScaleSave();
+    } else if (params.mapType === "PictureMap") {
+      PictureSave();
+    } else if (params.mapType === "CategoryMap") {
+      CategorySave();
+    } else {
+      // Handle the default case if needed
+    }
+  };
+
+  //publish button
+  const handlePublishButton = () => {
+    if (params.mapType === "BubbleMap") {
+      BubblePublish(1);
+    } else if (params.mapType === "ArrowMap") {
+      ArrowPublish(1);
+    } else if (params.mapType === "ScaleMap") {
+      ScalePublish();
+    } else if (params.mapType === "PictureMap") {
+      PicturePublish();
+    } else if (params.mapType === "CategoryMap") {
+      CategoryPublish();
+    } else {
+      // Handle the default case if needed
+    }
+  };
+
+  // Load an appropriate toolbox based on which map type we're editing.
+  // May be a nicer way to clean this up later...
+  if (dataFetched) {
     switch (params.mapType) {
       case "ArrowMap":
-        defaultData = arrowData;
+        toolbox = (
+          <ArrowMapToolbox
+            handler={handler}
+            arrowMap={data}
+            readyPlace={readyPlace}
+          />
+        );
         break;
       case "BubbleMap":
-        defaultData = bubbleData;
+        toolbox = (
+          <BubbleMapToolbox
+            handler={handler}
+            bubbleMap={bubbleData}
+            readyPlace={readyPlace}
+          />
+        );
         break;
       case "PictureMap":
-        defaultData = pictureData;
+        toolbox = (
+          <PictureMapToolbox
+            handler={handler}
+            pictureMap={data}
+            readyPlace={readyPlace}
+          />
+        );
         break;
       case "CategoryMap":
-        defaultData = categoryData;
+        toolbox = (
+          <CategoryMapToolbox
+            handler={handler}
+            categoryMap={data}
+            readyPlace={readyPlace}
+          />
+        );
         break;
       case "ScaleMap":
-        defaultData = scaleData;
+        toolbox = (
+          <ScaleMapToolbox
+            handler={handler}
+            scaleMap={data}
+            readyPlace={readyPlace}
+          />
+        );
         break;
       default:
-        defaultData = {};
+        toolbox = <></>;
         break;
     }
+  }
 
-    // This contains the current map graphic data and geoJson. A transaction
-    // handler is initialized to handle operating on the data. See
-    // TransactionHandler.js for details.
-    const [data] = useState(defaultData);
-    const [geoJsonData, setGeoJsonData] = useState({});
-    const [, forceUpdate] = useReducer((x) => x + 1, 0);
-    const handler = useState(new TransactionHandler(data, forceUpdate))[0];
-
-    // This state controls if the editor screen is in a mode where we can click
-    // on the map. In this state, the next time the user clicks on the map, the
-    // placeFunction will fire. you need to pass a double closure as the function
-    // because of javascript weirdness, so the form would look something like:
-    // readyPlace(() => (latlng) => DoSomeSuff(latlng)); when set in an onClick.
-    const [placing, setPlacing] = useState(false);
-    const [placeFunction, setPlaceFunction] = useState((latlng) => { });
-    const readyPlace = (placeFunction) => {
-      setPlacing(true);
-      setPlaceFunction(placeFunction);
-    };
-
-    // TOOD: Remove this and instead have the GeoJSON data come from the previous
-    // page somehow.
-    const handleFileChange = (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          try {
-            const uploadedData = JSON.parse(e.target.result);
-            setGeoJsonData(uploadedData);
-          } catch (error) {
-            console.error("Error reading GeoJSON file:", error);
-          }
-        };
-        reader.readAsText(file);
-      }
-    };
-
-    //save button
-    const handleSaveButton = () => {
-      if (params.mapType === "BubbleMap") {
-        BubbleSave();
-      } else if (params.mapType === "ArrowMap") {
-        ArrowSave();
-      } else if (params.mapType === "ScaleMap") {
-        ScaleSave();
-      } else if (params.mapType === "PictureMap") {
-        PictureSave();
-      } else if (params.mapType === "CategoryMap") {
-        CategorySave();
-      } else {
-        // Handle the default case if needed
-      }
-    };
-
-    //publish button
-    const handlePublishButton = () => {
-      if (params.mapType === "BubbleMap") {
-        BubblePublish(1);
-      } else if (params.mapType === "ArrowMap") {
-        ArrowPublish(1);
-      } else if (params.mapType === "ScaleMap") {
-        ScalePublish();
-      } else if (params.mapType === "PictureMap") {
-        PicturePublish();
-      } else if (params.mapType === "CategoryMap") {
-        CategoryPublish();
-      } else {
-        // Handle the default case if needed
-      }
-    };
-
-    // Load an appropriate toolbox based on which map type we're editing.
-    // May be a nicer way to clean this up later...
-    if (dataFetched) {
-      switch (params.mapType) {
-        case "ArrowMap":
-          toolbox = (
-            <ArrowMapToolbox
-              handler={handler}
-              arrowMap={data}
-              readyPlace={readyPlace}
-            />
-          );
-          break;
-        case "BubbleMap":
-          toolbox = (
-            <BubbleMapToolbox
-              handler={handler}
-              bubbleMap={bubbleData}
-              readyPlace={readyPlace}
-            />
-          );
-          break;
-        case "PictureMap":
-          toolbox = (
-            <PictureMapToolbox
-              handler={handler}
-              pictureMap={data}
-              readyPlace={readyPlace}
-            />
-          );
-          break;
-        case "CategoryMap":
-          toolbox = (
-            <CategoryMapToolbox
-              handler={handler}
-              categoryMap={data}
-              readyPlace={readyPlace}
-            />
-          );
-          break;
-        case "ScaleMap":
-          toolbox = (
-            <ScaleMapToolbox
-              handler={handler}
-              scaleMap={data}
-              readyPlace={readyPlace}
-            />
-          );
-          break;
-        default:
-          toolbox = <></>;
-          break;
-      }
+  // Handles firing the appropriate events if possible when the map is clicked.
+  // Will only fire anything if we're in the placing state.
+  const handleMapClick = (latlng) => {
+    if (!placing) {
+      console.log("Clicked not placing");
+      return;
     }
 
-    // Handles firing the appropriate events if possible when the map is clicked.
-    // Will only fire anything if we're in the placing state.
-    const handleMapClick = (latlng) => {
-      if (!placing) {
-        console.log("Clicked not placing");
-        return;
-      }
+    placeFunction(latlng);
 
-      placeFunction(latlng);
+    setPlacing(false);
+    setPlaceFunction((latlng) => {});
+  };
 
-      setPlacing(false);
-      setPlaceFunction((latlng) => { });
-    };
-
-    // Display a notification the user can click in the map when in the placing
-    // state. This is the main visual distinction for this state.
-    const notification = placing ? (
-      <Alert style={{ position: "absolute", margin: "auto", bottom: "20px" }}>
-        Click anywhere on the map!
-      </Alert>
-    ) : (
-      <></>
-    );
+  // Display a notification the user can click in the map when in the placing
+  // state. This is the main visual distinction for this state.
+  const notification = placing ? (
+    <Alert style={{ position: "absolute", margin: "auto", bottom: "20px" }}>
+      Click anywhere on the map!
+    </Alert>
+  ) : (
+    <></>
+  );
   if (dataFetched) {
     return (
       <div className="container-fluid mt-4">
         <div className="row justify-content-center">
           <div className="col leftF p-0 rounded ms-2">
-            <input type="file" onChange={handleFileChange} accept=".json" />
             <MapRenderer
               width="100%"
               height="100%"
-              Geometry={geoJsonData}
+              Geometry={globalStore.store.currentGeoJson}
               mapType={params.mapType}
               GeoJsonData={data}
               onClick={handleMapClick}
@@ -274,6 +320,5 @@ const MapEditPage = () => {
       </div>
     );
   }
-};
+}
 
-export default MapEditPage;

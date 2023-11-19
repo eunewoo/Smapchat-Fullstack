@@ -17,8 +17,8 @@ export default function SearchWidget(props) {
     { name: "Rating", value: "rating" },
   ];
 
-  const handleButtonClick = async () => {
-    await handleFetchUsers();
+  const handleButtonClick = () => {
+    handleFetchUsers();
   };
 
   return (
@@ -28,7 +28,7 @@ export default function SearchWidget(props) {
       </Card.Body>
       <Container style={{ padding: "20px" }}>
         {/*TODO: This will need an OnClick handler */}
-        <Button onClick={handleButtonClick}>
+        <Button id="searchButton" onClick={handleButtonClick}>
           <BsSearch />
         </Button>
         <input className="bar" placeholder="Search for maps"></input>

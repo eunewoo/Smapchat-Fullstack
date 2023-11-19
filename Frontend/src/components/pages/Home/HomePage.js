@@ -45,19 +45,20 @@ const HomePage = () => {
           </div>
         );
     } else { 
-    return (
-      <div
-        className="d-flex align-items-center justify-content-center"
-        style={{ height: "100vh" }}
-      >
-        <div className="text-center">
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="sr-only"></span>
-          </Spinner>
-          <p className="ml-2 mt-2">Loading...</p>
+      return (
+        <div
+          className="d-flex align-items-center justify-content-center"
+          style={{ height: "100vh" }}
+        >
+          <div className="text-center">
+            <Spinner animation="border" role="status" variant="primary">
+              <span className="sr-only"></span>
+            </Spinner>
+            <p className="ml-2 mt-2">Loading...</p>
+          </div>
         </div>
-      </div>
-    );
+      );
+
   }
 };
 
