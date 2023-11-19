@@ -45,6 +45,7 @@ export async function loginUserApi(email, password) {
     email: email,
     password: password,
   };
+
   try {
     const response = await webPost(`/User/login`, credentials);
     return { success: true, data: response };
@@ -53,6 +54,19 @@ export async function loginUserApi(email, password) {
     return { success: false, error: error };
   }
 }
+
+
+export async function resetPasswordApi(email) {
+  try {
+    const response = await webPost(`/User/resetPassword`, { email });
+    return { success: true, data: response };
+  } catch (error) {
+    
+    console.log("Error in resetting password", error);
+    return { success: false, error: 'error occured' };
+  }
+}
+
 
 /// Updates a user on the database with the given user data
 export async function updateUserProfile(newProfile) {
