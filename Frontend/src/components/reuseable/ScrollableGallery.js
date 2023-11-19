@@ -15,16 +15,18 @@ export default function ScrollableGallery(props) {
   const [dataFetched, setDataFetched] = useState(false);
   const [bottom, setBottom] = useState(false);
   const [lastSearch, setLastSearch] = useState("");
+  const [lastSort, setLastSort] = useState("date");
 
   const numberOfColumns = props.numberOfColumns;
   const height = props.height;
 
-  if (props.lastSearch != lastSearch) {
+  if (props.lastSearch != lastSearch || props.lastSort != lastSort) {
     setRow(0);
     setElements([]);
     setBottom(false);
     setDataFetched(false);
     setLastSearch(props.lastSearch);
+    setLastSort(props.lastSort);
   }
 
   const addRowOfMapCards = () => {

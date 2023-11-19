@@ -11,25 +11,29 @@ const HomePage = () => {
   const fetchData = async (page, limit) => {
     try {
       if (!searchTerm){
-        console.log("all!");
-        return await fetchPublicMaps(page, limit);
-
+        return await fetchPublicMaps(sortTerm, page, limit);
       }
       else {
-        return await fetchPublicSearchMaps(searchTerm, page, limit);
+        return await fetchPublicSearchMaps(searchTerm, sortTerm, page, limit);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  const [maps, setMaps] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortTerm, setSortTerm] = useState("date")
 
   const setSearch = (value) => {
-    if (value != searchTerm) {
+    if (value !== searchTerm) {
       setSearchTerm(value);
-      console.log("setSearch");
+    }
+  }
+
+  const setSort = (value) => {
+    console.log(value);
+    if (value !== sortTerm) {
+      setSortTerm(value);
     }
   }
 
@@ -42,15 +46,16 @@ const HomePage = () => {
                 <ScrollableGallery
                   numberOfColumns={4}
                   height={125}
-                  mapDataArray={maps}
                   fetchFunction={fetchData}
                   lastSearch={searchTerm}
+                  lastSort={sortTerm}
                 />
               </div>
 
               <div className="right">
                 <SearchWidget 
-                  setSearchTerm={setSearch}/>
+                  setSearchTerm={setSearch}
+                  setSortTerm={setSort}/>
               </div>
             </div>
           </div>

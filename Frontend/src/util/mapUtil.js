@@ -9,7 +9,7 @@ export const fetchUserMaps = async (userId) => {
 };
 
 //2
-export const fetchPublicMaps = async (page, limit) => {
+export const fetchPublicMaps = async (sort, page, limit) => {
   const maps =  await webFetch(`/map/public?page=${page}&limit=${limit}`);
   console.log("publis maps: ",maps);
   return maps
@@ -32,22 +32,11 @@ export const fetchSpecificMap = async (mapID) => {
   }
 };
 
-export const fetchPublicSearchMaps = async (query, page, limit) => {
+export const fetchPublicSearchMaps = async (query, sort, page, limit) => {
   return await webFetch(
-    `/map/public/search?query=${query}&page=${page}&limit=${limit}`
+    `/map/public/search?query=${query}&sort=${sort}&page=${page}&limit=${limit}`
   );
 };
-
-export const fetchTopRatedPublicMaps = async (page, limit) => {
-  return await webFetch(
-    `/map/public/top-rated?page=${page}&limit=${limit}`
-  );
-};
-
-export const fetchRecentPublicMaps = async (page, limit) => {
-  return await webFetch(`/map/public/recent?page=${page}&limit=${limit}`);
-};
-
 
 export const fetchUserSearchMaps = async (query, page, limit, userId) => {
   return await webFetch(
