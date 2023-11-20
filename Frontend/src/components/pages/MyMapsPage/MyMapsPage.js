@@ -97,9 +97,12 @@ const MyMapsPage = () => {
           </div>
         </div>
         <ScrollableGallery
+          fetchFunction={async (row, numberOfColumns) => {
+            const exampleUserId = "6556b9cde82b7d9bd50261ff"; // replace this with the actual user ID
+            return await fetchUserMaps(exampleUserId, row, numberOfColumns);
+          }}
           numberOfColumns={3}
           height={170}
-          mapDataArray={maps} 
         />
       </div>
     );
