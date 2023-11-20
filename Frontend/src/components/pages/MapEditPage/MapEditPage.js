@@ -26,7 +26,7 @@ import { Button, Alert } from "react-bootstrap";
 import { BubbleSave, BubblePublish, fetchBubbleMap } from "./BubbleEdit";
 import { CategorySave, CategoryPublish } from "./CategoryEdit";
 import { ScaleSave, ScalePublish } from "./ScaleEdit";
-import { ArrowSave, ArrowPublish } from "./ArrowEdit";
+import { ArrowSave, ArrowPublish, fetchArrowMap } from "./ArrowEdit";
 import { PictureSave, PicturePublish } from "./PictureEdit";
 
 export default function MapEditPage() {
@@ -39,12 +39,22 @@ export default function MapEditPage() {
   // map datas
   // var bubbleData = demo
   const [bubbleData1, setBubbleData] = useState({});
+  const [arrowData1, setArrowData] = useState({});
   const [dataFetched, setDataFetched] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const result = await fetchBubbleMap();
-        // setBubbleData(result);
+        if (params.mapType === "ArrowMap") { 
+            const result = await fetchArrowMap();
+            console.log("arrow data: ", result)
+            setArrowData(result);
+        }
+        if (params.mapType === "BubbleMap"){ 
+          const result = await fetchBubbleMap();
+          console.log("bubble data: ", result)
+          setBubbleData(result);     
+        }
+
         console.log("fetch set true");
         setDataFetched(true);
       } catch (error) {
@@ -118,26 +128,26 @@ export default function MapEditPage() {
   //save button
   //TODO: Make the sample data 'blank templates' instead of samples
   // for the final product.
-  switch (params.mapType) {
-    case "ArrowMap":
-      defaultData = arrowData;
-      break;
-    case "BubbleMap":
-      defaultData = bubbleData;
-      break;
-    case "PictureMap":
-      defaultData = pictureData;
-      break;
-    case "CategoryMap":
-      defaultData = categoryData;
-      break;
-    case "ScaleMap":
-      defaultData = scaleData;
-      break;
-    default:
-      defaultData = {};
-      break;
-  }
+  // switch (params.mapType) {
+  //   case "ArrowMap":
+  //     defaultData = arrowData;
+  //     break;
+  //   case "BubbleMap":
+  //     defaultData = bubbleData;
+  //     break;
+  //   case "PictureMap":
+  //     defaultData = pictureData;
+  //     break;
+  //   case "CategoryMap":
+  //     defaultData = categoryData;
+  //     break;
+  //   case "ScaleMap":
+  //     defaultData = scaleData;
+  //     break;
+  //   default:
+  //     defaultData = {};
+  //     break;
+  // }
 
   // This contains the current map graphic data and geoJson. A transaction
   // handler is initialized to handle operating on the data. See
@@ -200,7 +210,7 @@ export default function MapEditPage() {
         toolbox = (
           <ArrowMapToolbox
             handler={handler}
-            arrowMap={data}
+            arrowMap={arrowData1}
             readyPlace={readyPlace}
           />
         );
@@ -209,7 +219,7 @@ export default function MapEditPage() {
         toolbox = (
           <BubbleMapToolbox
             handler={handler}
-            bubbleMap={bubbleData}
+            bubbleMap={bubbleData1}
             readyPlace={readyPlace}
           />
         );

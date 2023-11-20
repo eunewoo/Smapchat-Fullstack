@@ -202,3 +202,15 @@ exports.getBubbleMap = async (req, res, next) => {
   }
 };
 
+exports.getArrowMap = async (req, res, next) => {
+  const { mapID } = req.params;
+
+  try {
+    const result = await MapModel.getArrowMapByMapId(mapID);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};
+

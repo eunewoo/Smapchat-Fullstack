@@ -5,27 +5,27 @@ const ArrowMapLocationSchema = new mongoose.Schema({
   //   required: true,
   //   unique: true,
   // },
-  name: {
+  Name: {
     type: String,
     required: false,
     unique: false,
   },
-  longtude: {
+  Longitude: {
     type: mongoose.Schema.Types.Decimal,
     required: false,
     unique: false,
   },
-  latitude: {
+  Latitude: {
     type: mongoose.Schema.Types.Decimal,
     required: false,
     unique: false,
   },
-  order: {
+  Order: {
     type: Number,
     required: false,
     unique: false,
   },
-  date: {
+  Date: {
     type: Date,
     required: true,
     unique: true,
@@ -37,19 +37,18 @@ const ArrowMapSchema_ = new mongoose.Schema({
   MapID: {
     type: Number,
     required: true,
-    unique: true, 
+    unique: true,
   },
-  maxpin:{
-    type:Number,
+  Maxpin: {
+    type: Number,
     required: false,
     unique: false,
   },
-  locationIds: {
+  Location: {
     type: [ArrowMapLocationSchema],
     required: false,
     unique: false,
   },
-  
 });
 
 const ArrowMapSchema = mongoose.model("ArrowMap", ArrowMapSchema_);
