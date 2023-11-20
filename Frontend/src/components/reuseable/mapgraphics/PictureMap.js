@@ -10,7 +10,7 @@ export const renderPictureMap = (map, data) => {
     name: loc.Name,
     libraryIds: loc.Library.map((lib) => lib.Name),
     longitude: loc.Longitude.toString(),
-    latitude: loc.Lattitude.toString(),
+    lattitude: loc.Lattitude.toString(),
   }));
 
   const transformedLibraries = data.Location.flatMap((loc) =>
@@ -31,8 +31,9 @@ function createMarkerForLocation(map, location, libraries) {
     iconSize: [36, 36],
   });
   const marker = L.marker(
-    [parseFloat(location.latitude), parseFloat(location.longitude)],
-    { icon: customIcon }
+    [parseFloat(location.lattitude), parseFloat(location.longitude)],
+    { icon: customIcon },
+
   ).addTo(map);
 
   const matchingLibraries = findMatchingLibraries(location, libraries);

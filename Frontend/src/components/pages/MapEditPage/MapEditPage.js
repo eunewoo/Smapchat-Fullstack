@@ -2,7 +2,6 @@ import React, { useState, useReducer, useEffect, useContext } from "react";
 import "./MapEditPage.css";
 import { Spinner } from "react-bootstrap";
 
-
 import arrowData from "../../editor/SampleArrowMap.json";
 import bubbleData from "../../editor/SampleBubbleMap.json";
 import pictureData from "../../editor/SamplePictureMap.json";
@@ -26,7 +25,7 @@ import { Button, Alert } from "react-bootstrap";
 import { BubbleSave, BubblePublish, fetchBubbleMap } from "./BubbleEdit";
 import { CategorySave, CategoryPublish } from "./CategoryEdit";
 import { ScaleSave, ScalePublish } from "./ScaleEdit";
-import { ArrowSave, ArrowPublish } from "./ArrowEdit";
+import { ArrowSave, ArrowPublish, fetchArrowMap } from "./ArrowEdit";
 import { PictureSave, PicturePublish } from "./PictureEdit";
 
 export default function MapEditPage() {
@@ -36,15 +35,43 @@ export default function MapEditPage() {
   var defaultData = {};
   var toolbox = <></>;
 
+  // This contains the current map graphic data and geoJson. A transaction
+  // handler is initialized to handle operating on the data. See
+  // TransactionHandler.js for details.
+  const [data, setData] = useState(defaultData);
+  const [geoJsonData, setGeoJsonData] = useState({});
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [handler, setHandler] = useState(
+    new TransactionHandler(data, forceUpdate)
+  );
+
   // map datas
   // var bubbleData = demo
-  const [bubbleData1, setBubbleData] = useState({});
   const [dataFetched, setDataFetched] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const result = await fetchBubbleMap();
-        // setBubbleData(result);
+        if (params.mapType === "ArrowMap") {
+          const result = await fetchArrowMap();
+          console.log("arrow data: ", result);
+          if (!result) {
+            setData(arrowData); //need more work here
+          } else {
+            setData(result);
+          }
+          setHandler(new TransactionHandler(result, forceUpdate));
+        }
+        if (params.mapType === "BubbleMap") {
+          const result = await fetchBubbleMap();
+          console.log("bubble data: ", result);
+          if (!result) {
+            setData(bubbleData)  //need more work here
+          } else { 
+            setData(result);
+          }
+          setHandler(new TransactionHandler(result, forceUpdate));
+        }
+
         console.log("fetch set true");
         setDataFetched(true);
       } catch (error) {
@@ -77,13 +104,6 @@ export default function MapEditPage() {
       break;
   }
 
-  // This contains the current map graphic data and geoJson. A transaction
-  // handler is initialized to handle operating on the data. See
-  // TransactionHandler.js for details.
-  const [data] = useState(defaultData);
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  const handler = useState(new TransactionHandler(data, forceUpdate))[0];
-
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
   // placeFunction will fire. you need to pass a double closure as the function
@@ -98,30 +118,6 @@ export default function MapEditPage() {
 
   // TOOD: Remove this and instead have the GeoJSON data come from the previous
   // page somehow.
-
-  //save button
-  //TODO: Make the sample data 'blank templates' instead of samples
-  // for the final product.
-  switch (params.mapType) {
-    case "ArrowMap":
-      defaultData = arrowData;
-      break;
-    case "BubbleMap":
-      defaultData = bubbleData;
-      break;
-    case "PictureMap":
-      defaultData = pictureData;
-      break;
-    case "CategoryMap":
-      defaultData = categoryData;
-      break;
-    case "ScaleMap":
-      defaultData = scaleData;
-      break;
-    default:
-      defaultData = {};
-      break;
-  }
 
   // This contains the current map graphic data and geoJson. A transaction
   // handler is initialized to handle operating on the data. See
@@ -193,7 +189,7 @@ export default function MapEditPage() {
         toolbox = (
           <BubbleMapToolbox
             handler={handler}
-            bubbleMap={bubbleData}
+            bubbleMap={data}
             readyPlace={readyPlace}
           />
         );
@@ -305,4 +301,3 @@ export default function MapEditPage() {
     );
   }
 }
-
