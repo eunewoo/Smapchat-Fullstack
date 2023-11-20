@@ -1,5 +1,6 @@
 import { Card, Container } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { useState } from "react";
 import {
   BsXLg,
   BsArrowCounterclockwise,
@@ -161,35 +162,11 @@ function PictureMapLocation(props) {
   );
 }
 
-const uploadImageToFirebase = async (file) => {
-  if (!file) return null;
-
-  const storage = getStorage(app);
-  const storageRef = ref(storage, `images/${file.name}`);
-  const uploadTask = uploadBytesResumable(storageRef, file);
-
-  return new Promise((resolve, reject) => {
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        // Handle progress, if needed
-      },
-      (error) => {
-        console.error("Error uploading file:", error);
-        reject(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          resolve(downloadURL);
-        });
-      }
-    );
-  });
-};
-
 /// Dispalys a collection of images that makes up a library in the image map
 function PictureMapLibrary(props) {
   const images = [];
+  const [uploadText, setUploadText] = useState("+");
+
   for (const img in props.library.Images) {
     images.push(
       <PictureMapPicture
@@ -201,6 +178,44 @@ function PictureMapLibrary(props) {
       />
     );
   }
+
+  const uploadImageToFirebase = async (file) => {
+    if (!file) return null;
+
+    const storage = getStorage(app);
+    const storageRef = ref(storage, `images/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progressTwoDecimal = progress.toFixed(2);
+          setUploadText("Uploading: " + progressTwoDecimal + "%");
+
+          switch (snapshot.state) {
+            case "paused":
+              break;
+            case "running":
+              break;
+            default:
+          }
+        },
+        (error) => {
+          console.error("Error uploading file:", error);
+          setUploadText("+");
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+            setUploadText("+");
+          });
+        }
+      );
+    });
+  };
 
   const handleFileInput = async (event) => {
     console.log("sad");
@@ -251,24 +266,24 @@ function PictureMapLibrary(props) {
 
       <Container>
         {images}
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          id={`upload-${props.index}`}
-          onChange={handleFileInput}
-        />
-        <label htmlFor={`upload-${props.index}`} style={{ margin: "5px" }}>
-          <Button
-            style={{
-              width: "129px",
-              height: "100px",
-            }}
-            disabled
-          >
-            <BsPlusLg style={{ width: "30px", height: "30px" }} />
-          </Button>
-        </label>
+        {uploadText === "+" ? (
+          <>
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              id={`upload-${props.index}`}
+              onChange={handleFileInput}
+            />
+            <label htmlFor={`upload-${props.index}`} style={{ margin: "5px" }}>
+              <Button style={{ width: "129px", height: "100px" }} disabled>
+                <BsPlusLg style={{ width: "30px", height: "30px" }} />
+              </Button>
+            </label>
+          </>
+        ) : (
+          <div style={{ margin: "5px" }}>{uploadText}</div>
+        )}
       </Container>
     </Card>
   );
