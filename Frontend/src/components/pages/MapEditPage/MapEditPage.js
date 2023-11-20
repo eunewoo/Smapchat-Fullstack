@@ -36,39 +36,11 @@ export default function MapEditPage() {
   var defaultData = {};
   var toolbox = <></>;
 
-  // map datas
-  // var bubbleData = demo
-  const [bubbleData1, setBubbleData] = useState({});
-  const [arrowData1, setArrowData] = useState({});
-  const [dataFetched, setDataFetched] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (params.mapType === "ArrowMap") { 
-            const result = await fetchArrowMap();
-            console.log("arrow data: ", result)
-            setArrowData(result);
-        }
-        if (params.mapType === "BubbleMap"){ 
-          const result = await fetchBubbleMap();
-          console.log("bubble data: ", result)
-          setBubbleData(result);     
-        }
-
-        console.log("fetch set true");
-        setDataFetched(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
   //TODO: Make the sample data 'blank templates' instead of samples
   // for the final product.
   switch (params.mapType) {
     case "ArrowMap":
-      defaultData = arrowData;
+      defaultData = arrowData1;
       break;
     case "BubbleMap":
       defaultData = bubbleData;
@@ -94,6 +66,35 @@ export default function MapEditPage() {
   const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const handler = useState(new TransactionHandler(data, forceUpdate))[0];
+
+  // map datas
+  // var bubbleData = demo
+  const [bubbleData1, setBubbleData] = useState({});
+  const [arrowData1, setArrowData] = useState({});
+  const [dataFetched, setDataFetched] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (params.mapType === "ArrowMap") {
+          const result = await fetchArrowMap();
+          console.log("arrow data: ", result);
+          setArrowData(result);
+        }
+        if (params.mapType === "BubbleMap") {
+          const result = await fetchBubbleMap();
+          console.log("bubble data: ", result);
+          setBubbleData(result);
+        }
+
+        console.log("fetch set true");
+        setDataFetched(true);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
