@@ -22,7 +22,7 @@ export default function CategoryMapToolbox(props) {
         categoryPointLocation={
           props.categoryMap.Category[categoryPointLocation]
         }
-      />,
+      />
     );
   }
 
@@ -81,7 +81,7 @@ function CategoryMapLocation(props) {
         parentIndex={props.index}
         index={region}
         region={props.categoryPointLocation.Locations[region]}
-      />,
+      />
     );
   }
 
@@ -100,10 +100,7 @@ function CategoryMapLocation(props) {
           placeholder="Name"
           value={props.categoryPointLocation.Name}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Category[${props.index}].Name`,
-              val,
-            )
+            props.handler.updateTrans(`Category[${props.index}].Name`, val)
           }
         />
         <BsXLg
@@ -118,16 +115,19 @@ function CategoryMapLocation(props) {
           {cards}
           <Button
             className="inner"
-            onClick={() => props.readyPlace(() => (latlng) => {
+            onClick={() =>
+              props.readyPlace(() => (latlng) => {
+                // TODO: Calculate appropriate coordinates here based on latlng
+                const Coordinates = [];
 
-              // TODO: Calculate appropriate coordinates here based on latlng
-              const Coordinates = [];
-
-              props.handler.createTrans(`Category[${props.index}].Locations`, {
-                Lattitude: latlng.lat,
-                Longitude: latlng.lng
-              });
-            })
+                props.handler.createTrans(
+                  `Category[${props.index}].Locations`,
+                  {
+                    Lattitude: latlng.lat,
+                    Longitude: latlng.lng,
+                  }
+                );
+              })
             }
           >
             Add new
@@ -164,7 +164,7 @@ function CategoryMapRegion(props) {
           onClick={(val) =>
             props.handler.deleteTrans(
               `Category[${props.parentIndex}].Locations`,
-              props.region,
+              props.region
             )
           }
         />

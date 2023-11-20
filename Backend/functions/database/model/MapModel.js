@@ -299,13 +299,13 @@ class MapModel {
       if (checkCategory) {
         const upd = await CategoryMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
-          { Location: mapData.Location }
+          { Category: mapData.Category }
         );
         console.log("Updated Category Map:");
       } else {
         const createCategoryMap = await CategoryMapSchema.create({
           MapID: mapData.MapID,
-          Location: mapData.Location,
+          Category: mapData.Category,
         });
         if (!checkMap) {
           const createdMap = MapSchema.create(mapInfo)
@@ -412,7 +412,7 @@ class MapModel {
   }
 
   //20
-  static async getCategoryByMapId(mapID) {
+  static async getCategoryMapByMapId(mapID) {
     try {
       console.log(mapID);
       const map = await CategoryMapSchema.findOne({

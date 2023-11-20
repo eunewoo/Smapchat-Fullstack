@@ -8,27 +8,31 @@ import {
 } from "../../../util/mapUtil";
 
 const exampleMap = {
-  MapID: "1234TEST1234",
-  MinColor: "#FF0000",
-  MaxColor: "#00FF00",
-  Location: [
+  MapID: 253,
+  Category: [
     {
-      Name: "Gershwin Theater",
-      Longitude: -73.9852,
-      Lattitude: 40.7624,
-      Value: 100,
+      Name: "Red places",
+      Locations: [
+        {
+          Longitude: -73.9852,
+          Lattitude: 40.7624,
+        },
+        {
+          Longitude: -74.1254,
+          Lattitude: 40.59206,
+        },
+      ],
+      Color: "#222222",
     },
     {
-      Name: "MoMA",
-      Longitude: -73.9776,
-      Lattitude: 40.7615,
-      Value: 100,
-    },
-    {
-      Name: "Dumbo",
-      Longitude: -73.9654,
-      Lattitude: 40.6653,
-      Value: 0,
+      Name: "Blue places",
+      Locations: [
+        {
+          Longitude: -73.9654,
+          Lattitude: 40.6653,
+        },
+      ],
+      Color: "#2222FF",
     },
   ],
 };
@@ -37,7 +41,7 @@ const mapInfo = {
   mapType: 3,
   title: "City Map",
   description: "Detailed map of the city center",
-  MapID: 3,
+  MapID: 253,
   avgRate: 4.5,
   comment: [10, 15, 20],
   mapFile: "city_map.pdf",
@@ -50,7 +54,7 @@ const exampleUser = {
   password: "securePassword123",
   avatar: "path/to/avatar.jpg",
   isActive: true,
-  mapList: [1, 2, 3, 10],
+  mapList: [1, 2, 3, 10, 251, 252, 253],
   userType: 1,
   verificationCode: "abc123",
   isVerified: true,

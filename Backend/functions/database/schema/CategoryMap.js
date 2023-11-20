@@ -16,7 +16,7 @@ const CategorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Location: {
+  Locations: {
     type: [LocationSchema],
     required: false,
     unique: false,
