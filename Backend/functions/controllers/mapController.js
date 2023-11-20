@@ -40,7 +40,12 @@ exports.searchPublicMapsByQuery = async (req, res, next) => {
   const { query, sort = "date", page = 1, limit = 20 } = req.query;
 
   try {
-    const publicMaps = await MapModel.searchPublicMapsByQuery(query, sort, page, limit);
+    const publicMaps = await MapModel.searchPublicMapsByQuery(
+      query,
+      sort,
+      page,
+      limit
+    );
     res.status(200).json(publicMaps);
   } catch (error) {
     console.error(error.message);
@@ -53,7 +58,12 @@ exports.searchUserMapsByQuery = async (req, res, next) => {
   const { query, page, limit } = req.query;
 
   try {
-    const userMaps = await MapModel.searchUserMapsByQuery(userId, query, page, limit);
+    const userMaps = await MapModel.searchUserMapsByQuery(
+      userId,
+      query,
+      page,
+      limit
+    );
     res.status(200).json(userMaps);
   } catch (error) {
     console.error(error);
@@ -66,7 +76,11 @@ exports.getTopRatedUserMaps = async (req, res, next) => {
   const { page, limit } = req.query;
 
   try {
-    const topRatedUserMaps = await MapModel.getTopRatedUserMaps(userId, page, limit);
+    const topRatedUserMaps = await MapModel.getTopRatedUserMaps(
+      userId,
+      page,
+      limit
+    );
     res.json(topRatedUserMaps);
   } catch (error) {
     console.error(error);
@@ -79,7 +93,11 @@ exports.getRecentUserMaps = async (req, res, next) => {
   const { page, limit } = req.query;
 
   try {
-    const recentUserMaps = await MapModel.getRecentUserMaps(userId, page, limit);
+    const recentUserMaps = await MapModel.getRecentUserMaps(
+      userId,
+      page,
+      limit
+    );
     res.json(recentUserMaps);
   } catch (error) {
     console.error(error);
@@ -117,10 +135,26 @@ exports.createArrowMap = async (req, res, next) => {
 };
 
 exports.createBubbleMap = async (req, res, next) => {
-    const { userId, userData, mapData, mapInfo } = req.body;
+  const { userId, userData, mapData, mapInfo } = req.body;
   try {
-        const b = await MapModel.createBubbleMap(userId,userData,mapData, mapInfo);
-        res.json(b);
+    const b = await MapModel.createBubbleMap(
+      userId,
+      userData,
+      mapData,
+      mapInfo
+    );
+    res.json(b);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(mapData);
+  }
+};
+
+exports.createScaleMap = async (req, res, next) => {
+  const { userId, userData, mapData, mapInfo } = req.body;
+  try {
+    const b = await MapModel.createScaleMap(userId, userData, mapData, mapInfo);
+    res.json(b);
   } catch (error) {
     console.error(error);
     res.status(400).send(mapData);
@@ -128,29 +162,18 @@ exports.createBubbleMap = async (req, res, next) => {
 };
 
 exports.createCategoryMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
-
+  const { userId, userData, mapData, mapInfo } = req.body;
   try {
-    const createdCategoryMap = await MapModel.createCategoryMap(
+    const b = await MapModel.createCategoryMap(
       userId,
-      mapData
+      userData,
+      mapData,
+      mapInfo
     );
-    res.json(createdCategoryMap);
+    res.json(b);
   } catch (error) {
     console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.createScaleMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
-
-  try {
-    const createdScaleMap = await MapModel.createScaleMap(userId, mapData);
-    res.json(createdScaleMap);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
+    res.status(400).send(mapData);
   }
 };
 
@@ -202,3 +225,26 @@ exports.getBubbleMap = async (req, res, next) => {
   }
 };
 
+exports.getScaleMap = async (req, res, next) => {
+  const { mapID } = req.params;
+
+  try {
+    const result = await MapModel.getScaleMapByMapId(mapID);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};
+
+exports.getCategoryMap = async (req, res, next) => {
+  const { mapID } = req.params;
+
+  try {
+    const result = await MapModel.getCategoryMapByMapId(mapID);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};

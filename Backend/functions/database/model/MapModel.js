@@ -4,7 +4,7 @@ const MapSchema = require("../schema/MapSchema.js");
 const PictureSchema = require("../schema/PictureMap.js");
 const ArrowMapSchema = require("../schema/ArrowMap.js");
 const ScaleMapSchema = require("../schema/ScaleMap.js");
-const catagoryMapSchema = require("../schema/CatagoryMap.js");
+const CategoryMapSchema = require("../schema/CatagoryMap.js");
 const BubbleMapSchema = require("../schema/BubbleMap.js");
 const UserModel = require("../model/UserModel.js");
 const bcrypt = require("bcryptjs");
@@ -15,7 +15,6 @@ const { Types } = mongoose;
 class MapModel {
   //1
   static async getMapsUserId(userId) {
-    
     try {
       const user = await UserSchema.findOne({
         _id: userId,
@@ -41,14 +40,13 @@ class MapModel {
   }
   //2
   static async getPublicMaps(sort = "date", page = 1, limit = 20) {
-
     const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
 
     try {
       const maps = await MapSchema.find()
         .sort(sorter)
         .skip((page - 1) * limit)
-        .limit(parseInt(limit)); 
+        .limit(parseInt(limit));
 
       return maps;
     } catch (error) {
@@ -68,13 +66,17 @@ class MapModel {
     }
   }
   //4
-  static async searchPublicMapsByQuery(query, sort = "date", page = 1, limit = 20) {
-
+  static async searchPublicMapsByQuery(
+    query,
+    sort = "date",
+    page = 1,
+    limit = 20
+  ) {
     const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
 
     try {
       const publicMaps = await MapSchema.find({
-        title: { $regex: query, "$options": "i" },
+        title: { $regex: query, $options: "i" },
       })
         .sort(sorter)
         .skip((page - 1) * limit)
@@ -164,7 +166,7 @@ class MapModel {
 
       const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
       if (checkArrow) {
-        const upd = await BubbleMapSchema.findOneAndUpdate(
+        const upd = await ArrowMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
           { Location: mapData.Location }
         );
@@ -216,7 +218,7 @@ class MapModel {
             });
         }
 
-        if (!checkBubble) { 
+        if (!checkBubble) {
           const BubbleMapIndexes = await BubbleMapSchema.collection.indexes();
           const indexesToDelete = BubbleMapIndexes.filter((index) =>
             index.name.startsWith("mapID_")
@@ -230,7 +232,7 @@ class MapModel {
               console.log("Bubble Map created:");
             })
             .catch((error) => {
-              console.error("Error creating Bubble map:",error);
+              console.error("Error creating Bubble map:", error);
             });
         }
       }
@@ -240,39 +242,72 @@ class MapModel {
   }
 
   //13
-  static async createCategoryMap(userId, mapData) {
+  static async createScaleMap(userId, userData, mapData, mapInfo) {
     try {
-      const { categoryMap } = mapData;
-
-      const createdCategoryMap = await catagoryMapSchema.create({
-        mapID: categoryMap.mapId,
-        categoryIds: categoryMap.categoryIds,
+      // Update user's mapList
+      await UserModel.findByIdAndUpdate(userId, userData);
+      const checkScale = await ScaleMapSchema.findOne({
+        MapID: mapData.MapID,
       });
-
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: categoryMap.mapId },
-      });
-
-      return createdCategoryMap;
+      const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
+      if (checkScale) {
+        const upd = await ScaleMapSchema.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          { Location: mapData.Location }
+        );
+        console.log("Updated Scale Map:");
+      } else {
+        const createScaleMap = await ScaleMapSchema.create({
+          MapID: mapData.MapID,
+          Location: mapData.Location,
+        });
+        if (!checkMap) {
+          const createdMap = MapSchema.create(mapInfo)
+            .then((createdMap) => {
+              console.log("Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating map:", error);
+            });
+        }
+        console.log("Created Scale Map:");
+      }
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
   //14
-  static async createScaleMap(userId, mapData) {
+  static async createCategoryMap(userId, userData, mapData, mapInfo) {
     try {
-      const createdScaleMap = await ScaleMapSchema.create({
-        mapID: mapData.mapId,
-        color: mapData.minColor,
-        locationIds: mapData.locationIds,
+      // Update user's mapList
+      await UserModel.findByIdAndUpdate(userId, userData);
+      const checkCategory = await CategoryMapSchema.findOne({
+        MapID: mapData.MapID,
       });
-
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: mapData.mapId },
-      });
-
-      return createdScaleMap;
+      const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
+      if (checkCategory) {
+        const upd = await CategoryMapSchema.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          { Location: mapData.Location }
+        );
+        console.log("Updated Category Map:");
+      } else {
+        const createCategoryMap = await CategoryMapSchema.create({
+          MapID: mapData.MapID,
+          Location: mapData.Location,
+        });
+        if (!checkMap) {
+          const createdMap = MapSchema.create(mapInfo)
+            .then((createdMap) => {
+              console.log("Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating map:", error);
+            });
+        }
+        console.log("Created Category Map:");
+      }
     } catch (error) {
       throw new Error(error.message);
     }
