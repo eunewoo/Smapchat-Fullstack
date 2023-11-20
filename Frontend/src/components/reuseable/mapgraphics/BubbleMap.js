@@ -11,7 +11,7 @@ export const renderBubbleMap = (map, data) => {
     const bubbleColor = point.color;
     const bubbleRadius = sizeToRadius(point.size);
 
-    L.circle([point.latitude, point.longitude], {
+    L.circle([point.lattitude, point.longitude], {
       color: bubbleColor,
       fillColor: bubbleColor,
       fillOpacity: 0.5,
@@ -25,7 +25,7 @@ export const renderBubbleMap = (map, data) => {
 const convertJsonToBubbleMapData = (json) => {
   return json.Location.map((loc) => ({
     name: loc.Name,
-    latitude: loc.Lattitude,
+    lattitude: loc.Lattitude,
     longitude: loc.Longitude,
     color: loc.Color,
     size: parseInt(loc.Size, 10), // Assuming size is a string in JSON

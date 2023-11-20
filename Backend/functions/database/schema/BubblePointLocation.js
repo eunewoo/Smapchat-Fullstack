@@ -16,7 +16,7 @@ const BubblePointLocationSchema = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  latitude: {
+  lattitude: {
     type: Number,
     required: false,
     unique: false,
