@@ -163,29 +163,33 @@ class MapModel {
       const checkArrow = await ArrowMapSchema.findOne({
         MapID: mapData.MapID,
       });
-
       const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
       if (checkArrow) {
         const upd = await ArrowMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
-          { Location: mapData.Location }
+          { Location: mapData.Location },
+          { Maxpin: mapData.Maxpin }
         );
-        console.log("Updated Arrow Map:");
+        console.log("Updated Arrow Map:", mapData.Maxpin);
       } else {
-        const createdArrowMap = await ArrowMapSchema.create({
-          MapID: mapData.MapID,
-          Location: mapData.Location,
-        });
         if (!checkMap) {
-          const createdMap = MapSchema.create(mapInfo)
-            .then((createdMap) => {
-              console.log("Map created:");
-            })
-            .catch((error) => {
-              console.error("Error creating map:", error);
-            });
+          const createdMap = await MapSchema.create(mapInfo);
+          console.log("Map created:");
         }
-        console.log("Created Arrow Map:");
+
+        if (!checkArrow) {
+          const ArrowMapIndexes = await ArrowMapSchema.collection.indexes();
+          const indexesToDelete = ArrowMapIndexes.filter((index) =>
+            index.name.startsWith("mapID_")
+          );
+
+          const dropPromises = indexesToDelete.map(async (index) => {
+            return await ArrowMapSchema.collection.dropIndex(index.name);
+          });
+
+          const createdArrowMap = await ArrowMapSchema.create(mapData);
+          console.log("Arrow Map created:");
+        }
       }
     } catch (error) {
       throw new Error(error.message);
@@ -379,6 +383,20 @@ class MapModel {
     try {
       console.log(mapID);
       const map = await BubbleMapSchema.findOne({
+        MapID: mapID,
+      }).exec();
+
+      return map;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  //19
+  //18
+  static async getArrowMapByMapId(mapID) {
+    try {
+      const map = await ArrowMapSchema.findOne({
         MapID: mapID,
       }).exec();
 

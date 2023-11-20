@@ -62,7 +62,7 @@ async function bodiedRequest(route, data, method) {
       "Content-Type": "application/json",
     },
   }).then(async (res) => {
-    if (res.status === 200 || res.status == 201) {
+    if (res.status === 200 || res.status === 201) {
       return await res.json().then((val) => {
         console.log(val);
         if (val != null) {

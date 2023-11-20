@@ -155,3 +155,20 @@ export const getBubbleMap = async (mapID) => {
     throw error;
   }
 };
+
+export const getArrowMap = async (mapID) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/get/arrow/${mapID}`;
+
+  try {
+    const response = await axios.get(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching specific map:", error);
+    throw error;
+  }
+};

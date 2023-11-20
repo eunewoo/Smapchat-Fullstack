@@ -225,11 +225,11 @@ exports.getBubbleMap = async (req, res, next) => {
   }
 };
 
-exports.getScaleMap = async (req, res, next) => {
+exports.getArrowMap = async (req, res, next) => {
   const { mapID } = req.params;
 
   try {
-    const result = await MapModel.getScaleMapByMapId(mapID);
+    const result = await MapModel.getArrowMapByMapId(mapID);
     res.json(result);
   } catch (error) {
     console.error(error);
