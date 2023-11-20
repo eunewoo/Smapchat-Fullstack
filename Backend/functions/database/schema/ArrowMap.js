@@ -15,7 +15,7 @@ const ArrowMapLocationSchema = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  Latitude: {
+  Lattitude: {
     type: Number,
     required: false,
     unique: false,
