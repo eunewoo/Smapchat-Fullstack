@@ -2,7 +2,6 @@ import React, { useState, useReducer, useEffect, useContext } from "react";
 import "./MapEditPage.css";
 import { Spinner } from "react-bootstrap";
 
-
 import arrowData from "../../editor/SampleArrowMap.json";
 import bubbleData from "../../editor/SampleBubbleMap.json";
 import pictureData from "../../editor/SamplePictureMap.json";
@@ -36,23 +35,41 @@ export default function MapEditPage() {
   var defaultData = {};
   var toolbox = <></>;
 
+  // This contains the current map graphic data and geoJson. A transaction
+  // handler is initialized to handle operating on the data. See
+  // TransactionHandler.js for details.
+  const [data, setData] = useState(defaultData);
+  const [geoJsonData, setGeoJsonData] = useState({});
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [handler, setHandler] = useState(
+    new TransactionHandler(data, forceUpdate)
+  );
+
   // map datas
   // var bubbleData = demo
   const [dataFetched, setDataFetched] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (params.mapType === "ArrowMap") { 
-            const result = await fetchArrowMap();
-            console.log("arrow data: ", result)
+        if (params.mapType === "ArrowMap") {
+          const result = await fetchArrowMap();
+          console.log("arrow data: ", result);
+          if (!result) {
+            setData(arrowData); //need more work here
+          } else {
             setData(result);
-            setHandler(new TransactionHandler(result, forceUpdate));
+          }
+          setHandler(new TransactionHandler(result, forceUpdate));
         }
-        if (params.mapType === "BubbleMap"){ 
+        if (params.mapType === "BubbleMap") {
           const result = await fetchBubbleMap();
-          console.log("bubble data: ", result)
-          setData(result);
-          setHandler(new TransactionHandler(result, forceUpdate)); 
+          console.log("bubble data: ", result);
+          if (!result) {
+            setData(bubbleData)  //need more work here
+          } else { 
+            setData(result);
+          }
+          setHandler(new TransactionHandler(result, forceUpdate));
         }
 
         console.log("fetch set true");
@@ -87,14 +104,6 @@ export default function MapEditPage() {
       break;
   }
 
-  // This contains the current map graphic data and geoJson. A transaction
-  // handler is initialized to handle operating on the data. See
-  // TransactionHandler.js for details.
-  const [data, setData] = useState(defaultData);
-  const [geoJsonData, setGeoJsonData] = useState({});
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [handler, setHandler] = useState(new TransactionHandler(data, forceUpdate));
-
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
   // placeFunction will fire. you need to pass a double closure as the function
@@ -124,30 +133,6 @@ export default function MapEditPage() {
       reader.readAsText(file);
     }
   };
-
-  //save button
-  //TODO: Make the sample data 'blank templates' instead of samples
-  // for the final product.
-  // switch (params.mapType) {
-  //   case "ArrowMap":
-  //     defaultData = arrowData;
-  //     break;
-  //   case "BubbleMap":
-  //     defaultData = bubbleData;
-  //     break;
-  //   case "PictureMap":
-  //     defaultData = pictureData;
-  //     break;
-  //   case "CategoryMap":
-  //     defaultData = categoryData;
-  //     break;
-  //   case "ScaleMap":
-  //     defaultData = scaleData;
-  //     break;
-  //   default:
-  //     defaultData = {};
-  //     break;
-  // }
 
   // This contains the current map graphic data and geoJson. A transaction
   // handler is initialized to handle operating on the data. See
@@ -331,4 +316,3 @@ export default function MapEditPage() {
     );
   }
 }
-
