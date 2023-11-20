@@ -6,6 +6,7 @@ export const renderArrowMap = (map, data) => {
   }
 
   const arrowMapData = convertJsonToArrowMapData(data);
+  console.log(arrowMapData);
   const processedData = processArrowData(arrowMapData);
 
   // Marker (pinpoint) drawing on map
@@ -36,7 +37,7 @@ export const renderArrowMap = (map, data) => {
 const convertJsonToArrowMapData = (json) => {
   return json.Location.map((loc, index) => ({
     name: loc.Name,
-    latitude: loc.Lattitude,
+    lattitude: loc.Lattitude,
     longitude: loc.Longitude,
     order: loc.Order,
     date: loc.Date,
@@ -47,7 +48,7 @@ const processArrowData = (arrowMapData) => {
   return arrowMapData
     .sort((a, b) => a.order - b.order)
     .map((point) => ({
-      position: [point.latitude, point.longitude],
+      position: [point.lattitude, point.longitude],
       name: point.name,
       order: point.order,
       date: point.date,
