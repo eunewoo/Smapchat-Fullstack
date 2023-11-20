@@ -2,7 +2,6 @@ import React, { useState, useReducer, useEffect, useContext } from "react";
 import "./MapEditPage.css";
 import { Spinner } from "react-bootstrap";
 
-
 import arrowData from "../../editor/SampleArrowMap.json";
 import bubbleData from "../../editor/SampleBubbleMap.json";
 import pictureData from "../../editor/SamplePictureMap.json";
@@ -36,11 +35,39 @@ export default function MapEditPage() {
   var defaultData = {};
   var toolbox = <></>;
 
+  // map datas
+  // var bubbleData = demo
+  const [dataFetched, setDataFetched] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (params.mapType === "ArrowMap") {
+          const result = await fetchArrowMap();
+          console.log("arrow data: ", result);
+          setData(result);
+          setHandler(new TransactionHandler(result, forceUpdate));
+        }
+        if (params.mapType === "BubbleMap") {
+          const result = await fetchBubbleMap();
+          console.log("bubble data: ", result);
+          setData(result);
+          setHandler(new TransactionHandler(result, forceUpdate));
+        }
+
+        console.log("fetch set true");
+        setDataFetched(true);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   //TODO: Make the sample data 'blank templates' instead of samples
   // for the final product.
   switch (params.mapType) {
     case "ArrowMap":
-      defaultData = arrowData1;
+      defaultData = arrowData;
       break;
     case "BubbleMap":
       defaultData = bubbleData;
@@ -62,39 +89,12 @@ export default function MapEditPage() {
   // This contains the current map graphic data and geoJson. A transaction
   // handler is initialized to handle operating on the data. See
   // TransactionHandler.js for details.
-  const [data] = useState(defaultData);
+  const [data, setData] = useState(defaultData);
   const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  const handler = useState(new TransactionHandler(data, forceUpdate))[0];
-
-  // map datas
-  // var bubbleData = demo
-  const [bubbleData1, setBubbleData] = useState({});
-  const [arrowData1, setArrowData] = useState({});
-  const [dataFetched, setDataFetched] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (params.mapType === "ArrowMap") {
-          const result = await fetchArrowMap();
-          console.log("arrow data: ", result);
-          setArrowData(result);
-        }
-        if (params.mapType === "BubbleMap") {
-          const result = await fetchBubbleMap();
-          console.log("bubble data: ", result);
-          setBubbleData(result);
-        }
-
-        console.log("fetch set true");
-        setDataFetched(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const [handler, setHandler] = useState(
+    new TransactionHandler(data, forceUpdate)
+  );
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
@@ -211,7 +211,7 @@ export default function MapEditPage() {
         toolbox = (
           <ArrowMapToolbox
             handler={handler}
-            arrowMap={arrowData1}
+            arrowMap={data}
             readyPlace={readyPlace}
           />
         );
@@ -220,7 +220,7 @@ export default function MapEditPage() {
         toolbox = (
           <BubbleMapToolbox
             handler={handler}
-            bubbleMap={bubbleData1}
+            bubbleMap={data}
             readyPlace={readyPlace}
           />
         );
@@ -332,4 +332,3 @@ export default function MapEditPage() {
     );
   }
 }
-
