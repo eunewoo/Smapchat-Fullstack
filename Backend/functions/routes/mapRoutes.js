@@ -13,6 +13,8 @@ router.get("/map/:userId/top-rated", mapController.getTopRatedUserMaps);
 router.get("/map/:userId/recent", mapController.getRecentUserMaps);
 router.get("/map/get/bubble/:mapID", mapController.getBubbleMap);
 router.get("/map/get/arrow/:mapID", mapController.getArrowMap);
+router.get("/map/get/category/:mapID", mapController.getArrowMap);
+router.get("/map/get/scale/:mapID", mapController.getArrowMap);
 
 router.post("/map/create/pictureMap", mapController.createPictureMap);
 router.post("/map/create/arrowMap", mapController.createArrowMap);

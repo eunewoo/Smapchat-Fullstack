@@ -27,7 +27,7 @@ export const renderArrowMap = (map, data) => {
   if (processedData.length > 1) {
     const polyline = L.polyline(
       processedData.map((point) => point.position),
-      { color: "blue" },
+      { color: "blue" }
     );
     polyline.addTo(map);
   }
@@ -36,7 +36,7 @@ export const renderArrowMap = (map, data) => {
 const convertJsonToArrowMapData = (json) => {
   return json.Location.map((loc, index) => ({
     name: loc.Name,
-    latitude: loc.Lattitude,
+    lattitude: loc.Lattitude,
     longitude: loc.Longitude,
     order: loc.Order,
     date: loc.Date,
@@ -47,7 +47,7 @@ const processArrowData = (arrowMapData) => {
   return arrowMapData
     .sort((a, b) => a.order - b.order)
     .map((point) => ({
-      position: [point.latitude, point.longitude],
+      position: [point.lattitude, point.longitude],
       name: point.name,
       order: point.order,
       date: point.date,

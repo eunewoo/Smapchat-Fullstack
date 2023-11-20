@@ -9,14 +9,14 @@ export const renderPictureMap = (map, data) => {
     name: loc.Name,
     libraryIds: loc.Library.map((lib) => lib.Name),
     longitude: loc.Longitude.toString(),
-    latitude: loc.Lattitude.toString(),
+    lattitude: loc.Lattitude.toString(),
   }));
 
   const transformedLibraries = data.Location.flatMap((loc) =>
     loc.Library.map((lib) => ({
       name: lib.Name,
       images: lib.Images,
-    })),
+    }))
   );
 
   transformedLocations.forEach((location) => {
@@ -27,8 +27,8 @@ export const renderPictureMap = (map, data) => {
 function createMarkerForLocation(map, location, libraries) {
   const customIcon = createCustomIcon(location.name); // Assuming location.name can serve as an identifier
   const marker = L.marker(
-    [parseFloat(location.latitude), parseFloat(location.longitude)],
-    { icon: customIcon },
+    [parseFloat(location.lattitude), parseFloat(location.longitude)],
+    { icon: customIcon }
   ).addTo(map);
 
   const matchingLibraries = findMatchingLibraries(location, libraries);

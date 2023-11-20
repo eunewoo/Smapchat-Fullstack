@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const ArrowMapLocationSchema = new mongoose.Schema({
   // locationId: {
   //   type: Number,
@@ -15,7 +15,7 @@ const ArrowMapLocationSchema = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  Latitude: {
+  lattitude: {
     type: mongoose.Schema.Types.Decimal,
     required: false,
     unique: false,
@@ -52,4 +52,4 @@ const ArrowMapSchema_ = new mongoose.Schema({
 });
 
 const ArrowMapSchema = mongoose.model("ArrowMap", ArrowMapSchema_);
-module.exports = ArrowMapSchema; 
+module.exports = ArrowMapSchema;

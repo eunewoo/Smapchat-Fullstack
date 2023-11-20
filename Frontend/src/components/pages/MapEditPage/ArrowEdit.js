@@ -1,5 +1,9 @@
 //importing routers from map Util
-import { createArrowMap, updateMapStatus, getArrowMap } from "../../../util/mapUtil";    //here import all routes you need
+import {
+  createArrowMap,
+  updateMapStatus,
+  getArrowMap,
+} from "../../../util/mapUtil"; //here import all routes you need
 const exampleMap = {
   MapID: 12124,
   Maxpin: 11,
@@ -7,21 +11,21 @@ const exampleMap = {
     {
       Name: "uluk",
       Longitude: -73.9852,
-      Latitude: 40.7624,
+      lattitude: 40.7624,
       Order: 1,
       Date: "11-10-2023",
     },
     {
       Name: "Alex",
       Longitude: -73.9853,
-      Latitude: 40.7581,
+      lattitude: 40.7581,
       Order: 2,
       Date: "11-11-2023",
     },
     {
       Name: "MoMA",
       Longitude: -73.9776,
-      Latitude: 40.7615,
+      lattitude: 40.7615,
       Order: 3,
       Date: "11-11-2023",
     },
@@ -54,7 +58,7 @@ const exampleUserId = "6556b9cde82b7d9bd50261ff";
 
 //1 creating arrow map and if one alr created then it just updates
 export const ArrowSave = async () => {
-    createArrowMap(exampleUserId, exampleUser, exampleMap, mapInfo);
+  createArrowMap(exampleUserId, exampleUser, exampleMap, mapInfo);
 };
 
 //2 changes the public section of the arrowmap
@@ -67,4 +71,3 @@ export const fetchArrowMap = async () => {
   const map = await getArrowMap(mapInfo.MapID);
   return map;
 };
-

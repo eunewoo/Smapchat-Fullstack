@@ -10,9 +10,9 @@ export const fetchUserMaps = async (userId) => {
 
 //2
 export const fetchPublicMaps = async (sort, page, limit) => {
-  const maps =  await webFetch(`/map/public?page=${page}&limit=${limit}`);
-  console.log("publis maps: ",maps);
-  return maps
+  const maps = await webFetch(`/map/public?page=${page}&limit=${limit}`);
+  console.log("publis maps: ", maps);
+  return maps;
 };
 //3
 export const fetchSpecificMap = async (mapID) => {
@@ -25,10 +25,10 @@ export const fetchSpecificMap = async (mapID) => {
       },
     });
 
-    console.log(response.data); 
+    console.log(response.data);
   } catch (error) {
     console.error("Error fetching specific map:", error);
-    throw error; 
+    throw error;
   }
 };
 
@@ -44,26 +44,19 @@ export const fetchUserSearchMaps = async (query, page, limit, userId) => {
   );
 };
 
-
 export const fetchTopRatedUserMaps = async (page, limit, userId) => {
-  return await webFetch(
-    `/map/${userId}/top-rated?page=${page}&limit=${limit}`
-  );
+  return await webFetch(`/map/${userId}/top-rated?page=${page}&limit=${limit}`);
 };
-
 
 export const fetchRecentUserMaps = async (page, limit, userId) => {
-  return await webFetch(
-    `/map/${userId}/recent?page=${page}&limit=${limit}`
-  );
+  return await webFetch(`/map/${userId}/recent?page=${page}&limit=${limit}`);
 };
-
 
 export const createPictureMap = async (mapData, userId) => {
   return await webPost("/map/create/pictureMap", { userId, mapData });
 };
 
-export const createArrowMap = async (userId,userData, mapData, mapInfo) => {
+export const createArrowMap = async (userId, userData, mapData, mapInfo) => {
   const apiUrl = `${process.env.REACT_APP_URL}/map/create/arrowMap`;
   try {
     const response = await axios.post(
@@ -84,23 +77,55 @@ export const createArrowMap = async (userId,userData, mapData, mapInfo) => {
 export const createBubbleMap = async (userId, userData, mapData, mapInfo) => {
   const apiUrl = `${process.env.REACT_APP_URL}/map/create/bubbleMap`;
   try {
-    const response = await axios.post(apiUrl, { userId, userData, mapData, mapInfo }, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.post(
+      apiUrl,
+      { userId, userData, mapData, mapInfo },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     console.log("Created Bubble Map:", response.data);
   } catch (error) {
     console.error("Error creating Bubble Map (frontend):", error);
   }
 };
 
-export const createCategoryMap = async (mapData, userId) => {
-  return await webPost("/map/create/categoryMap", { userId, mapData });
+export const createCategoryMap = async (userId, userData, mapData, mapInfo) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/create/categoryMap`;
+  try {
+    const response = await axios.post(
+      apiUrl,
+      { userId, userData, mapData, mapInfo },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log("Created Category Map:", response.data);
+  } catch (error) {
+    console.error("Error creating Category Map (frontend):", error);
+  }
 };
 
-export const createScaleMap = async (mapData, userId) => {
-  return await webPost("/map/create/scaleMap", { userId, mapData });
+export const createScaleMap = async (userId, userData, mapData, mapInfo) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/create/scaleMap`;
+  try {
+    const response = await axios.post(
+      apiUrl,
+      { userId, userData, mapData, mapInfo },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log("Created Scale Map:", response.data);
+  } catch (error) {
+    console.error("Error creating Scale Map (frontend):", error);
+  }
 };
 
 export const updateMap = async (userId, mapId, mapData) => {
@@ -169,6 +194,40 @@ export const getArrowMap = async (mapID) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching specific map:", error);
+    throw error;
+  }
+};
+
+export const getCategoryMap = async (mapID) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/get/category/${mapID}`;
+
+  try {
+    const response = await axios.get(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching category map:", error);
+    throw error;
+  }
+};
+
+export const getScaleMap = async (mapID) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/get/scale/${mapID}`;
+
+  try {
+    const response = await axios.get(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching scale map:", error);
     throw error;
   }
 };
