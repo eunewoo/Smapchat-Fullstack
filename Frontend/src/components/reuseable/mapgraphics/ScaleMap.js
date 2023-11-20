@@ -26,7 +26,9 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
   boundaries.forEach((boundary) => {
     // If certain point's lat,lng is in the boundary, color the boundary with that point's color value
     if (
-      L.polygon(boundary.layer.getLatLngs()).getBounds().contains({lat: lat, lng: lng})
+      L.polygon(boundary.layer.getLatLngs())
+        .getBounds()
+        .contains({ lat: lat, lng: lng })
     ) {
       const layer = boundary.layer;
       layer.setStyle({
@@ -45,7 +47,9 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
 // Function to create categories array that contains sample datas
 const createCategoriesFromData = (data) => {
   console.log(data.Location);
-  const max = data.Location.reduce((a, b) => (parseFloat(a.Value) > parseFloat(b.Value) ? a : b)).Value;
+  const max = data.Location.reduce((a, b) =>
+    parseFloat(a.Value) > parseFloat(b.Value) ? a : b
+  ).Value;
   return data.Location.map((location, index) => {
     const scalePercentage = location.Value / max;
     console.log("max: " + max);
@@ -61,7 +65,7 @@ const createCategoriesFromData = (data) => {
       Name: location.Name,
       Color: categoryColor,
       Lattitude: location.Lattitude,
-      Longitude: location.Longitude
+      Longitude: location.Longitude,
     };
   });
 };
@@ -72,6 +76,8 @@ export const renderScaleMap = (map, data, boundaries) => {
     console.log("data is not provided for main function");
     return;
   }
+
+  console.log("scale get data", data);
 
   // Categories is array that contains sample data
   const categories = createCategoriesFromData(data);

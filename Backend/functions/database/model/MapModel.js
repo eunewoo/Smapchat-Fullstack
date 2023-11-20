@@ -4,7 +4,7 @@ const MapSchema = require("../schema/MapSchema.js");
 const PictureSchema = require("../schema/PictureMap.js");
 const ArrowMapSchema = require("../schema/ArrowMap.js");
 const ScaleMapSchema = require("../schema/ScaleMap.js");
-const CategoryMapSchema = require("../schema/CatagoryMap.js");
+const CategoryMapSchema = require("../schema/CategoryMap.js");
 const BubbleMapSchema = require("../schema/BubbleMap.js");
 const UserModel = require("../model/UserModel.js");
 const bcrypt = require("bcryptjs");
@@ -257,13 +257,19 @@ class MapModel {
       if (checkScale) {
         const upd = await ScaleMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
-          { Location: mapData.Location }
+          {
+            Location: mapData.Location,
+            MinColor: mapData.MinColor,
+            MaxColor: mapData.MaxColor,
+          }
         );
         console.log("Updated Scale Map:");
       } else {
         const createScaleMap = await ScaleMapSchema.create({
           MapID: mapData.MapID,
           Location: mapData.Location,
+          MinColor: mapData.MinColor,
+          MaxColor: mapData.MaxColor,
         });
         if (!checkMap) {
           const createdMap = MapSchema.create(mapInfo)
@@ -393,10 +399,37 @@ class MapModel {
   }
 
   //19
-  //18
   static async getArrowMapByMapId(mapID) {
     try {
       const map = await ArrowMapSchema.findOne({
+        MapID: mapID,
+      }).exec();
+
+      return map;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  //20
+  static async getCategoryByMapId(mapID) {
+    try {
+      console.log(mapID);
+      const map = await CategoryMapSchema.findOne({
+        MapID: mapID,
+      }).exec();
+
+      return map;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  //21
+  static async getScaleMapByMapId(mapID) {
+    try {
+      console.log(mapID);
+      const map = await ScaleMapSchema.findOne({
         MapID: mapID,
       }).exec();
 

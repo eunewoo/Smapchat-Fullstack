@@ -64,12 +64,29 @@ export default function MapEditPage() {
             setData(result);
           }
           setHandler(new TransactionHandler(result, forceUpdate));
-        }
-        if (params.mapType === "BubbleMap") {
+        } else if (params.mapType === "BubbleMap") {
           const result = await fetchBubbleMap();
           console.log("bubble data: ", result);
           if (!result) {
             setData(bubbleData); //need more work here
+          } else {
+            setData(result);
+          }
+          setHandler(new TransactionHandler(result, forceUpdate));
+        } else if (params.mapType === "CategoryMap") {
+          const result = await fetchCategoryMap();
+          console.log("category data: ", result);
+          if (!result) {
+            setData(categoryData); //need more work here
+          } else {
+            setData(result);
+          }
+          setHandler(new TransactionHandler(result, forceUpdate));
+        } else if (params.mapType === "ScaleMap") {
+          const result = await fetchScaleMap();
+          console.log("scale data: ", result);
+          if (!result) {
+            setData(scaleData); //need more work here
           } else {
             setData(result);
           }

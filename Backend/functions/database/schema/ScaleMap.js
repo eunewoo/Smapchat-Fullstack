@@ -9,25 +9,35 @@ const LocationSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  lattitude: {
+  Lattitude: {
     type: Number,
     required: true,
   },
   Value: {
     type: Number,
     required: true,
-    default: "#FFFFFF",
   },
 });
 
 const ScaleMapSchema_ = new mongoose.Schema({
   MapID: {
     type: Number,
-    required: true,
     unique: true,
+    required: true,
+    default: 0,
   },
   Location: {
     type: [LocationSchema],
+    required: false,
+    unique: false,
+  },
+  MinColor: {
+    type: String,
+    required: false,
+    unique: false,
+  },
+  MaxColor: {
+    type: String,
     required: false,
     unique: false,
   },

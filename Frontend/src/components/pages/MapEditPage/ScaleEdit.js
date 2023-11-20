@@ -8,7 +8,7 @@ import {
 } from "../../../util/mapUtil";
 
 const exampleMap = {
-  MapID: "1234TEST1234",
+  MapID: 252,
   MinColor: "#FF0000",
   MaxColor: "#00FF00",
   Location: [
@@ -34,10 +34,10 @@ const exampleMap = {
 };
 
 const mapInfo = {
-  mapType: 3,
+  mapType: 5,
   title: "City Map",
   description: "Detailed map of the city center",
-  MapID: 3,
+  MapID: 252,
   avgRate: 4.5,
   comment: [10, 15, 20],
   mapFile: "city_map.pdf",
@@ -50,12 +50,14 @@ const exampleUser = {
   password: "securePassword123",
   avatar: "path/to/avatar.jpg",
   isActive: true,
-  mapList: [1, 2, 3, 10],
+  mapList: [1, 2, 3, 10, 1234],
   userType: 1,
   verificationCode: "abc123",
   isVerified: true,
 };
 const exampleUserId = "6556b9cde82b7d9bd50261ff";
+
+const examplePublicStatus = 0;
 
 //1 for getting Scale map info
 export const fetchScaleMap = async () => {
