@@ -7,25 +7,20 @@ import {
   updateMapStatus,
 } from "../../../util/mapUtil";
 
+// Sample data that will be replaced by global context later
 const exampleMap = {
   MapID: 252,
   MinColor: "#FF0000",
   MaxColor: "#00FF00",
   Location: [
     {
-      Name: "Gershwin Theater",
+      Name: "Gershwin Theater 2",
       Longitude: -73.9852,
       Lattitude: 40.7624,
       Value: 100,
     },
     {
-      Name: "MoMA",
-      Longitude: -73.9776,
-      Lattitude: 40.7615,
-      Value: 100,
-    },
-    {
-      Name: "Dumbo",
+      Name: "Jumbo 2",
       Longitude: -73.9654,
       Lattitude: 40.6653,
       Value: 0,
@@ -57,20 +52,23 @@ const exampleUser = {
 };
 const exampleUserId = "6556b9cde82b7d9bd50261ff";
 
-const examplePublicStatus = 0;
-
 //1 for getting Scale map info
+// COMPLETE by rendering with it on ScaleMap page
 export const fetchScaleMap = async () => {
   const map = await getScaleMap(mapInfo.MapID);
   return map;
 };
 
 //2 for creating or updating if one excits Scale map info
+// create: COMPLETE with clicking Save button
+// update: COMPLETE with clicking Save button
 export const ScaleSave = async () => {
   createScaleMap(exampleUserId, exampleUser, exampleMap, mapInfo);
 };
 
 //3 changing the map publish status
+// COMPLETE with clicking Publish button
+// parameter 1 is given always in MapEditpage
 export const ScalePublish = async (examplePublicStatus) => {
   updateMapStatus(exampleUserId, exampleMap.MapID, examplePublicStatus);
 };
@@ -79,8 +77,10 @@ export const ScalePublish = async (examplePublicStatus) => {
 export const updateSpecificMap = async () => {
   updateMap(exampleUserId, mapInfo.MapID, mapInfo);
 };
-//5 getting any map
-export const fetchMap = async () => {
-  const map = await fetchSpecificMap(exampleMap.MapID);
-  return map;
-};
+
+// //5 getting any map
+// // Not necessary
+// export const fetchMap = async () => {
+//   const map = await fetchSpecificMap(exampleMap.MapID);
+//   return map;
+// };
