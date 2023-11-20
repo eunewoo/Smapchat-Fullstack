@@ -6,6 +6,7 @@ export const renderArrowMap = (map, data) => {
   }
 
   const arrowMapData = convertJsonToArrowMapData(data);
+  console.log(arrowMapData);
   const processedData = processArrowData(arrowMapData);
 
   // Marker (pinpoint) drawing on map

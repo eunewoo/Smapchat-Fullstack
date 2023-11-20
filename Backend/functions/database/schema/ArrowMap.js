@@ -11,12 +11,12 @@ const ArrowMapLocationSchema = new mongoose.Schema({
     unique: false,
   },
   Longitude: {
-    type: mongoose.Schema.Types.Decimal,
+    type: Number,
     required: false,
     unique: false,
   },
-  lattitude: {
-    type: mongoose.Schema.Types.Decimal,
+  Lattitude: {
+    type: Number,
     required: false,
     unique: false,
   },
