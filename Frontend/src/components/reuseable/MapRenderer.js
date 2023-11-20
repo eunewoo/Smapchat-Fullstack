@@ -39,7 +39,7 @@ export default function MapRenderer(props) {
           });
         },
       });
-      
+
       if (mapRef.current) {
         geoJsonLayer.addTo(mapRef.current);
       }
@@ -51,23 +51,23 @@ export default function MapRenderer(props) {
 
   // Run 2nd
   // Render maps based on the type
-    if (props.mapType === "PictureMap" && props.GeoJsonData) {
-      renderPictureMap(layerGroup, props.GeoJsonData);
-    } else if (props.mapType === "ArrowMap" && props.GeoJsonData) {
-      renderArrowMap(layerGroup, props.GeoJsonData);
-    } else if (props.mapType === "BubbleMap" && props.GeoJsonData) {
-      renderBubbleMap(layerGroup, props.GeoJsonData);
-    } else if (props.mapType === "CategoryMap" && props.GeoJsonData) {
-      renderCategoryMap(layerGroup, props.GeoJsonData, boundaries); // Pass the GeoJSON data
-    } else if (props.mapType === "ScaleMap" && props.GeoJsonData) {
-      renderScaleMap(layerGroup, props.GeoJsonData, boundaries); // Pass boundaries to ScaleMap
-    }
+  if (props.mapType === "PictureMap" && props.GeoJsonData) {
+    renderPictureMap(layerGroup, props.GeoJsonData);
+  } else if (props.mapType === "ArrowMap" && props.GeoJsonData) {
+    renderArrowMap(layerGroup, props.GeoJsonData);
+  } else if (props.mapType === "BubbleMap" && props.GeoJsonData) {
+    renderBubbleMap(layerGroup, props.GeoJsonData);
+  } else if (props.mapType === "CategoryMap" && props.GeoJsonData) {
+    renderCategoryMap(layerGroup, props.GeoJsonData, boundaries); // Pass the GeoJSON data
+  } else if (props.mapType === "ScaleMap" && props.GeoJsonData) {
+    renderScaleMap(layerGroup, props.GeoJsonData, boundaries); // Pass boundaries to ScaleMap
+  }
 
-    // Run 3rd
-    if (mapRef.current) {
-      layerGroup.addTo(mapRef.current);
-      console.log("UseEffect 3");
-    }
+  // Run 3rd
+  if (mapRef.current) {
+    layerGroup.addTo(mapRef.current);
+    console.log("UseEffect 3");
+  }
 
   return (
     <div style={{ width: props.width, height: props.height }}>

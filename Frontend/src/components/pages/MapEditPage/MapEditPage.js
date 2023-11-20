@@ -118,21 +118,6 @@ export default function MapEditPage() {
 
   // TOOD: Remove this and instead have the GeoJSON data come from the previous
   // page somehow.
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const uploadedData = JSON.parse(e.target.result);
-          setGeoJsonData(uploadedData);
-        } catch (error) {
-          console.error("Error reading GeoJSON file:", error);
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
 
   // This contains the current map graphic data and geoJson. A transaction
   // handler is initialized to handle operating on the data. See
