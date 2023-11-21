@@ -1,5 +1,23 @@
 import L from "leaflet";
 
+function isMarkerInsidePolygon(latlng, poly) {
+  var inside = false;
+  var x = latlng[0], y = latlng[1];
+  for (var ii=0;ii<poly.getLatLngs().length;ii++){
+      var polyPoints = poly.getLatLngs()[ii];
+      for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+          var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
+          var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
+
+          var intersect = ((yi > y) != (yj > y))
+              && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+          if (intersect) inside = !inside;
+      }
+  }
+
+  return inside;
+};
+
 // Function to convert value into color based on min, max color
 const blendColors = (color1, color2, percentage) => {
   let r = Math.round(
@@ -24,11 +42,14 @@ const blendColors = (color1, color2, percentage) => {
 // Function to color a specific boundary based on lat, lng
 const colorBoundary = (lat, lng, color, boundaries, map) => {
   boundaries.forEach((boundary) => {
-    // If certain point's lat,lng is in the boundary, color the boundary with that point's color value
+
+    var inside = false;
+
+    boundary.layer.getLatLngs().forEach((poly) => {
+      inside = inside | isMarkerInsidePolygon([lat, lng], L.polygon(poly))
+    });
     if (
-      L.polygon(boundary.layer.getLatLngs())
-        .getBounds()
-        .contains({ lat: lat, lng: lng })
+      inside
     ) {
       const layer = boundary.layer;
       layer.setStyle({
