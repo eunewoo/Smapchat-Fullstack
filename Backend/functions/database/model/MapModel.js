@@ -15,7 +15,6 @@ const { Types } = mongoose;
 class MapModel {
   //1
   static async getMapsUserId(userId) {
-    
     try {
       const user = await UserSchema.findOne({
         _id: userId,
@@ -41,14 +40,13 @@ class MapModel {
   }
   //2
   static async getPublicMaps(sort = "date", page = 1, limit = 20) {
-
     const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
 
     try {
       const maps = await MapSchema.find()
         .sort(sorter)
         .skip((page - 1) * limit)
-        .limit(parseInt(limit)); 
+        .limit(parseInt(limit));
 
       return maps;
     } catch (error) {
@@ -68,13 +66,17 @@ class MapModel {
     }
   }
   //4
-  static async searchPublicMapsByQuery(query, sort = "date", page = 1, limit = 20) {
-
+  static async searchPublicMapsByQuery(
+    query,
+    sort = "date",
+    page = 1,
+    limit = 20
+  ) {
     const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
 
     try {
       const publicMaps = await MapSchema.find({
-        title: { $regex: query, "$options": "i" },
+        title: { $regex: query, $options: "i" },
       })
         .sort(sorter)
         .skip((page - 1) * limit)
@@ -161,29 +163,33 @@ class MapModel {
       const checkArrow = await ArrowMapSchema.findOne({
         MapID: mapData.MapID,
       });
-
       const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
       if (checkArrow) {
-        const upd = await BubbleMapSchema.findOneAndUpdate(
+        const upd = await ArrowMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
-          { Location: mapData.Location }
+          { Location: mapData.Location },
+          { Maxpin: mapData.Maxpin }
         );
-        console.log("Updated Arrow Map:");
+        console.log("Updated Arrow Map:", mapData.Maxpin);
       } else {
-        const createdArrowMap = await ArrowMapSchema.create({
-          MapID: mapData.MapID,
-          Location: mapData.Location,
-        });
         if (!checkMap) {
-          const createdMap = MapSchema.create(mapInfo)
-            .then((createdMap) => {
-              console.log("Map created:");
-            })
-            .catch((error) => {
-              console.error("Error creating map:", error);
-            });
+          const createdMap = await MapSchema.create(mapInfo);
+          console.log("Map created:");
         }
-        console.log("Created Arrow Map:");
+
+        if (!checkArrow) {
+          const ArrowMapIndexes = await ArrowMapSchema.collection.indexes();
+          const indexesToDelete = ArrowMapIndexes.filter((index) =>
+            index.name.startsWith("mapID_")
+          );
+
+          const dropPromises = indexesToDelete.map(async (index) => {
+            return await ArrowMapSchema.collection.dropIndex(index.name);
+          });
+
+          const createdArrowMap = await ArrowMapSchema.create(mapData);
+          console.log("Arrow Map created:");
+        }
       }
     } catch (error) {
       throw new Error(error.message);
@@ -216,7 +222,7 @@ class MapModel {
             });
         }
 
-        if (!checkBubble) { 
+        if (!checkBubble) {
           const BubbleMapIndexes = await BubbleMapSchema.collection.indexes();
           const indexesToDelete = BubbleMapIndexes.filter((index) =>
             index.name.startsWith("mapID_")
@@ -230,7 +236,7 @@ class MapModel {
               console.log("Bubble Map created:");
             })
             .catch((error) => {
-              console.error("Error creating Bubble map:",error);
+              console.error("Error creating Bubble map:", error);
             });
         }
       }
@@ -344,6 +350,20 @@ class MapModel {
     try {
       console.log(mapID);
       const map = await BubbleMapSchema.findOne({
+        MapID: mapID,
+      }).exec();
+
+      return map;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  //19
+  //18
+  static async getArrowMapByMapId(mapID) {
+    try {
+      const map = await ArrowMapSchema.findOne({
         MapID: mapID,
       }).exec();
 

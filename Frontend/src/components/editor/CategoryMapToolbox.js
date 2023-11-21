@@ -18,6 +18,7 @@ export default function CategoryMapToolbox(props) {
       <CategoryMapLocation
         handler={props.handler}
         index={categoryPointLocation}
+        readyPlace={props.readyPlace}
         categoryPointLocation={
           props.categoryMap.Category[categoryPointLocation]
         }
@@ -55,7 +56,7 @@ export default function CategoryMapToolbox(props) {
           onClick={() =>
             props.handler.createTrans("Category", {
               Name: "",
-              Polygons: [],
+              Locations: [],
               Color: "#FF0000",
             })
           }
@@ -72,14 +73,14 @@ export default function CategoryMapToolbox(props) {
 /// categoryPointLocation in the Location of the map data as the index prop.
 function CategoryMapLocation(props) {
   const cards = [];
-  for (const region in props.categoryPointLocation.Polygons) {
+  for (const region in props.categoryPointLocation.Locations) {
     cards.push(
       <CategoryMapRegion
         handler={props.handler}
         readyPlace={props.readyPlace}
         parentIndex={props.index}
         index={region}
-        region={props.categoryPointLocation.Polygons[region]}
+        region={props.categoryPointLocation.Locations[region]}
       />,
     );
   }
@@ -122,8 +123,9 @@ function CategoryMapLocation(props) {
               // TODO: Calculate appropriate coordinates here based on latlng
               const Coordinates = [];
 
-              props.handler.createTrans(`Category[${props.index}].Polygons`, {
-                Coordinates: Coordinates,
+              props.handler.createTrans(`Category[${props.index}].Locations`, {
+                Lattitude: latlng.lat,
+                Longitude: latlng.lng
               });
             })
             }
@@ -161,7 +163,7 @@ function CategoryMapRegion(props) {
           style={{ position: "absolute", right: "5px", top: "12px" }}
           onClick={(val) =>
             props.handler.deleteTrans(
-              `Category[${props.parentIndex}].Polygons`,
+              `Category[${props.parentIndex}].Locations`,
               props.region,
             )
           }

@@ -27,6 +27,7 @@ export default function DebouncedInput(props) {
         <input
             className={props.className}
             placeholder={props.placeholder}
+            type={props.type}
             value={value}
             onChange={(val) => {
                 console.log("Changing!");

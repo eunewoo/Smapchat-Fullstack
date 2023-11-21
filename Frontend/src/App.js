@@ -16,14 +16,14 @@ function App() {
     popup == null ? <></> : <div className="popupContainer">{popup}</div>;
 
   return (
-    <popContext.Provider value={setPopup}>
+    <AuthProvider>
       <StoreProvider>
-        <AuthProvider>
+        <popContext.Provider value={setPopup}>
           <RouterProvider router={router} />
-        </AuthProvider>
+          {fullPopup}
+        </popContext.Provider>
       </StoreProvider>
-      {fullPopup}
-    </popContext.Provider>
+    </AuthProvider>
   );
 }
 

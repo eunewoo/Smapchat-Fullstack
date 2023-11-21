@@ -10,7 +10,7 @@ const CreatePage = () => {
   console.log("Rerender!");
   const navigate = useNavigate();
 
-  const [mapType, setMapType] = useState("ArrowMap");
+  const [mapType, setMapType] = useState();
   const [preview, setPreview] = useState({});
 
   const globalStore = useContext(GlobalStoreContext);
@@ -27,7 +27,12 @@ const CreatePage = () => {
             className="position-relative text-center"
             style={{ width: "100%", height: "100%" }}
           >
-            <MapRenderer width="100%" height="100%" mapType={mapType} Geometry={preview} />
+            <MapRenderer
+              width="100%"
+              height="100%"
+              mapType={mapType}
+              Geometry={preview}
+            />
             <label for="upload">UPLOAD</label>
             <input
               id="upload"
@@ -36,14 +41,16 @@ const CreatePage = () => {
               type="file"
               accept=".kml, .dbf, .shp, .json, .geojson"
               multiple
-              onChange={(event) => handleFileUpload(event.target.files).then((val) => {
-                globalStore.store.currentGeoJson = val;
-                globalStore.setStore(globalStore.store);
-                setPreview(val);
-                console.log("GeoJSON ready!");
-              })}
-            >
-            </input>
+              onChange={(event) =>
+                handleFileUpload(event.target.files).then((val) => {
+                  globalStore.store.currentGeoJson = val;
+                  globalStore.setStore(globalStore.store);
+                  setPreview(val);
+                  console.log("val", val);
+                  console.log("GeoJSON ready!");
+                })
+              }
+            ></input>
           </div>
         </div>
         <div className="rightC d-flex align-items-center">
