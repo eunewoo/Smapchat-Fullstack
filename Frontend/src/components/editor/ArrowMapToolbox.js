@@ -54,15 +54,17 @@ export default function ArrowMapToolbox(props) {
         {cards}
         <Button
           className="inner"
-          onClick={() => props.readyPlace(() => (latlng) => {
-            props.handler.createTrans("Location", {
+          onClick={() =>
+            props.readyPlace(() => (latlng) => {
+              props.handler.createTrans("Location", {
                 Name: "",
                 Lattitude: latlng.lat,
                 Longitude: latlng.lng,
                 Order: 0,
                 Date: "",
               });
-          })}
+            })
+          }
         >
           Add new
         </Button>
@@ -90,10 +92,7 @@ function ArrowMapLocation(props) {
           placeholder="Name"
           value={props.arrowPointLocation.Name}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Name`,
-              val,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Name`, val)
           }
         />
         <BsXLg
@@ -109,10 +108,7 @@ function ArrowMapLocation(props) {
           placeholder="Order"
           value={props.arrowPointLocation.Order}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Order`,
-              val,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Order`, val)
           }
         />
         <DebouncedInput
@@ -120,20 +116,26 @@ function ArrowMapLocation(props) {
           placeholder="Date"
           value={props.arrowPointLocation.Date}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Date`,
-              val,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Date`, val)
           }
         />
         <Button
-        onClick={() => props.readyPlace(() => (latlng) => {
-            props.handler.compoundTrans([
-                {path: `Location[${props.index}].Lattitude`, newValue: latlng.lat},
-                {path: `Location[${props.index}].Longitude`, newValue: latlng.lng},
-            ]);
-        })}> 
-          Move 
+          onClick={() =>
+            props.readyPlace(() => (latlng) => {
+              props.handler.compoundTrans([
+                {
+                  path: `Location[${props.index}].Lattitude`,
+                  newValue: latlng.lat,
+                },
+                {
+                  path: `Location[${props.index}].Longitude`,
+                  newValue: latlng.lng,
+                },
+              ]);
+            })
+          }
+        >
+          Move
         </Button>
       </Container>
     </Card>

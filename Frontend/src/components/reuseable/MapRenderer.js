@@ -4,7 +4,6 @@ import {
   MapContainer,
   TileLayer,
   GeoJSON,
-  useMapEvent,
   useMapEvents,
 } from "react-leaflet";
 import { renderPictureMap } from "./mapgraphics/PictureMap";
@@ -17,7 +16,7 @@ import "./MapRenderer.css";
 
 export default function MapRenderer(props) {
   const mapRef = useRef(null);
-  const [zoom, setZoom] = useState(2);
+  const [zoom] = useState(2);
   const [layerGroup] = useState(Leaflet.layerGroup());
   const [boundaries, setBoundaries] = useState([]); // State to store GeoJSON boundaries
 

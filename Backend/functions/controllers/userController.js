@@ -11,7 +11,7 @@ exports.getAllUsers = async (req, res, next) => {
     next(error);
   }
 };
- 
+
 exports.getUserById = async (req, res, next) => {
   try {
     const user = await UserModel.findByID(req.params.Id);
@@ -48,7 +48,7 @@ exports.register = async (req, res, next) => {
       req.body.email,
       req.body.username,
       req.body.password,
-      req.body.avatar
+      req.body.avatar,
     );
     res.status(201).json({ loggedIn: true, user: newUser });
   } catch (error) {
@@ -80,12 +80,11 @@ exports.login = async (req, res, next) => {
     // This wont work after password reset since we are not syncing Firebase reset password
     const isPasswordValid = await bcrypt.compare(
       req.body.password,
-      user.password
+      user.password,
     );
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    
 
     // If email verification is required, you can check here if the user is verified
     // if (!user.isVerified) {
@@ -110,7 +109,7 @@ exports.updateUserProfile = async (req, res, next) => {
   try {
     const updatedUser = await UserModel.updateProfile(
       req.params.Id,
-      req.body.updatedData
+      req.body.updatedData,
     );
     res.status(200).json(updatedUser);
   } catch (error) {
@@ -123,7 +122,7 @@ exports.updateUserActivation = async (req, res, next) => {
   try {
     const updatedUser = await UserModel.updateActivationStatus(
       req.params.Id,
-      req.body.isActive
+      req.body.isActive,
     );
     res.status(200).json(updatedUser);
   } catch (error) {

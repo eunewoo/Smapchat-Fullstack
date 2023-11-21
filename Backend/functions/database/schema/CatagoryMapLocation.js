@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const CatagoryMapLocationSchema = new mongoose.Schema({
   catagoryID: {
     type: Number,
     required: true,
-    unique: true, 
+    unique: true,
   },
-  name:{
-    type:String,
+  name: {
+    type: String,
     required: false,
     unique: false,
   },
@@ -22,8 +22,10 @@ const CatagoryMapLocationSchema = new mongoose.Schema({
     unique: false,
     default: "#FFFFFF",
   },
-  
 });
 
-const CatagoryMapLocationModel = mongoose.model("CatagoryMapLocation", CatagoryMapLocationSchema);
-module.exports = CatagoryMapLocationModel; 
+const CatagoryMapLocationModel = mongoose.model(
+  "CatagoryMapLocation",
+  CatagoryMapLocationSchema,
+);
+module.exports = CatagoryMapLocationModel;

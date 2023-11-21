@@ -1,15 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import "./SearchWidget.css";
 import { Container, Button, ToggleButton } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
-import { GlobalStoreContext } from "../../contexts/GlobalStoreContext";
+//import { GlobalStoreContext } from "../../contexts/GlobalStoreContext";
 
 /// Component which displays a text field for search data entry
 /// and sorting radios. Will likely need state setters from the
 /// gallery page passed to it as props
 export default function SearchWidget(props) {
-  const { handleFetchUsers } = useContext(GlobalStoreContext);
+  //const { handleFetchUsers } = useContext(GlobalStoreContext);
   const [term, setTerm] = useState("");
   const [radioValue, setRadioValue] = useState("date");
 
@@ -32,11 +32,12 @@ export default function SearchWidget(props) {
         <Button id="searchButton" onClick={handleButtonClick}>
           <BsSearch />
         </Button>
-        <input 
-        className="bar" 
-        placeholder="Search for maps"
-        value={term}
-        onChange={(e) => setTerm(e.target.value)}></input>
+        <input
+          className="bar"
+          placeholder="Search for maps"
+          value={term}
+          onChange={(e) => setTerm(e.target.value)}
+        ></input>
 
         <h3>Sort by</h3>
 

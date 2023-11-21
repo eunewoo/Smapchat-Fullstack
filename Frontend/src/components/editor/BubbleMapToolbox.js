@@ -51,15 +51,16 @@ export default function BubbleMapToolbox(props) {
         {cards}
         <Button
           className="inner"
-          onClick={() => props.readyPlace(() => (latlng) => {
-            props.handler.createTrans("Location", {
-              Name: "",
-              Longitude: latlng.lng,
-              Lattitude: latlng.lat,
-              Color: "#FFFFFF",
-              Size: 1,
-            });
-          })
+          onClick={() =>
+            props.readyPlace(() => (latlng) => {
+              props.handler.createTrans("Location", {
+                Name: "",
+                Longitude: latlng.lng,
+                Lattitude: latlng.lat,
+                Color: "#FFFFFF",
+                Size: 1,
+              });
+            })
           }
         >
           Add new
@@ -88,10 +89,7 @@ function BubbleMapLocation(props) {
           placeholder="Name"
           value={props.bubblePointLocation.Name}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Name`,
-              val,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Name`, val)
           }
         />
         <BsXLg
@@ -107,10 +105,7 @@ function BubbleMapLocation(props) {
           placeholder="Size"
           value={props.bubblePointLocation.Size}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Size`,
-              val,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Size`, val)
           }
         />
 
@@ -122,13 +117,22 @@ function BubbleMapLocation(props) {
         />
 
         <Button
-          onClick={() => props.readyPlace(() => (latlng) => {
+          onClick={() =>
+            props.readyPlace(() => (latlng) => {
               props.handler.compoundTrans([
-                  {path: `Location[${props.index}].Lattitude`, newValue: latlng.lat},
-                  {path: `Location[${props.index}].Longitude`, newValue: latlng.lng},
+                {
+                  path: `Location[${props.index}].Lattitude`,
+                  newValue: latlng.lat,
+                },
+                {
+                  path: `Location[${props.index}].Longitude`,
+                  newValue: latlng.lng,
+                },
               ]);
-          })}> 
-          Move 
+            })
+          }
+        >
+          Move
         </Button>
       </Container>
     </Card>

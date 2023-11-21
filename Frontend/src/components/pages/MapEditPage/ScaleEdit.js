@@ -1,5 +1,5 @@
 //importing routers from map Util
-import { createScaleMap } from "../../../util/mapUtil";  //here import all routes you need
+//import { createScaleMap } from "../../../util/mapUtil"; //here import all routes you need
 
 export const ScaleSave = async () => {};
 

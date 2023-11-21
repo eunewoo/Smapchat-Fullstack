@@ -1,5 +1,9 @@
 //importing routers from map Util
-import { createArrowMap, updateMapStatus, getArrowMap } from "../../../util/mapUtil";    //here import all routes you need
+import {
+  createArrowMap,
+  updateMapStatus,
+  getArrowMap,
+} from "../../../util/mapUtil"; //here import all routes you need
 const exampleMap = {
   MapID: 12124,
   Maxpin: 11,
@@ -54,7 +58,7 @@ const exampleUserId = "6556b9cde82b7d9bd50261ff";
 
 //1 creating arrow map and if one alr created then it just updates
 export const ArrowSave = async () => {
-    createArrowMap(exampleUserId, exampleUser, exampleMap, mapInfo);
+  createArrowMap(exampleUserId, exampleUser, exampleMap, mapInfo);
 };
 
 //2 changes the public section of the arrowmap
@@ -67,4 +71,3 @@ export const fetchArrowMap = async () => {
   const map = await getArrowMap(mapInfo.MapID);
   return map;
 };
-

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const MapSchema_ = new mongoose.Schema({
   mapType: {
@@ -20,11 +20,11 @@ const MapSchema_ = new mongoose.Schema({
   MapID: {
     type: Number,
     required: true,
-    unique: true, 
+    unique: true,
   },
   avgRate: {
     type: Number,
-    required:false,
+    required: false,
     default: 0,
   },
   comment: {
@@ -40,13 +40,13 @@ const MapSchema_ = new mongoose.Schema({
   date: {
     type: Date,
     required: false,
-    default: Date.now
+    default: Date.now,
   },
   public: {
     type: Number,
     required: true,
-    enum: [0,1],
-    default:0,
+    enum: [0, 1],
+    default: 0,
   },
 });
 

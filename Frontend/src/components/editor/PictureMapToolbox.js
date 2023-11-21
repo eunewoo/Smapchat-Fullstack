@@ -31,7 +31,7 @@ export default function PictureMapToolbox(props) {
         index={picturePointLocation}
         readyPlace={props.readyPlace}
         picturePointLocation={props.pictureMap.Location[picturePointLocation]}
-      />
+      />,
     );
   }
 
@@ -93,7 +93,7 @@ function PictureMapLocation(props) {
         parentIndex={props.index}
         index={library}
         library={props.picturePointLocation.Library[library]}
-      />
+      />,
     );
   }
 
@@ -114,7 +114,7 @@ function PictureMapLocation(props) {
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.index}].Name`,
-              val.target.value
+              val.target.value,
             )
           }
         />
@@ -175,7 +175,7 @@ function PictureMapLibrary(props) {
         parentIndex={props.parentIndex}
         index={props.index}
         src={props.library.Images[img]}
-      />
+      />,
     );
   }
 
@@ -212,21 +212,19 @@ function PictureMapLibrary(props) {
             resolve(downloadURL);
             setUploadText("+");
           });
-        }
+        },
       );
     });
   };
 
   const handleFileInput = async (event) => {
-    console.log("sad");
-
     const file = event.target.files[0];
     if (file) {
       const downloadURL = await uploadImageToFirebase(file);
       if (downloadURL) {
         props.handler.createTrans(
           `Location[${props.parentIndex}].Library[${props.index}].Images`,
-          downloadURL
+          downloadURL,
         );
       }
     }
@@ -242,14 +240,14 @@ function PictureMapLibrary(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.library.Name}
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.parentIndex}].Library[${props.index}].Name`,
-              val.target.value
+              val,
             )
           }
         />
@@ -258,7 +256,7 @@ function PictureMapLibrary(props) {
           onClick={(val) =>
             props.handler.deleteTrans(
               `Location[${props.parentIndex}].Library`,
-              props.library
+              props.library,
             )
           }
         />
@@ -272,10 +270,13 @@ function PictureMapLibrary(props) {
               type="file"
               accept="image/*"
               style={{ display: "none" }}
-              id={`upload-${props.index}`}
+              id={`upload-${props.parentIndex}-${props.index}`}
               onChange={handleFileInput}
             />
-            <label htmlFor={`upload-${props.index}`} style={{ margin: "5px" }}>
+            <label
+              htmlFor={`upload-${props.parentIndex}-${props.index}`}
+              style={{ margin: "5px" }}
+            >
               <Button style={{ width: "129px", height: "100px" }} disabled>
                 <BsPlusLg style={{ width: "30px", height: "30px" }} />
               </Button>
@@ -317,7 +318,7 @@ function PictureMapPicture(props) {
         onClick={(val) =>
           props.handler.deleteTrans(
             `Location[${props.parentIndex}].Library[${props.index}].Images`,
-            props.src
+            props.src,
           )
         }
       >

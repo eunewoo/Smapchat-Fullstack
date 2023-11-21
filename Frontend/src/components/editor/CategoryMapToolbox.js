@@ -100,10 +100,7 @@ function CategoryMapLocation(props) {
           placeholder="Name"
           value={props.categoryPointLocation.Name}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Category[${props.index}].Name`,
-              val,
-            )
+            props.handler.updateTrans(`Category[${props.index}].Name`, val)
           }
         />
         <BsXLg
@@ -118,16 +115,17 @@ function CategoryMapLocation(props) {
           {cards}
           <Button
             className="inner"
-            onClick={() => props.readyPlace(() => (latlng) => {
+            onClick={() =>
+              props.readyPlace(() => (latlng) => {
 
-              // TODO: Calculate appropriate coordinates here based on latlng
-              const Coordinates = [];
-
-              props.handler.createTrans(`Category[${props.index}].Locations`, {
-                Lattitude: latlng.lat,
-                Longitude: latlng.lng
-              });
-            })
+                props.handler.createTrans(
+                  `Category[${props.index}].Locations`,
+                  {
+                    Lattitude: latlng.lat,
+                    Longitude: latlng.lng,
+                  },
+                );
+              })
             }
           >
             Add new

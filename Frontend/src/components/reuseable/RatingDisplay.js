@@ -11,7 +11,7 @@ export default function RatingDisplay(props) {
     if (props.onClick) {
       props.onClick(val);
     }
-  }
+  };
 
   return (
     <div className={props.from === "map-card" ? "Container" : ""}>

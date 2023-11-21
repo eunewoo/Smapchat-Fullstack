@@ -18,12 +18,12 @@ export async function webFetch(route) {
         return data;
       } else {
         console.log(
-          `Error from server when requesting ${route}: ` + res.status
+          `Error from server when requesting ${route}: ` + res.status,
         );
 
         throw new Error("Server responded with non-200 code");
       }
-    }
+    },
   );
 }
 
@@ -74,7 +74,7 @@ async function bodiedRequest(route, data, method) {
       });
     } else {
       console.log(
-        `Error from server when ${method}ing ${route}: ` + res.status
+        `Error from server when ${method}ing ${route}: ` + res.status,
       );
       const data = await res.json();
       throw new Error(data.errorMessage);

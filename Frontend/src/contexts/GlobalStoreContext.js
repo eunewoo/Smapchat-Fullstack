@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback } from "react";
+import React, { createContext, useState } from "react";
 import { getUsers } from "../util/userUtil";
 
 export const GlobalStoreContext = createContext(null);
@@ -7,7 +7,7 @@ export const StoreProvider = ({ children }) => {
   const [store, setStore] = useState({
     // The currently loaded GeoJSON data (after conversion). Used by the editors
     // to carry the data over after upload.
-    currentGeoJson: {}
+    currentGeoJson: {},
   });
 
   const [isLoading, setIsLoading] = useState(false);

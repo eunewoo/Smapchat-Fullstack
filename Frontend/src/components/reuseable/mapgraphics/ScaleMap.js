@@ -4,15 +4,15 @@ import L from "leaflet";
 const blendColors = (color1, color2, percentage) => {
   let r = Math.round(
     parseInt(color1.substring(1, 3), 16) * (1 - percentage) +
-      parseInt(color2.substring(1, 3), 16) * percentage
+      parseInt(color2.substring(1, 3), 16) * percentage,
   );
   let g = Math.round(
     parseInt(color1.substring(3, 5), 16) * (1 - percentage) +
-      parseInt(color2.substring(3, 5), 16) * percentage
+      parseInt(color2.substring(3, 5), 16) * percentage,
   );
   let b = Math.round(
     parseInt(color1.substring(5, 7), 16) * (1 - percentage) +
-      parseInt(color2.substring(5, 7), 16) * percentage
+      parseInt(color2.substring(5, 7), 16) * percentage,
   );
 
   return `#${r.toString(16).padStart(2, "0")}${g
@@ -26,7 +26,9 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
   boundaries.forEach((boundary) => {
     // If certain point's lat,lng is in the boundary, color the boundary with that point's color value
     if (
-      L.polygon(boundary.layer.getLatLngs()).getBounds().contains({lat: lat, lng: lng})
+      L.polygon(boundary.layer.getLatLngs())
+        .getBounds()
+        .contains({ lat: lat, lng: lng })
     ) {
       const layer = boundary.layer;
       layer.setStyle({
@@ -45,7 +47,9 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
 // Function to create categories array that contains sample datas
 const createCategoriesFromData = (data) => {
   console.log(data.Location);
-  const max = data.Location.reduce((a, b) => (parseFloat(a.Value) > parseFloat(b.Value) ? a : b)).Value;
+  const max = data.Location.reduce((a, b) =>
+    parseFloat(a.Value) > parseFloat(b.Value) ? a : b,
+  ).Value;
   return data.Location.map((location, index) => {
     const scalePercentage = location.Value / max;
     console.log("max: " + max);
@@ -53,7 +57,7 @@ const createCategoriesFromData = (data) => {
     const categoryColor = blendColors(
       data.MinColor,
       data.MaxColor,
-      scalePercentage
+      scalePercentage,
     );
 
     return {
@@ -61,7 +65,7 @@ const createCategoriesFromData = (data) => {
       Name: location.Name,
       Color: categoryColor,
       Lattitude: location.Lattitude,
-      Longitude: location.Longitude
+      Longitude: location.Longitude,
     };
   });
 };
@@ -84,7 +88,7 @@ export const renderScaleMap = (map, data, boundaries) => {
       category.Longitude,
       category.Color,
       boundaries,
-      map
+      map,
     );
   });
 };
