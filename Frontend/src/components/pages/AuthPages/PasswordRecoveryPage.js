@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Container,
   Form,
@@ -13,7 +12,6 @@ import Logo from "../../../assets/images/logo2.png";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const PasswordRecoveryPage = () => {
-  const navigate = useNavigate();
   const { resetPassword, isLoading } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState("");

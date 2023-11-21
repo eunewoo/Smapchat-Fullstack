@@ -65,9 +65,6 @@ export default function ScaleMapToolbox(props) {
           className="inner"
           onClick={() =>
             props.readyPlace(() => (latlng) => {
-              // TODO: Calculate polygon bounds of the clicked polygon, based on latlng
-              const Coordinates = [];
-
               props.handler.createTrans("Location", {
                 Name: "",
                 Lattitude: latlng.lat,

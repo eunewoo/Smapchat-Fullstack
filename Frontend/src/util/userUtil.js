@@ -1,7 +1,5 @@
 import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 
-const baseUrl = process.env.REACT_APP_URL;
-
 /// Fetches a users profile as a JSON object based on a
 /// provided e-mail address
 export async function userProfile(email) {

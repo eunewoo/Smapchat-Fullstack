@@ -62,7 +62,6 @@ export default function MapEditPage() {
   // handler is initialized to handle operating on the data. See
   // TransactionHandler.js for details.
   const [data, setData] = useState(defaultData);
-  const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const [handler, setHandler] = useState(
     new TransactionHandler(data, forceUpdate),
@@ -105,7 +104,7 @@ export default function MapEditPage() {
     };
 
     fetchData();
-  }, []);
+  });
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
@@ -118,28 +117,6 @@ export default function MapEditPage() {
     setPlacing(true);
     setPlaceFunction(placeFunction);
   };
-
-  // TOOD: Remove this and instead have the GeoJSON data come from the previous
-  // page somehow.
-
-  // This contains the current map graphic data and geoJson. A transaction
-  // handler is initialized to handle operating on the data. See
-  // TransactionHandler.js for details.
-  // const [data, setData] = useState(defaultData);
-  // const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  // const handler = useState(new TransactionHandler(data, forceUpdate))[0];
-
-  // // This state controls if the editor screen is in a mode where we can click
-  // // on the map. In this state, the next time the user clicks on the map, the
-  // // placeFunction will fire. you need to pass a double closure as the function
-  // // because of javascript weirdness, so the form would look something like:
-  // // readyPlace(() => (latlng) => DoSomeSuff(latlng)); when set in an onClick.
-  // const [placing, setPlacing] = useState(false);
-  // const [placeFunction, setPlaceFunction] = useState((latlng) => { })
-  // const readyPlace = (placeFunction) => {
-  //   setPlacing(true);
-  //   setPlaceFunction(placeFunction);
-  // }
 
   //save button
   const handleSaveButton = () => {

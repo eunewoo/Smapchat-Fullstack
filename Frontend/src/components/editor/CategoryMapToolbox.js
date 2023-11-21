@@ -117,8 +117,6 @@ function CategoryMapLocation(props) {
             className="inner"
             onClick={() =>
               props.readyPlace(() => (latlng) => {
-                // TODO: Calculate appropriate coordinates here based on latlng
-                const Coordinates = [];
 
                 props.handler.createTrans(
                   `Category[${props.index}].Locations`,

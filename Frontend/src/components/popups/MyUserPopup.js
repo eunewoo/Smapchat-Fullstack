@@ -4,7 +4,6 @@ import {
   Container,
   Image,
   Form,
-  Row,
   Col,
 } from "react-bootstrap";
 import { useContext, useState } from "react";
@@ -21,7 +20,7 @@ export default function UserPopup(props) {
   const setPop = useContext(popContext);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedUser, setUpdatedUser] = useState({ ...auth.user });
+  const [updatedUser] = useState({ ...auth.user });
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -83,7 +82,7 @@ export default function UserPopup(props) {
           <Image
             className="avatar"
             src={
-              updatedUser.avatar == "" || updatedUser.avatar == null
+              updatedUser.avatar === "" || updatedUser.avatar === null
                 ? avatar
                 : updatedUser.avatar
             }

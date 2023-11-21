@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
-import { Spinner } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import React from "react";
+import { useState } from "react";
 import "./HomePage.css";
 import ScrollableGallery from "../../reuseable/ScrollableGallery";
 import SearchWidget from "../../reuseable/SearchWidget";

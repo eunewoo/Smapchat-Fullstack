@@ -1,4 +1,4 @@
-import L, { Icon } from "leaflet";
+import L from "leaflet";
 import locationIcon from "../../../assets/images/location.png";
 
 export const renderPictureMap = (map, data) => {
@@ -41,12 +41,12 @@ function createMarkerForLocation(map, location, libraries) {
   marker.bindPopup(popupContent);
 }
 
-function createCustomIcon(locationName) {
+/*function createCustomIcon(locationName) {
   return L.divIcon({
     html: `<div style="background-color: black; padding: 5px; border-radius: 100%; text-align: center;">${locationName}</div>`,
     className: "custom-div-icon",
   });
-}
+}*/
 
 function findMatchingLibraries(location, libraries) {
   return libraries.filter((lib) => location.libraryIds.includes(lib.name));

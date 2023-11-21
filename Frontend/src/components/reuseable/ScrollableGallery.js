@@ -1,8 +1,6 @@
 import React, {
   useState,
   useEffect,
-  forwardRef,
-  useImperativeHandle,
 } from "react";
 import MapCard from "./MapCard";
 import { Spinner } from "react-bootstrap";
@@ -25,7 +23,7 @@ export default function ScrollableGallery(props) {
   const numberOfColumns = props.numberOfColumns;
   const height = props.height;
 
-  if (props.lastSearch != lastSearch || props.lastSort != lastSort) {
+  if (props.lastSearch !== lastSearch || props.lastSort !== lastSort) {
     setRow(0);
     setElements([]);
     setBottom(false);
@@ -78,7 +76,7 @@ export default function ScrollableGallery(props) {
       console.log(props.fetchFunction);
       addRowOfMapCards();
     }
-  }, [elements, numberOfColumns, row]);
+  });
 
   // This handler handles the scrolling event, which will
   // fetch a new set of maps and create map cards for them

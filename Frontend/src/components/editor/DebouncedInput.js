@@ -18,7 +18,7 @@ export default function DebouncedInput(props) {
         setEditing(false);
       }
     }, 500);
-  }, [value]);
+  });
 
   return (
     <input

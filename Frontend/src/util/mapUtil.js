@@ -1,4 +1,4 @@
-import { webFetch, webDelete, webPost, webPut } from "./webUtil";
+import { webFetch, webDelete, webPost } from "./webUtil";
 import axios from "axios";
 ///all map related api
 //1
