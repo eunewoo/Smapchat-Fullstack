@@ -104,7 +104,7 @@ export default function MapEditPage() {
     };
 
     fetchData();
-  });
+  }, [params.mapType]);
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
