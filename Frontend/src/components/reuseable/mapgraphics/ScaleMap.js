@@ -43,7 +43,7 @@ const blendColors = (color1, color2, percentage) => {
 
 // Boundaries is the array of coordinates that is formed when render map data in MapRenderer.js file
 // Function to color a specific boundary based on lat, lng
-const colorBoundary = (lat, lng, color, boundaries, map) => {
+const colorBoundary = (name, lat, lng, color, boundaries, map) => {
   boundaries.forEach((boundary) => {
     var inside = false;
 
@@ -58,6 +58,7 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
         weight: 2,
       });
       // Add the color changes on map
+      layer.bindPopup(`${name}`)
       map.addLayer(layer);
     } else {
       // console.log("Boundary does not contain the point");
@@ -105,6 +106,7 @@ export const renderScaleMap = (map, data, boundaries) => {
   categories.forEach((category) => {
     console.log(category);
     colorBoundary(
+      category.Name,
       category.Lattitude,
       category.Longitude,
       category.Color,

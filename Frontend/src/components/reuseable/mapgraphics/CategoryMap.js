@@ -22,7 +22,7 @@ function isMarkerInsidePolygon(latlng, poly) {
 }
 
 // Function to color a specific boundary based on lat, lng
-const colorBoundary = (lat, lng, color, boundaries, map) => {
+const colorBoundary = (name, lat, lng, color, boundaries, map) => {
   boundaries.forEach((boundary) => {
     var inside = false;
 
@@ -35,6 +35,7 @@ const colorBoundary = (lat, lng, color, boundaries, map) => {
         fillOpacity: 0.5,
         weight: 2,
       });
+      boundary.layer.bindPopup(`${name}`);
       map.addLayer(boundary.layer);
     } else {
       console.log("category colorBoundary failed");
@@ -51,6 +52,7 @@ export const renderCategoryMap = (map, data, boundaries) => {
   data.Category.forEach((category) => {
     category.Locations.forEach((location) => {
       colorBoundary(
+        category.Name,
         location.Lattitude,
         location.Longitude,
         category.Color,
