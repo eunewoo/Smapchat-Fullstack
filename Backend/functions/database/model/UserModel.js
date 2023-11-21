@@ -101,7 +101,7 @@ class UserModel {
       const updatedUser = await UserSchema.findOneAndUpdate(
         { _id: new mongodb.ObjectId(userId) },
         { $set: updatedData },
-        options
+        options,
       );
 
       if (!updatedUser) {

@@ -17,7 +17,7 @@ export const renderPictureMap = (map, data) => {
     loc.Library.map((lib) => ({
       name: lib.Name,
       images: lib.Images,
-    }))
+    })),
   );
 
   transformedLocations.forEach((location) => {
@@ -33,7 +33,6 @@ function createMarkerForLocation(map, location, libraries) {
   const marker = L.marker(
     [parseFloat(location.lattitude), parseFloat(location.longitude)],
     { icon: customIcon },
-
   ).addTo(map);
 
   const matchingLibraries = findMatchingLibraries(location, libraries);

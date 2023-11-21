@@ -12,7 +12,7 @@ export default function MapCard(props) {
       avgRate: 0, // Replace with your default values
       title: "Loading...",
       author: "Loading...",
-    }
+    },
   );
   const numberOfColumns = props.numberOfColumns;
   const navigate = useNavigate();

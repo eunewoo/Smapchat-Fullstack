@@ -25,12 +25,12 @@ const PasswordRecoveryPage = () => {
     const { success, error } = await resetPassword(email);
     if (success) {
       setFeedback(
-        "Instructions to reset your password have been sent to your email."
+        "Instructions to reset your password have been sent to your email.",
       );
       // Optionally navigate to a different page or show a message
     } else {
       setFeedback(
-        error || "An error occurred while trying to reset the password."
+        error || "An error occurred while trying to reset the password.",
       );
     }
   };

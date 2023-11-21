@@ -50,7 +50,7 @@ const exampleUser = {
   password: "securePassword123",
   avatar: "path/to/avatar.jpg",
   isActive: true,
-  mapList: [1,2,3,10],
+  mapList: [1, 2, 3, 10],
   userType: 1,
   verificationCode: "abc123",
   isVerified: true,
@@ -65,7 +65,7 @@ export const fetchBubbleMap = async () => {
 
 //2 for creating or updating if one excits bubble map info
 export const BubbleSave = async () => {
-  createBubbleMap(exampleUserId, exampleUser, exampleMap, mapInfo)
+  createBubbleMap(exampleUserId, exampleUser, exampleMap, mapInfo);
 };
 
 //3 changing the map publish status
@@ -80,5 +80,5 @@ export const updateSpecificMap = async () => {
 //5 getting any map
 export const fetchMap = async () => {
   const map = await fetchSpecificMap(exampleMap.MapID);
-  return map
-}
+  return map;
+};

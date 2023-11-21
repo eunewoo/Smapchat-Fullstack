@@ -35,6 +35,6 @@ const BubblePointLocationSchema = new mongoose.Schema({
 });
 const BubblePointLocationModel = mongoose.model(
   "BubblePointLocation",
-  BubblePointLocationSchema
+  BubblePointLocationSchema,
 );
 module.exports = BubblePointLocationModel;

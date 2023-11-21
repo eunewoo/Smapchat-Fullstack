@@ -54,9 +54,8 @@ export default class TransactionHandler {
   /// Builds a compound update transaction, which processes multiple updates
   /// at the same time.
   compoundTrans(pathValues) {
-
     console.log("Calling compound!");
-    console.log(pathValues);  
+    console.log(pathValues);
     const all = [];
 
     for (const i in pathValues) {
@@ -80,13 +79,11 @@ export default class TransactionHandler {
     const trans = this.undoList.pop();
 
     if (trans != null) {
-
       if (Array.isArray(trans)) {
         for (const action in trans) {
           trans[action].undo(this.obj);
         }
-      }
-      else {
+      } else {
         trans.undo(this.obj);
       }
 
@@ -100,16 +97,14 @@ export default class TransactionHandler {
   redo() {
     const trans = this.redoList.pop();
     if (trans != null) {
-
       if (Array.isArray(trans)) {
         for (const action in trans) {
           trans[action].do(this.obj);
         }
-      }
-      else {
+      } else {
         trans.do(this.obj);
       }
-      
+
       this.undoList.push(trans);
       this.refresh();
     }

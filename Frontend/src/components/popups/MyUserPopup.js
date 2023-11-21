@@ -34,7 +34,7 @@ export default function UserPopup(props) {
     setAuth({ ...auth, user: updatedUser });
     localStorage.setItem(
       "auth",
-      JSON.stringify({ ...auth, user: updatedUser })
+      JSON.stringify({ ...auth, user: updatedUser }),
     );
   };
 

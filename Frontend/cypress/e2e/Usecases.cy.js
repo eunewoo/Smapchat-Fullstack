@@ -158,32 +158,31 @@ describe("Edit page", () => {
 });*/
 
 describe("Login page", () => {
-
   /// use case 2.23: verifies that a user can login
   it("A user can log in to the application", () => {
     cy.visit("http://localhost:3000/login-page");
     cy.get('input[placeholder="E-Mail"]').type("test@test.com");
     cy.get('input[placeholder="Password"]').type("password");
-    cy.get('button').contains('Login').click();
+    cy.get("button").contains("Login").click();
     // TODO: Get user widget to confirm login
   });
 
   /// use case 2.24: verifies that a user can recover their password
   it("A user can recover their password", () => {
     cy.visit("http://localhost:3000/login-page");
-    cy.get('button').contains('Forgot Password/username?').click();
+    cy.get("button").contains("Forgot Password/username?").click();
     cy.get('input[placeholder="Recovery E-Mail"]').type("test@test.com");
-    cy.get('button').contains('Send Reset Instructions').click();
+    cy.get("button").contains("Send Reset Instructions").click();
   });
 
   /// use case 2.25: verifies that a user can register a new account
   it("A user can register a new account", () => {
     cy.visit("http://localhost:3000/login-page");
-    cy.get('button').contains('Register').click();
+    cy.get("button").contains("Register").click();
     cy.get('input[placeholder="E-Mail"]').type("test@test.com");
     cy.get('input[placeholder="Username"]').type("tester");
     cy.get('input[placeholder="Password"]').type("password");
     cy.get('input[placeholder="Repeat Password"]').type("password");
-    cy.get('button').contains('Register').click();
+    cy.get("button").contains("Register").click();
   });
 });

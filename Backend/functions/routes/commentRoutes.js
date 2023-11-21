@@ -66,7 +66,7 @@ router.put("/api/comment/update", async (req, res) => {
     const comment = await CommentModel.updateComment(
       userId,
       commentId,
-      content
+      content,
     );
     res.json(comment);
   } catch (error) {

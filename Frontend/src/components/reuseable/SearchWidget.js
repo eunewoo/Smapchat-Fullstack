@@ -32,11 +32,12 @@ export default function SearchWidget(props) {
         <Button id="searchButton" onClick={handleButtonClick}>
           <BsSearch />
         </Button>
-        <input 
-        className="bar" 
-        placeholder="Search for maps"
-        value={term}
-        onChange={(e) => setTerm(e.target.value)}></input>
+        <input
+          className="bar"
+          placeholder="Search for maps"
+          value={term}
+          onChange={(e) => setTerm(e.target.value)}
+        ></input>
 
         <h3>Sort by</h3>
 

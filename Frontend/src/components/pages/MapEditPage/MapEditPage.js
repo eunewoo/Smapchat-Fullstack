@@ -65,7 +65,7 @@ export default function MapEditPage() {
   const [geoJsonData, setGeoJsonData] = useState({});
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const [handler, setHandler] = useState(
-    new TransactionHandler(data, forceUpdate)
+    new TransactionHandler(data, forceUpdate),
   );
 
   // map datas
@@ -75,7 +75,6 @@ export default function MapEditPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
         if (params.mapType === "ArrowMap") {
           const result = await fetchArrowMap();
           console.log("arrow data: ", result);
@@ -91,8 +90,8 @@ export default function MapEditPage() {
           const result = await fetchBubbleMap();
           console.log("bubble data: ", result);
           if (!result) {
-            setData(bubbleData)  //need more work here
-          } else { 
+            setData(bubbleData); //need more work here
+          } else {
             setData(result);
           }
           setHandler(new TransactionHandler(result, forceUpdate));

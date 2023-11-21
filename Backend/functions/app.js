@@ -34,7 +34,7 @@ var app = express();
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 
 admin.initializeApp({ credential: admin.credential.cert(credentials) });
@@ -54,11 +54,11 @@ app.use(function (err, req, res, next) {
   next();
 });
 
-process.on('SIGTERM', () => {
+process.on("SIGTERM", () => {
   mongoose.disconnect();
 });
 
-process.on('SIGINT', () => {
+process.on("SIGINT", () => {
   mongoose.disconnect();
 });
 

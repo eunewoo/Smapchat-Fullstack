@@ -63,18 +63,18 @@ export default function ScaleMapToolbox(props) {
         {cards}
         <Button
           className="inner"
-          onClick={() => props.readyPlace(() => (latlng) => {
+          onClick={() =>
+            props.readyPlace(() => (latlng) => {
+              // TODO: Calculate polygon bounds of the clicked polygon, based on latlng
+              const Coordinates = [];
 
-            // TODO: Calculate polygon bounds of the clicked polygon, based on latlng
-            const Coordinates = [];
-
-            props.handler.createTrans("Location", {
-              Name: "",
-              Lattitude: latlng.lat,
-              Longitude: latlng.lng,
-              Value: 0,
-            });
-          })
+              props.handler.createTrans("Location", {
+                Name: "",
+                Lattitude: latlng.lat,
+                Longitude: latlng.lng,
+                Value: 0,
+              });
+            })
           }
         >
           Add new
@@ -103,10 +103,7 @@ function ScaleMapLocation(props) {
           placeholder="Name"
           value={props.scalePointLocation.Name}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Name`,
-              val,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Name`, val)
           }
         />
         <BsXLg
@@ -123,10 +120,7 @@ function ScaleMapLocation(props) {
           type="number"
           value={props.scalePointLocation.Value}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Value`,
-              val,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Value`, val)
           }
         />
       </Container>

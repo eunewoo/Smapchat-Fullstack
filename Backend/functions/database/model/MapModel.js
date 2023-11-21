@@ -30,7 +30,7 @@ class MapModel {
         mapList.map(async (mapId) => {
           const map = await MapSchema.findOne({ MapID: mapId }).exec();
           return map;
-        })
+        }),
       );
 
       return maps;
@@ -70,7 +70,7 @@ class MapModel {
     query,
     sort = "date",
     page = 1,
-    limit = 20
+    limit = 20,
   ) {
     const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
 
@@ -168,7 +168,7 @@ class MapModel {
         const upd = await ArrowMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
           { Location: mapData.Location },
-          { Maxpin: mapData.Maxpin }
+          { Maxpin: mapData.Maxpin },
         );
         console.log("Updated Arrow Map:", mapData.Maxpin);
       } else {
@@ -180,7 +180,7 @@ class MapModel {
         if (!checkArrow) {
           const ArrowMapIndexes = await ArrowMapSchema.collection.indexes();
           const indexesToDelete = ArrowMapIndexes.filter((index) =>
-            index.name.startsWith("mapID_")
+            index.name.startsWith("mapID_"),
           );
 
           const dropPromises = indexesToDelete.map(async (index) => {
@@ -208,7 +208,7 @@ class MapModel {
       if (checkBubble) {
         const upd = await BubbleMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
-          { Location: mapData.Location }
+          { Location: mapData.Location },
         );
         console.log("Updated Bubble Map:");
       } else {
@@ -225,7 +225,7 @@ class MapModel {
         if (!checkBubble) {
           const BubbleMapIndexes = await BubbleMapSchema.collection.indexes();
           const indexesToDelete = BubbleMapIndexes.filter((index) =>
-            index.name.startsWith("mapID_")
+            index.name.startsWith("mapID_"),
           );
 
           const dropPromises = indexesToDelete.map(async (index) => {
@@ -293,7 +293,7 @@ class MapModel {
         mapData,
         {
           new: true,
-        }
+        },
       );
       console.log(updatedMap);
 
@@ -313,7 +313,7 @@ class MapModel {
       const updatedMap = await MapSchema.findOneAndUpdate(
         { MapID: mapId },
         { public: isPublic },
-        { new: true }
+        { new: true },
       );
 
       if (!updatedMap) {

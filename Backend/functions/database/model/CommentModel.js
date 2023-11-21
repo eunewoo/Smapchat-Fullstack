@@ -11,7 +11,7 @@ class CommentModel {
     } catch (error) {
       throw new Error(error.message);
     }
-  } 
+  }
 
   //post
   //2
@@ -35,7 +35,7 @@ class CommentModel {
       const comment = await CommentSchema.findOneAndUpdate(
         { commentID: commentId },
         { $inc: { likes: 1 } },
-        { new: true }
+        { new: true },
       );
 
       return comment;
@@ -50,7 +50,7 @@ class CommentModel {
       const comment = await CommentSchema.findOneAndUpdate(
         { commentID: commentId },
         { $inc: { disLikes: 1 } },
-        { new: true }
+        { new: true },
       );
 
       return comment;
@@ -66,7 +66,7 @@ class CommentModel {
       const comment = await CommentSchema.findOneAndUpdate(
         { commentID: commentId, userID: userId },
         { content: content },
-        { new: true }
+        { new: true },
       );
 
       return comment;

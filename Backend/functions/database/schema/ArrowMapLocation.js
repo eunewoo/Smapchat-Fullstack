@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ArrowMapLocationSchema = new mongoose.Schema({
   locationId: {
     type: Number,
     required: true,
-    unique: true, 
+    unique: true,
   },
-  name:{
-    type:String,
+  name: {
+    type: String,
     required: false,
     unique: false,
   },
@@ -29,11 +29,13 @@ const ArrowMapLocationSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
-    unique: true, 
+    unique: true,
     default: Date.now,
   },
-  
 });
 
-const ArrowMapLocationModel = mongoose.model("ArrowMapLocation", ArrowMapLocationSchema);
-module.exports = ArrowMapLocationModel; 
+const ArrowMapLocationModel = mongoose.model(
+  "ArrowMapLocation",
+  ArrowMapLocationSchema,
+);
+module.exports = ArrowMapLocationModel;

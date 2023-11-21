@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Spinner } from "react-bootstrap";
 import { BsSearch } from "react-icons/bs";
-import {fetchUserMaps} from "../../../util/mapUtil"
+import { fetchUserMaps } from "../../../util/mapUtil";
 import ScrollableGallery from "../../reuseable/ScrollableGallery";
 
 const MyMapsPage = () => {
@@ -14,10 +14,9 @@ const MyMapsPage = () => {
   const handleToggleRating = () => setIsToggledRating(!isToggledRating);
 
   //this function returns full list of users map
-  const getUserMaps = async () => { 
-    
-    console.log(maps)
-  }
+  const getUserMaps = async () => {
+    console.log(maps);
+  };
   const [maps, setMaps] = useState([]);
   const [dataFetched, setDataFetched] = useState(false);
   useEffect(() => {
@@ -25,7 +24,7 @@ const MyMapsPage = () => {
       try {
         const exampleUserId = "6556b9cde82b7d9bd50261ff"; // relace this
         var maps = await fetchUserMaps(exampleUserId);
-        setMaps(maps)
+        setMaps(maps);
         console.log("fetch set true");
         setDataFetched(true);
       } catch (error) {
@@ -34,7 +33,6 @@ const MyMapsPage = () => {
     };
     fetchData();
   }, []);
-
 
   if (dataFetched) {
     return (
@@ -106,7 +104,7 @@ const MyMapsPage = () => {
         />
       </div>
     );
-  }else {
+  } else {
     return (
       <div
         className="d-flex align-items-center justify-content-center"

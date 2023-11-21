@@ -31,7 +31,7 @@ export const renderCategoryMap = (map, data, boundaries) => {
         location.Longitude,
         category.Color,
         boundaries,
-        map
+        map,
       );
     });
   });

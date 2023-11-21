@@ -1,4 +1,9 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import MapCard from "./MapCard";
 import { Spinner } from "react-bootstrap";
 import "./ScrollableGallery.css";
@@ -30,16 +35,18 @@ export default function ScrollableGallery(props) {
   }
 
   const addRowOfMapCards = () => {
-
     if (bottom) {
       return;
     }
 
     props.fetchFunction(row + 1, numberOfColumns).then((mapDataArray) => {
-
       console.log(mapDataArray);
 
-      if (!mapDataArray || !Array.isArray(mapDataArray) || mapDataArray.length <= 0) {
+      if (
+        !mapDataArray ||
+        !Array.isArray(mapDataArray) ||
+        mapDataArray.length <= 0
+      ) {
         setDataFetched(true);
         setBottom(true);
         console.log("No more maps!");
@@ -57,22 +64,21 @@ export default function ScrollableGallery(props) {
           ))}
         </div>
       );
-  
+
       setDataFetched(true);
 
       setElements([...elements, newRow]);
       setRow(row + 1);
-    })
+    });
   };
 
   // Initial load
   useEffect(() => {
     if (elements.length === 0) {
-      console.log(props.fetchFunction)
+      console.log(props.fetchFunction);
       addRowOfMapCards();
     }
   }, [elements, numberOfColumns, row]);
-
 
   // This handler handles the scrolling event, which will
   // fetch a new set of maps and create map cards for them
@@ -88,27 +94,27 @@ export default function ScrollableGallery(props) {
 
   if (dataFetched) {
     return (
-    <div
-      className="scroller"
-      style={{ height: `calc(100vh - ${height}px)` }}
-      onScroll={handleScroll}
-    >
-      {elements}
-    </div>);
-    } 
-    else { 
-      return (
-        <div
-          className="d-flex align-items-center justify-content-center"
-          style={{ height: "100vh" }}
-        >
-          <div className="text-center">
-            <Spinner animation="border" role="status" variant="primary">
-              <span className="sr-only"></span>
-            </Spinner>
-            <p className="ml-2 mt-2">Loading...</p>
-          </div>
+      <div
+        className="scroller"
+        style={{ height: `calc(100vh - ${height}px)` }}
+        onScroll={handleScroll}
+      >
+        {elements}
+      </div>
+    );
+  } else {
+    return (
+      <div
+        className="d-flex align-items-center justify-content-center"
+        style={{ height: "100vh" }}
+      >
+        <div className="text-center">
+          <Spinner animation="border" role="status" variant="primary">
+            <span className="sr-only"></span>
+          </Spinner>
+          <p className="ml-2 mt-2">Loading...</p>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 }

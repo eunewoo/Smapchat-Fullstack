@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const LocationSchema = new mongoose.Schema({
   Name: {
     type: String,
@@ -36,4 +36,4 @@ const BubbleMapSchema_ = new mongoose.Schema({
 });
 
 const BubbleMapSchema = mongoose.model("BubbleMap", BubbleMapSchema_);
-module.exports = BubbleMapSchema; 
+module.exports = BubbleMapSchema;
