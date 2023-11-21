@@ -44,7 +44,7 @@ exports.searchPublicMapsByQuery = async (req, res, next) => {
       query,
       sort,
       page,
-      limit,
+      limit
     );
     res.status(200).json(publicMaps);
   } catch (error) {
@@ -62,7 +62,7 @@ exports.searchUserMapsByQuery = async (req, res, next) => {
       userId,
       query,
       page,
-      limit,
+      limit
     );
     res.status(200).json(userMaps);
   } catch (error) {
@@ -79,7 +79,7 @@ exports.getTopRatedUserMaps = async (req, res, next) => {
     const topRatedUserMaps = await MapModel.getTopRatedUserMaps(
       userId,
       page,
-      limit,
+      limit
     );
     res.json(topRatedUserMaps);
   } catch (error) {
@@ -96,7 +96,7 @@ exports.getRecentUserMaps = async (req, res, next) => {
     const recentUserMaps = await MapModel.getRecentUserMaps(
       userId,
       page,
-      limit,
+      limit
     );
     res.json(recentUserMaps);
   } catch (error) {
@@ -106,11 +106,11 @@ exports.getRecentUserMaps = async (req, res, next) => {
 };
 
 exports.createPictureMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
+  const { userId, mapData, mapInfo } = req.body;
 
   try {
-    const createdPictureMap = await MapModel.createPictureMap(userId, mapData);
-    res.json(createdPictureMap);
+    const result = await MapModel.createPictureMap(userId, mapData, mapInfo);
+    res.json(result);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
@@ -125,7 +125,7 @@ exports.createArrowMap = async (req, res, next) => {
       userId,
       userData,
       mapData,
-      mapInfo,
+      mapInfo
     );
     res.json(result);
   } catch (error) {
@@ -141,7 +141,7 @@ exports.createBubbleMap = async (req, res, next) => {
       userId,
       userData,
       mapData,
-      mapInfo,
+      mapInfo
     );
     res.json(b);
   } catch (error) {
@@ -156,7 +156,7 @@ exports.createCategoryMap = async (req, res, next) => {
   try {
     const createdCategoryMap = await MapModel.createCategoryMap(
       userId,
-      mapData,
+      mapData
     );
     res.json(createdCategoryMap);
   } catch (error) {

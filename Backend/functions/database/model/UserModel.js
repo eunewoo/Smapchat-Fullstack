@@ -101,7 +101,7 @@ class UserModel {
       const updatedUser = await UserSchema.findOneAndUpdate(
         { _id: new mongodb.ObjectId(userId) },
         { $set: updatedData },
-        options,
+        options
       );
 
       if (!updatedUser) {
@@ -111,6 +111,28 @@ class UserModel {
       return updatedUser;
     } catch (error) {
       console.error("Error updating user by ID:", error);
+      throw new Error(error.message);
+    }
+  }
+
+  static async addMapToUserMapList(userId, mapId) {
+    try {
+      const objectId = new mongodb.ObjectId(userId);
+
+      // Push the mapId to the user's mapList
+      const updatedUser = await UserSchema.findOneAndUpdate(
+        { _id: objectId },
+        { $push: { mapList: mapId } },
+        { new: true }
+      );
+
+      if (!updatedUser) {
+        throw new Error("User not found");
+      }
+
+      return updatedUser;
+    } catch (error) {
+      console.error("Error adding map to user's mapList:", error);
       throw new Error(error.message);
     }
   }
