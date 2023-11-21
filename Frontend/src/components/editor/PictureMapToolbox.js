@@ -218,7 +218,6 @@ function PictureMapLibrary(props) {
   };
 
   const handleFileInput = async (event) => {
-    console.log("sad");
 
     const file = event.target.files[0];
     if (file) {
@@ -242,14 +241,14 @@ function PictureMapLibrary(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.library.Name}
           onChange={(val) =>
             props.handler.updateTrans(
               `Location[${props.parentIndex}].Library[${props.index}].Name`,
-              val.target.value
+              val
             )
           }
         />
@@ -272,10 +271,10 @@ function PictureMapLibrary(props) {
               type="file"
               accept="image/*"
               style={{ display: "none" }}
-              id={`upload-${props.index}`}
+              id={`upload-${props.parentIndex}-${props.index}`}
               onChange={handleFileInput}
             />
-            <label htmlFor={`upload-${props.index}`} style={{ margin: "5px" }}>
+            <label htmlFor={`upload-${props.parentIndex}-${props.index}`} style={{ margin: "5px" }}>
               <Button style={{ width: "129px", height: "100px" }} disabled>
                 <BsPlusLg style={{ width: "30px", height: "30px" }} />
               </Button>
