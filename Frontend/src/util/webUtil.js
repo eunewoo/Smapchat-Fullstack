@@ -3,22 +3,28 @@
 /// should start with a /. Logs an error and throws null if the
 /// server responds with a non-200 response code.
 export async function webFetch(route) {
-  fetch(`${process.env.REACT_APP_URL}${route}`).then((res) => {
-    if (res.status === 200) {
-      res.json().then((val) => {
-        if (val != null) {
-          return val;
-        } else {
-          console.log("Response body was null!");
-          throw new Error("Response body was null");
-        }
-      });
-    } else {
-      console.log(`Error from server when requesting ${route}: ` + res.status);
+  return await fetch(`${process.env.REACT_APP_URL}${route}`).then(
+    async (res) => {
+      if (res.status === 200 || res.status === 201) {
+        const data = res.json().then((val) => {
+          if (val != null) {
+            console.log("webFetch", val);
+            return val;
+          } else {
+            console.log("Response body was null!");
+            throw new Error("Response body was null");
+          }
+        });
+        return data;
+      } else {
+        console.log(
+          `Error from server when requesting ${route}: ` + res.status,
+        );
 
-      throw new Error("Server responded with non-200 code");
-    }
-  });
+        throw new Error("Server responded with non-200 code");
+      }
+    },
+  );
 }
 
 /// Helper function to perform a PUT request with error handling.
@@ -48,15 +54,17 @@ export async function webDelete(route, data) {
 /// Generic function for a bodied request of various methods. Called by the
 /// exported functions above
 async function bodiedRequest(route, data, method) {
-  fetch(`${process.env.REACT_APP_URL}${route}`, {
+  console.log(data);
+  return fetch(`${process.env.REACT_APP_URL}${route}`, {
     method: method,
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((res) => {
-    if (res.status === 200) {
-      res.json().then((val) => {
+  }).then(async (res) => {
+    if (res.status === 200 || res.status === 201) {
+      return await res.json().then((val) => {
+        console.log(val);
         if (val != null) {
           return val;
         } else {
@@ -68,8 +76,8 @@ async function bodiedRequest(route, data, method) {
       console.log(
         `Error from server when ${method}ing ${route}: ` + res.status,
       );
-
-      throw new Error("Server responded with non-200 code");
+      const data = await res.json();
+      throw new Error(data.errorMessage);
     }
   });
 }

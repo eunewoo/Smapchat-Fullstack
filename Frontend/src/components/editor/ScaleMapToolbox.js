@@ -7,6 +7,7 @@ import {
 } from "react-icons/bs";
 import "./CommonToolbox.css";
 import ColorWidget from "./ColorWidget";
+import DebouncedInput from "./DebouncedInput";
 
 /// The toolbox for editing an scale map. Expects the map data and a TransactionHandler
 /// for that data as the scaleMap and handler props respectively.
@@ -23,9 +24,9 @@ export default function ScaleMapToolbox(props) {
   }
 
   return (
-    <Card className="toolbox">
+    <Card id="toolbox" className="toolbox">
       <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
-        <Card.Text>Scale Map Editor</Card.Text>
+        <Card.Title>Scale Map Editor</Card.Title>
       </Card.Body>
 
       <Container>
@@ -63,10 +64,13 @@ export default function ScaleMapToolbox(props) {
         <Button
           className="inner"
           onClick={() =>
-            props.handler.createTrans("Location", {
-              Name: "",
-              Polygon: { Coordinates: [] },
-              Value: 0,
+            props.readyPlace(() => (latlng) => {
+              props.handler.createTrans("Location", {
+                Name: "",
+                Lattitude: latlng.lat,
+                Longitude: latlng.lng,
+                Value: 0,
+              });
             })
           }
         >
@@ -91,15 +95,12 @@ function ScaleMapLocation(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.scalePointLocation.Name}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Name`,
-              val.target.value,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Name`, val)
           }
         />
         <BsXLg
@@ -110,15 +111,13 @@ function ScaleMapLocation(props) {
         />
       </Card.Body>
       <Container style={{ padding: "20px" }}>
-        <input
+        <DebouncedInput
           className="input"
           placeholder="Value"
+          type="number"
           value={props.scalePointLocation.Value}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Value`,
-              val.target.value,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Value`, val)
           }
         />
       </Container>

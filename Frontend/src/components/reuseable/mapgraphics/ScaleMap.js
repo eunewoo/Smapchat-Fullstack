@@ -1,8 +1,7 @@
 import L from "leaflet";
 
-// Function to blend two colors based on a percentage
+// Function to convert value into color based on min, max color
 const blendColors = (color1, color2, percentage) => {
-  // Assuming color1 and color2 are hex colors (e.g., #FF0000)
   let r = Math.round(
     parseInt(color1.substring(1, 3), 16) * (1 - percentage) +
       parseInt(color2.substring(1, 3), 16) * percentage,
@@ -21,52 +20,75 @@ const blendColors = (color1, color2, percentage) => {
     .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 };
 
-// Sample Category data - initially empty
-const categories = [];
+// Boundaries is the array of coordinates that is formed when render map data in MapRenderer.js file
+// Function to color a specific boundary based on lat, lng
+const colorBoundary = (lat, lng, color, boundaries, map) => {
+  boundaries.forEach((boundary) => {
+    // If certain point's lat,lng is in the boundary, color the boundary with that point's color value
+    if (
+      L.polygon(boundary.layer.getLatLngs())
+        .getBounds()
+        .contains({ lat: lat, lng: lng })
+    ) {
+      const layer = boundary.layer;
+      layer.setStyle({
+        fillColor: color,
+        fillOpacity: 0.5,
+        weight: 2,
+      });
+      // Add the color changes on map
+      map.addLayer(layer);
+    } else {
+      // console.log("Boundary does not contain the point");
+    }
+  });
+};
 
-const createCategoriesFromGeoJson = (geoJsonData) => {
-
-  const max = geoJsonData.Location.reduce((a, b) => a.Value > b.Value ? a : b).Value;
-
-  geoJsonData.Location.forEach((feature, index) => {
-    const scalePercentage = feature.Value / max; // Calculate the percentage (0 to 1)
+// Function to create categories array that contains sample datas
+const createCategoriesFromData = (data) => {
+  console.log(data.Location);
+  const max = data.Location.reduce((a, b) =>
+    parseFloat(a.Value) > parseFloat(b.Value) ? a : b,
+  ).Value;
+  return data.Location.map((location, index) => {
+    const scalePercentage = location.Value / max;
+    console.log("max: " + max);
+    console.log("Percent: " + location.Value / max);
     const categoryColor = blendColors(
-      geoJsonData.MinColor,
-      geoJsonData.MaxColor,
+      data.MinColor,
+      data.MaxColor,
       scalePercentage,
     );
 
-    const newCategory = {
+    return {
       CategoryId: index + 1,
-      Name: `Category ${index + 1}`,
+      Name: location.Name,
       Color: categoryColor,
-      Coordinates: feature.Polygon.Coordinates,
+      Lattitude: location.Lattitude,
+      Longitude: location.Longitude,
     };
-    categories.push(newCategory);
-    console.log(`Created category: ${newCategory.Name}`, newCategory);
   });
-
-  console.log("All created categories:", categories);
 };
 
-export const renderScaleMap = (map, geoJsonData) => {
-  if (!geoJsonData) {
+// Main function to render the scale map
+export const renderScaleMap = (map, data, boundaries) => {
+  if (!data) {
+    console.log("data is not provided for main function");
     return;
   }
 
-  createCategoriesFromGeoJson(geoJsonData);
+  // Categories is array that contains sample data
+  const categories = createCategoriesFromData(data);
 
+  // Color boundaries of geojson data, if it contains data's lat,lng
   categories.forEach((category) => {
-    const leafletCoordinates = category.Coordinates.map((coord) => [
-      coord[1],
-      coord[0],
-    ]);
-
-    L.polygon(leafletCoordinates, {
-      color: category.Color,
-      fillColor: category.Color,
-      fillOpacity: 0.5,
-      weight: 2,
-    }).addTo(map);
+    console.log(category);
+    colorBoundary(
+      category.Lattitude,
+      category.Longitude,
+      category.Color,
+      boundaries,
+      map,
+    );
   });
 };

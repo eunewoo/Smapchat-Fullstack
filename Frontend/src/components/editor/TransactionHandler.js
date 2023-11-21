@@ -51,11 +51,42 @@ export default class TransactionHandler {
     this.refresh();
   }
 
+  /// Builds a compound update transaction, which processes multiple updates
+  /// at the same time.
+  compoundTrans(pathValues) {
+    console.log("Calling compound!");
+    console.log(pathValues);
+    const all = [];
+
+    for (const i in pathValues) {
+      const pair = pathValues[i];
+      const trans = buildUpdateTransaction(this.obj, pair.path, pair.newValue);
+      all.push(trans);
+    }
+
+    for (const action in all) {
+      all[action].do(this.obj);
+    }
+
+    this.undoList.push(all);
+    this.redoList = [];
+
+    this.refresh();
+  }
+
   /// undo the last transaction
   undo() {
     const trans = this.undoList.pop();
+
     if (trans != null) {
-      trans.undo(this.obj);
+      if (Array.isArray(trans)) {
+        for (const action in trans) {
+          trans[action].undo(this.obj);
+        }
+      } else {
+        trans.undo(this.obj);
+      }
+
       this.redoList.push(trans);
       this.refresh();
     }
@@ -66,7 +97,14 @@ export default class TransactionHandler {
   redo() {
     const trans = this.redoList.pop();
     if (trans != null) {
-      trans.do(this.obj);
+      if (Array.isArray(trans)) {
+        for (const action in trans) {
+          trans[action].do(this.obj);
+        }
+      } else {
+        trans.do(this.obj);
+      }
+
       this.undoList.push(trans);
       this.refresh();
     }

@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const PictureMapLocationSchema = new mongoose.Schema({
   locationId: {
     type: Number,
     required: true,
-    unique: true, 
+    unique: true,
   },
-  name:{
-    type:String,
+  name: {
+    type: String,
     required: false,
     unique: false,
   },
@@ -16,7 +16,7 @@ const PictureMapLocationSchema = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  latitude: {
+  lattitude: {
     type: mongoose.Schema.Types.Decimal,
     required: false,
     unique: false,
@@ -26,8 +26,10 @@ const PictureMapLocationSchema = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  
 });
 
-const PictureMapLocationModel = mongoose.model("PictureMapLocation", PictureMapLocationSchema);
-module.exports = PictureMapLocationModel; 
+const PictureMapLocationModel = mongoose.model(
+  "PictureMapLocation",
+  PictureMapLocationSchema,
+);
+module.exports = PictureMapLocationModel;

@@ -11,7 +11,7 @@ async function startDB() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log('Connected to MongoDB Atlas');
+    console.log("Connected to MongoDB Atlas");
 
     // Temporary behavior to create dummy user
     const admin = await User.findByEmail("admin@test.com");

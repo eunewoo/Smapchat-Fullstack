@@ -7,6 +7,7 @@ import {
 } from "react-icons/bs";
 import "./CommonToolbox.css";
 import ColorWidget from "./ColorWidget";
+import DebouncedInput from "./DebouncedInput";
 
 /// The toolbox for editing an bubble map. Expects the map data and a TransactionHandler
 /// for that data as the bubbleMap and handler props respectively.
@@ -17,13 +18,14 @@ export default function BubbleMapToolbox(props) {
       <BubbleMapLocation
         handler={props.handler}
         index={bubblePointLocation}
+        readyPlace={props.readyPlace}
         bubblePointLocation={props.bubbleMap.Location[bubblePointLocation]}
       />,
     );
   }
 
   return (
-    <Card className="toolbox">
+    <Card id="toolbox" className="toolbox">
       <Card.Body style={{ backgroundColor: "#0C0D34", color: "white" }}>
         <Card.Text>Bubble Map Editor</Card.Text>
       </Card.Body>
@@ -50,12 +52,14 @@ export default function BubbleMapToolbox(props) {
         <Button
           className="inner"
           onClick={() =>
-            props.handler.createTrans("Location", {
-              Name: "",
-              Longitude: 0,
-              Lattitude: 0,
-              Order: 0,
-              Date: "1-1-1970",
+            props.readyPlace(() => (latlng) => {
+              props.handler.createTrans("Location", {
+                Name: "",
+                Longitude: latlng.lng,
+                Lattitude: latlng.lat,
+                Color: "#FFFFFF",
+                Size: 1,
+              });
             })
           }
         >
@@ -80,15 +84,12 @@ function BubbleMapLocation(props) {
           padding: "5px",
         }}
       >
-        <input
+        <DebouncedInput
           className="invisibleInput"
           placeholder="Name"
           value={props.bubblePointLocation.Name}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Name`,
-              val.target.value,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Name`, val)
           }
         />
         <BsXLg
@@ -99,15 +100,12 @@ function BubbleMapLocation(props) {
         />
       </Card.Body>
       <Container style={{ padding: "20px" }}>
-        <input
+        <DebouncedInput
           className="input"
           placeholder="Size"
           value={props.bubblePointLocation.Size}
           onChange={(val) =>
-            props.handler.updateTrans(
-              `Location[${props.index}].Size`,
-              val.target.value,
-            )
+            props.handler.updateTrans(`Location[${props.index}].Size`, val)
           }
         />
 
@@ -117,6 +115,25 @@ function BubbleMapLocation(props) {
             props.handler.updateTrans(`Location[${props.index}].Color`, val)
           }
         />
+
+        <Button
+          onClick={() =>
+            props.readyPlace(() => (latlng) => {
+              props.handler.compoundTrans([
+                {
+                  path: `Location[${props.index}].Lattitude`,
+                  newValue: latlng.lat,
+                },
+                {
+                  path: `Location[${props.index}].Longitude`,
+                  newValue: latlng.lng,
+                },
+              ]);
+            })
+          }
+        >
+          Move
+        </Button>
       </Container>
     </Card>
   );

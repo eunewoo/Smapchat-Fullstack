@@ -12,12 +12,12 @@ const BubblePointLocationSchema = new mongoose.Schema({
     unique: false,
   },
   longtude: {
-    type: mongoose.Schema.Types.Decimal,
+    type: Number,
     required: false,
     unique: false,
   },
-  latitude: {
-    type: mongoose.Schema.Types.Decimal,
+  lattitude: {
+    type: Number,
     required: false,
     unique: false,
   },
@@ -35,6 +35,6 @@ const BubblePointLocationSchema = new mongoose.Schema({
 });
 const BubblePointLocationModel = mongoose.model(
   "BubblePointLocation",
-  BubblePointLocationSchema
+  BubblePointLocationSchema,
 );
 module.exports = BubblePointLocationModel;

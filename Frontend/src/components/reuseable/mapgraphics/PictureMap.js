@@ -1,4 +1,5 @@
 import L from "leaflet";
+import locationIcon from "../../../assets/images/location.png";
 
 export const renderPictureMap = (map, data) => {
   if (data == null) {
@@ -9,7 +10,7 @@ export const renderPictureMap = (map, data) => {
     name: loc.Name,
     libraryIds: loc.Library.map((lib) => lib.Name),
     longitude: loc.Longitude.toString(),
-    latitude: loc.Lattitude.toString(),
+    lattitude: loc.Lattitude.toString(),
   }));
 
   const transformedLibraries = data.Location.flatMap((loc) =>
@@ -25,9 +26,12 @@ export const renderPictureMap = (map, data) => {
 };
 
 function createMarkerForLocation(map, location, libraries) {
-  const customIcon = createCustomIcon(location.name); // Assuming location.name can serve as an identifier
+  const customIcon = L.icon({
+    iconUrl: locationIcon,
+    iconSize: [36, 36],
+  });
   const marker = L.marker(
-    [parseFloat(location.latitude), parseFloat(location.longitude)],
+    [parseFloat(location.lattitude), parseFloat(location.longitude)],
     { icon: customIcon },
   ).addTo(map);
 
@@ -37,12 +41,12 @@ function createMarkerForLocation(map, location, libraries) {
   marker.bindPopup(popupContent);
 }
 
-function createCustomIcon(locationName) {
+/*function createCustomIcon(locationName) {
   return L.divIcon({
     html: `<div style="background-color: black; padding: 5px; border-radius: 100%; text-align: center;">${locationName}</div>`,
     className: "custom-div-icon",
   });
-}
+}*/
 
 function findMatchingLibraries(location, libraries) {
   return libraries.filter((lib) => location.libraryIds.includes(lib.name));

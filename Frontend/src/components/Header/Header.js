@@ -5,10 +5,13 @@ import Logo from "../../assets/images/Logo1.png";
 import UserAvatar from "../../assets/images/userAvatar.png";
 import AuthContext from "../../contexts/AuthContext";
 import "./Header.css";
+import MyUserPopup from "../popups/MyUserPopup";
+import { popContext } from "../../App";
 
 const Header = () => {
   // states, contexts, and variables
   const { auth } = useContext(AuthContext);
+  const setPop = useContext(popContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +27,6 @@ const Header = () => {
   const handleNavigateToSignup = () => navigate("/signup-page");
 
   if (authPages) {
-    console.log("nulls");
     return null;
   }
   return (
@@ -94,7 +96,7 @@ const Header = () => {
         {isLoggedIn && (
           <>
             <Button
-              onClick={handleNavigateToSignup}
+              onClick={() => setPop(<MyUserPopup user={auth.user} />)}
               type="button"
               className="btn btn-primary px-4 py-2 rounded-3 fw-bold mx-3"
               style={{ backgroundColor: "#4ACEFF" }}

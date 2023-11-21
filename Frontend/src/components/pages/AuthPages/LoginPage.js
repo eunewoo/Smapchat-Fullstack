@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
 import Logo from "../../../assets/images/logo2.png";
 import "./styles.css";
+import { AuthContext } from "../../../contexts/AuthContext";
 
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [, setError] = useState("");
+
+  const { loginUser } = useContext(AuthContext);
 
   const handleRouteToHome = () => navigate("/");
   const handleRouteToSignup = () => navigate("/signup-page");
   const handleRouteToRecoveryPassword = () =>
     navigate("/password-recovery-page");
+
+  const handleLoginUser = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    const { success, error } = await loginUser({ email, password });
+    if (success) {
+      handleRouteToHome();
+    } else {
+      setError(error);
+    }
+  };
 
   return (
     <Container className="d-flex vh-100">
@@ -41,13 +59,27 @@ const LoginPage = () => {
               </Card.Title>
             </Card.Body>
           </Card>
-          <Form className="login-form" style={{ maxWidth: "50%" }}>
+          <Form
+            className="login-form"
+            onSubmit={handleLoginUser}
+            style={{ maxWidth: "50%" }}
+          >
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control type="email" placeholder="E-Mail" />
+              <Form.Control
+                type="email"
+                placeholder="E-Mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </Form.Group>
 
             <div className=" d-grid gap-2 ">
@@ -55,7 +87,6 @@ const LoginPage = () => {
                 className="btn login-btn mx-auto mb-5"
                 size="lg"
                 type="submit"
-                onClick={handleRouteToHome}
               >
                 Login
               </Button>

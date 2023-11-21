@@ -15,7 +15,7 @@ const RatingSchema_ = new mongoose.Schema({
     type: Number,
     required: false,
     unique: false,
-    dafalt:0,
+    dafalt: 0,
   },
 });
 

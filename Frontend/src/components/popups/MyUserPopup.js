@@ -1,12 +1,48 @@
-import { Button, Card, Container, Image } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Container,
+  Image,
+  Form,
+  Col,
+} from "react-bootstrap";
 import { useContext, useState } from "react";
 import "./UserPopup.css";
 import "./CommonPopup.css";
 import { BsXLg } from "react-icons/bs";
 import { popContext } from "../../App";
+import AuthContext from "../../contexts/AuthContext";
+import avatar from "../../assets/images/avatar.png";
 
 export default function UserPopup(props) {
+  const { auth, setAuth, logoutUser } = useContext(AuthContext);
+
   const setPop = useContext(popContext);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedUser] = useState({ ...auth.user });
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = async () => {
+    setIsEditing(false);
+    // TODO: Implement API call to update user data on the server
+    // Assuming API call is successful, update the context and local storage
+    setAuth({ ...auth, user: updatedUser });
+    localStorage.setItem(
+      "auth",
+      JSON.stringify({ ...auth, user: updatedUser }),
+    );
+  };
+
+  const handleLogout = () => {
+    setPop(null);
+    logoutUser();
+  };
+
+  const handleChange = (e) => {};
 
   return (
     <Card className="popup">
@@ -21,17 +57,50 @@ export default function UserPopup(props) {
         <Card.Title>Personal Information</Card.Title>
         <BsXLg className="close" onClick={() => setPop(null)}></BsXLg>
       </Card.Body>
-
       <Container>
-        <div className="box">{props.user.username}</div>
-        <div className="box">{props.user.email}</div>
-        <div className="box">*****</div>
-        <Image className="avatar" src={props.user.avatar} roundedCircle />
-        <Button>
-          Delete{" "}
-          {/* TODO: Implement onclick to handle this with web requests */}
-        </Button>
-        <Button>Logout</Button>
+        <Form.Group>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            value={updatedUser.username}
+            name="username"
+            onChange={handleChange}
+            disabled={!isEditing}
+          />
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            value={updatedUser.email}
+            name="email"
+            onChange={handleChange}
+            disabled={!isEditing}
+          />
+        </Form.Group>
+
+        {/* Avatar and image buttons */}
+        <Col>
+          <Image
+            className="avatar"
+            src={
+              updatedUser.avatar === "" || updatedUser.avatar === null
+                ? avatar
+                : updatedUser.avatar
+            }
+            roundedCircle
+          />
+        </Col>
+
+        <div className="text-end mt-3">
+          {isEditing && <Button className="m-3">Password</Button>}
+          {isEditing && <Button>Delete Image</Button>}
+          <Button
+            onClick={isEditing ? handleSaveClick : handleEditClick}
+            className="m-3"
+          >
+            {isEditing ? "Save" : "Edit"}
+          </Button>
+          <Button onClick={handleLogout}>Logout</Button>
+        </div>
       </Container>
     </Card>
   );

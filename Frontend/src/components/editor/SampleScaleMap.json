@@ -4,59 +4,28 @@
   "MaxColor": "#00FF00",
   "Location": [
     {
-      "Name": "Red to Green 0%",
-      "Polygon": {
-        "Coordinates": [
-          [0, 0],
-          [0, 100],
-          [100, 0]
-        ]
-      },
-      "Value": 0
-    },
-    {
-      "Name": "Red to Green 25%",
-      "Polygon": {
-        "Coordinates": [
-          [10, 0],
-          [10, 100],
-          [110, 0]
-        ]
-      },
-      "Value": 25
-    },
-    {
-      "Name": "Red to Green 50%",
-      "Polygon": {
-        "Coordinates": [
-          [20, 0],
-          [20, 100],
-          [120, 0]
-        ]
-      },
-      "Value": 50
-    },
-    {
-      "Name": "Red to Green 75%",
-      "Polygon": {
-        "Coordinates": [
-          [30, 0],
-          [30, 100],
-          [130, 0]
-        ]
-      },
-      "Value": 75
-    },
-    {
-      "Name": "Red to Green 100%",
-      "Polygon": {
-        "Coordinates": [
-          [40, 0],
-          [40, 100],
-          [140, 0]
-        ]
-      },
+      "Name": "Gershwin Theater",
+      "Longitude": -73.9852,
+      "Lattitude": 40.7624,
       "Value": 100
+    },
+    {
+      "Name": "Time Square",
+      "Longitude": -73.9853,
+      "Lattitude": 40.7581,
+      "Value": 100
+    },
+    {
+      "Name": "MoMA",
+      "Longitude": -73.9776,
+      "Lattitude": 40.7615,
+      "Value": 100
+    },
+    {
+      "Name": "Dumbo",
+      "Longitude": -73.9654,
+      "Lattitude": 40.6653,
+      "Value": 0
     }
   ]
 }

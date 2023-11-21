@@ -1,18 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ScalePolygonSchema = new mongoose.Schema({
   locationID: {
     type: Number,
     required: true,
-    unique: true, 
+    unique: true,
   },
-  name:{
-    type:String,
+  name: {
+    type: String,
     required: false,
     unique: false,
   },
-  polygon:{
-    type:Number,
+  polygon: {
+    type: Number,
     required: false,
     unique: false,
   },
@@ -21,8 +21,7 @@ const ScalePolygonSchema = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  
 });
 
 const ScalePolygonModel = mongoose.model("ScalePolygon", ScalePolygonSchema);
-module.exports = ScalePolygonModel; 
+module.exports = ScalePolygonModel;
