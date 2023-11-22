@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./CreatePage.css";
 import MapTypes from "./LocalComponents/MapTypes";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,14 @@ const CreatePage = () => {
   const globalStore = useContext(GlobalStoreContext);
 
   const handleRouteToEditPage = () => navigate("/map-edit-page/" + mapType);
+
+  useEffect(() => {
+    globalStore.store.currentMap = null;
+    globalStore.store.currentMapGraphic = null;
+    globalStore.store.currentGeoJson = null;
+    globalStore.setStore(globalStore.store);
+  });
+
   return (
     <div className="container-fluid mt-4">
       <div className="row justify-content-center">

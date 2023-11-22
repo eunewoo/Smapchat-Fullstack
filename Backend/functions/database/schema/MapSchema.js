@@ -2,10 +2,9 @@ const mongoose = require("mongoose");
 
 const MapSchema_ = new mongoose.Schema({
   mapType: {
-    type: Number,
+    type: String,
     unique: false,
     required: true,
-    maxlength: 5,
   },
   title: {
     type: String,

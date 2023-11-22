@@ -5,11 +5,13 @@ import "./ViewMapPageStyles.css";
 import Comments from "./LocalComponents/Comments";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchSpecificMap, getArrowMap } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 
 const ViewMapPage = () => {
+
+  const navigate = useNavigate();
 
   const globalStore = useContext(GlobalStoreContext);
   var params = useParams();
@@ -21,8 +23,11 @@ const ViewMapPage = () => {
     const map = await fetchSpecificMap(params.mapId);
     setMap(map);
 
+    console.log(map);
+
+    globalStore.store.currentMap = map;
     //globalStore.store.currentGeoJson =
-    globalStore.store.currentMapGraphic = await getArrowMap(map.MapID);
+    globalStore.store.currentMapGraphic = await getArrowMap(map.MapID); //TODO: Determine map type
     globalStore.setStore(globalStore.store);
 
     setLoaded(true);
@@ -32,15 +37,14 @@ const ViewMapPage = () => {
 
     // We reset the current global geometry and graphic data here since we
     // want to wait for them to load
-    globalStore.store.currentGeoJson = {};
-    globalStore.store.currentMapGraphic = {};
+    globalStore.store.currentMap = null;
+    globalStore.store.currentGeoJson = null;
+    globalStore.store.currentMapGraphic = null;
     globalStore.setStore(globalStore.store);
     setLoaded(false);
 
     populateData();
   }, [params.mapId, globalStore]);
-
-  const [mapType] = useState("ArrowMap");
 
   if (!loaded) {
     return (
@@ -74,13 +78,14 @@ const ViewMapPage = () => {
           <MapRenderer 
             width="100%" 
             height="100%" 
-            mapType={mapType}
+            mapType={map.mapType}
             Geometry={globalStore.store.currentGeoJson}
             GeoJsonData={globalStore.store.currentMapGraphic}
             />
           <button
             className="btn btn-edit-map position-absolute"
             style={{ top: "16px", right: "16px" }}
+            onClick={() => navigate("/map-edit-page/" + map.mapType)}
           >
             Edit
           </button>

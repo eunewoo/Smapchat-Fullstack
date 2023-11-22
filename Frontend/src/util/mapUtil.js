@@ -1,4 +1,4 @@
-import { webFetch, webDelete, webPost } from "./webUtil";
+import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 import axios from "axios";
 ///all map related api
 //1
@@ -16,19 +16,8 @@ export const fetchPublicMaps = async (sort, page, limit) => {
 };
 //3
 export const fetchSpecificMap = async (mapID) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/map/specific/${mapID}`;
-
-  try {
-    const response = await axios.get(apiUrl, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return(response.data);
-  } catch (error) {
-    console.error("Error fetching specific map:", error);
-    throw error;
-  }
+  const apiUrl = `/map/specific/${mapID}`;
+  return await webFetch(apiUrl);
 };
 
 export const fetchPublicSearchMaps = async (query, sort, page, limit) => {
@@ -100,71 +89,33 @@ export const createScaleMap = async (mapData, userId) => {
 };
 
 export const updateMap = async (userId, mapId, mapData) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/map/update`;
-  try {
-    const response = await axios.put(apiUrl, {
-      userId,
-      mapId,
-      mapData,
-    });
-    return response.data;
-  } catch (error) {
-    // Handle errors
-    console.error("Error updating map:", error);
-    throw error;
-  }
+  const apiUrl = `/map/update`;
+  return await webPut(apiUrl, {
+    userId,
+    mapId,
+    mapData,
+  });
 };
 
 export const updateMapStatus = async (userId, mapId, isPublic) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/map/statusUpdate`;
-  try {
-    const response = await axios.put(apiUrl, {
-      userId,
-      mapId,
-      isPublic,
-    });
-    return response.data;
-  } catch (error) {
-    // Handle errors
-    console.error("Error updating map status:", error);
-    throw error;
-  }
+  const apiUrl = `/map/statusUpdate`;
+  return await webPut(apiUrl, {
+    userId,
+    mapId,
+    isPublic,
+  });
 };
 
 export const deleteMap = async (mapId, userId) => {
-  return await webDelete(`/api/map/${mapId}`, { userId });
+  return await webDelete(`/map/${mapId}`, { userId });
 };
 
 export const getBubbleMap = async (mapID) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/map/get/bubble/${mapID}`;
-
-  try {
-    const response = await axios.get(apiUrl, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching specific map:", error);
-    throw error;
-  }
+  const apiUrl = `/map/get/bubble/${mapID}`;
+  return await webFetch(apiUrl);
 };
 
 export const getArrowMap = async (mapID) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/map/get/arrow/${mapID}`;
-
-  try {
-    const response = await axios.get(apiUrl, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching specific map:", error);
-    throw error;
-  }
+  const apiUrl = `/map/get/arrow/${mapID}`;
+  return await webFetch(apiUrl);
 };

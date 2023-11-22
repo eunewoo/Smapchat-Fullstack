@@ -1,42 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MapRenderer from "./MapRenderer";
 import RatingDisplay from "./RatingDisplay";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
+import { userProfile } from "../../util/userUtil";
 import "./MapCard.css";
 
 export default function MapCard(props) {
   // The map data that this card is displaying
-  const [mapData, setMapData] = useState(
-    props.mapData || {
-      avgRate: 0, // Replace with your default values
-      title: "Loading...",
-      author: "Loading...",
-    },
-  );
+  const [mapData, setMapData] = useState(props.mapData);
+  const [mapUser, setMapUser] = useState(null);
   const numberOfColumns = props.numberOfColumns;
+
   const navigate = useNavigate();
+
   let cardWidth = 45;
 
-  console.log(mapData);
-
-  const handleRouteToViewMapPage = () => navigate(`/view-map-page/${mapData.MapID}`);
   if (numberOfColumns === 2) {
     cardWidth = 45;
   } else if (numberOfColumns === 3) {
     cardWidth = 30;
   }
 
-  // Temporary hardcoded data for build 2!
-  if (Object.keys(mapData).length === 0) {
-    setMapData({
-      avgRate: 4,
-      title: "Cool map!",
-      author: "Alex",
-    });
-  }
+  useEffect(() => {
+    if (mapData.owner != null)
+      userProfile(mapData.owner).then((val) => setMapUser(val));
+    else
+      setMapUser({username: "Unknown"})
+  }, [mapData])
 
-  // TODO: Add nav to display page once implemented
+  const handleRouteToViewMapPage = () => navigate(`/view-map-page/${mapData.MapID}`);
+
   return (
     <Card
       className="m-3 "
@@ -55,7 +49,7 @@ export default function MapCard(props) {
         style={{ backgroundColor: "#0C0D34", color: "white" }}
       >
         <Card.Title>{mapData.title ?? "Loading..."}</Card.Title>
-        <Card.Text>by {mapData.author ?? "Loading..."}</Card.Text>
+        <Card.Text>by {mapUser?.username ?? "Loading..."} on {mapData.date}</Card.Text>
       </Card.Body>
     </Card>
   );

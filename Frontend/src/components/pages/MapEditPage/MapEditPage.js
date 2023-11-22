@@ -35,76 +35,42 @@ export default function MapEditPage() {
   var defaultData = {};
   var toolbox = <></>;
 
-  //TODO: Make the sample data 'blank templates' instead of samples
-  // for the final product.
-  switch (params.mapType) {
-    case "ArrowMap":
-      defaultData = arrowData;
-      break;
-    case "BubbleMap":
-      defaultData = bubbleData;
-      break;
-    case "PictureMap":
-      defaultData = pictureData;
-      break;
-    case "CategoryMap":
-      defaultData = categoryData;
-      break;
-    case "ScaleMap":
-      defaultData = scaleData;
-      break;
-    default:
-      defaultData = {};
-      break;
+  // If we're carrying over data from a global state, we should use that.
+  // Otherwise, we want to use a default template.
+  if (globalStore.currentMapGraphic) {
+    defaultData = globalStore.currentMapGraphic;
+  }
+  else {
+    switch (params.mapType) {
+      case "ArrowMap":
+        defaultData = arrowData;
+        break;
+      case "BubbleMap":
+        defaultData = bubbleData;
+        break;
+      case "PictureMap":
+        defaultData = pictureData;
+        break;
+      case "CategoryMap":
+        defaultData = categoryData;
+        break;
+      case "ScaleMap":
+        defaultData = scaleData;
+        break;
+      default:
+        defaultData = {};
+        break;
+    }
   }
 
   // This contains the current map graphic data and geoJson. A transaction
   // handler is initialized to handle operating on the data. See
   // TransactionHandler.js for details.
-  const [data, setData] = useState(defaultData);
+  const [data] = useState(defaultData);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [handler, setHandler] = useState(
+  const [handler] = useState(
     new TransactionHandler(data, forceUpdate),
   );
-
-  // map datas
-  // var bubbleData = demo
-  const [dataFetched, setDataFetched] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (params.mapType === "ArrowMap") {
-          const result = await fetchArrowMap();
-          console.log("arrow data: ", result);
-          if (!result) {
-            setData(arrowData); //need more work here
-          } else {
-            setData(result);
-          }
-          setHandler(new TransactionHandler(result, forceUpdate));
-        }
-
-        if (params.mapType === "BubbleMap") {
-          const result = await fetchBubbleMap();
-          console.log("bubble data: ", result);
-          if (!result) {
-            setData(bubbleData); //need more work here
-          } else {
-            setData(result);
-          }
-          setHandler(new TransactionHandler(result, forceUpdate));
-        }
-
-        console.log("fetch set true");
-        setDataFetched(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [params.mapType]);
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
@@ -154,7 +120,7 @@ export default function MapEditPage() {
 
   // Load an appropriate toolbox based on which map type we're editing.
   // May be a nicer way to clean this up later...
-  if (dataFetched) {
+
     switch (params.mapType) {
       case "ArrowMap":
         toolbox = (
@@ -205,7 +171,6 @@ export default function MapEditPage() {
         toolbox = <></>;
         break;
     }
-  }
 
   // Handles firing the appropriate events if possible when the map is clicked.
   // Will only fire anything if we're in the placing state.
@@ -230,7 +195,6 @@ export default function MapEditPage() {
   ) : (
     <></>
   );
-  if (dataFetched) {
     return (
       <div className="container-fluid mt-4">
         <div className="row justify-content-center">
@@ -265,19 +229,4 @@ export default function MapEditPage() {
         </div>
       </div>
     );
-  } else {
-    return (
-      <div
-        className="d-flex align-items-center justify-content-center"
-        style={{ height: "100vh" }}
-      >
-        <div className="text-center">
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="sr-only"></span>
-          </Spinner>
-          <p className="ml-2 mt-2">Loading...</p>
-        </div>
-      </div>
-    );
-  }
 }
