@@ -4,7 +4,7 @@ const MapSchema = require("../schema/MapSchema.js");
 const PictureSchema = require("../schema/PictureMap.js");
 const ArrowMapSchema = require("../schema/ArrowMap.js");
 const ScaleMapSchema = require("../schema/ScaleMap.js");
-const catagoryMapSchema = require("../schema/CatagoryMap.js");
+const CategoryMapSchema = require("../schema/CategoryMap.js");
 const BubbleMapSchema = require("../schema/BubbleMap.js");
 const UserModel = require("../model/UserModel.js");
 const bcrypt = require("bcryptjs");
@@ -246,39 +246,78 @@ class MapModel {
   }
 
   //13
-  static async createCategoryMap(userId, mapData) {
+  static async createScaleMap(userId, userData, mapData, mapInfo) {
     try {
-      const { categoryMap } = mapData;
-
-      const createdCategoryMap = await catagoryMapSchema.create({
-        mapID: categoryMap.mapId,
-        categoryIds: categoryMap.categoryIds,
+      // Update user's mapList
+      await UserModel.findByIdAndUpdate(userId, userData);
+      const checkScale = await ScaleMapSchema.findOne({
+        MapID: mapData.MapID,
       });
-
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: categoryMap.mapId },
-      });
-
-      return createdCategoryMap;
+      const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
+      if (checkScale) {
+        const upd = await ScaleMapSchema.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          {
+            Location: mapData.Location,
+            MinColor: mapData.MinColor,
+            MaxColor: mapData.MaxColor,
+          }
+        );
+        console.log("Updated Scale Map:");
+      } else {
+        const createScaleMap = await ScaleMapSchema.create({
+          MapID: mapData.MapID,
+          Location: mapData.Location,
+          MinColor: mapData.MinColor,
+          MaxColor: mapData.MaxColor,
+        });
+        if (!checkMap) {
+          const createdMap = MapSchema.create(mapInfo)
+            .then((createdMap) => {
+              console.log("Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating map:", error);
+            });
+        }
+        console.log("Created Scale Map:");
+      }
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
   //14
-  static async createScaleMap(userId, mapData) {
+  static async createCategoryMap(userId, userData, mapData, mapInfo) {
     try {
-      const createdScaleMap = await ScaleMapSchema.create({
-        mapID: mapData.mapId,
-        color: mapData.minColor,
-        locationIds: mapData.locationIds,
+      // Update user's mapList
+      await UserModel.findByIdAndUpdate(userId, userData);
+      const checkCategory = await CategoryMapSchema.findOne({
+        MapID: mapData.MapID,
       });
-
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: mapData.mapId },
-      });
-
-      return createdScaleMap;
+      const checkMap = await MapSchema.findOne({ MapID: mapData.MapID });
+      if (checkCategory) {
+        const upd = await CategoryMapSchema.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          { Category: mapData.Category }
+        );
+        console.log("Updated Category Map:");
+      } else {
+        const createCategoryMap = await CategoryMapSchema.create({
+          MapID: mapData.MapID,
+          Category: mapData.Category,
+        });
+        if (!checkMap) {
+          const createdMap = MapSchema.create(mapInfo)
+            .then((createdMap) => {
+              console.log("Map created:");
+            })
+            .catch((error) => {
+              console.error("Error creating map:", error);
+            });
+        }
+        console.log("Created Category Map:");
+      }
     } catch (error) {
       throw new Error(error.message);
     }
@@ -360,10 +399,37 @@ class MapModel {
   }
 
   //19
-  //18
   static async getArrowMapByMapId(mapID) {
     try {
       const map = await ArrowMapSchema.findOne({
+        MapID: mapID,
+      }).exec();
+
+      return map;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  //20
+  static async getCategoryMapByMapId(mapID) {
+    try {
+      console.log(mapID);
+      const map = await CategoryMapSchema.findOne({
+        MapID: mapID,
+      }).exec();
+
+      return map;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  //21
+  static async getScaleMapByMapId(mapID) {
+    try {
+      console.log(mapID);
+      const map = await ScaleMapSchema.findOne({
         MapID: mapID,
       }).exec();
 

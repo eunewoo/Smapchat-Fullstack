@@ -30,6 +30,6 @@ const PictureMapLocationSchema = new mongoose.Schema({
 
 const PictureMapLocationModel = mongoose.model(
   "PictureMapLocation",
-  PictureMapLocationSchema,
+  PictureMapLocationSchema
 );
 module.exports = PictureMapLocationModel;

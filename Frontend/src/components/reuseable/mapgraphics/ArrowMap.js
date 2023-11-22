@@ -28,7 +28,7 @@ export const renderArrowMap = (map, data) => {
   if (processedData.length > 1) {
     const polyline = L.polyline(
       processedData.map((point) => point.position),
-      { color: "blue" },
+      { color: "blue" }
     );
     polyline.addTo(map);
   }

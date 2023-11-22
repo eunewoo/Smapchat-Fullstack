@@ -23,8 +23,12 @@ import { useParams } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 
 import { BubbleSave, BubblePublish, fetchBubbleMap } from "./BubbleEdit";
-import { CategorySave, CategoryPublish } from "./CategoryEdit";
-import { ScaleSave, ScalePublish } from "./ScaleEdit";
+import {
+  CategorySave,
+  CategoryPublish,
+  fetchCategoryMap,
+} from "./CategoryEdit";
+import { ScaleSave, ScalePublish, fetchScaleMap } from "./ScaleEdit";
 import { ArrowSave, ArrowPublish, fetchArrowMap } from "./ArrowEdit";
 import { PictureSave, PicturePublish } from "./PictureEdit";
 
@@ -64,47 +68,12 @@ export default function MapEditPage() {
   const [data, setData] = useState(defaultData);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const [handler, setHandler] = useState(
-    new TransactionHandler(data, forceUpdate),
+    new TransactionHandler(data, forceUpdate)
   );
 
   // map datas
   // var bubbleData = demo
   const [dataFetched, setDataFetched] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (params.mapType === "ArrowMap") {
-          const result = await fetchArrowMap();
-          console.log("arrow data: ", result);
-          if (!result) {
-            setData(arrowData); //need more work here
-          } else {
-            setData(result);
-          }
-          setHandler(new TransactionHandler(result, forceUpdate));
-        }
-
-        if (params.mapType === "BubbleMap") {
-          const result = await fetchBubbleMap();
-          console.log("bubble data: ", result);
-          if (!result) {
-            setData(bubbleData); //need more work here
-          } else {
-            setData(result);
-          }
-          setHandler(new TransactionHandler(result, forceUpdate));
-        }
-
-        console.log("fetch set true");
-        setDataFetched(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [params.mapType]);
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
@@ -142,11 +111,11 @@ export default function MapEditPage() {
     } else if (params.mapType === "ArrowMap") {
       ArrowPublish(1);
     } else if (params.mapType === "ScaleMap") {
-      ScalePublish();
+      ScalePublish(1);
     } else if (params.mapType === "PictureMap") {
       PicturePublish();
     } else if (params.mapType === "CategoryMap") {
-      CategoryPublish();
+      CategoryPublish(1);
     } else {
       // Handle the default case if needed
     }

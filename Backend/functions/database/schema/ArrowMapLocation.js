@@ -36,6 +36,6 @@ const ArrowMapLocationSchema = new mongoose.Schema({
 
 const ArrowMapLocationModel = mongoose.model(
   "ArrowMapLocation",
-  ArrowMapLocationSchema,
+  ArrowMapLocationSchema
 );
 module.exports = ArrowMapLocationModel;
