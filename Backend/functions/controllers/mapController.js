@@ -106,11 +106,11 @@ exports.getRecentUserMaps = async (req, res, next) => {
 };
 
 exports.createPictureMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
+  const { userId, mapData, mapInfo } = req.body;
 
   try {
-    const createdPictureMap = await MapModel.createPictureMap(userId, mapData);
-    res.json(createdPictureMap);
+    const result = await MapModel.createPictureMap(userId, mapData, mapInfo);
+    res.json(result);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
