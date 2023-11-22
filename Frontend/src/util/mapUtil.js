@@ -24,8 +24,7 @@ export const fetchSpecificMap = async (mapID) => {
         "Content-Type": "application/json",
       },
     });
-
-    console.log(response.data);
+    return(response.data);
   } catch (error) {
     console.error("Error fetching specific map:", error);
     throw error;

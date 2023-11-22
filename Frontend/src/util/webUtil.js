@@ -8,7 +8,6 @@ export async function webFetch(route) {
       if (res.status === 200 || res.status === 201) {
         const data = res.json().then((val) => {
           if (val != null) {
-            console.log("webFetch", val);
             return val;
           } else {
             console.log("Response body was null!");

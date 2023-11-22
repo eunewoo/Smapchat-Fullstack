@@ -8,6 +8,7 @@ export const StoreProvider = ({ children }) => {
     // The currently loaded GeoJSON data (after conversion). Used by the editors
     // to carry the data over after upload.
     currentGeoJson: {},
+    currentMapGraphic: {},
   });
 
   const [isLoading, setIsLoading] = useState(false);

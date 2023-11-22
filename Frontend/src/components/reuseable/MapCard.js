@@ -18,7 +18,9 @@ export default function MapCard(props) {
   const navigate = useNavigate();
   let cardWidth = 45;
 
-  const handleRouteToViewMapPage = () => navigate("/view-map-page");
+  console.log(mapData);
+
+  const handleRouteToViewMapPage = () => navigate(`/view-map-page/${mapData.MapID}`);
   if (numberOfColumns === 2) {
     cardWidth = 45;
   } else if (numberOfColumns === 3) {

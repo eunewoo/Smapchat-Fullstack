@@ -48,6 +48,10 @@ const MapSchema_ = new mongoose.Schema({
     enum: [0, 1],
     default: 0,
   },
+  owner: {
+    type: String,
+    required: true,
+  }
 });
 
 const MapSchema = mongoose.model("Map", MapSchema_);
