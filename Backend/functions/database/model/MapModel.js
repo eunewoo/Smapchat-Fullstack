@@ -1,7 +1,7 @@
 const mongodb = require("mongodb");
 const UserSchema = require("../schema/User.js");
 const MapSchema = require("../schema/MapSchema.js");
-const PictureSchema = require("../schema/PictureMap.js");
+const { PictureMapModel } = require("../schema/PictureMap.js");
 const ArrowMapSchema = require("../schema/ArrowMap.js");
 const ScaleMapSchema = require("../schema/ScaleMap.js");
 const catagoryMapSchema = require("../schema/CatagoryMap.js");
@@ -30,7 +30,7 @@ class MapModel {
         mapList.map(async (mapId) => {
           const map = await MapSchema.findOne({ MapID: mapId }).exec();
           return map;
-        }),
+        })
       );
 
       return maps;
@@ -70,7 +70,7 @@ class MapModel {
     query,
     sort = "date",
     page = 1,
-    limit = 20,
+    limit = 20
   ) {
     const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
 
@@ -137,19 +137,34 @@ class MapModel {
 
   //post
   //10
-  static async createPictureMap(userId, mapData) {
+  static async createPictureMap(userId, mapData, mapInfo) {
     try {
-      const { pictureMap } = mapData;
-      const createdPictureMap = await PictureSchema.create({
-        mapId: pictureMap.mapId,
-        locationIds: pictureMap.locationIds,
+      const checkPictureMap = await PictureMapModel.findOne({
+        MapID: mapData.MapID,
       });
 
-      await UserModel.findByIdAndUpdate(userId, {
-        $push: { mapList: pictureMapLocation.mapId },
-      });
+      if (checkPictureMap) {
+        // Update the existing Picture Map
+        const updatedPictureMap = await PictureMapModel.findOneAndUpdate(
+          { MapID: mapData.MapID },
+          { Location: mapData.Location },
+          { new: true }
+        );
+        console.log("Updated Picture Map:", mapData.MapID);
+        return updatedPictureMap;
+      } else {
+        // Create a new Map
+        const createdMap = await MapSchema.create(mapInfo);
 
-      return createdPictureMap;
+        // Create a new Picture Map
+        const createdPictureMap = await PictureMapModel.create(mapData);
+
+        // Update user's mapList
+        await UserModel.addMapToUserMapList(userId, createdPictureMap.MapID);
+
+        console.log("Picture Map created:", createdPictureMap.MapID);
+        return createdPictureMap;
+      }
     } catch (error) {
       throw new Error(error.message);
     }
@@ -168,7 +183,7 @@ class MapModel {
         const upd = await ArrowMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
           { Location: mapData.Location },
-          { Maxpin: mapData.Maxpin },
+          { Maxpin: mapData.Maxpin }
         );
         console.log("Updated Arrow Map:", mapData.Maxpin);
       } else {
@@ -180,7 +195,7 @@ class MapModel {
         if (!checkArrow) {
           const ArrowMapIndexes = await ArrowMapSchema.collection.indexes();
           const indexesToDelete = ArrowMapIndexes.filter((index) =>
-            index.name.startsWith("mapID_"),
+            index.name.startsWith("mapID_")
           );
 
           const dropPromises = indexesToDelete.map(async (index) => {
@@ -208,7 +223,7 @@ class MapModel {
       if (checkBubble) {
         const upd = await BubbleMapSchema.findOneAndUpdate(
           { MapID: mapData.MapID },
-          { Location: mapData.Location },
+          { Location: mapData.Location }
         );
         console.log("Updated Bubble Map:");
       } else {
@@ -225,7 +240,7 @@ class MapModel {
         if (!checkBubble) {
           const BubbleMapIndexes = await BubbleMapSchema.collection.indexes();
           const indexesToDelete = BubbleMapIndexes.filter((index) =>
-            index.name.startsWith("mapID_"),
+            index.name.startsWith("mapID_")
           );
 
           const dropPromises = indexesToDelete.map(async (index) => {
@@ -293,7 +308,7 @@ class MapModel {
         mapData,
         {
           new: true,
-        },
+        }
       );
       console.log(updatedMap);
 
@@ -313,7 +328,7 @@ class MapModel {
       const updatedMap = await MapSchema.findOneAndUpdate(
         { MapID: mapId },
         { public: isPublic },
-        { new: true },
+        { new: true }
       );
 
       if (!updatedMap) {
