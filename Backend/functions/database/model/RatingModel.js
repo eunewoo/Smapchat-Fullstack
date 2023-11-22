@@ -36,7 +36,7 @@ class RatingModel {
       const updatedRate = await RatingSchema.findOneAndUpdate(
         { userID: userId, mapID: mapId },
         { rate: rate },
-        { new: true },
+        { new: true }
       );
       return updatedRate;
     } catch (error) {
