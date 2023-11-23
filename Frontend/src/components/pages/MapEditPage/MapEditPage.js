@@ -19,92 +19,61 @@ import MapRenderer from "../../reuseable/MapRenderer";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 
-import { BubbleSave, BubblePublish, fetchBubbleMap } from "./BubbleEdit";
-import { CategorySave, CategoryPublish } from "./CategoryEdit";
-import { ScaleSave, ScalePublish } from "./ScaleEdit";
-import { ArrowSave, ArrowPublish, fetchArrowMap } from "./ArrowEdit";
-import { PictureSave, PicturePublish } from "./PictureEdit";
+import AuthContext from "../../../contexts/AuthContext";
+import { createMap } from "../../../util/mapUtil";
+import { popContext } from "../../../App";
+import SavePopup from "../../popups/SavePopup";
 
 export default function MapEditPage() {
   const globalStore = useContext(GlobalStoreContext);
+  const auth = useContext(AuthContext);
+  const setPop = useContext(popContext);
+
+  const navigate = useNavigate();
 
   var params = useParams();
   var defaultData = {};
   var toolbox = <></>;
 
-  //TODO: Make the sample data 'blank templates' instead of samples
-  // for the final product.
-  switch (params.mapType) {
-    case "ArrowMap":
-      defaultData = arrowData;
-      break;
-    case "BubbleMap":
-      defaultData = bubbleData;
-      break;
-    case "PictureMap":
-      defaultData = pictureData;
-      break;
-    case "CategoryMap":
-      defaultData = categoryData;
-      break;
-    case "ScaleMap":
-      defaultData = scaleData;
-      break;
-    default:
-      defaultData = {};
-      break;
+  // If we're carrying over data from a global state, we should use that.
+  // Otherwise, we want to use a default template.
+  if (globalStore.store.currentMapGraphic) {
+    defaultData = globalStore.store.currentMapGraphic;
+  }
+  else {
+    switch (params.mapType) {
+      case "ArrowMap":
+        defaultData = arrowData;
+        break;
+      case "BubbleMap":
+        defaultData = bubbleData;
+        break;
+      case "PictureMap":
+        defaultData = pictureData;
+        break;
+      case "CategoryMap":
+        defaultData = categoryData;
+        break;
+      case "ScaleMap":
+        defaultData = scaleData;
+        break;
+      default:
+        defaultData = {};
+        break;
+    }
   }
 
   // This contains the current map graphic data and geoJson. A transaction
   // handler is initialized to handle operating on the data. See
   // TransactionHandler.js for details.
-  const [data, setData] = useState(defaultData);
+  const [data] = useState(defaultData);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [handler, setHandler] = useState(
+  const [handler] = useState(
     new TransactionHandler(data, forceUpdate),
   );
-
-  // map datas
-  // var bubbleData = demo
-  const [dataFetched, setDataFetched] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (params.mapType === "ArrowMap") {
-          const result = await fetchArrowMap();
-          console.log("arrow data: ", result);
-          if (!result) {
-            setData(arrowData); //need more work here
-          } else {
-            setData(result);
-          }
-          setHandler(new TransactionHandler(result, forceUpdate));
-        }
-
-        if (params.mapType === "BubbleMap") {
-          const result = await fetchBubbleMap();
-          console.log("bubble data: ", result);
-          if (!result) {
-            setData(bubbleData); //need more work here
-          } else {
-            setData(result);
-          }
-          setHandler(new TransactionHandler(result, forceUpdate));
-        }
-
-        console.log("fetch set true");
-        setDataFetched(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [params.mapType]);
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the
@@ -120,41 +89,55 @@ export default function MapEditPage() {
 
   //save button
   const handleSaveButton = () => {
-    if (params.mapType === "BubbleMap") {
-      BubbleSave();
-    } else if (params.mapType === "ArrowMap") {
-      ArrowSave();
-    } else if (params.mapType === "ScaleMap") {
-      ScaleSave();
-    } else if (params.mapType === "PictureMap") {
-      PictureSave();
-    } else if (params.mapType === "CategoryMap") {
-      CategorySave();
-    } else {
-      // Handle the default case if needed
-    }
+    sendMap(0);
   };
 
   //publish button
   const handlePublishButton = () => {
-    if (params.mapType === "BubbleMap") {
-      BubblePublish(1);
-    } else if (params.mapType === "ArrowMap") {
-      ArrowPublish(1);
-    } else if (params.mapType === "ScaleMap") {
-      ScalePublish();
-    } else if (params.mapType === "PictureMap") {
-      PicturePublish();
-    } else if (params.mapType === "CategoryMap") {
-      CategoryPublish();
-    } else {
-      // Handle the default case if needed
-    }
+    sendMap(1);
   };
+
+  const sendMap = (visibility) => {
+
+    var mapData = globalStore.store.currentMap;
+
+    if (!mapData) {
+      mapData = {
+        mapType: params.mapType,
+        MapID: 0,
+        avgRate: 0,
+        comment: [],
+        mapFile: "",
+        date: Date(),
+        public: visibility,
+        owner: auth.auth.user.email
+      };
+    }
+
+    setPop(<SavePopup
+      name={mapData.title}
+      description={mapData.description}
+      buttonText="Save map!"
+      onClick={(name, desc) => {
+        mapData.title = name;
+        mapData.description = desc;
+        mapData.owner = auth.auth.user.email;
+        mapData.public = visibility;
+    
+        var graphicData = data;
+        graphicData.MapID = mapData._id ?? 0;
+    
+        createMap(mapData, graphicData).then(() => {
+          setPop(null);
+          navigate("/");
+        });
+      }}
+    />);
+  }
 
   // Load an appropriate toolbox based on which map type we're editing.
   // May be a nicer way to clean this up later...
-  if (dataFetched) {
+
     switch (params.mapType) {
       case "ArrowMap":
         toolbox = (
@@ -205,7 +188,6 @@ export default function MapEditPage() {
         toolbox = <></>;
         break;
     }
-  }
 
   // Handles firing the appropriate events if possible when the map is clicked.
   // Will only fire anything if we're in the placing state.
@@ -230,7 +212,6 @@ export default function MapEditPage() {
   ) : (
     <></>
   );
-  if (dataFetched) {
     return (
       <div className="container-fluid mt-4">
         <div className="row justify-content-center">
@@ -265,19 +246,4 @@ export default function MapEditPage() {
         </div>
       </div>
     );
-  } else {
-    return (
-      <div
-        className="d-flex align-items-center justify-content-center"
-        style={{ height: "100vh" }}
-      >
-        <div className="text-center">
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="sr-only"></span>
-          </Spinner>
-          <p className="ml-2 mt-2">Loading...</p>
-        </div>
-      </div>
-    );
-  }
 }
