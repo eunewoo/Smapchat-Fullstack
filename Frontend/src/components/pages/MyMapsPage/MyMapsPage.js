@@ -45,7 +45,7 @@ const MyMapsPage = () => {
       <div className="row justify-content-center">
         <div className="left">
           <ScrollableGallery
-            numberOfColumns={4}
+            numberOfColumns={8}
             height={125}
             fetchFunction={fetchData}
             lastSearch={searchTerm}

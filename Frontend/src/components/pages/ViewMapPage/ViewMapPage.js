@@ -6,7 +6,7 @@ import Comments from "./LocalComponents/Comments";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchSpecificMap, getArrowMap } from "../../../util/mapUtil";
+import { fetchSpecificMap, getArrowMap, getBubbleMap } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 
 const ViewMapPage = () => {
@@ -27,7 +27,12 @@ const ViewMapPage = () => {
 
     globalStore.store.currentMap = map;
     //globalStore.store.currentGeoJson =
-    globalStore.store.currentMapGraphic = await getArrowMap(map._id); //TODO: Determine map type
+    switch(map.mapType){
+      case "ArrowMap": globalStore.store.currentMapGraphic = await getArrowMap(map._id); break;
+      case "BubbleMap": globalStore.store.currentMapGraphic = await getBubbleMap(map._id); break;
+      // TODO: Expand this as other map types are properly implemented
+    }
+
     globalStore.setStore(globalStore.store);
 
     setLoaded(true);
