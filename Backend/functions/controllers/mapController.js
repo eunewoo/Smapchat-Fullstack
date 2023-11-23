@@ -105,77 +105,16 @@ exports.getRecentUserMaps = async (req, res, next) => {
   }
 };
 
-exports.createPictureMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
-
+exports.createMap = async (req, res, next) => {
+  const {mapData, graphicData} = req.body;
   try {
-    const createdPictureMap = await MapModel.createPictureMap(userId, mapData);
-    res.json(createdPictureMap);
+    await MapModel.createOrUpdateMap(mapData, graphicData);
+    res.json({mapData, graphicData});
   } catch (error) {
     console.error(error);
-    res.status(400).send("Server Error");
+    res.status(500).send("Server error when creating map");
   }
-};
-
-exports.createArrowMap = async (req, res, next) => {
-  const { userId, userData, mapData, mapInfo } = req.body;
-
-  try {
-    const result = await MapModel.createArrowMap(
-      userId,
-      userData,
-      mapData,
-      mapInfo,
-    );
-    res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.createBubbleMap = async (req, res, next) => {
-  const { userId, userData, mapData, mapInfo } = req.body;
-  try {
-    const b = await MapModel.createBubbleMap(
-      userId,
-      userData,
-      mapData,
-      mapInfo,
-    );
-    res.json(b);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send(mapData);
-  }
-};
-
-exports.createCategoryMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
-
-  try {
-    const createdCategoryMap = await MapModel.createCategoryMap(
-      userId,
-      mapData,
-    );
-    res.json(createdCategoryMap);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.createScaleMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
-
-  try {
-    const createdScaleMap = await MapModel.createScaleMap(userId, mapData);
-    res.json(createdScaleMap);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
+}
 
 exports.updateMap = async (req, res, next) => {
   const { userId, mapId, mapData } = req.body;

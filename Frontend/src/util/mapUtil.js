@@ -40,53 +40,9 @@ export const fetchRecentUserMaps = async (page, limit, userId) => {
   return await webFetch(`/map/${userId}/recent?page=${page}&limit=${limit}`);
 };
 
-export const createPictureMap = async (mapData, userId) => {
-  return await webPost("/map/create/pictureMap", { userId, mapData });
-};
-
-export const createArrowMap = async (userId, userData, mapData, mapInfo) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/map/create/arrowMap`;
-  try {
-    const response = await axios.post(
-      apiUrl,
-      { userId, userData, mapData, mapInfo },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-    console.log("Created Arrow Map:", response.data);
-  } catch (error) {
-    console.error("Error creating Bubble Map (frontend):", error);
-  }
-};
-
-export const createBubbleMap = async (userId, userData, mapData, mapInfo) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/map/create/bubbleMap`;
-  try {
-    const response = await axios.post(
-      apiUrl,
-      { userId, userData, mapData, mapInfo },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-    console.log("Created Bubble Map:", response.data);
-  } catch (error) {
-    console.error("Error creating Bubble Map (frontend):", error);
-  }
-};
-
-export const createCategoryMap = async (mapData, userId) => {
-  return await webPost("/map/create/categoryMap", { userId, mapData });
-};
-
-export const createScaleMap = async (mapData, userId) => {
-  return await webPost("/map/create/scaleMap", { userId, mapData });
-};
+export const createMap = async (mapData, graphicData) => {
+  return await webPost("/map/create", {"mapData": mapData, "graphicData": graphicData});
+}
 
 export const updateMap = async (userId, mapId, mapData) => {
   const apiUrl = `/map/update`;

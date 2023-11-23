@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
 const ArrowMapLocationSchema = new mongoose.Schema({
-  // locationId: {
-  //   type: Number,
-  //   required: true,
-  //   unique: true,
-  // },
   Name: {
     type: String,
     required: false,

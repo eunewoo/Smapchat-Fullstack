@@ -14,11 +14,12 @@ router.get("/map/:userId/recent", mapController.getRecentUserMaps);
 router.get("/map/get/bubble/:mapID", mapController.getBubbleMap);
 router.get("/map/get/arrow/:mapID", mapController.getArrowMap);
 
-router.post("/map/create/pictureMap", mapController.createPictureMap);
+router.post("/map/create", mapController.createMap);
+/*router.post("/map/create/pictureMap", mapController.createPictureMap);
 router.post("/map/create/arrowMap", mapController.createArrowMap);
 router.post("/map/create/bubbleMap", mapController.createBubbleMap);
 router.post("/map/create/categoryMap", mapController.createCategoryMap);
-router.post("/map/create/scaleMap", mapController.createScaleMap);
+router.post("/map/create/scaleMap", mapController.createScaleMap);*/
 
 router.put("/map/update", mapController.updateMap);
 router.put("/map/statusUpdate", mapController.updatePublicStatus);

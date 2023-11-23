@@ -19,17 +19,17 @@ import MapRenderer from "../../reuseable/MapRenderer";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 
-import { BubbleSave, BubblePublish, fetchBubbleMap } from "./BubbleEdit";
-import { CategorySave, CategoryPublish } from "./CategoryEdit";
-import { ScaleSave, ScalePublish } from "./ScaleEdit";
-import { ArrowSave, ArrowPublish, fetchArrowMap } from "./ArrowEdit";
-import { PictureSave, PicturePublish } from "./PictureEdit";
+import AuthContext from "../../../contexts/AuthContext";
+import { createMap } from "../../../util/mapUtil";
 
 export default function MapEditPage() {
   const globalStore = useContext(GlobalStoreContext);
+  const auth = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   var params = useParams();
   var defaultData = {};
@@ -86,36 +86,33 @@ export default function MapEditPage() {
 
   //save button
   const handleSaveButton = () => {
-    if (params.mapType === "BubbleMap") {
-      BubbleSave();
-    } else if (params.mapType === "ArrowMap") {
-      ArrowSave();
-    } else if (params.mapType === "ScaleMap") {
-      ScaleSave();
-    } else if (params.mapType === "PictureMap") {
-      PictureSave();
-    } else if (params.mapType === "CategoryMap") {
-      CategorySave();
-    } else {
-      // Handle the default case if needed
+
+    const mapID = 123;
+
+    var mapData = {
+      mapType: params.mapType,
+      title: "PLACEHOLDER",
+      description: "PLACEHOLDER",
+      MapID: mapID,
+      avgRate: 0,
+      comment: [],
+      mapFile: "",
+      date: Date(),
+      public: 0,
+      owner: auth.auth.user.email
     }
+
+    var graphicData = data;
+    graphicData.MapID = mapID;
+
+    console.log(graphicData);
+
+    createMap(mapData, graphicData).then(() => navigate("/"));
   };
 
   //publish button
   const handlePublishButton = () => {
-    if (params.mapType === "BubbleMap") {
-      BubblePublish(1);
-    } else if (params.mapType === "ArrowMap") {
-      ArrowPublish(1);
-    } else if (params.mapType === "ScaleMap") {
-      ScalePublish();
-    } else if (params.mapType === "PictureMap") {
-      PicturePublish();
-    } else if (params.mapType === "CategoryMap") {
-      CategoryPublish();
-    } else {
-      // Handle the default case if needed
-    }
+
   };
 
   // Load an appropriate toolbox based on which map type we're editing.
