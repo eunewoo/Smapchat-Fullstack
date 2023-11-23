@@ -16,11 +16,6 @@ const MapSchema_ = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  MapID: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
   avgRate: {
     type: Number,
     required: false,

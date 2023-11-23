@@ -101,10 +101,10 @@ const Header = () => {
               className="btn btn-primary px-4 py-2 rounded-3 fw-bold mx-3"
               style={{ backgroundColor: "#4ACEFF" }}
             >
-              Eunewoo
+              {auth.user.username}
             </Button>
             <img
-              src={UserAvatar}
+              src={auth.user.avatar}
               alt="User Avatar"
               style={{ width: "45px", height: "45px", borderRadius: "15%" }}
             />

@@ -1,28 +1,33 @@
-[debug] [2023-11-22T23:48:33.183Z] ----------------------------------------------------------------------
-[debug] [2023-11-22T23:48:33.185Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Alex\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:shell
-[debug] [2023-11-22T23:48:33.186Z] CLI Version:   12.8.0
-[debug] [2023-11-22T23:48:33.186Z] Platform:      win32
-[debug] [2023-11-22T23:48:33.187Z] Node Version:  v18.15.0
-[debug] [2023-11-22T23:48:33.188Z] Time:          Wed Nov 22 2023 18:48:33 GMT-0500 (Eastern Standard Time)
-[debug] [2023-11-22T23:48:33.188Z] ----------------------------------------------------------------------
+[debug] [2023-11-23T01:37:37.691Z] ----------------------------------------------------------------------
+[debug] [2023-11-23T01:37:37.693Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Alex\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:shell
+[debug] [2023-11-23T01:37:37.693Z] CLI Version:   12.8.0
+[debug] [2023-11-23T01:37:37.694Z] Platform:      win32
+[debug] [2023-11-23T01:37:37.694Z] Node Version:  v18.15.0
+[debug] [2023-11-23T01:37:37.695Z] Time:          Wed Nov 22 2023 20:37:37 GMT-0500 (Eastern Standard Time)
+[debug] [2023-11-23T01:37:37.695Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2023-11-22T23:48:33.268Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2023-11-22T23:48:33.269Z] > authorizing via signed-in user (alexander.e.wang@stonybrook.edu)
-[debug] [2023-11-22T23:48:33.269Z] [iam] checking project smapchat-back for permissions ["firebase.projects.get"]
-[debug] [2023-11-22T23:48:33.271Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions [none]
-[debug] [2023-11-22T23:48:33.271Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions x-goog-quota-user=projects/smapchat-back
-[debug] [2023-11-22T23:48:33.272Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2023-11-22T23:48:33.537Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions 200
-[debug] [2023-11-22T23:48:33.538Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions {"permissions":["firebase.projects.get"]}
-[debug] [2023-11-22T23:48:33.542Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2023-11-22T23:48:33.544Z] defaultcredentials: writing to file C:\Users\Alex\AppData\Roaming\firebase\alexander_e.wang_stonybrook.edu_application_default_credentials.json
-[debug] [2023-11-22T23:48:33.545Z] DEBUG: Setting GAC to C:\Users\Alex\AppData\Roaming\firebase\alexander_e.wang_stonybrook.edu_application_default_credentials.json
-[debug] [2023-11-22T23:48:33.545Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig [none]
-[debug] [2023-11-22T23:48:33.805Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig 200
-[debug] [2023-11-22T23:48:33.805Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig {"projectId":"smapchat-back","storageBucket":"smapchat-back.appspot.com"}
-[debug] [2023-11-22T23:48:33.824Z] [functions] Watching "C:\Users\Alex\Desktop\blue\Smapchat\Backend\functions" for Cloud Functions...
-[debug] [2023-11-22T23:48:33.829Z] Validating nodejs source
-[debug] [2023-11-22T23:48:35.781Z] > [functions] package.json contents: {
+[debug] [2023-11-23T01:37:37.774Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-11-23T01:37:37.775Z] > authorizing via signed-in user (alexander.e.wang@stonybrook.edu)
+[debug] [2023-11-23T01:37:37.775Z] [iam] checking project smapchat-back for permissions ["firebase.projects.get"]
+[debug] [2023-11-23T01:37:37.776Z] > refreshing access token with scopes: []
+[debug] [2023-11-23T01:37:37.778Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-11-23T01:37:37.779Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-11-23T01:37:37.962Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-11-23T01:37:37.963Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-11-23T01:37:37.968Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions [none]
+[debug] [2023-11-23T01:37:37.968Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions x-goog-quota-user=projects/smapchat-back
+[debug] [2023-11-23T01:37:37.968Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-11-23T01:37:38.179Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions 200
+[debug] [2023-11-23T01:37:38.179Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smapchat-back:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-11-23T01:37:38.184Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-11-23T01:37:38.185Z] defaultcredentials: writing to file C:\Users\Alex\AppData\Roaming\firebase\alexander_e.wang_stonybrook.edu_application_default_credentials.json
+[debug] [2023-11-23T01:37:38.187Z] DEBUG: Setting GAC to C:\Users\Alex\AppData\Roaming\firebase\alexander_e.wang_stonybrook.edu_application_default_credentials.json
+[debug] [2023-11-23T01:37:38.187Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig [none]
+[debug] [2023-11-23T01:37:38.429Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig 200
+[debug] [2023-11-23T01:37:38.429Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/smapchat-back/adminSdkConfig {"projectId":"smapchat-back","storageBucket":"smapchat-back.appspot.com"}
+[debug] [2023-11-23T01:37:38.438Z] [functions] Watching "C:\Users\Alex\Desktop\blue\Smapchat\Backend\functions" for Cloud Functions...
+[debug] [2023-11-23T01:37:38.443Z] Validating nodejs source
+[debug] [2023-11-23T01:37:40.412Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -54,9 +59,9 @@
   },
   "private": true
 }
-[debug] [2023-11-22T23:48:35.782Z] Building nodejs source
-[debug] [2023-11-22T23:48:35.782Z] Failed to find version of module node: reached end of search path C:\Users\Alex\Desktop\blue\Smapchat\Backend\functions\node_modules
+[debug] [2023-11-23T01:37:40.412Z] Building nodejs source
+[debug] [2023-11-23T01:37:40.413Z] Failed to find version of module node: reached end of search path C:\Users\Alex\Desktop\blue\Smapchat\Backend\functions\node_modules
 [info] +  functions: Using node@18 from host. 
 [info] i  functions: Loaded environment variables from .env. 
-[debug] [2023-11-22T23:48:35.786Z] Could not find functions.yaml. Must use http discovery
-[debug] [2023-11-22T23:48:35.795Z] Found firebase-functions binary at 'C:\Users\Alex\Desktop\blue\Smapchat\Backend\functions\node_modules\.bin\firebase-functions'
+[debug] [2023-11-23T01:37:40.417Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-23T01:37:40.425Z] Found firebase-functions binary at 'C:\Users\Alex\Desktop\blue\Smapchat\Backend\functions\node_modules\.bin\firebase-functions'

@@ -29,7 +29,7 @@ export default function MapCard(props) {
       setMapUser({username: "Unknown"})
   }, [mapData])
 
-  const handleRouteToViewMapPage = () => navigate(`/view-map-page/${mapData.MapID}`);
+  const handleRouteToViewMapPage = () => navigate(`/view-map-page/${mapData._id}`);
 
   return (
     <Card

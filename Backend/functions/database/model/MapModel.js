@@ -43,7 +43,7 @@ class MapModel {
     const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
 
     try {
-      const maps = await MapSchema.find()
+      const maps = await MapSchema.find({public: 1})
         .sort(sorter)
         .skip((page - 1) * limit)
         .limit(parseInt(limit));
@@ -57,7 +57,7 @@ class MapModel {
   static async getSpecificMapByMapId(mapID) {
     try {
       const map = await MapSchema.findOne({
-        MapID: mapID,
+        _id: mapID,
       }).exec();
 
       return map;
@@ -76,6 +76,7 @@ class MapModel {
 
     try {
       const publicMaps = await MapSchema.find({
+        public: 1,
         title: { $regex: query, $options: "i" },
       })
         .sort(sorter)
@@ -136,7 +137,7 @@ class MapModel {
   }
 
   static async createOrUpdateMap(mapData, graphicData) {
-    const current = await MapSchema.exists({MapID: mapData.MapID});
+    const current = await MapSchema.exists({_id: mapData._id}) && mapData._id !== 0;
 
     if (!current) {
       console.log("Creating map");
@@ -149,7 +150,8 @@ class MapModel {
   }
 
   static async createMap(mapData, graphicData) {
-    await MapSchema.create(mapData);
+    const newMap = await MapSchema.create(mapData);
+    graphicData.MapID = newMap._id;
 
     switch(mapData.mapType) {
       case "ArrowMap": ArrowMapSchema.create(graphicData); break;
@@ -161,14 +163,16 @@ class MapModel {
   }
 
   static async updateMap(mapData, graphicData) {
+    const id = mapData._id;
+    delete mapData["_id"];
     await MapSchema.findOneAndUpdate({MapID: mapData.MapID}, mapData);
 
     switch(mapData.mapType) {
-      case "ArrowMap": await ArrowMapSchema.findOneAndUpdate({MapID: mapData.MapID}, graphicData); break;
-      case "BubbleMap": await BubbleMapSchema.findOneAndUpdate({MapID: mapData.MapID}, graphicData); break;
-      //case "PictureMap": PictureMapSchema.findOneAndUpdate({MapID: mapData.MapID}, graphicData); break;
-      //case "CategoryMap": CategoryMapSchema.findOneAndUpdate({MapID: mapData.MapID}, graphicData); break;
-      //case "ScaleMap": ScaleMapSchema.findOneAndUpdate({MapID: mapData.MapID}, graphicData); break;
+      case "ArrowMap": await ArrowMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      case "BubbleMap": await BubbleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      //case "PictureMap": PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      //case "CategoryMap": CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      //case "ScaleMap": ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
     }
   }
 

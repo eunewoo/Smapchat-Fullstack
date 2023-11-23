@@ -27,7 +27,7 @@ const ViewMapPage = () => {
 
     globalStore.store.currentMap = map;
     //globalStore.store.currentGeoJson =
-    globalStore.store.currentMapGraphic = await getArrowMap(map.MapID); //TODO: Determine map type
+    globalStore.store.currentMapGraphic = await getArrowMap(map._id); //TODO: Determine map type
     globalStore.setStore(globalStore.store);
 
     setLoaded(true);
@@ -91,7 +91,8 @@ const ViewMapPage = () => {
           </button>
         </div>
 
-        <Comments />
+        <Comments 
+        map={map}/>
       </div>
     </div>
   );

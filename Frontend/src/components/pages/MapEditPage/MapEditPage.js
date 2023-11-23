@@ -24,10 +24,13 @@ import { Button, Alert } from "react-bootstrap";
 
 import AuthContext from "../../../contexts/AuthContext";
 import { createMap } from "../../../util/mapUtil";
+import { popContext } from "../../../App";
+import SavePopup from "../../popups/SavePopup";
 
 export default function MapEditPage() {
   const globalStore = useContext(GlobalStoreContext);
   const auth = useContext(AuthContext);
+  const setPop = useContext(popContext);
 
   const navigate = useNavigate();
 
@@ -37,8 +40,8 @@ export default function MapEditPage() {
 
   // If we're carrying over data from a global state, we should use that.
   // Otherwise, we want to use a default template.
-  if (globalStore.currentMapGraphic) {
-    defaultData = globalStore.currentMapGraphic;
+  if (globalStore.store.currentMapGraphic) {
+    defaultData = globalStore.store.currentMapGraphic;
   }
   else {
     switch (params.mapType) {
@@ -86,34 +89,50 @@ export default function MapEditPage() {
 
   //save button
   const handleSaveButton = () => {
-
-    const mapID = 123;
-
-    var mapData = {
-      mapType: params.mapType,
-      title: "PLACEHOLDER",
-      description: "PLACEHOLDER",
-      MapID: mapID,
-      avgRate: 0,
-      comment: [],
-      mapFile: "",
-      date: Date(),
-      public: 0,
-      owner: auth.auth.user.email
-    }
-
-    var graphicData = data;
-    graphicData.MapID = mapID;
-
-    console.log(graphicData);
-
-    createMap(mapData, graphicData).then(() => navigate("/"));
+    sendMap(0);
   };
 
   //publish button
   const handlePublishButton = () => {
-
+    sendMap(1);
   };
+
+  const sendMap = (visibility) => {
+
+    var mapData = globalStore.store.currentMap;
+
+    if (!mapData) {
+      mapData = {
+        mapType: params.mapType,
+        MapID: 0,
+        avgRate: 0,
+        comment: [],
+        mapFile: "",
+        date: Date(),
+        public: visibility,
+        owner: auth.auth.user.email
+      };
+    }
+
+    setPop(<SavePopup
+      name={mapData.title}
+      description={mapData.description}
+      buttonText="Save map!"
+      onClick={(name, desc) => {
+        mapData.title = name;
+        mapData.description = desc;
+        mapData.owner = auth.auth.user.email;
+    
+        var graphicData = data;
+        graphicData.MapID = mapData._id ?? 0;
+    
+        createMap(mapData, graphicData).then(() => {
+          setPop(null);
+          navigate("/");
+        });
+      }}
+    />);
+  }
 
   // Load an appropriate toolbox based on which map type we're editing.
   // May be a nicer way to clean this up later...

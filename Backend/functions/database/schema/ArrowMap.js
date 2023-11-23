@@ -23,14 +23,14 @@ const ArrowMapLocationSchema = new mongoose.Schema({
   Date: {
     type: Date,
     required: true,
-    unique: true,
+    unique: false,
     default: Date.now,
   },
 });
 
 const ArrowMapSchema_ = new mongoose.Schema({
   MapID: {
-    type: Number,
+    type: mongoose.Schema.ObjectId,
     required: true,
     unique: true,
   },

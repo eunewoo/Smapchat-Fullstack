@@ -23,7 +23,7 @@ const LocationSchema = new mongoose.Schema({
 });
 const BubbleMapSchema_ = new mongoose.Schema({
   MapID: {
-    type: Number,
+    type: mongoose.Schema.ObjectId,
     unique: true,
     required: true,
     default: 0,
