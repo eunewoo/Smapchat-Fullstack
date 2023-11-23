@@ -122,6 +122,7 @@ export default function MapEditPage() {
         mapData.title = name;
         mapData.description = desc;
         mapData.owner = auth.auth.user.email;
+        mapData.public = visibility;
     
         var graphicData = data;
         graphicData.MapID = mapData._id ?? 0;
