@@ -2,22 +2,16 @@ import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 import axios from "axios";
 ///all map related api
 //1
-export const fetchUserMaps = async (userId) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/user/maps/${userId}`;
-  const response = await axios.get(apiUrl);
-  return response.data;
+
+export const fetchSpecificMap = async (mapID) => {
+  const apiUrl = `/map/specific/${mapID}`;
+  return await webFetch(apiUrl);
 };
 
-//2
 export const fetchPublicMaps = async (sort, page, limit) => {
   const maps = await webFetch(`/map/public?page=${page}&limit=${limit}`);
   console.log("publis maps: ", maps);
   return maps;
-};
-//3
-export const fetchSpecificMap = async (mapID) => {
-  const apiUrl = `/map/specific/${mapID}`;
-  return await webFetch(apiUrl);
 };
 
 export const fetchPublicSearchMaps = async (query, sort, page, limit) => {
@@ -26,18 +20,16 @@ export const fetchPublicSearchMaps = async (query, sort, page, limit) => {
   );
 };
 
-export const fetchUserSearchMaps = async (query, page, limit, userId) => {
+export const fetchUserMaps = async (sort, page, limit, user) => {
   return await webFetch(
-    `/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`,
+    `/map/${user}/?sort=${sort}&page=${page}&limit=${limit}`,
   );
 };
 
-export const fetchTopRatedUserMaps = async (page, limit, userId) => {
-  return await webFetch(`/map/${userId}/top-rated?page=${page}&limit=${limit}`);
-};
-
-export const fetchRecentUserMaps = async (page, limit, userId) => {
-  return await webFetch(`/map/${userId}/recent?page=${page}&limit=${limit}`);
+export const fetchUserSearchMaps = async (query, sort, page, limit, user) => {
+  return await webFetch(
+    `/map/${user}/search?query=${query}&sort=${sort}&page=${page}&limit=${limit}`,
+  );
 };
 
 export const createMap = async (mapData, graphicData) => {

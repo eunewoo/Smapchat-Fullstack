@@ -38,7 +38,19 @@ class MapModel {
       throw new Error(error.message);
     }
   }
-  //2
+
+  static async getSpecificMapByMapId(mapID) {
+    try {
+      const map = await MapSchema.findOne({
+        _id: mapID,
+      }).exec();
+
+      return map;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   static async getPublicMaps(sort = "date", page = 1, limit = 20) {
     const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
 
@@ -53,19 +65,7 @@ class MapModel {
       throw new Error(error.message);
     }
   }
-  //3
-  static async getSpecificMapByMapId(mapID) {
-    try {
-      const map = await MapSchema.findOne({
-        _id: mapID,
-      }).exec();
 
-      return map;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-  //4
   static async searchPublicMapsByQuery(
     query,
     sort = "date",
@@ -90,47 +90,41 @@ class MapModel {
     }
   }
 
-  //7
-  static async searchUserMapsByQuery(userId, query, page = 1, limit = 20) {
+  static async getUserMaps(sort = "date", page = 1, limit = 20, user) {
+    const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
+
     try {
-      const userMaps = await MapSchema.find({
-        userId,
-        title: { $regex: new RegExp(query, "i") },
+      const maps = await MapSchema.find({owner: user})
+        .sort(sorter)
+        .skip((page - 1) * limit)
+        .limit(parseInt(limit));
+
+      return maps;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  static async searchUserMapsByQuery(
+    query,
+    sort = "date",
+    page = 1,
+    limit = 20,
+    user
+  ) {
+    const sorter = sort === "rating" ? { avgRate: -1 } : { date: -1 };
+
+    try {
+      const publicMaps = await MapSchema.find({
+        owner: user,
+        title: { $regex: query, $options: "i" },
       })
+        .sort(sorter)
         .skip((page - 1) * limit)
         .limit(parseInt(limit))
         .exec();
 
-      return userMaps;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  //8
-  static async getTopRatedUserMaps(userId, page = 1, limit = 20) {
-    try {
-      const topRatedUserMaps = await MapSchema.find({ userId })
-        .sort({ avgRate: -1 }) // here i Sorted by avgRate in descending order
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit))
-        .exec();
-
-      return topRatedUserMaps;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-  //9
-  static async getRecentUserMaps(userId, page = 1, limit = 20) {
-    try {
-      const recentUserMaps = await MapSchema.find({ userId })
-        .sort({ date: -1 }) // Sort by date in descending order (recent first)
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit))
-        .exec();
-
-      return recentUserMaps;
+      return publicMaps;
     } catch (error) {
       throw new Error(error.message);
     }
