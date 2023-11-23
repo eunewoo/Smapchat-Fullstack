@@ -13,32 +13,33 @@ class RatingModel {
     }
   }
 
-  //post
-  //4
-  static async createRate(userId, mapId, rate) {
+  static async createOrUpdateRate(userId, mapId, rate) {
     try {
-      const createdRate = await RatingSchema.create({
+      // Check if the rate already exists
+      const existingRate = await RatingSchema.findOne({
         userID: userId,
         mapID: mapId,
-        rate: rate,
       });
-      return createdRate;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
 
-  //put
-  //3
-
-  static async updateRate(userId, mapId, rate) {
-    try {
-      const updatedRate = await RatingSchema.findOneAndUpdate(
-        { userID: userId, mapID: mapId },
-        { rate: rate },
-        { new: true }
-      );
-      return updatedRate;
+      if (existingRate) {
+        // Update the existing rate
+        const updatedRate = await RatingSchema.findOneAndUpdate(
+          { userID: userId, mapID: mapId },
+          { rate: rate },
+          { new: true } // Return the updated document
+        );
+        console.log("Rate updated:");
+        return updatedRate;
+      } else {
+        // Create a new rate
+        const createdRate = await RatingSchema.create({
+          mapID: mapId,
+          userID: userId,
+          rate: rate,
+        });
+        console.log("Rate created:");
+        return createdRate;
+      }
     } catch (error) {
       throw new Error(error.message);
     }

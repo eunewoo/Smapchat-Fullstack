@@ -14,6 +14,7 @@ const stopDB = require("./database/database.js");
 const indexRouter = require("./routes/index.js");
 const userRoutes = require("./routes/userRoutes.js");
 const mapRoutes = require("./routes/mapRoutes.js");
+const ratingRoutes = require("./routes/ratingRoutes.js");
 const logMiddleware = require("./middleware/logger.js");
 
 const dotenv = require("dotenv");
@@ -34,7 +35,7 @@ var app = express();
 app.use(
   cors({
     origin: "*",
-  }),
+  })
 );
 
 admin.initializeApp({ credential: admin.credential.cert(credentials) });
@@ -46,6 +47,7 @@ app.use(cookieParser());
 app.use("/", mapRoutes);
 app.use("/", indexRouter);
 app.use("/", userRoutes);
+app.use("/", ratingRoutes);
 
 // error handler
 app.use(function (err, req, res, next) {

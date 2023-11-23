@@ -4,12 +4,12 @@ const RatingSchema_ = new mongoose.Schema({
   mapID: {
     type: Number,
     required: false,
-    unique: true,
+    unique: false,
   },
   userID: {
-    type: Number,
+    type: String,
     required: false,
-    unique: true,
+    unique: false,
   },
   rate: {
     type: Number,

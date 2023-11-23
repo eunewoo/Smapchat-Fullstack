@@ -12,22 +12,21 @@ exports.getRatesByMapId = async (req, res, next) => {
   }
 };
 
-exports.createRate = async (req, res, next) => {
+exports.createOrUpdateRate = async (req, res, next) => {
   const { userId, mapId, rate } = req.body;
 
   try {
-    const createdRate = await RatingModel.createRate(userId, mapId, rate);
-    res.json(createdRate);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
+    const rateResult = await RatingModel.createOrUpdateRate(
+      userId,
+      mapId,
+      rate
+    );
 
-exports.updateRate = async (req, res, next) => {
-  try {
-    const updatedRate = await RatingModel.updateRate(userId, mapId, rate);
-    res.json(updatedRate);
+    if (rateResult) {
+      res.json(rateResult);
+    } else {
+      throw new Error("Unable to process rating.");
+    }
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
