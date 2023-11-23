@@ -34,13 +34,13 @@ export const fetchSpecificMap = async (mapID) => {
 
 export const fetchPublicSearchMaps = async (query, sort, page, limit) => {
   return await webFetch(
-    `/map/public/search?query=${query}&sort=${sort}&page=${page}&limit=${limit}`,
+    `/map/public/search?query=${query}&sort=${sort}&page=${page}&limit=${limit}`
   );
 };
 
 export const fetchUserSearchMaps = async (query, page, limit, userId) => {
   return await webFetch(
-    `/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`,
+    `/map/${userId}/search?query=${query}&page=${page}&limit=${limit}`
   );
 };
 
@@ -66,7 +66,7 @@ export const createArrowMap = async (userId, userData, mapData, mapInfo) => {
         headers: {
           "Content-Type": "application/json",
         },
-      },
+      }
     );
     console.log("Created Arrow Map:", response.data);
   } catch (error) {
@@ -197,8 +197,6 @@ export const getArrowMap = async (mapID) => {
     throw error;
   }
 };
-<<<<<<< HEAD
-=======
 
 export const getCategoryMap = async (mapID) => {
   const apiUrl = `${process.env.REACT_APP_URL}/map/get/category/${mapID}`;
@@ -233,4 +231,3 @@ export const getScaleMap = async (mapID) => {
     throw error;
   }
 };
->>>>>>> scaleCategoryConnect
