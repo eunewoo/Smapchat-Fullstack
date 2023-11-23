@@ -8,12 +8,14 @@ import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchSpecificMap, getArrowMap, getBubbleMap } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
+import AuthContext from "../../../contexts/AuthContext";
 
 const ViewMapPage = () => {
 
   const navigate = useNavigate();
 
   const globalStore = useContext(GlobalStoreContext);
+  const auth = useContext(AuthContext);
   var params = useParams();
 
   const [map, setMap] = useState({});
@@ -92,7 +94,7 @@ const ViewMapPage = () => {
             style={{ top: "16px", right: "16px" }}
             onClick={() => navigate("/map-edit-page/" + map.mapType)}
           >
-            Edit
+            {map.owner === auth.auth.user.email ? "Edit" : "Fork"}
           </button>
         </div>
 
