@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchSpecificMap, getArrowMap, getBubbleMap } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 import AuthContext from "../../../contexts/AuthContext";
+import { webFetch } from "../../../util/webUtil";
 
 const ViewMapPage = () => {
 
@@ -28,7 +29,14 @@ const ViewMapPage = () => {
     console.log(map);
 
     globalStore.store.currentMap = map;
-    //globalStore.store.currentGeoJson =
+
+    if (map.mapFile !== "") {
+      console.log("Getting GeoJSON!");
+      const geoJson = await (await fetch(map.mapFile)).json();
+      globalStore.store.currentGeoJson = geoJson;
+      console.log("Got GeoJSON!");
+    }
+
     switch(map.mapType){
       case "ArrowMap": globalStore.store.currentMapGraphic = await getArrowMap(map._id); break;
       case "BubbleMap": globalStore.store.currentMapGraphic = await getBubbleMap(map._id); break;
