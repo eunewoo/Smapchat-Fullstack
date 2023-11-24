@@ -1,17 +1,48 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const PictureMapSchema_ = new mongoose.Schema({
-  mapID: {
-    type: Number,
+const LibrarySchema = new Schema({
+  Name: {
+    type: String,
     required: true,
-    unique: true,
+    unique: false,
   },
-  locationIds: {
-    type: [Number],
+  Images: {
+    type: [String],
     required: false,
     unique: false,
   },
 });
 
-const PictureSchema = mongoose.model("PictureMap", PictureMapSchema_);
-module.exports = PictureSchema;
+const PictureMapLocationSchema = new Schema({
+  Name: {
+    type: String,
+    required: true,
+    unique: false,
+  },
+  Longitude: {
+    type: String,
+    required: true,
+    unique: false,
+  },
+  Lattitude: {
+    type: String,
+    required: true,
+    unique: false,
+  },
+  Library: [LibrarySchema],
+});
+
+const PictureMapSchema_ = new Schema({
+  MapID: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+    unique: true,
+  },
+  Location: [PictureMapLocationSchema],
+});
+
+
+const PictureMapSchema = mongoose.model("PictureMap", PictureMapSchema_);
+
+module.exports = PictureMapSchema;

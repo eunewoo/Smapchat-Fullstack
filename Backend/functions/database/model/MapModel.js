@@ -1,7 +1,7 @@
 const mongodb = require("mongodb");
 const UserSchema = require("../schema/User.js");
 const MapSchema = require("../schema/MapSchema.js");
-const PictureSchema = require("../schema/PictureMap.js");
+const PictureMapSchema = require("../schema/PictureMap.js");
 const ArrowMapSchema = require("../schema/ArrowMap.js");
 const ScaleMapSchema = require("../schema/ScaleMap.js");
 const catagoryMapSchema = require("../schema/CatagoryMap.js");
@@ -155,7 +155,7 @@ class MapModel {
     switch(mapData.mapType) {
       case "ArrowMap": await ArrowMapSchema.create(graphicData); break;
       case "BubbleMap": await BubbleMapSchema.create(graphicData); break;
-      //case "PictureMap": await PictureMapSchema.create(graphicData); break;
+      case "PictureMap": await PictureMapSchema.create(graphicData); break;
       //case "CategoryMap": await CategoryMapSchema.create(graphicData); break;
       //case "ScaleMap": await ScaleMapSchema.create(graphicData); break;
     }
@@ -169,7 +169,7 @@ class MapModel {
     switch(mapData.mapType) {
       case "ArrowMap": await ArrowMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
       case "BubbleMap": await BubbleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "PictureMap": await PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      case "PictureMap": await PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
       //case "CategoryMap": await CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
       //case "ScaleMap": await ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
     }
@@ -215,7 +215,7 @@ class MapModel {
       switch(mapData.mapType) {
         case "ArrowMap": await ArrowMapSchema.findOneAndDelete({MapID: mapData._id}); break;
         case "BubbleMap": await BubbleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
-        //case "PictureMap": await PictureMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        case "PictureMap": await PictureMapSchema.findOneAndDelete({MapID: mapData._id}); break;
         //case "CategoryMap": await CategoryMapSchema.findOneAndDelete({MapID: mapData._id}); break;
         //case "ScaleMap": await ScaleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
       }
