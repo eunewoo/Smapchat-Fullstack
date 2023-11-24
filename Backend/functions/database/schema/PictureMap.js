@@ -1,19 +1,12 @@
 const mongoose = require("mongoose");
 
-const ImageSchema = new mongoose.Schema({
-  url: {
-    type: String,
-    required: true,
-  },
-});
-
 const LibrarySchema = new mongoose.Schema({
   Name: {
     type: String,
     required: false,
   },
   Images: {
-    type: [ImageSchema],
+    type: [String],
     required: false,
   },
 });
@@ -31,7 +24,7 @@ const LocationSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  Latitude: {
+  Lattitude: {
     type: String,
     required: false,
   },
