@@ -130,10 +130,12 @@ class MapModel {
     }
   }
 
-  static async createOrUpdateMap(mapData, graphicData) {
+  static async createOrUpdateMap(mapData, graphicData, user) {
     const current = await MapSchema.exists({_id: mapData._id}) && mapData._id !== 0;
+    const thisUser = await UserSchema.findOne({_id: user});
+    mapData.owner = thisUser.email;
 
-    if (!current) {
+    if (!current || current.owner != thisUser.email) {
       console.log("Creating map");
       return await this.createMap(mapData, graphicData);
     } 

@@ -92,8 +92,13 @@ exports.searchUserMapsByQuery = async (req, res, next) => {
 
 exports.createMap = async (req, res, next) => {
   const {mapData, graphicData} = req.body;
+  const user = req.user;
+
+  console.log("createMap user");
+  console.log(req.user);
+
   try {
-    await MapModel.createOrUpdateMap(mapData, graphicData);
+    await MapModel.createOrUpdateMap(mapData, graphicData, user);
     res.json({mapData, graphicData});
   } catch (error) {
     console.error(error);

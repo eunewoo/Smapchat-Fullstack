@@ -1,6 +1,7 @@
 const UserModel = require("../database/model/UserModel");
 const bcrypt = require("bcryptjs");
 const admin = require("firebase-admin");
+const jwt = require('jsonwebtoken');
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -39,10 +40,11 @@ exports.register = async (req, res, next) => {
       return res.status(409).json({ message: "Email already in use" });
     }
 
+    /*
     const userRecord = await admin.auth().createUser({
       email: req.body.email,
       password: req.body.password,
-    });
+    });*/
 
     const newUser = await UserModel.createUser(
       req.body.email,
@@ -50,6 +52,10 @@ exports.register = async (req, res, next) => {
       req.body.password,
       req.body.avatar,
     );
+
+    const token = jwt.sign({ id: newUser._id }, "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet", { expiresIn: "24h" });
+    res.cookie('authentication', token, {httpOnly: false, secure: false});
+
     res.status(201).json({ loggedIn: true, user: newUser });
   } catch (error) {
     console.error(error);
@@ -91,9 +97,9 @@ exports.login = async (req, res, next) => {
     //   return res.status(403).json({ message: "User not verified" });
     // }
 
-    // Here we can create a token or session
-    // For example, using JWT (JSON Web Token):
-    // const token = jwt.sign({ id: user._id }, "your_jwt_secret", { expiresIn: "1h" });
+    // TODO: Change secret
+    const token = jwt.sign({ id: user._id }, "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet", { expiresIn: "24h" });
+    res.cookie('authentication', token, {httpOnly: false, secure: false});
 
     const userWithoutPassword = { ...user, password: undefined };
 

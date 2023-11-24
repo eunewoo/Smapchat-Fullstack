@@ -48,6 +48,11 @@ const UserSchema_ = new mongoose.Schema({
     default: false,
     required: true,
   },
+  // session cookie
+  cookie: {
+    type: String,
+    required: false,
+  }
 });
 
 const UserSchema = mongoose.model("User", UserSchema_);

@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }) => {
       };
       setAuth(newAuth);
       localStorage.setItem("auth", JSON.stringify(newAuth));
+
     } else {
       console.error("Error in logging in:", error);
     }
@@ -73,6 +74,7 @@ export const AuthProvider = ({ children }) => {
       setAuth(newAuthState);
 
       localStorage.setItem("auth", JSON.stringify(newAuthState));
+
     } else {
       // on error, we need 1 general popup for errors handling
       console.error("Error in fetching users:", error);
