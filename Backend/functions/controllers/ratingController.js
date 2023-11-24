@@ -16,14 +16,14 @@ exports.createOrUpdateRate = async (req, res, next) => {
   const { userId, mapId, rate } = req.body;
 
   try {
-    const rateResult = await RatingModel.createOrUpdateRate(
+    const updatedAvgRate = await RatingModel.createOrUpdateRate(
       userId,
       mapId,
       rate
     );
 
-    if (rateResult) {
-      res.json(rateResult);
+    if (updatedAvgRate) {
+      res.json({ avgRate: updatedAvgRate });
     } else {
       throw new Error("Unable to process rating.");
     }

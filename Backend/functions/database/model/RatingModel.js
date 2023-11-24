@@ -18,6 +18,8 @@ class RatingModel {
 
   static async createOrUpdateRate(userId, mapId, rate) {
     try {
+      let updatedRate;
+
       // Check if the rate already exists
       const existingRate = await RatingSchema.findOne({
         userID: userId,
@@ -26,23 +28,29 @@ class RatingModel {
 
       if (existingRate) {
         // Update the existing rate
-        const updatedRate = await RatingSchema.findOneAndUpdate(
+        updatedRate = await RatingSchema.findOneAndUpdate(
           { userID: userId, mapID: mapId },
           { rate: rate },
-          { new: true } // Return the updated document
+          { new: true }
         );
-        console.log("Rate updated:");
-        return updatedRate;
       } else {
         // Create a new rate
-        const createdRate = await RatingSchema.create({
+        updatedRate = await RatingSchema.create({
           mapID: mapId,
           userID: userId,
           rate: rate,
         });
-        console.log("Rate created:");
-        return createdRate;
       }
+
+      // Calculate the new average rate
+      const rates = await RatingSchema.find({ mapID: mapId });
+      const totalRate = rates.reduce((acc, curr) => acc + curr.rate, 0);
+      const avgRate = (totalRate + rate) / (rates.length + 1);
+
+      // Update the MapSchema
+      await MapSchema.findByIdAndUpdate(mapId, { avgRate: avgRate });
+
+      return avgRate; // Return the new average rate
     } catch (error) {
       throw new Error(error.message);
     }
