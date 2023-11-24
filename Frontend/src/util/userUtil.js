@@ -3,7 +3,7 @@ import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 /// Fetches a users profile as a JSON object based on a
 /// provided e-mail address
 export async function userProfile(email) {
-  return await webFetch(`/User/${email}`);
+  return await webFetch(`/User/Email/${email}`);
 }
 
 export async function getUsers() {

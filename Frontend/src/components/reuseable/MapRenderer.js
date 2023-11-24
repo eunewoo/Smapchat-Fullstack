@@ -1,5 +1,5 @@
 import Leaflet from "leaflet";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -15,14 +15,13 @@ import "leaflet/dist/leaflet.css";
 import "./MapRenderer.css";
 
 export default function MapRenderer(props) {
-  const mapRef = useRef(null);
+  const [map, setMap] = useState(null);
   const [zoom] = useState(2);
   const [layerGroup] = useState(Leaflet.layerGroup());
   const [boundaries, setBoundaries] = useState([]); // State to store GeoJSON boundaries
 
-  // Run 1st
   useEffect(() => {
-    console.log("UseEffect 1");
+
     if (props.Geometry) {
       // Form boundaries from input map first and add on layer
       // Also add on Boundaries useState to use that in Scale,Category map
@@ -39,34 +38,39 @@ export default function MapRenderer(props) {
         },
       });
 
-      if (mapRef.current) {
-        geoJsonLayer.addTo(mapRef.current);
+      if (map) {
+        geoJsonLayer.addTo(map);
       }
     }
-  }, [props.Geometry, zoom]);
+  }, [props.Geometry, map, zoom]);
 
-  layerGroup.clearLayers(); // Clear existing layers
-  // mapRef.current.on("zoomend", () => setZoom(mapRef.current.getZoom()));
+  useEffect(() => {
 
-  // Run 2nd
-  // Render maps based on the type
-  if (props.mapType === "PictureMap" && props.GeoJsonData) {
-    renderPictureMap(layerGroup, props.GeoJsonData);
-  } else if (props.mapType === "ArrowMap" && props.GeoJsonData) {
-    renderArrowMap(layerGroup, props.GeoJsonData);
-  } else if (props.mapType === "BubbleMap" && props.GeoJsonData) {
-    renderBubbleMap(layerGroup, props.GeoJsonData);
-  } else if (props.mapType === "CategoryMap" && props.GeoJsonData) {
-    renderCategoryMap(layerGroup, props.GeoJsonData, boundaries); // Pass the GeoJSON data
-  } else if (props.mapType === "ScaleMap" && props.GeoJsonData) {
-    renderScaleMap(layerGroup, props.GeoJsonData, boundaries); // Pass boundaries to ScaleMap
-  }
+    if (props.GeoJsonData) {
+      layerGroup.clearLayers(); // Clear existing layers
 
-  // Run 3rd
-  if (mapRef.current) {
-    layerGroup.addTo(mapRef.current);
-    console.log("UseEffect 3");
-  }
+      // Render maps based on the type
+      if (props.mapType === "PictureMap" && props.GeoJsonData) {
+        renderPictureMap(layerGroup, props.GeoJsonData);
+      } else if (props.mapType === "ArrowMap" && props.GeoJsonData) {
+        renderArrowMap(layerGroup, props.GeoJsonData);
+      } else if (props.mapType === "BubbleMap" && props.GeoJsonData) {
+        renderBubbleMap(layerGroup, props.GeoJsonData);
+      } else if (props.mapType === "CategoryMap" && props.GeoJsonData) {
+        renderCategoryMap(layerGroup, props.GeoJsonData, boundaries); 
+      } else if (props.mapType === "ScaleMap" && props.GeoJsonData) {
+        renderScaleMap(layerGroup, props.GeoJsonData, boundaries); 
+      }
+    }
+
+    if (map) {
+      layerGroup.addTo(map);
+      console.log("Added layer group");
+    }
+    else {
+      console.log("Failed to add layer group")
+    }
+  });
 
   return (
     <div style={{ width: props.width, height: props.height }}>
@@ -76,7 +80,7 @@ export default function MapRenderer(props) {
         center={[200, 40]}
         minZoom={2}
         maxBoundsViscosity={1}
-        ref={mapRef}
+        ref={setMap}
       >
         <ClickHandler onClick={props.onClick} />
         <TileLayer

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import ScrollableComments from "../../../reuseable/ScrollableComments.js";
 import "../ViewMapPageStyles.css";
 
-const Comments = () => {
+// This recieves the current map object as the `map` prop!
+const Comments = (props) => {
   const [comment] = useState("");
 
   const handleSubmit = () => {

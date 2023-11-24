@@ -21,7 +21,7 @@ export const router = createBrowserRouter(
       <Route index element={<HomePage />} />
       <Route path="create-page" element={<CreatePage />} />
       <Route path="my-maps-page" element={<MyMapsPage />} />
-      <Route path="view-map-page" element={<ViewMapPage />} />
+      <Route path="view-map-page/:mapId" element={<ViewMapPage />} />
       <Route path="map-edit-page/:mapType" element={<MapEditPage />} />
       <Route path="manage-user-page" element={<ManageUserPage />} />
       <Route path="login-page" element={<LoginPage />} />

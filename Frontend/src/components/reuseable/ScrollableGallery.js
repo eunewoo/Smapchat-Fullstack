@@ -74,6 +74,8 @@ export default function ScrollableGallery(props) {
   useEffect(() => {
     if (elements.length === 0) {
       console.log(props.fetchFunction);
+
+      // Add two rows to ensure we can scroll
       addRowOfMapCards();
     }
   });

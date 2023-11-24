@@ -1,14 +1,22 @@
-import React from "react";
-import userAvatar from "../../../../assets/images/userAvatar.png";
+import React, { useEffect, useState } from "react";
 import RatingDisplay from "../../../reuseable/RatingDisplay";
-const UserInfo = () => {
+import { userProfile } from "../../../../util/userUtil";
+const UserInfo = (props) => {
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+
+    userProfile(props.userEmail).then((val) => setUser(val));
+  }, [props.userEmail]);
+
   return (
     <div className="row m-0">
       <div className="col-9">
         <div className="row m-0">
           <div className="col-auto">
             <img
-              src={userAvatar}
+              src={user.avatar}
               className="rounded"
               width="70"
               height="80"
@@ -17,16 +25,13 @@ const UserInfo = () => {
           </div>
           <div className="col d-flex align-items-center">
             <div className="row text-start">
-              <div className="h6">Cool Map By Eunewoo</div>
+              <div className="h6">{props.map.title} By {user?.username ?? "Loading..."}</div>
               <div
                 style={{
                   fontSize: "14px",
                 }}
               >
-                This is a cool map that I came up with! I hope you guys enjoy
-                it! This is a cool map that I came up with! I hope you guys
-                enjoy it! This is a cool map that I came up with! I hope you
-                guys enjoy it!
+                {props.map.description}
               </div>
             </div>
           </div>
@@ -34,7 +39,7 @@ const UserInfo = () => {
       </div>
       <div className="col-3 d-flex align-items-end">
         <div className="row text-end px-3">
-          <RatingDisplay value={3} from="view-map-page" />
+          <RatingDisplay value={props.map.avgRate} from="view-map-page" />
         </div>
       </div>
     </div>
