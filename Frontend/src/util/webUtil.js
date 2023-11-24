@@ -3,7 +3,11 @@
 /// should start with a /. Logs an error and throws null if the
 /// server responds with a non-200 response code.
 export async function webFetch(route) {
-  return await fetch(`${process.env.REACT_APP_URL}${route}`).then(
+  return await fetch(`${process.env.REACT_APP_URL}${route}`, {
+    withCredentials: true,
+    mode: "cors",
+    credentials: 'include',
+  }).then(
     async (res) => {
       if (res.status === 200 || res.status === 201) {
         const data = res.json().then((val) => {
@@ -11,7 +15,7 @@ export async function webFetch(route) {
             return val;
           } else {
             console.log("Response body was null!");
-            throw new Error("Response body was null");
+            alert("Server responded with empty contents...");
           }
         });
         return data;
@@ -20,7 +24,7 @@ export async function webFetch(route) {
           `Error from server when requesting ${route}: ` + res.status,
         );
 
-        throw new Error("Server responded with non-200 code");
+        alert(`Error from server when requesting ${route}: ` + res.status);
       }
     },
   );
@@ -56,6 +60,9 @@ async function bodiedRequest(route, data, method) {
   console.log(data);
   return fetch(`${process.env.REACT_APP_URL}${route}`, {
     method: method,
+    withCredentials: true,
+    mode: "cors",
+    credentials: 'include',
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
@@ -68,7 +75,7 @@ async function bodiedRequest(route, data, method) {
           return val;
         } else {
           console.log("Response body was null!");
-          throw new Error("Response body was null");
+          alert("Response body was null");
         }
       });
     } else {
@@ -76,7 +83,7 @@ async function bodiedRequest(route, data, method) {
         `Error from server when ${method}ing ${route}: ` + res.status,
       );
       const data = await res.json();
-      throw new Error(data.errorMessage);
+      alert(data.errorMessage);
     }
   });
 }

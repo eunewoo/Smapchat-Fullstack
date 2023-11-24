@@ -3,8 +3,8 @@ const app = require("../app.js");
 const startDB = require("../database/database.js");
 
 beforeAll(() => {
-  startDB();
-});
+  return startDB();
+}, 20000);
 
 afterAll((done) => {
   done();
