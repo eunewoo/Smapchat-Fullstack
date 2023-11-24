@@ -15,10 +15,7 @@ class UserModel {
   }
 
   static async findByID(id) {
-    const value = await UserSchema.findOne({
-      _id: new mongodb.ObjectId(id),
-    }).exec();
-    return value;
+    return await UserSchema.findOne({_id: id});
   }
 
   static async createUser(email, username, password, avatar) {

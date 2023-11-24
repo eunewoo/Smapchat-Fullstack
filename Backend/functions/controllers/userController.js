@@ -35,7 +35,9 @@ exports.getUserByEmail = async (req, res, next) => {
 
 exports.session = async(req, res) => {
   if (req.user) {
-    const sessionUser = await UserModel.findByID(req.user);
+    var sessionUser = await UserModel.findByID(req.user);
+    sessionUser.password = undefined;
+
     return res.status(201).json({ loggedIn: true, user: sessionUser });
   } else {
     return res.status(200).json({ loggedIn: false, user: null });
@@ -110,10 +112,10 @@ exports.login = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet", { expiresIn: "24h" });
     res.cookie('authentication', token, {httpOnly: false, secure: false});
 
-    const userWithoutPassword = { ...user, password: undefined };
+    user.password = undefined;
 
     // Placeholder response for this example
-    res.status(200).json({ loggedIn: true, user: userWithoutPassword });
+    res.status(200).json({ loggedIn: true, user: user });
   } catch (error) {
     console.error(error);
     next(error);

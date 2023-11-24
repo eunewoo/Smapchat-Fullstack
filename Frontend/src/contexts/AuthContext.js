@@ -8,13 +8,15 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({ user: null, loggedIn: false });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Sync state with local storage changes
   useEffect(() => {
+    setIsLoading(true);
     session().then((val) => {
       auth.user = val.user;
       auth.loggedIn = val.loggedIn;
+      setAuth(auth);
+      setIsLoading(false);
     })
-  }, []);
+  }, [auth]);
 
   const getLoggedIn = useCallback(async () => {}, []);
 
@@ -23,6 +25,7 @@ export const AuthProvider = ({ children }) => {
 
     const { success, data, error } = await loginUserApi(email, password);
     if (success) {
+      console.log(data);
       const newAuth = {
         user: data.user,
         loggedIn: data.loggedIn,
@@ -40,6 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const logoutUser = async () => {
     setAuth({ user: null, loggedIn: false });
+    document.cookie = "authentication=; Max-Age=0";
     localStorage.removeItem("auth");
   };
 
