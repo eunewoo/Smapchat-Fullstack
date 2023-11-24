@@ -67,7 +67,7 @@ class UserModel {
   }
 
   static async deleteUserById(userId) {
-    return await findByIdAndDelete(userId);
+    return await UserSchema.findByIdAndDelete(userId);
   }
 
   static async findByIdAndUpdate(userId, updatedData, options) {
