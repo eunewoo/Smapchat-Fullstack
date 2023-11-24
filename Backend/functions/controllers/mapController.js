@@ -134,12 +134,12 @@ exports.updatePublicStatus = async (req, res, next) => {
   }
 };
 
-exports.deleteMap = async (req, res, next) => {
-  const { mapId } = req.params;
-  const { userId } = req.body;
+exports.deleteMapByMapId = async (req, res, next) => {
+  const { mapID } = req.params;
+  const user = req.user;
 
   try {
-    const result = await MapModel.deleteMapByMapId(mapId, userId);
+    const result = await MapModel.deleteMap(mapID, user);
     res.json(result);
   } catch (error) {
     console.error(error);

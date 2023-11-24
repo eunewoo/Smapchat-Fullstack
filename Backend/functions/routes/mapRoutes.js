@@ -20,6 +20,6 @@ router.post("/map/create", auth, mapController.createMap);
 router.put("/map/update", mapController.updateMap);
 router.put("/map/statusUpdate", mapController.updatePublicStatus);
 
-// router.delete("/map/:mapId", mapController.deleteMapByMapId);
+router.delete("/map/delete/:mapID", auth, mapController.deleteMapByMapId);
 
 module.exports = router;

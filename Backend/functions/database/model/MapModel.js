@@ -151,11 +151,11 @@ class MapModel {
     graphicData.MapID = newMap._id;
 
     switch(mapData.mapType) {
-      case "ArrowMap": ArrowMapSchema.create(graphicData); break;
-      case "BubbleMap": BubbleMapSchema.create(graphicData); break;
-      //case "PictureMap": PictureMapSchema.create(graphicData); break;
-      //case "CategoryMap": CategoryMapSchema.create(graphicData); break;
-      //case "ScaleMap": ScaleMapSchema.create(graphicData); break;
+      case "ArrowMap": await ArrowMapSchema.create(graphicData); break;
+      case "BubbleMap": await BubbleMapSchema.create(graphicData); break;
+      //case "PictureMap": await PictureMapSchema.create(graphicData); break;
+      //case "CategoryMap": await CategoryMapSchema.create(graphicData); break;
+      //case "ScaleMap": await ScaleMapSchema.create(graphicData); break;
     }
   }
 
@@ -167,9 +167,9 @@ class MapModel {
     switch(mapData.mapType) {
       case "ArrowMap": await ArrowMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
       case "BubbleMap": await BubbleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "PictureMap": PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "CategoryMap": CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "ScaleMap": ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      //case "PictureMap": await PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      //case "CategoryMap": await CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      //case "ScaleMap": await ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
     }
   }
 
@@ -194,18 +194,32 @@ class MapModel {
 
   //delete
   //17
-  static async deleteMapByMapId(mapId, userId) {
+  static async deleteMap(mapID, user) {
     try {
-      const deletedMap = await MapSchema.findOneAndDelete({
-        _id: mapId,
-        userId,
-      });
+      const mapData = await MapSchema.findOne({_id: mapID});
+      const thisUser = await UserSchema.findOne({_id: user});
 
-      if (!deletedMap) {
-        throw new Error("Map not found");
+      if (!mapData) {
+        throw new Error("Map does not exist");
       }
 
-      return deletedMap;
+      // Must be the owner or an admin to delete a map
+      if (mapData.owner != thisUser.email && thisUser.type != 1) {
+        throw new Error("Delete not permitted");
+      }
+
+      await MapSchema.findOneAndDelete({_id: mapData._id});
+
+      switch(mapData.mapType) {
+        case "ArrowMap": await ArrowMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        case "BubbleMap": await BubbleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        //case "PictureMap": await PictureMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        //case "CategoryMap": await CategoryMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        //case "ScaleMap": await ScaleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+      }
+
+      return true;
+
     } catch (error) {
       throw new Error(error.message);
     }
