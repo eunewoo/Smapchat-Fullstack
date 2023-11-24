@@ -1,11 +1,11 @@
 const RatingModel = require("../database/model/RatingModel");
 
-exports.getRatesByMapId = async (req, res, next) => {
+exports.getAvgRatesByMapId = async (req, res, next) => {
   const { mapId } = req.params;
 
   try {
-    const rates = await RatingModel.getRatesByMapId(mapId);
-    res.json(rates);
+    const avgRate = await RatingModel.getAvgRateByMapId(mapId);
+    res.json({ avgRate: avgRate });
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");

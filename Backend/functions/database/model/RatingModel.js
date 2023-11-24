@@ -1,13 +1,16 @@
 const mongodb = require("mongodb");
 const RatingSchema = require("../schema/RatingSchema.js");
+const MapSchema = require("../schema/MapSchema.js");
 
 class RatingModel {
   //get
-  //1
-  static async getRatesByMapId(mapId) {
+  static async getAvgRateByMapId(mapId) {
     try {
-      const rates = await RatingSchema.find({ mapID: mapId });
-      return rates;
+      const map = await MapSchema.findById(mapId);
+      if (!map) {
+        throw new Error("Map not found");
+      }
+      return map.avgRate;
     } catch (error) {
       throw new Error(error.message);
     }
