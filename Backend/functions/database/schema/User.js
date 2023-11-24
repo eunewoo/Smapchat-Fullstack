@@ -47,11 +47,6 @@ const UserSchema_ = new mongoose.Schema({
     type: Boolean,
     default: false,
     required: true,
-  },
-  // session cookie
-  cookie: {
-    type: String,
-    required: false,
   }
 });
 

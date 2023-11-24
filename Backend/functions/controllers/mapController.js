@@ -91,6 +91,11 @@ exports.searchUserMapsByQuery = async (req, res, next) => {
 };
 
 exports.createMap = async (req, res, next) => {
+
+  if (!req.user) {
+    res.status(401).send("You must be signed in to do that!");
+  }
+
   const {mapData, graphicData} = req.body;
   const user = req.user;
 

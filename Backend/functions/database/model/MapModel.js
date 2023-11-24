@@ -146,6 +146,7 @@ class MapModel {
   }
 
   static async createMap(mapData, graphicData) {
+    delete mapData["_id"];
     const newMap = await MapSchema.create(mapData);
     graphicData.MapID = newMap._id;
 

@@ -33,6 +33,15 @@ exports.getUserByEmail = async (req, res, next) => {
   }
 };
 
+exports.session = async(req, res) => {
+  if (req.user) {
+    const sessionUser = await UserModel.findByID(req.user);
+    return res.status(201).json({ loggedIn: true, user: sessionUser });
+  } else {
+    return res.status(200).json({ loggedIn: false, user: null });
+  }
+};
+
 exports.register = async (req, res, next) => {
   try {
     const existingUser = await UserModel.findByEmail(req.body.email);

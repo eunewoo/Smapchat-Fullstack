@@ -1,30 +1,19 @@
 import React, { createContext, useState, useCallback, useEffect } from "react";
-import { createUser, loginUserApi, resetPasswordApi } from "../util/userUtil";
+import { session, createUser, loginUserApi, resetPasswordApi } from "../util/userUtil";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState(() => {
-    const savedAuth = localStorage.getItem("auth");
-    return savedAuth ? JSON.parse(savedAuth) : { user: null, loggedIn: false };
-  });
 
+  const [auth, setAuth] = useState({ user: null, loggedIn: false });
   const [isLoading, setIsLoading] = useState(false);
 
   // Sync state with local storage changes
   useEffect(() => {
-    const handleStorageChange = () => {
-      const savedAuth = localStorage.getItem("auth");
-      if (savedAuth) {
-        setAuth(JSON.parse(savedAuth));
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    session().then((val) => {
+      auth.user = val.user;
+      auth.loggedIn = val.loggedIn;
+    })
   }, []);
 
   const getLoggedIn = useCallback(async () => {}, []);
