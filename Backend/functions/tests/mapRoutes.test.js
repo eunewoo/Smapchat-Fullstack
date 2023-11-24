@@ -31,3 +31,66 @@ describe("Get searched maps", () => {
     expect(res.body[0].title.includes("map"));
   });
 });
+
+describe("Publish map", () => {
+  it("should be able to publish then delete a map", async () => {
+
+    const agent = request.agent(app);
+
+    await agent
+      .post("/User/login")
+      .send({email: "John@Lemon.com", password: "Password"})
+      .expect(200);
+
+    const pubRes = await agent
+      .post("/map/create")
+      .send({
+        mapData:{
+          _id: 0,
+          mapType: "ArrowMap",
+          title: "Test map",
+          description: "Automated test map",
+          avgRate: 0,
+          comment: [],
+          mapFile: "",
+          date: "2023-11-23T00:53:16.000+00:00",
+          public: 0
+        }, 
+        graphicData:{
+            "MapID": "1234TEST1234",
+            "Maxpin": 5,
+            "Location": [
+              {
+                "Name": "Gershwin Theater",
+                "Longitude": -73.9852,
+                "Lattitude": 40.7624,
+                "Order": 1,
+                "Date": "11-10-2023"
+              },
+              {
+                "Name": "Time Square",
+                "Longitude": -73.9853,
+                "Lattitude": 40.7581,
+                "Order": 2,
+                "Date": "11-11-2023"
+              },
+              {
+                "Name": "MoMA",
+                "Longitude": -73.9776,
+                "Lattitude": 40.7615,
+                "Order": 3,
+                "Date": "11-11-2023"
+              }
+            ]        
+        }
+    })
+    .expect(200);
+
+    const id = pubRes.body.graphicData.MapID;
+    console.log(id);
+
+    await agent
+      .delete(`/map/delete/${id}`)
+      .expect(200);
+  })
+});

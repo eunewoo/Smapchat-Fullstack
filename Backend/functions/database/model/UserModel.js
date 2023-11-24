@@ -12,36 +12,10 @@ class UserModel {
 
   static async findByEmail(email) {
     return await UserSchema.findOne({ email: email }).exec();
-    const userDoc = await UserSchema.findOne({ email: email }).exec();
-
-    if (!userDoc) {
-      return null; // Or handle the user not found scenario
-    }
-
-    // Convert MongoDB ObjectId to String for userId
-    const userId = userDoc._id.toString();
-
-    // Creating a new object with the desired structure
-    const user = {
-      userId: userId,
-      email: userDoc.email,
-      username: userDoc.username,
-      password: userDoc.password,
-      avatar: userDoc.avatar,
-      isActive: userDoc.isActive,
-      mapList: userDoc.mapList,
-      userType: userDoc.userType,
-      isVerified: userDoc.isVerified,
-    };
-
-    return user;
   }
 
   static async findByID(id) {
-    const value = await UserSchema.findOne({
-      _id: new mongodb.ObjectId(id),
-    }).exec();
-    return value;
+    return await UserSchema.findOne({_id: id});
   }
 
   static async createUser(email, username, password, avatar) {
@@ -93,7 +67,7 @@ class UserModel {
   }
 
   static async deleteUserById(userId) {
-    return await findByIdAndDelete(userId);
+    return await UserSchema.findByIdAndDelete(userId);
   }
 
   static async findByIdAndUpdate(userId, updatedData, options) {

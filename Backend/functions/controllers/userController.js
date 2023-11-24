@@ -1,6 +1,7 @@
 const UserModel = require("../database/model/UserModel");
 const bcrypt = require("bcryptjs");
 const admin = require("firebase-admin");
+const jwt = require('jsonwebtoken');
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -32,6 +33,17 @@ exports.getUserByEmail = async (req, res, next) => {
   }
 };
 
+exports.session = async(req, res) => {
+  if (req.user) {
+    var sessionUser = await UserModel.findByID(req.user);
+    sessionUser.password = undefined;
+
+    return res.status(201).json({ loggedIn: true, user: sessionUser });
+  } else {
+    return res.status(200).json({ loggedIn: false, user: null });
+  }
+};
+
 exports.register = async (req, res, next) => {
   try {
     const existingUser = await UserModel.findByEmail(req.body.email);
@@ -39,10 +51,11 @@ exports.register = async (req, res, next) => {
       return res.status(409).json({ message: "Email already in use" });
     }
 
+    /*
     const userRecord = await admin.auth().createUser({
       email: req.body.email,
       password: req.body.password,
-    });
+    });*/
 
     const newUser = await UserModel.createUser(
       req.body.email,
@@ -50,6 +63,10 @@ exports.register = async (req, res, next) => {
       req.body.password,
       req.body.avatar,
     );
+
+    const token = jwt.sign({ id: newUser._id }, "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet", { expiresIn: "24h" });
+    res.cookie('authentication', token, {httpOnly: false, secure: false});
+
     res.status(201).json({ loggedIn: true, user: newUser });
   } catch (error) {
     console.error(error);
@@ -69,15 +86,6 @@ exports.login = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Authenticate with Firebase
-    // const firebaseUser = await admin
-    //   .auth()
-    //   .signInWithEmailAndPassword(req.body.email, req.body.password);
-    // if (!firebaseUser) {
-    //   return res.status(401).json({ message: "Invalid credentials" });
-    // }
-
-    // This wont work after password reset since we are not syncing Firebase reset password
     const isPasswordValid = await bcrypt.compare(
       req.body.password,
       user.password,
@@ -86,19 +94,13 @@ exports.login = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // If email verification is required, you can check here if the user is verified
-    // if (!user.isVerified) {
-    //   return res.status(403).json({ message: "User not verified" });
-    // }
+    // TODO: Change secret
+    const token = jwt.sign({ id: user._id }, "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet", { expiresIn: "24h" });
+    res.cookie('authentication', token, {httpOnly: false, secure: false});
 
-    // Here we can create a token or session
-    // For example, using JWT (JSON Web Token):
-    // const token = jwt.sign({ id: user._id }, "your_jwt_secret", { expiresIn: "1h" });
+    user.password = undefined;
 
-    const userWithoutPassword = { ...user, password: undefined };
-
-    // Placeholder response for this example
-    res.status(200).json({ loggedIn: true, user: userWithoutPassword });
+    res.status(200).json({ loggedIn: true, user: user });
   } catch (error) {
     console.error(error);
     next(error);
@@ -134,7 +136,7 @@ exports.updateUserActivation = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     await UserModel.deleteUserById(req.params.Id);
-    res.status(204).send();
+    res.status(200).send();
   } catch (error) {
     console.error(error);
     next(error);

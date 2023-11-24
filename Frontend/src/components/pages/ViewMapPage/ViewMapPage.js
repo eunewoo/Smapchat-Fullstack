@@ -6,7 +6,7 @@ import Comments from "./LocalComponents/Comments";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchSpecificMap, getArrowMap, getBubbleMap } from "../../../util/mapUtil";
+import { deleteMap, fetchSpecificMap, getArrowMap, getBubbleMap } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 import AuthContext from "../../../contexts/AuthContext";
 import { webFetch } from "../../../util/webUtil";
@@ -61,6 +61,22 @@ const ViewMapPage = () => {
     populateData();
   }, [params.mapId, globalStore]);
 
+  const deleteButton = map.owner === auth.auth.user?.email ? 
+  (<button
+    className="btn btn-edit-map position-absolute"
+    style={{ top: "64px", right: "16px" }}
+    onClick={() => 
+      {
+        setLoaded(false);
+        deleteMap(map._id).then(() => {
+          navigate("/");
+        })
+      }}
+  >
+    Delete
+  </button>) : 
+  (<></>);
+
   if (!loaded) {
     return (
       <div
@@ -97,13 +113,16 @@ const ViewMapPage = () => {
             Geometry={globalStore.store.currentGeoJson}
             GeoJsonData={globalStore.store.currentMapGraphic}
             />
+
           <button
             className="btn btn-edit-map position-absolute"
             style={{ top: "16px", right: "16px" }}
             onClick={() => navigate("/map-edit-page/" + map.mapType)}
           >
-            {map.owner === auth.auth.user.email ? "Edit" : "Fork"}
+            {map.owner === auth.auth.user?.email ? "Edit" : "Fork"}
           </button>
+
+          {deleteButton}
         </div>
 
         <Comments 

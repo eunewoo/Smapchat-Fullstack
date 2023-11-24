@@ -1,31 +1,22 @@
 import React, { createContext, useState, useCallback, useEffect } from "react";
-import { createUser, loginUserApi, resetPasswordApi } from "../util/userUtil";
+import { session, createUser, loginUserApi, resetPasswordApi } from "../util/userUtil";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState(() => {
-    const savedAuth = localStorage.getItem("auth");
-    return savedAuth ? JSON.parse(savedAuth) : { user: null, loggedIn: false };
-  });
 
+  const [auth, setAuth] = useState({ user: null, loggedIn: false });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Sync state with local storage changes
   useEffect(() => {
-    const handleStorageChange = () => {
-      const savedAuth = localStorage.getItem("auth");
-      if (savedAuth) {
-        setAuth(JSON.parse(savedAuth));
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+    setIsLoading(true);
+    session().then((val) => {
+      auth.user = val.user;
+      auth.loggedIn = val.loggedIn;
+      setAuth(auth);
+      setIsLoading(false);
+    })
+  }, [auth]);
 
   const getLoggedIn = useCallback(async () => {}, []);
 
@@ -34,12 +25,14 @@ export const AuthProvider = ({ children }) => {
 
     const { success, data, error } = await loginUserApi(email, password);
     if (success) {
+      console.log(data);
       const newAuth = {
         user: data.user,
         loggedIn: data.loggedIn,
       };
       setAuth(newAuth);
       localStorage.setItem("auth", JSON.stringify(newAuth));
+
     } else {
       console.error("Error in logging in:", error);
     }
@@ -50,6 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const logoutUser = async () => {
     setAuth({ user: null, loggedIn: false });
+    document.cookie = "authentication=; Max-Age=0";
     localStorage.removeItem("auth");
   };
 
@@ -73,6 +67,7 @@ export const AuthProvider = ({ children }) => {
       setAuth(newAuthState);
 
       localStorage.setItem("auth", JSON.stringify(newAuthState));
+
     } else {
       // on error, we need 1 general popup for errors handling
       console.error("Error in fetching users:", error);

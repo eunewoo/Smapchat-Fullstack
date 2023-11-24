@@ -57,8 +57,8 @@ export const updateMapStatus = async (userId, mapId, isPublic) => {
   });
 };
 
-export const deleteMap = async (mapId, userId) => {
-  return await webDelete(`/map/${mapId}`, { userId });
+export const deleteMap = async (mapId) => {
+  return await webDelete(`/map/delete/${mapId}`);
 };
 
 export const getBubbleMap = async (mapID) => {

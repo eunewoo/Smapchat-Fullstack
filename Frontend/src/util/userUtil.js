@@ -21,6 +21,10 @@ export async function deleteUser(userId) {
   return await webDelete(`/User/delete/${userId}`, {});
 }
 
+export async function session() {
+  return await webFetch(`/Users/session`);
+}
+
 /// Creates a user given an email, username, and password
 export async function createUser(email, username, password) {
   const user = {
