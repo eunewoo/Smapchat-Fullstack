@@ -132,10 +132,11 @@ class MapModel {
 
   static async createOrUpdateMap(mapData, graphicData, user) {
     const current = await MapSchema.exists({_id: mapData._id}) && mapData._id !== 0;
+    const currentMap = current ? await MapSchema.findOne({_id: mapData._id}) : null;
     const thisUser = await UserSchema.findOne({_id: user});
     mapData.owner = thisUser.email;
 
-    if (!current || current.owner != thisUser.email) {
+    if (!current || currentMap.owner != thisUser.email) {
       console.log("Creating map");
       return await this.createMap(mapData, graphicData);
     } 
@@ -147,6 +148,7 @@ class MapModel {
 
   static async createMap(mapData, graphicData) {
     delete mapData["_id"];
+    delete graphicData["_id"];
     const newMap = await MapSchema.create(mapData);
     graphicData.MapID = newMap._id;
 
@@ -162,7 +164,7 @@ class MapModel {
   static async updateMap(mapData, graphicData) {
     const id = mapData._id;
     delete mapData["_id"];
-    await MapSchema.findOneAndUpdate({MapID: mapData.MapID}, mapData);
+    await MapSchema.findOneAndUpdate({_id: id}, mapData);
 
     switch(mapData.mapType) {
       case "ArrowMap": await ArrowMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
