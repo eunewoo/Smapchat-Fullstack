@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const RatingSchema_ = new mongoose.Schema({
   mapID: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
     required: false,
     unique: false,
   },
   userID: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: false,
     unique: false,
   },

@@ -19,6 +19,7 @@ class RatingModel {
   static async createOrUpdateRate(userId, mapId, rate) {
     try {
       let updatedRate;
+      let isNewRate = false;
 
       // Check if the rate already exists
       const existingRate = await RatingSchema.findOne({
@@ -40,12 +41,15 @@ class RatingModel {
           userID: userId,
           rate: rate,
         });
+        isNewRate = true; // Flag to indicate a new rating has been added
       }
 
       // Calculate the new average rate
       const rates = await RatingSchema.find({ mapID: mapId });
       const totalRate = rates.reduce((acc, curr) => acc + curr.rate, 0);
-      const avgRate = (totalRate + rate) / (rates.length + 1);
+      const avgRate = isNewRate
+        ? (totalRate + rate) / (rates.length + 1)
+        : totalRate / rates.length;
 
       // Update the MapSchema
       await MapSchema.findByIdAndUpdate(mapId, { avgRate: avgRate });

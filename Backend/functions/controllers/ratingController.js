@@ -1,6 +1,6 @@
 const RatingModel = require("../database/model/RatingModel");
 
-exports.getAvgRatesByMapId = async (req, res, next) => {
+exports.getAvgRateByMapId = async (req, res, next) => {
   const { mapId } = req.params;
 
   try {

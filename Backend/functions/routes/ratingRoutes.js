@@ -7,6 +7,8 @@ router.get("/rate/:mapId", ratingController.getAvgRateByMapId);
 
 router.post("/rate/create", ratingController.createOrUpdateRate);
 
-router.delete("/rate/delete", ratingController.deleteRate);
+// There is no direct direct method yet
+//
+// router.delete("/rate/delete", ratingController.deleteRate);
 
 module.exports = router;
