@@ -1,15 +1,20 @@
 const mongodb = require("mongodb");
+const mongoose = require("mongoose");
 const CommentSchema = require("../schema/CommentSchema.js");
 const UserSchema = require("../schema/User.js");
 
 class CommentModel {
   //get
   //1
-  static async getCommentByMapId(mapId) {
+  static async getCommentByMapId(mapId, page = 1, limit = 20) {
     try {
       const comments = await CommentSchema.find({
-        mapID: mongoose.Types.ObjectId(mapId),
-      }).exec();
+        mapID: new mongoose.Types.ObjectId(mapId),
+      })
+        .skip((page - 1) * limit)
+        .limit(parseInt(limit))
+        .exec();
+
       return comments;
     } catch (error) {
       throw new Error(error.message);
@@ -44,7 +49,7 @@ class CommentModel {
   static async likeComment(userId, commentId) {
     try {
       const comment = await CommentSchema.findOneAndUpdate(
-        { _id: mongoose.Types.ObjectId(commentId) },
+        { _id: new mongoose.Types.ObjectId(commentId) },
         {
           $addToSet: { likes: mongoose.Types.ObjectId(userId) },
           $pull: { disLikes: mongoose.Types.ObjectId(userId) },
@@ -65,7 +70,7 @@ class CommentModel {
         { _id: mongoose.Types.ObjectId(commentId) },
         {
           $addToSet: { disLikes: mongoose.Types.ObjectId(userId) },
-          $pull: { likes: mongoose.Types.ObjectId(userId) },
+          $pull: { likes: new mongoose.Types.ObjectId(userId) },
         },
         { new: true }
       );

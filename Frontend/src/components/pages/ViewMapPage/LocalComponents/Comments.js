@@ -8,13 +8,11 @@ import { GlobalStoreContext } from "../../../../contexts/GlobalStoreContext.js";
 // This recieves the current map object as the `map` prop!
 const Comments = (props) => {
   const { auth } = useContext(AuthContext);
-  const { store } = useContext(GlobalStoreContext);
   const [comment, setComment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const mapId = props.mapId;
   const handleSubmit = async () => {
     const userId = auth.user._id;
-    const mapId = store.currentMap._id;
     console.log(comment);
     const mapComments = await handleCreateComment(mapId, userId, comment);
     console.log("Submitted comment:", comment);
@@ -26,7 +24,7 @@ const Comments = (props) => {
         className="m-auto rounded px-3 py-4 mb-3"
         style={{ backgroundColor: "white", width: "80%" }}
       >
-        <ScrollableComments />
+        <ScrollableComments mapId={mapId} />
       </div>
       <div>
         <div

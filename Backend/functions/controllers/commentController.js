@@ -1,9 +1,12 @@
 const CommentModel = require("../database/model/CommentModel");
+const mongoose = require("mongoose");
 
 async function getComments(req, res) {
   const { mapId } = req.params;
+  const { page = 1, limit = 20 } = req.query;
+
   try {
-    const comments = await CommentModel.getCommentByMapId(mapId);
+    const comments = await CommentModel.getCommentByMapId(mapId, page, limit);
     res.json(comments);
   } catch (error) {
     console.error(error);

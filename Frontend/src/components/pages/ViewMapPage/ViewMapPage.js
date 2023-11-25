@@ -135,7 +135,7 @@ const ViewMapPage = () => {
           {deleteButton}
         </div>
 
-        <Comments map={map} />
+        <Comments mapId={params.mapId} />
       </div>
     </div>
   );
