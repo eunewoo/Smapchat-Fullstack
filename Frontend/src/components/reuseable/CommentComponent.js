@@ -10,44 +10,39 @@ import "./Comment.css";
 /// Component which displays a single comment. Takes the
 /// ID of the desired comment as a string in the ID prop.
 export default function CommentComponent(props) {
-  /// Comment data must be fetched first as it contains the userID
-  /// of the user we want to display.
-  const [commentData, setCommentData] = useState({});
-  const [commentUser, setCommentUser] = useState({});
-
-  // TODO: Implement fetch calls for backend to populate state
-  // fetch comment data then fetch user data after
-
-  // Temporary hardcoded data for build 2!
-  if (Object.keys(commentData).length === 0) {
-    setCommentData({
-      content:
-        "This map is really cool! I like it asf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, ",
-      date: "1/1/1970",
-    });
-
-    setCommentUser({
-      avatar:
-        "http://wallup.net/wp-content/uploads/2016/03/10/319576-photography-landscape-nature-water-grass-trees-plants-sunrise-lake.jpg",
-      username: "Commenter",
-    });
-  }
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div className="Comment">
-      <Image className="Avatar" src={commentUser.avatar} roundedCircle />
+      <Image
+        className="Avatar"
+        src={
+          props.commenterAvatar == ""
+            ? require("../../assets/images/avatar.png")
+            : props.commenterAvatar
+        }
+        roundedCircle
+      />
       <Card style={{ width: "100%", border: "none" }}>
         <Card.Body>
           <Card.Title className="text-start">
-            {commentUser.username ?? "Loading..."}
+            {props.commenterUsername ?? "Loading..."}
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted text-start">
             {" "}
-            on {commentData.date}
+            on {formatDate(props.date)}
           </Card.Subtitle>
-          <Card.Text className="text-start">
-            {commentData.content ?? "Loading..."}
-          </Card.Text>
+          <Card.Text className="text-start">{props.content}</Card.Text>
         </Card.Body>
       </Card>
 

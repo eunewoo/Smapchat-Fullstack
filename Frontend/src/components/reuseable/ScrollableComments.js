@@ -15,7 +15,8 @@ export default function ScrollableComments(props) {
   const handleFetchComments = async (pageNumber) => {
     const response = await fetchComments(mapId, pageNumber, 20);
     setHasMoreComments(response == 20);
-    return response.comments;
+    console.log("asd", response);
+    return response;
   };
 
   const addComments = async () => {
@@ -23,6 +24,7 @@ export default function ScrollableComments(props) {
     setIsLoading(true);
 
     const newComments = await handleFetchComments(page);
+    console.log(newComments);
     if (newComments && newComments.length > 0) {
       setComments([...comments, ...newComments]);
       setPage(page + 1);
@@ -35,6 +37,7 @@ export default function ScrollableComments(props) {
   useEffect(() => {
     addComments();
   }, []);
+  console.log("coomm:", comments);
 
   // This handler handles the scrolling event, which will
   // fetch a new comment  when the user is 90% of the way
