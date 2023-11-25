@@ -5,9 +5,9 @@ import {
   deleteRate,
 } from "../../../util/ratingUtil";
 
-const exampleMapId = 253; // Sample MapID
-const exampleUserId = "6549247ab828517fbe1969a3"; // Sample UserID
-const exampleRate = 4; // Sample Rate
+const exampleMapId = "65612a9a5a99c4e94572effc"; // Sample MapID
+const exampleUserId = "65612c7a5a99c4e94572f00d"; // Sample UserID
+const exampleRate = 5; // Sample Rate
 
 export const fetchRatesForMap = async () => {
   const rates = await getRatesByMapId(exampleMapId);
