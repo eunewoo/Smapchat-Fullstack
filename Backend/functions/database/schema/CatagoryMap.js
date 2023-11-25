@@ -34,5 +34,5 @@ const MapSchema = new mongoose.Schema({
   },
 });
 
-const CategoryMapSchema = mongoose.model("Map", MapSchema);
+const CategoryMapSchema = mongoose.model("Categorymaps", MapSchema);
 module.exports = CategoryMapSchema;
