@@ -91,9 +91,19 @@ exports.searchUserMapsByQuery = async (req, res, next) => {
 };
 
 exports.createMap = async (req, res, next) => {
+
+  if (!req.user) {
+    res.status(401).send("You must be signed in to do that!");
+  }
+
   const {mapData, graphicData} = req.body;
+  const user = req.user;
+
+  console.log("createMap user");
+  console.log(req.user);
+
   try {
-    await MapModel.createOrUpdateMap(mapData, graphicData);
+    await MapModel.createOrUpdateMap(mapData, graphicData, user);
     res.json({mapData, graphicData});
   } catch (error) {
     console.error(error);
@@ -124,12 +134,12 @@ exports.updatePublicStatus = async (req, res, next) => {
   }
 };
 
-exports.deleteMap = async (req, res, next) => {
-  const { mapId } = req.params;
-  const { userId } = req.body;
+exports.deleteMapByMapId = async (req, res, next) => {
+  const { mapID } = req.params;
+  const user = req.user;
 
   try {
-    const result = await MapModel.deleteMapByMapId(mapId, userId);
+    const result = await MapModel.deleteMap(mapID, user);
     res.json(result);
   } catch (error) {
     console.error(error);

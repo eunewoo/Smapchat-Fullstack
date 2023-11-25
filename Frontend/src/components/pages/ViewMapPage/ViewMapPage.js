@@ -6,9 +6,10 @@ import Comments from "./LocalComponents/Comments";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchSpecificMap, getArrowMap, getBubbleMap } from "../../../util/mapUtil";
+import { deleteMap, fetchSpecificMap, getArrowMap, getBubbleMap } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 import AuthContext from "../../../contexts/AuthContext";
+import { webFetch } from "../../../util/webUtil";
 
 const ViewMapPage = () => {
 
@@ -28,7 +29,14 @@ const ViewMapPage = () => {
     console.log(map);
 
     globalStore.store.currentMap = map;
-    //globalStore.store.currentGeoJson =
+
+    if (map.mapFile !== "") {
+      console.log("Getting GeoJSON!");
+      const geoJson = await (await fetch(map.mapFile)).json();
+      globalStore.store.currentGeoJson = geoJson;
+      console.log("Got GeoJSON!");
+    }
+
     switch(map.mapType){
       case "ArrowMap": globalStore.store.currentMapGraphic = await getArrowMap(map._id); break;
       case "BubbleMap": globalStore.store.currentMapGraphic = await getBubbleMap(map._id); break;
@@ -52,6 +60,22 @@ const ViewMapPage = () => {
 
     populateData();
   }, [params.mapId, globalStore]);
+
+  const deleteButton = map.owner === auth.auth.user?.email ? 
+  (<button
+    className="btn btn-edit-map position-absolute"
+    style={{ top: "64px", right: "16px" }}
+    onClick={() => 
+      {
+        setLoaded(false);
+        deleteMap(map._id).then(() => {
+          navigate("/");
+        })
+      }}
+  >
+    Delete
+  </button>) : 
+  (<></>);
 
   if (!loaded) {
     return (
@@ -89,13 +113,16 @@ const ViewMapPage = () => {
             Geometry={globalStore.store.currentGeoJson}
             GeoJsonData={globalStore.store.currentMapGraphic}
             />
+
           <button
             className="btn btn-edit-map position-absolute"
             style={{ top: "16px", right: "16px" }}
             onClick={() => navigate("/map-edit-page/" + map.mapType)}
           >
-            {map.owner === auth.auth.user.email ? "Edit" : "Fork"}
+            {map.owner === auth.auth.user?.email ? "Edit" : "Fork"}
           </button>
+
+          {deleteButton}
         </div>
 
         <Comments 

@@ -26,6 +26,9 @@ import AuthContext from "../../../contexts/AuthContext";
 import { createMap } from "../../../util/mapUtil";
 import { popContext } from "../../../App";
 import SavePopup from "../../popups/SavePopup";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+
+import app from "../../../config/firebase";
 
 export default function MapEditPage() {
   const globalStore = useContext(GlobalStoreContext);
@@ -97,6 +100,41 @@ export default function MapEditPage() {
     sendMap(1);
   };
 
+  const uploadToFirebase = async (file) => {
+    if (!file) return null;
+
+    const storage = getStorage(app);
+    const storageRef = ref(storage, `geojson/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progressTwoDecimal = progress.toFixed(2);
+
+          switch (snapshot.state) {
+            case "paused":
+              break;
+            case "running":
+              break;
+            default:
+          }
+        },
+        (error) => {
+          console.error("Error uploading file:", error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        },
+      );
+    });
+  };
+
   const sendMap = (visibility) => {
 
     var mapData = globalStore.store.currentMap;
@@ -124,13 +162,31 @@ export default function MapEditPage() {
         mapData.owner = auth.auth.user.email;
         mapData.public = visibility;
     
-        var graphicData = data;
-        graphicData.MapID = mapData._id ?? 0;
-    
-        createMap(mapData, graphicData).then(() => {
-          setPop(null);
-          navigate("/");
-        });
+        if (mapData.mapFile === "") {
+          const stringify = JSON.stringify(globalStore.store.currentGeoJson);
+          var blob = new Blob([stringify], {type: 'application/json'});
+          const file = new File([blob], `${Date()}-${Math.random()}.geo.json`);
+          uploadToFirebase(file).then((mapFile) => {
+            mapData.mapFile = mapFile;
+
+            var graphicData = data;
+            graphicData.MapID = mapData._id ?? 0;
+        
+            createMap(mapData, graphicData).then(() => {
+              setPop(null);
+              navigate("/");
+            });
+          })
+        }
+        else {
+          var graphicData = data;
+          graphicData.MapID = mapData._id ?? 0;
+      
+          createMap(mapData, graphicData).then(() => {
+            setPop(null);
+            navigate("/");
+          });
+        }
       }}
     />);
   }

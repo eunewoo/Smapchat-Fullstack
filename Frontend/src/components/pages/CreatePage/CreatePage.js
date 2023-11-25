@@ -10,7 +10,7 @@ const CreatePage = () => {
   console.log("Rerender!");
   const navigate = useNavigate();
 
-  const [mapType, setMapType] = useState();
+  const [mapType, setMapType] = useState("ArrowMap");
   const [preview, setPreview] = useState({});
 
   const globalStore = useContext(GlobalStoreContext);
@@ -18,11 +18,12 @@ const CreatePage = () => {
   const handleRouteToEditPage = () => navigate("/map-edit-page/" + mapType);
 
   useEffect(() => {
+    console.log("Clear occured");
     globalStore.store.currentMap = null;
     globalStore.store.currentMapGraphic = null;
     globalStore.store.currentGeoJson = null;
     globalStore.setStore(globalStore.store);
-  });
+  }, [globalStore]);
 
   return (
     <div className="container-fluid mt-4">
@@ -41,7 +42,6 @@ const CreatePage = () => {
               mapType={mapType}
               Geometry={preview}
             />
-            <label for="upload">UPLOAD</label>
             <input
               id="upload"
               className="btn btn-edit-map position-absolute"
@@ -54,7 +54,6 @@ const CreatePage = () => {
                   globalStore.store.currentGeoJson = val;
                   globalStore.setStore(globalStore.store);
                   setPreview(val);
-                  console.log("val", val);
                   console.log("GeoJSON ready!");
                 })
               }

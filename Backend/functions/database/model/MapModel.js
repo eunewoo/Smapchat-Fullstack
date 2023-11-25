@@ -130,10 +130,13 @@ class MapModel {
     }
   }
 
-  static async createOrUpdateMap(mapData, graphicData) {
-    const current = await MapSchema.exists({_id: mapData._id}) && mapData._id !== 0;
+  static async createOrUpdateMap(mapData, graphicData, user) {
+    const current = mapData._id !== 0 && await MapSchema.exists({_id: mapData._id});
+    const currentMap = current ? await MapSchema.findOne({_id: mapData._id}) : null;
+    const thisUser = await UserSchema.findOne({_id: user});
+    mapData.owner = thisUser.email;
 
-    if (!current) {
+    if (!current || currentMap.owner != thisUser.email) {
       console.log("Creating map");
       return await this.createMap(mapData, graphicData);
     } 
@@ -144,6 +147,8 @@ class MapModel {
   }
 
   static async createMap(mapData, graphicData) {
+    delete mapData["_id"];
+    delete graphicData["_id"];
     const newMap = await MapSchema.create(mapData);
     graphicData.MapID = newMap._id;
 
@@ -159,7 +164,7 @@ class MapModel {
   static async updateMap(mapData, graphicData) {
     const id = mapData._id;
     delete mapData["_id"];
-    await MapSchema.findOneAndUpdate({MapID: mapData.MapID}, mapData);
+    await MapSchema.findOneAndUpdate({_id: id}, mapData);
 
     switch(mapData.mapType) {
       case "ArrowMap": await ArrowMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
@@ -191,18 +196,32 @@ class MapModel {
 
   //delete
   //17
-  static async deleteMapByMapId(mapId, userId) {
+  static async deleteMap(mapID, user) {
     try {
-      const deletedMap = await MapSchema.findOneAndDelete({
-        _id: mapId,
-        userId,
-      });
+      const mapData = await MapSchema.findOne({_id: mapID});
+      const thisUser = await UserSchema.findOne({_id: user});
 
-      if (!deletedMap) {
-        throw new Error("Map not found");
+      if (!mapData) {
+        throw new Error("Map does not exist");
       }
 
-      return deletedMap;
+      // Must be the owner or an admin to delete a map
+      if (mapData.owner != thisUser.email && thisUser.type != 1) {
+        throw new Error("Delete not permitted");
+      }
+
+      await MapSchema.findOneAndDelete({_id: mapData._id});
+
+      switch(mapData.mapType) {
+        case "ArrowMap": await ArrowMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        case "BubbleMap": await BubbleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        case "PictureMap": await PictureMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        //case "CategoryMap": await CategoryMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        //case "ScaleMap": await ScaleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+      }
+
+      return true;
+
     } catch (error) {
       throw new Error(error.message);
     }
