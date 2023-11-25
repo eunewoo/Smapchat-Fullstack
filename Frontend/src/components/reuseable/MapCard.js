@@ -14,7 +14,6 @@ export default function MapCard(props) {
   const numberOfColumns = props.numberOfColumns;
 
   const { auth } = useContext(AuthContext);
-  console.log("auth.user", auth.user);
   const userId = auth.user?._id;
 
   const navigate = useNavigate();
@@ -35,8 +34,6 @@ export default function MapCard(props) {
 
   const handleRouteToViewMapPage = () =>
     navigate(`/view-map-page/${mapData._id}`);
-
-  console.log("mapUser", mapUser);
 
   return (
     <Card

@@ -7,11 +7,7 @@ const UserInfo = (props) => {
   const [user, setUser] = useState({});
 
   const { auth } = useContext(AuthContext);
-  console.log("auth.user", auth.user);
   const userId = auth.user?._id;
-
-  console.log("userInfoprops", props);
-  console.log("user", user);
 
   useEffect(() => {
     userProfile(props.userEmail).then((val) => setUser(val));

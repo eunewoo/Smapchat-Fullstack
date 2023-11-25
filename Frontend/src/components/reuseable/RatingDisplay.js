@@ -4,7 +4,9 @@ import { createRating } from "../pages/RatingPages/RatingEdit";
 
 export default function RatingDisplay(props) {
   let click = async (val) => {
+    // Directly call createRating from RatingEdit.js with the required parameters
     await createRating(props.userId, props.mapId, val);
+    alert(`You rated this map ${val} star${val > 1 ? "s" : ""}.`);
   };
 
   return (
