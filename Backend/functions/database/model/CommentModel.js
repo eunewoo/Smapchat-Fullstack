@@ -25,7 +25,7 @@ class CommentModel {
         throw new Error("User not found");
       }
 
-      const comment = await this.create({
+      const comment = await CommentSchema.create({
         mapID: mapId,
         commenterId: userId,
         content: content,

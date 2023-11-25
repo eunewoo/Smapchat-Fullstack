@@ -1,4 +1,6 @@
 const express = require("express");
+const auth = require("../middleware/auth");
+
 const {
   getComments,
   createComment,
@@ -6,15 +8,15 @@ const {
   dislikeComment,
   updateComment,
   deleteComment,
-} = require("../controllers/commentController"); 
+} = require("../controllers/commentController");
 
 var router = express.Router();
 
-router.get("/api/comment/:mapId", getComments);
-router.post("/api/comment/create", createComment);
-router.post("/api/comment/like", likeComment);
-router.post("/api/comment/dislike", dislikeComment);
-router.put("/api/comment/update", updateComment);
-router.delete("/api/comment/delete", deleteComment);
+router.get("/comment/:mapId", getComments);
+router.post("/comment/create", auth, createComment);
+router.post("/comment/like", likeComment);
+router.post("/comment/dislike", dislikeComment);
+router.put("/comment/update", updateComment);
+router.delete("/comment/delete", deleteComment);
 
 module.exports = router;
