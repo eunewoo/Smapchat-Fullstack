@@ -1,23 +1,43 @@
 const mongoose = require("mongoose");
 
-const ScaleMapSchema_ = new mongoose.Schema({
-  mapID: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
-  color: {
+const LocationSchema = new mongoose.Schema({
+  Name: {
     type: String,
     required: false,
-    unique: false,
-    default: "#FFFFFF",
   },
-  locationIds: {
-    type: [Number],
+  Longitude: {
+    type: Number,
     required: false,
-    unique: false,
+  },
+  Latitude: {
+    type: Number,
+    required: false,
+  },
+  Value: {
+    type: Number,
+    required: false,
   },
 });
 
-const ScaleMapSchema = mongoose.model("ScaleMap", ScaleMapSchema_);
-module.exports = ScaleMapSchema;
+const ScaleMapSchema = new mongoose.Schema({
+  MapID: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  MinColor: {
+    type: String,
+    required: true,
+  },
+  MaxColor: {
+    type: String,
+    required: true,
+  },
+  Location: {
+    type: [LocationSchema],
+    required: false,
+  },
+});
+
+const ScaleMapModel = mongoose.model("ScaleMap", ScaleMapSchema);
+module.exports = ScaleMapModel;

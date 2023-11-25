@@ -1,17 +1,38 @@
 const mongoose = require("mongoose");
 
-const CatagoryMapSchema_ = new mongoose.Schema({
-  mapID: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
-  catagoryIds: {
-    type: [Number],
+const PolygonSchema = new mongoose.Schema({
+  Coordinates: {
+    type: [[Number]],
     required: false,
-    unique: false,
   },
 });
 
-const CatagoryMapSchema = mongoose.model("CatagoryMap", CatagoryMapSchema_);
-module.exports = CatagoryMapSchema;
+const CategorySchema = new mongoose.Schema({
+  Name: {
+    type: String,
+    required: false,
+  },
+  Polygons: {
+    type: [PolygonSchema],
+    required: false,
+  },
+  Color: {
+    type: String,
+    required: false,
+  },
+});
+
+const MapSchema = new mongoose.Schema({
+  MapID: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  Category: {
+    type: [CategorySchema],
+    required: false,
+  },
+});
+
+const CategoryMapSchema = mongoose.model("Categorymaps", MapSchema);
+module.exports = CategoryMapSchema;
