@@ -156,8 +156,8 @@ class MapModel {
       case "ArrowMap": ArrowMapSchema.create(graphicData); break;
       case "BubbleMap": BubbleMapSchema.create(graphicData); break;
       case "PictureMap": PictureMapSchema.create(graphicData); break;
-      //case "CategoryMap": CategoryMapSchema.create(graphicData); break;
-      //case "ScaleMap": ScaleMapSchema.create(graphicData); break;
+      case "CategoryMap": CategoryMapSchema.create(graphicData); break;
+      case "ScaleMap": ScaleMapSchema.create(graphicData); break;
     }
   }
 
@@ -170,8 +170,8 @@ class MapModel {
       case "ArrowMap": await ArrowMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
       case "BubbleMap": await BubbleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
       case "PictureMap": PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "CategoryMap": CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "ScaleMap": ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      case "CategoryMap": CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      case "ScaleMap": ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
     }
   }
 
@@ -216,8 +216,8 @@ class MapModel {
         case "ArrowMap": await ArrowMapSchema.findOneAndDelete({MapID: mapData._id}); break;
         case "BubbleMap": await BubbleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
         case "PictureMap": await PictureMapSchema.findOneAndDelete({MapID: mapData._id}); break;
-        //case "CategoryMap": await CategoryMapSchema.findOneAndDelete({MapID: mapData._id}); break;
-        //case "ScaleMap": await ScaleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        case "CategoryMap": await CategoryMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        case "ScaleMap": await ScaleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
       }
 
       return true;
