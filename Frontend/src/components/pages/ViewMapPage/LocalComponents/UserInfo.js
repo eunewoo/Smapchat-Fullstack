@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import RatingDisplay from "../../../reuseable/RatingDisplay";
 import { userProfile } from "../../../../util/userUtil";
-const UserInfo = (props) => {
+import { AuthContext } from "../../../../contexts/AuthContext";
 
+const UserInfo = (props) => {
   const [user, setUser] = useState({});
 
-  useEffect(() => {
+  const { auth } = useContext(AuthContext);
+  console.log("auth.user", auth.user);
+  const userId = auth.user?._id;
 
+  console.log("userInfoprops", props);
+  console.log("user", user);
+
+  useEffect(() => {
     userProfile(props.userEmail).then((val) => setUser(val));
   }, [props.userEmail]);
 
@@ -25,7 +32,9 @@ const UserInfo = (props) => {
           </div>
           <div className="col d-flex align-items-center">
             <div className="row text-start">
-              <div className="h6">{props.map.title} By {user?.username ?? "Loading..."}</div>
+              <div className="h6">
+                {props.map.title} By {user?.username ?? "Loading..."}
+              </div>
               <div
                 style={{
                   fontSize: "14px",
@@ -39,7 +48,12 @@ const UserInfo = (props) => {
       </div>
       <div className="col-3 d-flex align-items-end">
         <div className="row text-end px-3">
-          <RatingDisplay value={props.map.avgRate} from="view-map-page" />
+          <RatingDisplay
+            userId={userId}
+            mapId={props.map._id}
+            value={props.map.avgRate} // Current average rating
+            from="view-map-page" // Or other relevant value
+          />{" "}
         </div>
       </div>
     </div>

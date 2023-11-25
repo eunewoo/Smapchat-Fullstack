@@ -1,7 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-} from "react";
+import React, { useState, useEffect } from "react";
 import MapCard from "./MapCard";
 import { Spinner } from "react-bootstrap";
 import "./ScrollableGallery.css";
@@ -38,8 +35,6 @@ export default function ScrollableGallery(props) {
     }
 
     props.fetchFunction(row + 1, numberOfColumns).then((mapDataArray) => {
-      console.log(mapDataArray);
-
       if (
         !mapDataArray ||
         !Array.isArray(mapDataArray) ||

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import MapRenderer from "./MapRenderer";
 import RatingDisplay from "./RatingDisplay";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import { userProfile } from "../../util/userUtil";
+import { AuthContext } from "../../contexts/AuthContext";
 import "./MapCard.css";
 
 export default function MapCard(props) {
@@ -11,6 +12,10 @@ export default function MapCard(props) {
   const [mapData, setMapData] = useState(props.mapData);
   const [mapUser, setMapUser] = useState(null);
   const numberOfColumns = props.numberOfColumns;
+
+  const { auth } = useContext(AuthContext);
+  console.log("auth.user", auth.user);
+  const userId = auth.user?._id;
 
   const navigate = useNavigate();
 
@@ -25,11 +30,13 @@ export default function MapCard(props) {
   useEffect(() => {
     if (mapData.owner != null)
       userProfile(mapData.owner).then((val) => setMapUser(val));
-    else
-      setMapUser({username: "Unknown"})
-  }, [mapData])
+    else setMapUser({ username: "Unknown" });
+  }, [mapData]);
 
-  const handleRouteToViewMapPage = () => navigate(`/view-map-page/${mapData._id}`);
+  const handleRouteToViewMapPage = () =>
+    navigate(`/view-map-page/${mapData._id}`);
+
+  console.log("mapUser", mapUser);
 
   return (
     <Card
@@ -43,13 +50,20 @@ export default function MapCard(props) {
         width="100%"
         height="300px"
       />
-      <RatingDisplay value={mapData.avgRate} from="map-card" />
+      <RatingDisplay
+        userId={userId}
+        mapId={props.mapData._id}
+        value={props.mapData.avgRate}
+        from="map-card"
+      />{" "}
       <Card.Body
         className=""
         style={{ backgroundColor: "#0C0D34", color: "white" }}
       >
         <Card.Title>{mapData.title ?? "Loading..."}</Card.Title>
-        <Card.Text>by {mapUser?.username ?? "Loading..."} on {mapData.date}</Card.Text>
+        <Card.Text>
+          by {mapUser?.username ?? "Loading..."} on {mapData.date}
+        </Card.Text>
       </Card.Body>
     </Card>
   );
