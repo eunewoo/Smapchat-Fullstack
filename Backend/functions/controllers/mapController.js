@@ -93,7 +93,7 @@ exports.searchUserMapsByQuery = async (req, res, next) => {
 exports.createMap = async (req, res, next) => {
 
   if (!req.user) {
-    res.status(401).send("You must be signed in to do that!");
+    res.status(401).send("Please sign in or create user account!");
   }
 
   const {mapData, graphicData} = req.body;
@@ -112,9 +112,9 @@ exports.createMap = async (req, res, next) => {
 }
 
 exports.updateMap = async (req, res, next) => {
-  const { userId, mapId, mapData } = req.body;
+  const { mapData, graphicData } = req.body;
   try {
-    const result = await MapModel.updateMap(userId, mapId, mapData);
+    const result = await MapModel.updateMap(mapData, graphicData);
     res.json(result);
   } catch (error) {
     console.error(error);

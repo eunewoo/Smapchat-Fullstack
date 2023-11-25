@@ -44,6 +44,13 @@ export const updateMap = async (userId, mapId, mapData) => {
     mapData,
   });
 };
+// export const updateMap = async (mapData, graphicData) => {
+//   const apiUrl = `/map/update`;
+//   return await webPut(apiUrl, {
+//     mapData: mapData,
+//     graphicData: graphicData,
+//   });
+// };
 
 export const updateMapStatus = async (userId, mapId, isPublic) => {
   const apiUrl = `/map/statusUpdate`;

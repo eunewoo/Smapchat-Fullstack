@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 
 class UserModel {
   static async findAll() {
-    const users = await UserSchema.find({}, "_id").exec();
+    const users = await UserSchema.find({}, "_id username avatar email").exec();
     return users;
   }
 
