@@ -4,7 +4,7 @@ const CommentSchema_ = new mongoose.Schema({
   commenterId: {
     type: mongoose.Schema.ObjectId,
     required: true,
-    unique: true,
+    unique: false,
   },
   mapID: {
     type: mongoose.Schema.ObjectId,
