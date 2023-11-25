@@ -11,7 +11,7 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const { SUPPORTED_REGIONS } = require("firebase-functions/v1");
 const { Types } = mongoose;
-
+ 
 class MapModel {
   //1
   static async getMapsUserId(userId) {
@@ -153,11 +153,11 @@ class MapModel {
     graphicData.MapID = newMap._id;
 
     switch(mapData.mapType) {
-      case "ArrowMap": await ArrowMapSchema.create(graphicData); break;
-      case "BubbleMap": await BubbleMapSchema.create(graphicData); break;
-      case "PictureMap": await PictureMapSchema.create(graphicData); break;
-      //case "CategoryMap": await CategoryMapSchema.create(graphicData); break;
-      //case "ScaleMap": await ScaleMapSchema.create(graphicData); break;
+      case "ArrowMap": ArrowMapSchema.create(graphicData); break;
+      case "BubbleMap": BubbleMapSchema.create(graphicData); break;
+      case "PictureMap": PictureMapSchema.create(graphicData); break;
+      //case "CategoryMap": CategoryMapSchema.create(graphicData); break;
+      //case "ScaleMap": ScaleMapSchema.create(graphicData); break;
     }
   }
 
@@ -169,9 +169,9 @@ class MapModel {
     switch(mapData.mapType) {
       case "ArrowMap": await ArrowMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
       case "BubbleMap": await BubbleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      case "PictureMap": await PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "CategoryMap": await CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "ScaleMap": await ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      case "PictureMap": PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      //case "CategoryMap": CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      //case "ScaleMap": ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
     }
   }
 
