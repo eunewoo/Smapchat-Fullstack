@@ -33,6 +33,7 @@ const Comments = (props) => {
         >
           <textarea
             onChange={(event) => setComment(event.target.value)}
+            maxLength="600"
             style={{
               backgroundColor: "white",
               width: "100%",
@@ -40,6 +41,14 @@ const Comments = (props) => {
               border: "none",
             }}
           ></textarea>
+          <div
+            className="text-end"
+            style={{
+              color: "lightgray",
+            }}
+          >
+            {comment.length}/{600}
+          </div>
         </div>
         <div className="m-auto text-end" style={{ width: "75%" }}>
           <button

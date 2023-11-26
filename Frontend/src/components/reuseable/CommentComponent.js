@@ -1,10 +1,7 @@
 import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import {
-  BsFillHandThumbsUpFill,
-  BsFillHandThumbsDownFill,
-} from "react-icons/bs";
+import { BsHandThumbsUp, BsHandThumbsDown } from "react-icons/bs";
 import "./Comment.css";
 
 /// Component which displays a single comment. Takes the
@@ -40,7 +37,8 @@ export default function CommentComponent(props) {
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted text-start">
             {" "}
-            on {formatDate(props.date)}
+            {props.likes.length - props.disLikes.length} likes *{" "}
+            {formatDate(props.date)}
           </Card.Subtitle>
           <Card.Text className="text-start">{props.content}</Card.Text>
         </Card.Body>
@@ -48,8 +46,8 @@ export default function CommentComponent(props) {
 
       <div className="Rating">
         {/*TODO: These will need OnClick implementation!*/}
-        <BsFillHandThumbsUpFill className="Button" />
-        <BsFillHandThumbsDownFill className="Button" />
+        <BsHandThumbsUp className="Button" />
+        <BsHandThumbsDown className="Button" />
       </div>
     </div>
   );
