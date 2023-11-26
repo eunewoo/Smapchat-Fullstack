@@ -1,12 +1,38 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import { BsHandThumbsUp, BsHandThumbsDown } from "react-icons/bs";
+import {
+  BsHandThumbsUp,
+  BsHandThumbsUpFill,
+  BsHandThumbsDown,
+  BsHandThumbsDownFill,
+} from "react-icons/bs";
 import "./Comment.css";
+import AuthContext from "../../contexts/AuthContext";
 
 /// Component which displays a single comment. Takes the
 /// ID of the desired comment as a string in the ID prop.
 export default function CommentComponent(props) {
+  const { auth } = useContext(AuthContext);
+  const user = auth.user;
+  const isLiked = () => {
+    if (user != null) {
+      return props.likes.some((id) => id === user._id);
+    }
+    return false;
+  };
+
+  const isDisliked = () => {
+    if (user != null) {
+      return props.disLikes.some((id) => id === user._id);
+    }
+    return false;
+  };
+
+  const handleLike = () => {};
+
+  const handleDislike = () => {};
+
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
@@ -45,9 +71,20 @@ export default function CommentComponent(props) {
       </Card>
 
       <div className="Rating">
-        {/*TODO: These will need OnClick implementation!*/}
-        <BsHandThumbsUp className="Button" />
-        <BsHandThumbsDown className="Button" />
+        <div onClick={handleLike}>
+          {!isLiked ? (
+            <BsHandThumbsUpFill className="Button" />
+          ) : (
+            <BsHandThumbsUp className="Button" />
+          )}
+        </div>
+        <div onClick={handleDislike}>
+          {!isDisliked ? (
+            <BsHandThumbsDownFill className="Button" />
+          ) : (
+            <BsHandThumbsDown className="Button" />
+          )}
+        </div>
       </div>
     </div>
   );
