@@ -57,7 +57,7 @@ const ViewMapPage = () => {
 
     setLoaded(true);
   }
-
+  console.log("uniiiiiiiiiiiiii");
   useEffect(() => {
     // We reset the current global geometry and graphic data here since we
     // want to wait for them to load
@@ -69,7 +69,7 @@ const ViewMapPage = () => {
     setLoaded(false);
 
     populateData();
-  }, [params.mapId, globalStore]);
+  }, [params.mapId]);
 
   const deleteButton =
     map.owner === auth.auth.user?.email ? (

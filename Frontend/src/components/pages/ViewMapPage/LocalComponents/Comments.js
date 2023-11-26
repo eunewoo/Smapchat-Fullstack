@@ -8,6 +8,8 @@ import { GlobalStoreContext } from "../../../../contexts/GlobalStoreContext.js";
 // This recieves the current map object as the `map` prop!
 const Comments = (props) => {
   const { auth } = useContext(AuthContext);
+  const { setStore } = useContext(GlobalStoreContext);
+
   const [comment, setComment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const mapId = props.mapId;
@@ -21,7 +23,18 @@ const Comments = (props) => {
       setIsLoading(true);
       const mapComments = await handleCreateComment(mapId, userId, comment);
 
-      console.log("Submitted comment:", comment);
+      if (mapComments.error) {
+        alert("Something went wrong check your connection");
+      } else {
+      }
+
+      setStore((prevStore) => ({
+        ...prevStore,
+        currentMapComments: [mapComments, ...prevStore.currentMapComments],
+      }));
+      setComment("");
+
+      console.log("Submitted comment:", mapComments);
       setIsLoading(false);
     } else {
       alert("Please sign up to add comments");
@@ -42,6 +55,7 @@ const Comments = (props) => {
           style={{ backgroundColor: "white", width: "75%", height: "200px" }}
         >
           <textarea
+            value={comment}
             onChange={(event) => setComment(event.target.value)}
             maxLength="600"
             style={{

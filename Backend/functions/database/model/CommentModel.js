@@ -11,6 +11,7 @@ class CommentModel {
       const comments = await CommentSchema.find({
         mapID: new mongoose.Types.ObjectId(mapId),
       })
+        .sort({ date: -1 })
         .skip((page - 1) * limit)
         .limit(parseInt(limit))
         .exec();

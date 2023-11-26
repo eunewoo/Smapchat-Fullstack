@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CommentComponent from "./CommentComponent";
 import "./ScrollableComments.css";
 import { fetchComments } from "../../util/commentUtil";
+import { GlobalStoreContext } from "../../contexts/GlobalStoreContext";
 
 /// A scrollable container for Comment components. Used for
 /// the vie screen to browse comments
 export default function ScrollableComments(props) {
+  const { store, setStore } = useContext(GlobalStoreContext);
+
   const mapId = props.mapId;
-  const [comments, setComments] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMoreComments, setHasMoreComments] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +19,7 @@ export default function ScrollableComments(props) {
   };
 
   const addComments = async () => {
-    if (!hasMoreComments) return;
+    if (!hasMoreComments || isLoading) return;
     console.log("later fetching moreCom: ", hasMoreComments);
 
     setIsLoading(true);
@@ -25,7 +27,10 @@ export default function ScrollableComments(props) {
     const newComments = await handleFetchComments(page);
     console.log(newComments);
     if (newComments && newComments.length > 0) {
-      setComments([...comments, ...newComments]);
+      setStore((prevStore) => ({
+        ...prevStore,
+        currentMapComments: [...prevStore.currentMapComments, ...newComments],
+      }));
       setPage(page + 1);
     } else {
       setHasMoreComments(false);
@@ -34,8 +39,11 @@ export default function ScrollableComments(props) {
   };
 
   useEffect(() => {
-    addComments();
-  }, []);
+    if (store.currentMapComments.length === 0) {
+      console.log("infinity");
+      addComments();
+    }
+  }, [store.currentMapComments]);
 
   // This handler handles the scrolling event, which will
   // fetch a new comment  when the user is 90% of the way
@@ -54,11 +62,11 @@ export default function ScrollableComments(props) {
 
   return (
     <>
-      {comments.length == 0 ? (
+      {store.currentMapComments && store.currentMapComments.length === 0 ? (
         <div style={{ color: "lightgrey" }}>No Comments</div>
       ) : (
         <div className="scroller" onScroll={handleScroll}>
-          {comments.map((comment, index) => (
+          {store.currentMapComments.map((comment, index) => (
             <CommentComponent key={`comment-${index}`} {...comment} />
           ))}
         </div>

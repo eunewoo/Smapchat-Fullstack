@@ -16,8 +16,7 @@ async function getComments(req, res) {
 
 async function createComment(req, res) {
   const { mapId, userId, content } = req.body;
-  console.log(mapId);
-  console.log("usssss");
+
   try {
     const comment = await CommentModel.createComment(mapId, userId, content);
     res.status(200).json(comment);
