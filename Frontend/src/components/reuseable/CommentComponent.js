@@ -1,60 +1,158 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import {
-  BsFillHandThumbsUpFill,
-  BsFillHandThumbsDownFill,
+  BsHandThumbsUp,
+  BsHandThumbsUpFill,
+  BsHandThumbsDown,
+  BsHandThumbsDownFill,
 } from "react-icons/bs";
 import "./Comment.css";
+import AuthContext from "../../contexts/AuthContext";
+import {
+  handleDislikeComment,
+  handleLikeComment,
+} from "../../util/commentUtil";
+import { GlobalStoreContext } from "../../contexts/GlobalStoreContext";
 
 /// Component which displays a single comment. Takes the
 /// ID of the desired comment as a string in the ID prop.
 export default function CommentComponent(props) {
-  /// Comment data must be fetched first as it contains the userID
-  /// of the user we want to display.
-  const [commentData, setCommentData] = useState({});
-  const [commentUser, setCommentUser] = useState({});
+  const { auth } = useContext(AuthContext);
+  const { store, setStore } = useContext(GlobalStoreContext);
+  const user = auth.user;
+  const isLiked = (comment) => {
+    if (user != null) {
+      return comment.likes.some((id) => id === user._id);
+    }
+    return false;
+  };
 
-  // TODO: Implement fetch calls for backend to populate state
-  // fetch comment data then fetch user data after
+  const isDisliked = (comment) => {
+    if (user != null) {
+      return props.disLikes.some((id) => id === user._id);
+    }
+    return false;
+  };
 
-  // Temporary hardcoded data for build 2!
-  if (Object.keys(commentData).length === 0) {
-    setCommentData({
-      content:
-        "This map is really cool! I like it asf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, asdsadasdwafs sadas safassfaasasf, fsih, sda, w da, ",
-      date: "1/1/1970",
-    });
+  const handleLike = async () => {
+    if (user === null) {
+      alert("You need to sign in in order to like and dislike comments!");
+    } else {
+      const response = await handleLikeComment(user._id, props._id);
+      if (response.error) {
+        alert("something went wrong while hamdling like button");
+      } else {
+        const updatedComments = store.currentMapComments.map((comment) => {
+          if (comment._id === props._id) {
+            const updatedDislikes = comment.disLikes.filter(
+              (id) => id !== user._id
+            );
+            const updatedLikes = comment.likes.includes(user._id)
+              ? comment.likes
+              : [...comment.likes, user._id];
 
-    setCommentUser({
-      avatar:
-        "http://wallup.net/wp-content/uploads/2016/03/10/319576-photography-landscape-nature-water-grass-trees-plants-sunrise-lake.jpg",
-      username: "Commenter",
-    });
-  }
+            return {
+              ...comment,
+              disLikes: updatedDislikes,
+              likes: updatedLikes,
+            };
+          }
+          return comment;
+        });
+
+        setStore((prevStore) => ({
+          ...prevStore,
+          currentMapComments: updatedComments,
+        }));
+      }
+    }
+  };
+
+  const handleDislike = async () => {
+    if (user === null) {
+      alert("You need to sign in in order to like and dislike comments!");
+    } else {
+      const response = await handleDislikeComment(user._id, props._id);
+      if (response.error) {
+        alert("something went wrong while hamdling like button");
+      } else {
+        const updatedComments = store.currentMapComments.map((comment) => {
+          if (comment._id === props._id) {
+            const updatedLikes = comment.likes.filter((id) => id !== user._id);
+            const updatedDislikes = comment.disLikes.includes(user._id)
+              ? comment.disLikes
+              : [...comment.disLikes, user._id];
+
+            return {
+              ...comment,
+              disLikes: updatedDislikes,
+              likes: updatedLikes,
+            };
+          }
+          return comment;
+        });
+
+        setStore((prevStore) => ({
+          ...prevStore,
+          currentMapComments: updatedComments,
+        }));
+      }
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div className="Comment">
-      <Image className="Avatar" src={commentUser.avatar} roundedCircle />
+      <Image
+        className="Avatar"
+        src={
+          props.commenterAvatar == ""
+            ? require("../../assets/images/avatar.png")
+            : props.commenterAvatar
+        }
+        roundedCircle
+      />
       <Card style={{ width: "100%", border: "none" }}>
         <Card.Body>
           <Card.Title className="text-start">
-            {commentUser.username ?? "Loading..."}
+            {props.commenterUsername ?? "Loading..."}
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted text-start">
             {" "}
-            on {commentData.date}
+            {props.likes.length - props.disLikes.length} likes *{" "}
+            {formatDate(props.date)}
           </Card.Subtitle>
-          <Card.Text className="text-start">
-            {commentData.content ?? "Loading..."}
-          </Card.Text>
+          <Card.Text className="text-start">{props.content}</Card.Text>
         </Card.Body>
       </Card>
 
       <div className="Rating">
-        {/*TODO: These will need OnClick implementation!*/}
-        <BsFillHandThumbsUpFill className="Button" />
-        <BsFillHandThumbsDownFill className="Button" />
+        <div onClick={handleLike}>
+          {isLiked(props) ? (
+            <BsHandThumbsUpFill className="Button" />
+          ) : (
+            <BsHandThumbsUp className="Button" />
+          )}
+        </div>
+        <div onClick={handleDislike}>
+          {isDisliked(props) ? (
+            <BsHandThumbsDownFill className="Button" />
+          ) : (
+            <BsHandThumbsDown className="Button" />
+          )}
+        </div>
       </div>
     </div>
   );

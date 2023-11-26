@@ -21,11 +21,6 @@ const MapSchema_ = new mongoose.Schema({
     required: false,
     default: 0,
   },
-  comment: {
-    type: [Number],
-    required: false,
-    unique: false,
-  },
   mapFile: {
     type: String,
     required: false,

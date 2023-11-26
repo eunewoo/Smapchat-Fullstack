@@ -16,6 +16,7 @@ const userRoutes = require("./routes/userRoutes.js");
 const mapRoutes = require("./routes/mapRoutes.js");
 const ratingRoutes = require("./routes/ratingRoutes.js");
 const logMiddleware = require("./middleware/logger.js");
+const commentRoutes = require("./routes/commentRoutes");
 
 const dotenv = require("dotenv");
 const admin = require("firebase-admin");
@@ -49,6 +50,7 @@ app.use("/", mapRoutes);
 app.use("/", indexRouter);
 app.use("/", userRoutes);
 app.use("/", ratingRoutes);
+app.use("/", commentRoutes);
 
 // error handler
 app.use(function (err, req, res, next) {

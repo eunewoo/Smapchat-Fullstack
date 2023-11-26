@@ -1,12 +1,21 @@
 const mongodb = require("mongodb");
+const mongoose = require("mongoose");
 const CommentSchema = require("../schema/CommentSchema.js");
+const UserSchema = require("../schema/User.js");
 
 class CommentModel {
   //get
   //1
-  static async getCommentByMapId(mapId) {
+  static async getCommentByMapId(mapId, page = 1, limit = 20) {
     try {
-      const comments = await CommentSchema.find({ mapId }).exec();
+      const comments = await CommentSchema.find({
+        mapID: new mongoose.Types.ObjectId(mapId),
+      })
+        .sort({ date: -1 })
+        .skip((page - 1) * limit)
+        .limit(parseInt(limit))
+        .exec();
+
       return comments;
     } catch (error) {
       throw new Error(error.message);
@@ -17,10 +26,18 @@ class CommentModel {
   //2
   static async createComment(mapId, userId, content) {
     try {
+      const user = await UserSchema.findById(userId);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
       const comment = await CommentSchema.create({
         mapID: mapId,
-        userID: userId,
+        commenterId: userId,
         content: content,
+        commenterUsername: user.username ?? user.email,
+        commenterAvatar: user.avatar,
+        date: new Date(),
       });
 
       return comment;
@@ -33,9 +50,12 @@ class CommentModel {
   static async likeComment(userId, commentId) {
     try {
       const comment = await CommentSchema.findOneAndUpdate(
-        { commentID: commentId },
-        { $inc: { likes: 1 } },
-        { new: true },
+        { _id: new mongoose.Types.ObjectId(commentId) },
+        {
+          $addToSet: { likes: new mongoose.Types.ObjectId(userId) },
+          $pull: { disLikes: new mongoose.Types.ObjectId(userId) },
+        },
+        { new: true }
       );
 
       return comment;
@@ -48,9 +68,12 @@ class CommentModel {
   static async dislikeComment(userId, commentId) {
     try {
       const comment = await CommentSchema.findOneAndUpdate(
-        { commentID: commentId },
-        { $inc: { disLikes: 1 } },
-        { new: true },
+        { _id: new mongoose.Types.ObjectId(commentId) },
+        {
+          $addToSet: { disLikes: new mongoose.Types.ObjectId(userId) },
+          $pull: { likes: new mongoose.Types.ObjectId(userId) },
+        },
+        { new: true }
       );
 
       return comment;
@@ -66,7 +89,7 @@ class CommentModel {
       const comment = await CommentSchema.findOneAndUpdate(
         { commentID: commentId, userID: userId },
         { content: content },
-        { new: true },
+        { new: true }
       );
 
       return comment;
@@ -80,9 +103,10 @@ class CommentModel {
   static async deleteComment(userId, commentId) {
     try {
       const comment = await CommentSchema.findOneAndDelete({
-        commentID: commentId,
-        userID: userId,
+        _id: commentId,
+        commenterId: userId,
       });
+
       return comment;
     } catch (error) {
       throw new Error(error.message);
