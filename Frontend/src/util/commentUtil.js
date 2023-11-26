@@ -1,11 +1,9 @@
 import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 //1
 export const fetchComments = async (mapId, page = 1, limit = 20) => {
-  console.log("map,page", mapId, page);
   const comments = await webFetch(
     `/comment/${mapId}?page=${page}&limit=${limit}`
   );
-  console.log("comments: ", comments);
   return comments;
 };
 

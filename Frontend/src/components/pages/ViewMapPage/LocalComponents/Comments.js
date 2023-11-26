@@ -13,9 +13,11 @@ const Comments = (props) => {
   const mapId = props.mapId;
   const handleSubmit = async () => {
     const userId = auth.user._id;
-    console.log(comment);
+    setIsLoading(true);
     const mapComments = await handleCreateComment(mapId, userId, comment);
+
     console.log("Submitted comment:", comment);
+    setIsLoading(false);
   };
 
   return (
@@ -51,11 +53,8 @@ const Comments = (props) => {
           </div>
         </div>
         <div className="m-auto text-end" style={{ width: "75%" }}>
-          <button
-            className="btn btn-primary cus-btn mt-2"
-            onClick={handleSubmit}
-          >
-            ADD COMMENT
+          <button className="btn btn-primary mt-2" onClick={handleSubmit}>
+            {!isLoading ? "ADD COMMENT" : "Saving..."}
           </button>
         </div>
       </div>

@@ -13,14 +13,13 @@ export default function ScrollableComments(props) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFetchComments = async (pageNumber) => {
-    const response = await fetchComments(mapId, pageNumber, 20);
-    setHasMoreComments(response == 20);
-    console.log("asd", response);
-    return response;
+    return await fetchComments(mapId, pageNumber, 20);
   };
 
   const addComments = async () => {
     if (!hasMoreComments) return;
+    console.log("later fetching moreCom: ", hasMoreComments);
+
     setIsLoading(true);
 
     const newComments = await handleFetchComments(page);
@@ -37,31 +36,33 @@ export default function ScrollableComments(props) {
   useEffect(() => {
     addComments();
   }, []);
-  console.log("coomm:", comments);
 
   // This handler handles the scrolling event, which will
   // fetch a new comment  when the user is 90% of the way
   // down the current scroll
   const handleScroll = (event) => {
-    if (
-      event.currentTarget.scrollTop >=
-      event.currentTarget.scrollTopMax * 0.9
-    ) {
-      console.log(
-        `${event.currentTarget.scrollTop} exceeds ${
-          event.currentTarget.scrollTopMax * 0.9
-        } expanding list`
-      );
+    console.log("scrolling");
+    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
+    const isBottom = scrollTop + clientHeight >= scrollHeight * 0.9;
+
+    if (isBottom && !isLoading) {
+      console.log(`expanding list`);
 
       addComments();
     }
   };
 
   return (
-    <div className="scroller" onScroll={handleScroll}>
-      {comments.map((comment, index) => (
-        <CommentComponent key={`comment-${index}`} {...comment} />
-      ))}
-    </div>
+    <>
+      {comments.length == 0 ? (
+        <div style={{ color: "lightgrey" }}>No Comments</div>
+      ) : (
+        <div className="scroller" onScroll={handleScroll}>
+          {comments.map((comment, index) => (
+            <CommentComponent key={`comment-${index}`} {...comment} />
+          ))}
+        </div>
+      )}
+    </>
   );
 }
