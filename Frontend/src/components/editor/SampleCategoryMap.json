@@ -5,15 +5,24 @@
       "Name": "Red places",
       "Locations": [
         {
-          "Lattitude": 30.23,
-          "Longitude": 20.25
+          "Longitude": 40.7624,
+          "Lattitude": -73.9852
+        },
+        {
+          "Longitude": 40.59206,
+          "Lattitude": -74.1254
         }
       ],
       "Color": "#222222"
     },
     {
       "Name": "Blue places",
-      "Locations": [],
+      "Locations": [
+        {
+          "Longitude": -73.9654,
+          "Lattitude": 40.6653
+        }
+      ],
       "Color": "#2222FF"
     }
   ]

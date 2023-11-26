@@ -16,25 +16,28 @@ export const fetchPublicMaps = async (sort, page, limit) => {
 
 export const fetchPublicSearchMaps = async (query, sort, page, limit) => {
   return await webFetch(
-    `/map/public/search?query=${query}&sort=${sort}&page=${page}&limit=${limit}`,
+    `/map/public/search?query=${query}&sort=${sort}&page=${page}&limit=${limit}`
   );
 };
 
 export const fetchUserMaps = async (sort, page, limit, user) => {
   return await webFetch(
-    `/map/${user}/?sort=${sort}&page=${page}&limit=${limit}`,
+    `/map/${user}/?sort=${sort}&page=${page}&limit=${limit}`
   );
 };
 
 export const fetchUserSearchMaps = async (query, sort, page, limit, user) => {
   return await webFetch(
-    `/map/${user}/search?query=${query}&sort=${sort}&page=${page}&limit=${limit}`,
+    `/map/${user}/search?query=${query}&sort=${sort}&page=${page}&limit=${limit}`
   );
 };
 
 export const createMap = async (mapData, graphicData) => {
-  return await webPost("/map/create", {"mapData": mapData, "graphicData": graphicData});
-}
+  return await webPost("/map/create", {
+    mapData: mapData,
+    graphicData: graphicData,
+  });
+};
 
 export const updateMap = async (userId, mapId, mapData) => {
   const apiUrl = `/map/update`;
@@ -73,4 +76,38 @@ export const getBubbleMap = async (mapID) => {
 export const getArrowMap = async (mapID) => {
   const apiUrl = `/map/get/arrow/${mapID}`;
   return await webFetch(apiUrl);
+};
+
+export const getCategoryMap = async (mapID) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/get/category/${mapID}`;
+
+  try {
+    const response = await axios.get(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching category map:", error);
+    throw error;
+  }
+};
+
+export const getScaleMap = async (mapID) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/map/get/scale/${mapID}`;
+
+  try {
+    const response = await axios.get(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching scale map:", error);
+    throw error;
+  }
 };
