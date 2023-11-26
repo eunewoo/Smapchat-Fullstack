@@ -52,8 +52,8 @@ class CommentModel {
       const comment = await CommentSchema.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(commentId) },
         {
-          $addToSet: { likes: mongoose.Types.ObjectId(userId) },
-          $pull: { disLikes: mongoose.Types.ObjectId(userId) },
+          $addToSet: { likes: new mongoose.Types.ObjectId(userId) },
+          $pull: { disLikes: new mongoose.Types.ObjectId(userId) },
         },
         { new: true }
       );
@@ -68,9 +68,9 @@ class CommentModel {
   static async dislikeComment(userId, commentId) {
     try {
       const comment = await CommentSchema.findOneAndUpdate(
-        { _id: mongoose.Types.ObjectId(commentId) },
+        { _id: new mongoose.Types.ObjectId(commentId) },
         {
-          $addToSet: { disLikes: mongoose.Types.ObjectId(userId) },
+          $addToSet: { disLikes: new mongoose.Types.ObjectId(userId) },
           $pull: { likes: new mongoose.Types.ObjectId(userId) },
         },
         { new: true }

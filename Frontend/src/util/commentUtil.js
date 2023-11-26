@@ -17,12 +17,12 @@ export const handleCreateComment = async (mapId, userId, content) => {
 };
 
 //3
-export const handleLikeComment = async (userId, mapId) => {
-  return await webPut("/comment/like", { userId, mapId });
+export const handleLikeComment = async (userId, commentId) => {
+  return await webPost("/comment/like", { userId, commentId });
 };
 //4
-export const handleDislikeComment = async (userId, mapId) => {
-  return await webPut("/comment/dislike", { userId, mapId });
+export const handleDislikeComment = async (userId, commentId) => {
+  return await webPost("/comment/dislike", { userId, commentId });
 };
 //5
 export const handleUpdateComment = async (userId, commentId, content) => {

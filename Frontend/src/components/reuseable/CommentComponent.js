@@ -9,29 +9,97 @@ import {
 } from "react-icons/bs";
 import "./Comment.css";
 import AuthContext from "../../contexts/AuthContext";
+import {
+  handleDislikeComment,
+  handleLikeComment,
+} from "../../util/commentUtil";
+import { GlobalStoreContext } from "../../contexts/GlobalStoreContext";
 
 /// Component which displays a single comment. Takes the
 /// ID of the desired comment as a string in the ID prop.
 export default function CommentComponent(props) {
   const { auth } = useContext(AuthContext);
+  const { store, setStore } = useContext(GlobalStoreContext);
   const user = auth.user;
-  const isLiked = () => {
+  const isLiked = (comment) => {
     if (user != null) {
-      return props.likes.some((id) => id === user._id);
+      return comment.likes.some((id) => id === user._id);
     }
     return false;
   };
 
-  const isDisliked = () => {
+  const isDisliked = (comment) => {
     if (user != null) {
       return props.disLikes.some((id) => id === user._id);
     }
     return false;
   };
 
-  const handleLike = () => {};
+  const handleLike = async () => {
+    if (user === null) {
+      alert("You need to sign in in order to like and dislike comments!");
+    } else {
+      const response = await handleLikeComment(user._id, props._id);
+      if (response.error) {
+        alert("something went wrong while hamdling like button");
+      } else {
+        const updatedComments = store.currentMapComments.map((comment) => {
+          if (comment._id === props._id) {
+            const updatedDislikes = comment.disLikes.filter(
+              (id) => id !== user._id
+            );
+            const updatedLikes = comment.likes.includes(user._id)
+              ? comment.likes
+              : [...comment.likes, user._id];
 
-  const handleDislike = () => {};
+            return {
+              ...comment,
+              disLikes: updatedDislikes,
+              likes: updatedLikes,
+            };
+          }
+          return comment;
+        });
+
+        setStore((prevStore) => ({
+          ...prevStore,
+          currentMapComments: updatedComments,
+        }));
+      }
+    }
+  };
+
+  const handleDislike = async () => {
+    if (user === null) {
+      alert("You need to sign in in order to like and dislike comments!");
+    } else {
+      const response = await handleDislikeComment(user._id, props._id);
+      if (response.error) {
+        alert("something went wrong while hamdling like button");
+      } else {
+        const updatedComments = store.currentMapComments.map((comment) => {
+          if (comment._id === props._id) {
+            const updatedLikes = comment.likes.filter((id) => id !== user._id);
+            const updatedDislikes = comment.disLikes.includes(user._id)
+              ? comment.disLikes
+              : [...comment.disLikes, user._id];
+
+            return {
+              ...comment,
+              disLikes: updatedDislikes,
+              likes: updatedLikes,
+            };
+          }
+          return comment;
+        });
+
+        setStore((prevStore) => ({
+          ...prevStore,
+          currentMapComments: updatedComments,
+        }));
+      }
+    }
+  };
 
   const formatDate = (dateString) => {
     const options = {
@@ -72,14 +140,14 @@ export default function CommentComponent(props) {
 
       <div className="Rating">
         <div onClick={handleLike}>
-          {!isLiked ? (
+          {isLiked(props) ? (
             <BsHandThumbsUpFill className="Button" />
           ) : (
             <BsHandThumbsUp className="Button" />
           )}
         </div>
         <div onClick={handleDislike}>
-          {!isDisliked ? (
+          {isDisliked(props) ? (
             <BsHandThumbsDownFill className="Button" />
           ) : (
             <BsHandThumbsDown className="Button" />

@@ -20,12 +20,9 @@ export default function ScrollableComments(props) {
 
   const addComments = async () => {
     if (!hasMoreComments || isLoading) return;
-    console.log("later fetching moreCom: ", hasMoreComments);
-
     setIsLoading(true);
 
     const newComments = await handleFetchComments(page);
-    console.log(newComments);
     if (newComments && newComments.length > 0) {
       setStore((prevStore) => ({
         ...prevStore,
@@ -40,7 +37,6 @@ export default function ScrollableComments(props) {
 
   useEffect(() => {
     if (store.currentMapComments.length === 0) {
-      console.log("infinity");
       addComments();
     }
   }, [store.currentMapComments]);
@@ -49,13 +45,10 @@ export default function ScrollableComments(props) {
   // fetch a new comment  when the user is 90% of the way
   // down the current scroll
   const handleScroll = (event) => {
-    console.log("scrolling");
     const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
     const isBottom = scrollTop + clientHeight >= scrollHeight * 0.9;
 
     if (isBottom && !isLoading) {
-      console.log(`expanding list`);
-
       addComments();
     }
   };
