@@ -1,7 +1,7 @@
 const mongodb = require("mongodb");
 const UserSchema = require("../schema/User.js");
 const MapSchema = require("../schema/MapSchema.js");
-const PictureSchema = require("../schema/PictureMap.js");
+const PictureMapSchema = require("../schema/PictureMap.js");
 const ArrowMapSchema = require("../schema/ArrowMap.js");
 const ScaleMapSchema = require("../schema/ScaleMap.js");
 const CategoryMapSchema = require("../schema/CategoryMap.js");
@@ -156,14 +156,20 @@ class MapModel {
 
     switch (mapData.mapType) {
       case "ArrowMap":
-        await ArrowMapSchema.create(graphicData);
+        ArrowMapSchema.create(graphicData);
         break;
       case "BubbleMap":
-        await BubbleMapSchema.create(graphicData);
+        BubbleMapSchema.create(graphicData);
         break;
-      //case "PictureMap": await PictureMapSchema.create(graphicData); break;
-      //case "CategoryMap": await CategoryMapSchema.create(graphicData); break;
-      //case "ScaleMap": await ScaleMapSchema.create(graphicData); break;
+      case "PictureMap":
+        PictureMapSchema.create(graphicData);
+        break;
+      case "CategoryMap":
+        CategoryMapSchema.create(graphicData);
+        break;
+      case "ScaleMap":
+        ScaleMapSchema.create(graphicData);
+        break;
     }
   }
 
@@ -179,9 +185,15 @@ class MapModel {
       case "BubbleMap":
         await BubbleMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
         break;
-      //case "PictureMap": await PictureMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "CategoryMap": await CategoryMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
-      //case "ScaleMap": await ScaleMapSchema.findOneAndUpdate({MapID: id}, graphicData); break;
+      case "PictureMap":
+        PictureMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
+        break;
+      case "CategoryMap":
+        CategoryMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
+        break;
+      case "ScaleMap":
+        ScaleMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
+        break;
     }
   }
 
@@ -229,9 +241,15 @@ class MapModel {
         case "BubbleMap":
           await BubbleMapSchema.findOneAndDelete({ MapID: mapData._id });
           break;
-        //case "PictureMap": await PictureMapSchema.findOneAndDelete({MapID: mapData._id}); break;
-        //case "CategoryMap": await CategoryMapSchema.findOneAndDelete({MapID: mapData._id}); break;
-        //case "ScaleMap": await ScaleMapSchema.findOneAndDelete({MapID: mapData._id}); break;
+        case "PictureMap":
+          await PictureMapSchema.findOneAndDelete({ MapID: mapData._id });
+          break;
+        case "CategoryMap":
+          await CategoryMapSchema.findOneAndDelete({ MapID: mapData._id });
+          break;
+        case "ScaleMap":
+          await ScaleMapSchema.findOneAndDelete({ MapID: mapData._id });
+          break;
       }
 
       return true;

@@ -23,10 +23,9 @@ const LocationSchema = new mongoose.Schema({
 });
 const BubbleMapSchema_ = new mongoose.Schema({
   MapID: {
-    type: mongoose.Schema.ObjectId,
+    type: String,
     unique: true,
     required: true,
-    default: 0,
   },
   Location: {
     type: [LocationSchema],

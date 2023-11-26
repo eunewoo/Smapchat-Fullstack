@@ -23,9 +23,9 @@ export default function UserPopup(props) {
       </Card.Body>
 
       <Container>
-        <Image className="avatar" src={props.user.avatar} roundedCircle />
-        <div className="box">{props.user.username}</div>
-        <div className="box">{props.user.email}</div>
+        <Image className="avatar" src={props.user.userData.avatar} roundedCircle />
+        <div className="box">{props.user.userData.username}</div>
+        <div className="box">{props.user.userData.email}</div>
       </Container>
     </Card>
   );
