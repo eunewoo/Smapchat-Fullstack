@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import RatingDisplay from "../../../reuseable/RatingDisplay";
 import { userProfile } from "../../../../util/userUtil";
+// Added to bring userId that used in saving rate data
 import { AuthContext } from "../../../../contexts/AuthContext";
 
 const UserInfo = (props) => {
@@ -48,7 +49,7 @@ const UserInfo = (props) => {
             userId={userId}
             mapId={props.map._id}
             value={props.map.avgRate} // Current average rating
-            from="view-map-page" // Or other relevant value
+            from="view-map-page"
           />{" "}
         </div>
       </div>

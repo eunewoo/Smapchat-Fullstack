@@ -4,6 +4,7 @@ import RatingDisplay from "./RatingDisplay";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import { userProfile } from "../../util/userUtil";
+// Added to bring userId that used in saving rate data
 import { AuthContext } from "../../contexts/AuthContext";
 import "./MapCard.css";
 

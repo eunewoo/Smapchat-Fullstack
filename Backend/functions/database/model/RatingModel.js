@@ -47,6 +47,7 @@ class RatingModel {
       // Calculate the new average rate
       const rates = await RatingSchema.find({ mapID: mapId });
       const totalRate = rates.reduce((acc, curr) => acc + curr.rate, 0);
+      // Differentiate between update and create in average calculation
       const avgRate = isNewRate
         ? (totalRate + rate) / (rates.length + 1)
         : totalRate / rates.length;
@@ -62,17 +63,17 @@ class RatingModel {
 
   //delete
   //4
-  static async deleteRate(userId, mapId) {
-    try {
-      const deletedRate = await RatingSchema.findOneAndDelete({
-        userID: userId,
-        mapID: mapId,
-      });
-      return deletedRate;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
+  // static async deleteRate(userId, mapId) {
+  //   try {
+  //     const deletedRate = await RatingSchema.findOneAndDelete({
+  //       userID: userId,
+  //       mapID: mapId,
+  //     });
+  //     return deletedRate;
+  //   } catch (error) {
+  //     throw new Error(error.message);
+  //   }
+  // }
 }
 
 module.exports = RatingModel;
