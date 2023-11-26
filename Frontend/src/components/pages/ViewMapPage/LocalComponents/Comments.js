@@ -11,13 +11,21 @@ const Comments = (props) => {
   const [comment, setComment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const mapId = props.mapId;
+
   const handleSubmit = async () => {
     const userId = auth.user._id;
-    setIsLoading(true);
-    const mapComments = await handleCreateComment(mapId, userId, comment);
+    const isLoggedin = auth.loggedIn;
+    if (comment === "") {
+      alert("Please provide comment first");
+    } else if (userId != null && isLoggedin) {
+      setIsLoading(true);
+      const mapComments = await handleCreateComment(mapId, userId, comment);
 
-    console.log("Submitted comment:", comment);
-    setIsLoading(false);
+      console.log("Submitted comment:", comment);
+      setIsLoading(false);
+    } else {
+      alert("Please sign up to add comments");
+    }
   };
 
   return (
