@@ -7,7 +7,7 @@ async function getComments(req, res) {
 
   try {
     const comments = await CommentModel.getCommentByMapId(mapId, page, limit);
-    res.json(comments);
+    res.status(200).json(comments);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
