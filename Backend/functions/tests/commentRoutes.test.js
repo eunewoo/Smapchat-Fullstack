@@ -22,5 +22,39 @@ describe("Get comments", () => {
   });
 });
 
+describe("Create a comment, like it, and delete it", () => {
+  let createdCommentId;
 
+  it("should create a new comment", async () => {
+    const newComment = {
+      mapId: "655ed5964e3338ba17638185",
+      userId: "65617bb06fd28d8b794545bf",
+      content: "This is a test comment",
+    };
 
+    const res = await request(app)
+      .post("/comment/create")
+      .send(newComment)
+      .expect(201);
+
+    expect(res.body).toHaveProperty("_id");
+    createdCommentId = res.body._id;
+  });
+
+  it("should like the created comment", async () => {
+    const likeData = {
+      userId: "65617bb06fd28d8b794545bf",
+      commentId: createdCommentId,
+    };
+
+    await request(app).post("/comment/like").send(likeData).expect(200);
+  });
+
+  it("should delete the created comment", async () => {
+    console.log("/comment/deletez");
+    await request(app)
+      .delete("/comment/delete")
+      .send({ commentId: createdCommentId })
+      .expect(200);
+  });
+});

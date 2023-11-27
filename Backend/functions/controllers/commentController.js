@@ -19,7 +19,7 @@ async function createComment(req, res) {
 
   try {
     const comment = await CommentModel.createComment(mapId, userId, content);
-    res.status(200).json(comment);
+    res.status(201).json(comment);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
@@ -30,7 +30,7 @@ async function likeComment(req, res) {
   const { userId, commentId } = req.body;
   try {
     const comment = await CommentModel.likeComment(userId, commentId);
-    res.json(comment);
+    res.status(200).json(comment);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
@@ -41,7 +41,7 @@ async function dislikeComment(req, res) {
   const { userId, commentId } = req.body;
   try {
     const comment = await CommentModel.dislikeComment(userId, commentId);
-    res.json(comment);
+    res.status(200).json(comment);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
@@ -56,7 +56,7 @@ async function updateComment(req, res) {
       commentId,
       content
     );
-    res.json(comment);
+    res.status(200).json(comment);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
@@ -64,10 +64,10 @@ async function updateComment(req, res) {
 }
 
 async function deleteComment(req, res) {
-  const { userId, commentId } = req.body;
+  const { commentId } = req.body;
   try {
-    const comment = await CommentModel.deleteComment(userId, commentId);
-    res.json(comment);
+    const comment = await CommentModel.deleteComment(commentId);
+    res.status(200).json(comment);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
