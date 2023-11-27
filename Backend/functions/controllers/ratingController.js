@@ -32,13 +32,12 @@ exports.createOrUpdateRate = async (req, res, next) => {
     res.status(400).send("Server Error");
   }
 };
-
 exports.deleteRate = async (req, res, next) => {
-  const { userId, mapId } = req.body;
+  const { userId } = req.params;
 
   try {
-    const deletedRate = await RatingModel.deleteRate(userId, mapId);
-    res.json(deletedRate);
+    const deletedRates = await RatingModel.deleteRate(userId);
+    res.json(deletedRates);
   } catch (error) {
     console.error(error);
     res.status(400).send("Server Error");
