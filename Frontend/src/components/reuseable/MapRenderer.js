@@ -16,24 +16,17 @@ export default function MapRenderer(props) {
   const [boundaries, setBoundaries] = useState([]); // State to store GeoJSON boundaries
 
   useEffect(() => {
-    if (props.Geometry) {
-      // Form boundaries from input map first and add on layer
-      // Also add on Boundaries useState to use that in Scale,Category map
+    if (props.Geometry && map) {
       const geoJsonLayer = Leaflet.geoJSON(props.Geometry.features, {
         onEachFeature: (feature, layer) => {
-          // Store each boundary in the array
-          setBoundaries((current) => {
-            const newBoundaries = [
-              ...current,
-              { feature: feature, layer: layer },
-            ];
-            return newBoundaries;
-          });
+          setBoundaries((current) => [...current, { feature, layer }]);
         },
       });
 
-      if (map) {
-        geoJsonLayer.addTo(map);
+      geoJsonLayer.addTo(map);
+      const bounds = geoJsonLayer.getBounds();
+      if (bounds.isValid()) {
+        map.fitBounds(bounds);
       }
     }
   }, [props.Geometry, map, zoom]);
@@ -58,10 +51,6 @@ export default function MapRenderer(props) {
 
     if (map) {
       layerGroup.addTo(map);
-      const bounds = geoJsonLayer.getBounds();
-      if (bounds.isValid()) {
-        map.fitBounds(bounds);
-      }
       console.log("Added layer group");
     } else {
       console.log("Failed to add layer group");
