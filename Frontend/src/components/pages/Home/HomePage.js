@@ -41,7 +41,7 @@ const HomePage = () => {
       <div className="row justify-content-center">
         <div className="left">
           <ScrollableGallery
-            numberOfColumns={8}
+            numberOfColumns={10}
             height={125}
             fetchFunction={fetchData}
             lastSearch={searchTerm}

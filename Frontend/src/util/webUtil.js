@@ -3,31 +3,28 @@
 /// should start with a /. Logs an error and throws null if the
 /// server responds with a non-200 response code.
 export async function webFetch(route) {
+  console.log("all fetches:", route);
   return await fetch(`${process.env.REACT_APP_URL}${route}`, {
     withCredentials: true,
     mode: "cors",
-    credentials: 'include',
-  }).then(
-    async (res) => {
-      if (res.status === 200 || res.status === 201) {
-        const data = res.json().then((val) => {
-          if (val != null) {
-            return val;
-          } else {
-            console.log("Response body was null!");
-            alert("Server responded with empty contents...");
-          }
-        });
-        return data;
-      } else {
-        console.log(
-          `Error from server when requesting ${route}: ` + res.status,
-        );
+    credentials: "include",
+  }).then(async (res) => {
+    if (res.status === 200 || res.status === 201) {
+      const data = res.json().then((val) => {
+        if (val != null) {
+          return val;
+        } else {
+          console.log("Response body was null!");
+          alert("Server responded with empty contents...");
+        }
+      });
+      return data;
+    } else {
+      console.log(`Error from server when requesting ${route}: ` + res.status);
 
-        alert(`Error from server when requesting ${route}: ` + res.status);
-      }
-    },
-  );
+      alert(`Error from server when requesting ${route}: ` + res.status);
+    }
+  });
 }
 
 /// Helper function to perform a PUT request with error handling.
@@ -62,7 +59,7 @@ async function bodiedRequest(route, data, method) {
     method: method,
     withCredentials: true,
     mode: "cors",
-    credentials: 'include',
+    credentials: "include",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
@@ -80,9 +77,11 @@ async function bodiedRequest(route, data, method) {
       });
     } else {
       console.log(
-        `Error from server when ${method}ing ${route}: ` + res.status,
+        `Error from server when ${method}ing ${route}: ` + res.status
       );
-      const data = await res.json({error: "Something went wrong while fetching"});
+      const data = await res.json({
+        error: "Something went wrong while fetching",
+      });
       alert(data.errorMessage);
     }
   });

@@ -59,7 +59,7 @@ class MapModel {
         .sort(sorter)
         .skip((page - 1) * limit)
         .limit(parseInt(limit));
-
+      console.log(maps.length);
       return maps;
     } catch (error) {
       throw new Error(error.message);
