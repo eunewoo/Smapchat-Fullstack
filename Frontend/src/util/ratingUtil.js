@@ -7,7 +7,7 @@ export const getRatesByMapId = async (mapId) => {
     const response = await axios.get(apiUrl);
     return response.data;
   } catch (error) {
-    console.error("Error fetching rates by mapId:", error);
+    console.error("Error fetching average rates by mapId:", error);
     throw error;
   }
 };
@@ -32,13 +32,11 @@ export const createOrUpdateRate = async (userId, mapId, rate) => {
   }
 };
 
-export const deleteRate = async (userId, mapId) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/rate/delete`;
+export const deleteRate = async (userId) => {
+  const apiUrl = `${process.env.REACT_APP_URL}/rate/delete/${userId}`;
+
   try {
-    const response = await axios.delete(apiUrl, {
-      data: { userId, mapId },
-    });
-    console.log("Rate deleted:", response.data);
+    const response = await axios.delete(apiUrl);
     return response.data;
   } catch (error) {
     console.error("Error deleting rate:", error);

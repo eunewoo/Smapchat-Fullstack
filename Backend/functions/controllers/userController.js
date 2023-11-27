@@ -1,7 +1,8 @@
 const UserModel = require("../database/model/UserModel");
 const bcrypt = require("bcryptjs");
 const admin = require("firebase-admin");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const RatingModel = require("../database/model/RatingModel");
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -33,7 +34,7 @@ exports.getUserByEmail = async (req, res, next) => {
   }
 };
 
-exports.session = async(req, res) => {
+exports.session = async (req, res) => {
   if (req.user) {
     var sessionUser = await UserModel.findByID(req.user);
     sessionUser.password = undefined;
@@ -61,11 +62,15 @@ exports.register = async (req, res, next) => {
       req.body.email,
       req.body.username,
       req.body.password,
-      req.body.avatar,
+      req.body.avatar
     );
 
-    const token = jwt.sign({ id: newUser._id }, "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet", { expiresIn: "24h" });
-    res.cookie('authentication', token, {httpOnly: false, secure: false});
+    const token = jwt.sign(
+      { id: newUser._id },
+      "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet",
+      { expiresIn: "24h" }
+    );
+    res.cookie("authentication", token, { httpOnly: false, secure: false });
 
     res.status(201).json({ loggedIn: true, user: newUser });
   } catch (error) {
@@ -88,15 +93,19 @@ exports.login = async (req, res, next) => {
 
     const isPasswordValid = await bcrypt.compare(
       req.body.password,
-      user.password,
+      user.password
     );
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // TODO: Change secret
-    const token = jwt.sign({ id: user._id }, "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet", { expiresIn: "24h" });
-    res.cookie('authentication', token, {httpOnly: false, secure: false});
+    const token = jwt.sign(
+      { id: user._id },
+      "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet",
+      { expiresIn: "24h" }
+    );
+    res.cookie("authentication", token, { httpOnly: false, secure: false });
 
     user.password = undefined;
 
@@ -111,7 +120,7 @@ exports.updateUserProfile = async (req, res, next) => {
   try {
     const updatedUser = await UserModel.updateProfile(
       req.params.Id,
-      req.body.updatedData,
+      req.body.updatedData
     );
     res.status(200).json(updatedUser);
   } catch (error) {
@@ -124,7 +133,7 @@ exports.updateUserActivation = async (req, res, next) => {
   try {
     const updatedUser = await UserModel.updateActivationStatus(
       req.params.Id,
-      req.body.isActive,
+      req.body.isActive
     );
     res.status(200).json(updatedUser);
   } catch (error) {
@@ -135,7 +144,12 @@ exports.updateUserActivation = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
+    // Delete the related user's ratings first
+    await RatingModel.deleteRate(req.params.Id);
+
+    // Then delete the user
     await UserModel.deleteUserById(req.params.Id);
+
     res.status(200).send();
   } catch (error) {
     console.error(error);

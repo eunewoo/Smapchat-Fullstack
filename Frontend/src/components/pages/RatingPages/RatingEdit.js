@@ -14,13 +14,10 @@ export const fetchRatesForMap = async (mapId) => {
   return rates;
 };
 
-// export const createRating = async () => {
-//   await createOrUpdateRate(exampleUserId, exampleMapId, exampleRate);
-// };
 export const createRating = async (userId, mapId, rate) => {
   await createOrUpdateRate(userId, mapId, rate);
 };
 
-// export const removeRating = async () => {
-//   await deleteRate(exampleUserId, exampleMapId);
-// };
+export const deleteRating = async (userId) => {
+  await deleteRate(userId);
+};
