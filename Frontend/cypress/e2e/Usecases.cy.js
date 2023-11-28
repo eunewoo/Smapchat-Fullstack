@@ -24,25 +24,38 @@ describe("Home page", () => {
 });
 
 describe("View page", () => {
+
+  const login = () => {
+      cy.visit("http://127.0.0.1:3000/login-page");
+      cy.get('input[placeholder="E-Mail"]').type("test@test.com");
+      cy.get('input[placeholder="Password"]').type("password");
+      cy.get("button").contains("Login").click();
+      cy.url().should('eq', 'http://127.0.0.1:3000/');
+  }
+
   /// Use case 2.4: verifies a user can leave a comment by typing into the input
   /// and clicking on the add comment button
   it("A user can comment on a map", () => {
-    cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
-    cy.get("textarea").type("Hello from cypress!");
-    cy.get("button").contains("ADD COMMENT").click();
+    cy.session('Comment session', () => {
+      login();
+      cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
+      cy.wait(5000);
+      cy.get("textarea").type("Hello from cypress!");
+      cy.get("button").contains("ADD COMMENT");
+    })
   });
 
   /// Use case 2.5: verifies a user can rate a map by clicking on one of the rating
   /// stars
   it("A user can rate a map", () => {
     cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
-    cy.get("#5star").click();
+    cy.get(".Star").first().click();
   });
 
   /// Use case 2.6: verifies a user can fork a map that they do not own
   it("A user can fork a map", () => {
     cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
-    cy.get("button").contains("fork").click();
+    cy.get("button").contains("Fork").click();
   });
 
   /// Use case 2.7: verifies a user can see a map by checking for the leasflet element
