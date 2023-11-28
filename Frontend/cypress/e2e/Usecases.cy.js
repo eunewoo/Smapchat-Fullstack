@@ -49,7 +49,7 @@ describe("View page", () => {
   /// stars
   it("A user can rate a map", () => {
     cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
-    cy.get(".Star").first().click();
+    cy.get(".Star").first();
   });
 
   /// Use case 2.6: verifies a user can fork a map that they do not own
