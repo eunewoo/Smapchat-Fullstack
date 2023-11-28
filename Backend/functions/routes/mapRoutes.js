@@ -14,6 +14,9 @@ router.get("/map/:userId/search", mapController.searchUserMapsByQuery);
 
 router.get("/map/get/bubble/:mapID", mapController.getBubbleMap);
 router.get("/map/get/arrow/:mapID", mapController.getArrowMap);
+router.get("/map/get/category/:mapID", mapController.getCategoryMap);
+router.get("/map/get/scale/:mapID", mapController.getScaleMap);
+router.get("/map/get/picture/:mapID", mapController.getPictureMap);
 
 router.post("/map/create", auth, mapController.createMap);
 

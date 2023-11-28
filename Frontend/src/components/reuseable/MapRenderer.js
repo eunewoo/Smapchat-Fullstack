@@ -1,11 +1,6 @@
 import Leaflet from "leaflet";
 import React, { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  GeoJSON,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON, useMapEvents } from "react-leaflet";
 import { renderPictureMap } from "./mapgraphics/PictureMap";
 import { renderArrowMap } from "./mapgraphics/ArrowMap";
 import { renderBubbleMap } from "./mapgraphics/BubbleMap";
@@ -21,31 +16,22 @@ export default function MapRenderer(props) {
   const [boundaries, setBoundaries] = useState([]); // State to store GeoJSON boundaries
 
   useEffect(() => {
-
-    if (props.Geometry) {
-      // Form boundaries from input map first and add on layer
-      // Also add on Boundaries useState to use that in Scale,Category map
+    if (props.Geometry && map) {
       const geoJsonLayer = Leaflet.geoJSON(props.Geometry.features, {
         onEachFeature: (feature, layer) => {
-          // Store each boundary in the array
-          setBoundaries((current) => {
-            const newBoundaries = [
-              ...current,
-              { feature: feature, layer: layer },
-            ];
-            return newBoundaries;
-          });
+          setBoundaries((current) => [...current, { feature, layer }]);
         },
       });
 
-      if (map) {
-        geoJsonLayer.addTo(map);
+      geoJsonLayer.addTo(map);
+      const bounds = geoJsonLayer.getBounds();
+      if (bounds.isValid()) {
+        map.fitBounds(bounds);
       }
     }
   }, [props.Geometry, map, zoom]);
 
   useEffect(() => {
-
     if (props.GeoJsonData) {
       layerGroup.clearLayers(); // Clear existing layers
 
@@ -57,18 +43,17 @@ export default function MapRenderer(props) {
       } else if (props.mapType === "BubbleMap" && props.GeoJsonData) {
         renderBubbleMap(layerGroup, props.GeoJsonData);
       } else if (props.mapType === "CategoryMap" && props.GeoJsonData) {
-        renderCategoryMap(layerGroup, props.GeoJsonData, boundaries); 
+        renderCategoryMap(layerGroup, props.GeoJsonData, boundaries);
       } else if (props.mapType === "ScaleMap" && props.GeoJsonData) {
-        renderScaleMap(layerGroup, props.GeoJsonData, boundaries); 
+        renderScaleMap(layerGroup, props.GeoJsonData, boundaries);
       }
     }
 
     if (map) {
       layerGroup.addTo(map);
       console.log("Added layer group");
-    }
-    else {
-      console.log("Failed to add layer group")
+    } else {
+      console.log("Failed to add layer group");
     }
   });
 
@@ -77,7 +62,7 @@ export default function MapRenderer(props) {
       <MapContainer
         style={{ height: props.height }}
         zoom={zoom}
-        center={[200, 40]}
+        center={[40.9173, -73.1184]}
         minZoom={2}
         maxBoundsViscosity={1}
         ref={setMap}

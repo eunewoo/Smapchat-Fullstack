@@ -3,6 +3,7 @@ import { Image, Card, Container, Button } from "react-bootstrap";
 import { popContext } from "../../App";
 import "./Customer.css";
 import UserPopup from "../popups/UserPopup";
+import defaultAvatar from "../../assets/images/avatar.png";
 
 export default function Customer(props) {
   const setPop = useContext(popContext);
@@ -20,7 +21,11 @@ export default function Customer(props) {
       </Card.Body>
 
       <Container>
-        <Image className="Avatar" src={props.userData.avatar} roundedCircle />
+        <Image 
+          className="Avatar" 
+          src={props.userData.avatar} 
+          onError={({target}) => target.src = defaultAvatar}
+          roundedCircle />
         <Button
           className="button"
           onClick={() => setPop(<UserPopup user={props} />)}

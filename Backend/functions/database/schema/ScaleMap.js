@@ -9,7 +9,7 @@ const LocationSchema = new mongoose.Schema({
     type: Number,
     required: false,
   },
-  Latitude: {
+  Lattitude: {
     type: Number,
     required: false,
   },
@@ -21,7 +21,7 @@ const LocationSchema = new mongoose.Schema({
 
 const ScaleMapSchema = new mongoose.Schema({
   MapID: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     required: true,
     unique: true,
   },

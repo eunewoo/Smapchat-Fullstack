@@ -6,13 +6,19 @@ import Comments from "./LocalComponents/Comments";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteMap, fetchSpecificMap, getArrowMap, getBubbleMap } from "../../../util/mapUtil";
+import {
+  deleteMap,
+  fetchSpecificMap,
+  getArrowMap,
+  getBubbleMap,
+  getPictureMap,
+  getCategoryMap,
+  getScaleMap
+} from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 import AuthContext from "../../../contexts/AuthContext";
-import { webFetch } from "../../../util/webUtil";
 
 const ViewMapPage = () => {
-
   const navigate = useNavigate();
 
   const globalStore = useContext(GlobalStoreContext);
@@ -24,6 +30,7 @@ const ViewMapPage = () => {
 
   async function populateData() {
     const map = await fetchSpecificMap(params.mapId);
+
     setMap(map);
 
     console.log(map);
@@ -37,10 +44,25 @@ const ViewMapPage = () => {
       console.log("Got GeoJSON!");
     }
 
-    switch(map.mapType){
-      case "ArrowMap": globalStore.store.currentMapGraphic = await getArrowMap(map._id); break;
-      case "BubbleMap": globalStore.store.currentMapGraphic = await getBubbleMap(map._id); break;
-      // TODO: Expand this as other map types are properly implemented
+    switch (map.mapType) {
+      case "ArrowMap":
+        globalStore.store.currentMapGraphic = await getArrowMap(map._id);
+        break;
+      case "BubbleMap":
+        globalStore.store.currentMapGraphic = await getBubbleMap(map._id);
+        break;
+      case "PictureMap":
+        globalStore.store.currentMapGraphic = await getPictureMap(map._id);
+        break;
+      case "CategoryMap":
+        globalStore.store.currentMapGraphic = await getCategoryMap(map._id);
+        break;
+      case "ScaleMap":
+        globalStore.store.currentMapGraphic = await getScaleMap(map._id);
+        break;
+      default:
+        globalStore.store.currentMapGraphic = null;
+        break;
     }
 
     globalStore.setStore(globalStore.store);
@@ -48,34 +70,38 @@ const ViewMapPage = () => {
     setLoaded(true);
   }
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-
     // We reset the current global geometry and graphic data here since we
     // want to wait for them to load
     globalStore.store.currentMap = null;
     globalStore.store.currentGeoJson = null;
     globalStore.store.currentMapGraphic = null;
+    globalStore.store.currentMapComments = [];
     globalStore.setStore(globalStore.store);
     setLoaded(false);
 
     populateData();
-  }, [params.mapId, globalStore]);
+  }, [params.mapId]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
-  const deleteButton = map.owner === auth.auth.user?.email ? 
-  (<button
-    className="btn btn-edit-map position-absolute"
-    style={{ top: "64px", right: "16px" }}
-    onClick={() => 
-      {
-        setLoaded(false);
-        deleteMap(map._id).then(() => {
-          navigate("/");
-        })
-      }}
-  >
-    Delete
-  </button>) : 
-  (<></>);
+  const deleteButton =
+    map.owner === auth.auth.user?.email ? (
+      <button
+        className="btn btn-edit-map position-absolute"
+        style={{ top: "64px", right: "16px" }}
+        onClick={() => {
+          setLoaded(false);
+          deleteMap(map._id).then(() => {
+            navigate("/");
+          });
+        }}
+      >
+        Delete
+      </button>
+    ) : (
+      <></>
+    );
 
   if (!loaded) {
     return (
@@ -97,22 +123,20 @@ const ViewMapPage = () => {
     <div className="Container-fluid mx-5 my-3 px-5">
       <div className="col text-center">
         <div className="text-black">
-          <UserInfo 
-          map={map}
-          userEmail={map.owner}/>
+          <UserInfo map={map} userEmail={map.owner} />
         </div>
 
         <div
           className="m-auto my-4 position-relative text-center"
           style={{ width: "90%", height: "80vh" }}
         >
-          <MapRenderer 
-            width="100%" 
-            height="100%" 
+          <MapRenderer
+            width="100%"
+            height="100%"
             mapType={map.mapType}
             Geometry={globalStore.store.currentGeoJson}
             GeoJsonData={globalStore.store.currentMapGraphic}
-            />
+          />
 
           <button
             className="btn btn-edit-map position-absolute"
@@ -125,8 +149,7 @@ const ViewMapPage = () => {
           {deleteButton}
         </div>
 
-        <Comments 
-        map={map}/>
+        <Comments mapId={params.mapId} />
       </div>
     </div>
   );

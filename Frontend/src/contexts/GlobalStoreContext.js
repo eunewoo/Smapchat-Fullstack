@@ -10,6 +10,7 @@ export const StoreProvider = ({ children }) => {
     currentMap: null,
     currentGeoJson: null,
     currentMapGraphic: null,
+    currentMapComments: [],
   });
 
   const [isLoading, setIsLoading] = useState(false);

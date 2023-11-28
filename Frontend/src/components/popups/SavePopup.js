@@ -1,4 +1,4 @@
-import { Button, Card, Container, Image, Spinner } from "react-bootstrap";
+import { Button, Card, Container, Spinner } from "react-bootstrap";
 import { useContext, useState } from "react";
 import "./UserPopup.css";
 import "./CommonPopup.css";

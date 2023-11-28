@@ -14,7 +14,9 @@ const stopDB = require("./database/database.js");
 const indexRouter = require("./routes/index.js");
 const userRoutes = require("./routes/userRoutes.js");
 const mapRoutes = require("./routes/mapRoutes.js");
+const ratingRoutes = require("./routes/ratingRoutes.js");
 const logMiddleware = require("./middleware/logger.js");
+const commentRoutes = require("./routes/commentRoutes");
 
 const dotenv = require("dotenv");
 const admin = require("firebase-admin");
@@ -33,12 +35,9 @@ var app = express();
 // app.use(cors(corsOptions));
 app.use(
   cors({
-    origin: [
-      "http://127.0.0.1:3000",
-      "https://smapchat-bc4cd.web.app",
-    ],
+    origin: ["http://127.0.0.1:3000", "https://smapchat-bc4cd.web.app"],
     credentials: true,
-  }),
+  })
 );
 
 admin.initializeApp({ credential: admin.credential.cert(credentials) });
@@ -50,6 +49,8 @@ app.use(cookieParser());
 app.use("/", mapRoutes);
 app.use("/", indexRouter);
 app.use("/", userRoutes);
+app.use("/", ratingRoutes);
+app.use("/", commentRoutes);
 
 // error handler
 app.use(function (err, req, res, next) {
