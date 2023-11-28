@@ -11,6 +11,9 @@ import {
   fetchSpecificMap,
   getArrowMap,
   getBubbleMap,
+  getPictureMap,
+  getCategoryMap,
+  getScaleMap
 } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 import AuthContext from "../../../contexts/AuthContext";
@@ -49,6 +52,15 @@ const ViewMapPage = () => {
         break;
       case "BubbleMap":
         globalStore.store.currentMapGraphic = await getBubbleMap(map._id);
+        break;
+      case "PictureMap":
+        globalStore.store.currentMapGraphic = await getPictureMap(map._id);
+        break;
+      case "CategoryMap":
+        globalStore.store.currentMapGraphic = await getCategoryMap(map._id);
+        break;
+      case "ScaleMap":
+        globalStore.store.currentMapGraphic = await getScaleMap(map._id);
         break;
       // TODO: Expand this as other map types are properly implemented
     }

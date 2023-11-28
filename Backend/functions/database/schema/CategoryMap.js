@@ -29,7 +29,7 @@ const CategorySchema = new mongoose.Schema({
 
 const CategoryMapSchema_ = new mongoose.Schema({
   MapID: {
-    type: Number,
+    type: mongoose.Schema.ObjectId,
     required: true,
     unique: true,
   },

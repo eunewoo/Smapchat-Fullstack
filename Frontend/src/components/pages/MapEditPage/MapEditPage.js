@@ -50,6 +50,7 @@ export default function MapEditPage() {
   // Otherwise, we want to use a default template.
   if (globalStore.store.currentMapGraphic) {
     defaultData = globalStore.store.currentMapGraphic;
+    console.log("Pulling in global store data");
   } else {
     switch (params.mapType) {
       case "ArrowMap":
@@ -76,9 +77,19 @@ export default function MapEditPage() {
   // This contains the current map graphic data and geoJson. A transaction
   // handler is initialized to handle operating on the data. See
   // TransactionHandler.js for details.
-  const [data] = useState(defaultData);
+  const [data, setData] = useState(defaultData);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [handler] = useState(new TransactionHandler(data, forceUpdate));
+  const [handler, setHandler] = useState(new TransactionHandler(data, forceUpdate));
+
+  if (!globalStore.store.currentMapGraphic) {
+    console.log("UseEffect Edit");
+    console.log(scaleData);
+    setData(defaultData);
+    setHandler(new TransactionHandler(data, forceUpdate));
+
+    globalStore.store.currentMapGraphic = data;
+    globalStore.setStore(globalStore.store);
+  }
 
   // This state controls if the editor screen is in a mode where we can click
   // on the map. In this state, the next time the user clicks on the map, the

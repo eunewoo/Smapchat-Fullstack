@@ -188,3 +188,15 @@ exports.getScaleMap = async (req, res, next) => {
     res.status(400).send("Server Error");
   }
 };
+
+exports.getPictureMap = async (req, res, next) => {
+  const { mapID } = req.params;
+
+  try {
+    const result = await MapModel.getPictureMapByMapId(mapID);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};

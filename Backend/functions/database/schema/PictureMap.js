@@ -32,7 +32,7 @@ const LocationSchema = new mongoose.Schema({
 
 const PictureSchema = new mongoose.Schema({
   MapID: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     required: true,
     unique: true,
   },

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import RatingDisplay from "../../../reuseable/RatingDisplay";
 import { userProfile } from "../../../../util/userUtil";
+import defaultAvatar from "../../../../assets/images/avatar.png"
 // Added to bring userId that used in saving rate data
 import { AuthContext } from "../../../../contexts/AuthContext";
 
@@ -20,7 +21,8 @@ const UserInfo = (props) => {
         <div className="row m-0">
           <div className="col-auto">
             <img
-              src={user.avatar}
+              src={user?.avatar}
+              onError={({target}) => target.src = defaultAvatar}
               className="rounded"
               width="70"
               height="80"

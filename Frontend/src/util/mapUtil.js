@@ -111,3 +111,8 @@ export const getScaleMap = async (mapID) => {
     throw error;
   }
 };
+
+export const getPictureMap = async (mapID) => {
+  const apiUrl = `/map/get/picture/${mapID}`;
+  return await webFetch(apiUrl);
+}

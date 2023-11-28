@@ -312,6 +312,19 @@ class MapModel {
       throw new Error(error.message);
     }
   }
+
+  static async getPictureMapByMapId(mapID) {
+    try {
+      console.log(mapID);
+      const map = await PictureMapSchema.findOne({
+        MapID: mapID,
+      }).exec();
+
+      return map;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }
 
 module.exports = MapModel;

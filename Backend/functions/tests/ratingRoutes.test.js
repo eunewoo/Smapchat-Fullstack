@@ -13,23 +13,23 @@ afterAll((done) => {
 describe("Rating Tests", () => {
   let avgRateBeforeDelete;
 
-  it("should create a rating with userId '6563f21c7101997e5f7b4072' and mapId '65612a9a5a99c4e94572effc'", async () => {
+  it("should create a rating with userId '6563f21c7101997e5f7b4072' and mapId '656537ad7a1b6f9f380bb6d5'", async () => {
     await request(app)
       .post("/rate/create")
       .send({
         userId: "6563f21c7101997e5f7b4072",
-        mapId: "65612a9a5a99c4e94572effc",
+        mapId: "656537ad7a1b6f9f380bb6d5",
         rate: 5,
       })
       .expect(200);
   });
 
-  it("should create another rating with a different userId and the same mapId '65612a9a5a99c4e94572effc'", async () => {
+  it("should create another rating with a different userId and the same mapId '656537ad7a1b6f9f380bb6d5'", async () => {
     await request(app)
       .post("/rate/create")
       .send({
         userId: "65617bb06fd28d8b794545bf",
-        mapId: "65612a9a5a99c4e94572effc",
+        mapId: "656537ad7a1b6f9f380bb6d5",
         rate: 5,
       })
       .expect(200);
@@ -40,13 +40,13 @@ describe("Rating Tests", () => {
       .post("/rate/create")
       .send({
         userId: "6563f21c7101997e5f7b4072",
-        mapId: "65612a9a5a99c4e94572effc",
+        mapId: "656537ad7a1b6f9f380bb6d5",
         rate: 3,
       })
       .expect(200);
 
     const avgRateRes = await request(app)
-      .get("/rate/65612a9a5a99c4e94572effc") // Updated endpoint to fetch average rate
+      .get("/rate/656537ad7a1b6f9f380bb6d5") // Updated endpoint to fetch average rate
       .expect(200);
 
     expect(avgRateRes.body.avgRate).toEqual(4);
@@ -59,7 +59,7 @@ describe("Rating Tests", () => {
 
     // Fetch the average rate for the map to check the new average rate
     const avgRateRes = await request(app)
-      .get("/rate/65612a9a5a99c4e94572effc") // Updated endpoint to fetch average rate
+      .get("/rate/656537ad7a1b6f9f380bb6d5") // Updated endpoint to fetch average rate
       .expect(200);
 
     expect(avgRateRes.body.avgRate).toEqual(5);

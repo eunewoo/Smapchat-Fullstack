@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import Logo from "../../assets/images/Logo1.png";
-import UserAvatar from "../../assets/images/userAvatar.png";
+import defaultAvatar from "../../assets/images/avatar.png";
 import AuthContext from "../../contexts/AuthContext";
 import "./Header.css";
 import MyUserPopup from "../popups/MyUserPopup";
@@ -104,7 +104,8 @@ const Header = () => {
               {auth.user.username}
             </Button>
             <img
-              src={auth.user.avatar}
+              src={auth.user?.avatar}
+              onError={({target}) => target.src = defaultAvatar}
               alt="User Avatar"
               style={{ width: "45px", height: "45px", borderRadius: "15%" }}
             />
