@@ -1,6 +1,5 @@
-import React, { useState, useReducer, useEffect, useContext } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import "./MapEditPage.css";
-import { Spinner } from "react-bootstrap";
 
 import arrowData from "../../editor/SampleArrowMap.json";
 import bubbleData from "../../editor/SampleBubbleMap.json";
@@ -124,9 +123,6 @@ export default function MapEditPage() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          const progressTwoDecimal = progress.toFixed(2);
 
           switch (snapshot.state) {
             case "paused":
