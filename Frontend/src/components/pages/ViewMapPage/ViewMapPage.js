@@ -17,8 +17,6 @@ import {
 } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 import AuthContext from "../../../contexts/AuthContext";
-import { webFetch } from "../../../util/webUtil";
-import { handleCreateComment } from "../../../util/commentUtil";
 
 const ViewMapPage = () => {
   const navigate = useNavigate();
@@ -62,7 +60,9 @@ const ViewMapPage = () => {
       case "ScaleMap":
         globalStore.store.currentMapGraphic = await getScaleMap(map._id);
         break;
-      // TODO: Expand this as other map types are properly implemented
+      default:
+        globalStore.store.currentMapGraphic = null;
+        break;
     }
 
     globalStore.setStore(globalStore.store);
@@ -80,7 +80,7 @@ const ViewMapPage = () => {
     setLoaded(false);
 
     populateData();
-  }, [params.mapId]);
+  }, [params.mapId, globalStore, populateData]);
 
   const deleteButton =
     map.owner === auth.auth.user?.email ? (

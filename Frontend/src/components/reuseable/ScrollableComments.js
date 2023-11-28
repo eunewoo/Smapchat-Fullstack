@@ -39,7 +39,7 @@ export default function ScrollableComments(props) {
     if (store.currentMapComments.length === 0) {
       addComments();
     }
-  }, [store.currentMapComments]);
+  }, [store.currentMapComments, addComments]);
 
   // This handler handles the scrolling event, which will
   // fetch a new comment  when the user is 90% of the way

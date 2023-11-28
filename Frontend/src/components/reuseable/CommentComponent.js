@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import {
@@ -118,7 +118,7 @@ export default function CommentComponent(props) {
       <Image
         className="Avatar"
         src={
-          props.commenterAvatar == ""
+          props.commenterAvatar === ""
             ? require("../../assets/images/avatar.png")
             : props.commenterAvatar
         }

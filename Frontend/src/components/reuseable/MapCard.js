@@ -10,7 +10,7 @@ import "./MapCard.css";
 
 export default function MapCard(props) {
   // The map data that this card is displaying
-  const [mapData, setMapData] = useState(props.mapData);
+  const [mapData] = useState(props.mapData);
   const [mapUser, setMapUser] = useState(null);
   const numberOfColumns = props.numberOfColumns;
 
