@@ -12,18 +12,6 @@ exports.getMapsByUserId = async (req, res, next) => {
   }
 };
 
-exports.getPublicMaps = async (req, res, next) => {
-  const { sort = "date", page = 1, limit = 20 } = req.query;
-
-  try {
-    const maps = await MapModel.getPublicMaps(sort, page, limit);
-    res.status(200).json(maps);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
 exports.getSpecificMap = async (req, res, next) => {
   const { mapID } = req.params;
 
@@ -36,15 +24,27 @@ exports.getSpecificMap = async (req, res, next) => {
   }
 };
 
+exports.getPublicMaps = async (req, res, next) => {
+  const { sort = "date", page = 1, limit = 20 } = req.query;
+
+  try {
+    const maps = await MapModel.getPublicMaps(sort, page, limit);
+    res.status(200).json(maps);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};
+
 exports.searchPublicMapsByQuery = async (req, res, next) => {
-  const { query, sort = "date", page = 1, limit = 20 } = req.query;
+  const { query, sort = "date", page = 1, limit = 2 } = req.query;
 
   try {
     const publicMaps = await MapModel.searchPublicMapsByQuery(
       query,
       sort,
       page,
-      limit,
+      limit
     );
     res.status(200).json(publicMaps);
   } catch (error) {
@@ -53,16 +53,30 @@ exports.searchPublicMapsByQuery = async (req, res, next) => {
   }
 };
 
+exports.getUserMaps = async (req, res, next) => {
+  const { userId } = req.params;
+  const { sort, page, limit } = req.query;
+
+  try {
+    const userMaps = await MapModel.getUserMaps(sort, page, limit, userId);
+    res.status(200).json(userMaps);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};
+
 exports.searchUserMapsByQuery = async (req, res, next) => {
   const { userId } = req.params;
-  const { query, page, limit } = req.query;
+  const { query, sort = "date", page = 1, limit = 2 } = req.query;
 
   try {
     const userMaps = await MapModel.searchUserMapsByQuery(
-      userId,
       query,
+      sort,
       page,
       limit,
+      userId
     );
     res.status(200).json(userMaps);
   } catch (error) {
@@ -71,116 +85,30 @@ exports.searchUserMapsByQuery = async (req, res, next) => {
   }
 };
 
-exports.getTopRatedUserMaps = async (req, res, next) => {
-  const { userId } = req.params;
-  const { page, limit } = req.query;
-
-  try {
-    const topRatedUserMaps = await MapModel.getTopRatedUserMaps(
-      userId,
-      page,
-      limit,
-    );
-    res.json(topRatedUserMaps);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
+exports.createMap = async (req, res, next) => {
+  if (!req.user) {
+    res.status(401).send("Please sign in or create user account!");
   }
-};
 
-exports.getRecentUserMaps = async (req, res, next) => {
-  const { userId } = req.params;
-  const { page, limit } = req.query;
+  const { mapData, graphicData } = req.body;
+  const user = req.user;
 
-  try {
-    const recentUserMaps = await MapModel.getRecentUserMaps(
-      userId,
-      page,
-      limit,
-    );
-    res.json(recentUserMaps);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.createPictureMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
+  console.log("createMap user");
+  console.log(req.user);
 
   try {
-    const createdPictureMap = await MapModel.createPictureMap(userId, mapData);
-    res.json(createdPictureMap);
+    await MapModel.createOrUpdateMap(mapData, graphicData, user);
+    res.json({ mapData, graphicData });
   } catch (error) {
     console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.createArrowMap = async (req, res, next) => {
-  const { userId, userData, mapData, mapInfo } = req.body;
-
-  try {
-    const result = await MapModel.createArrowMap(
-      userId,
-      userData,
-      mapData,
-      mapInfo,
-    );
-    res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.createBubbleMap = async (req, res, next) => {
-  const { userId, userData, mapData, mapInfo } = req.body;
-  try {
-    const b = await MapModel.createBubbleMap(
-      userId,
-      userData,
-      mapData,
-      mapInfo,
-    );
-    res.json(b);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send(mapData);
-  }
-};
-
-exports.createCategoryMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
-
-  try {
-    const createdCategoryMap = await MapModel.createCategoryMap(
-      userId,
-      mapData,
-    );
-    res.json(createdCategoryMap);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
-  }
-};
-
-exports.createScaleMap = async (req, res, next) => {
-  const { userId, mapData } = req.body;
-
-  try {
-    const createdScaleMap = await MapModel.createScaleMap(userId, mapData);
-    res.json(createdScaleMap);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("Server Error");
+    res.status(500).send("Server error when creating map");
   }
 };
 
 exports.updateMap = async (req, res, next) => {
-  const { userId, mapId, mapData } = req.body;
+  const { mapData, graphicData } = req.body;
   try {
-    const result = await MapModel.updateMap(userId, mapId, mapData);
+    const result = await MapModel.updateMap(mapData, graphicData);
     res.json(result);
   } catch (error) {
     console.error(error);
@@ -200,12 +128,12 @@ exports.updatePublicStatus = async (req, res, next) => {
   }
 };
 
-exports.deleteMap = async (req, res, next) => {
-  const { mapId } = req.params;
-  const { userId } = req.body;
+exports.deleteMapByMapId = async (req, res, next) => {
+  const { mapID } = req.params;
+  const user = req.user;
 
   try {
-    const result = await MapModel.deleteMapByMapId(mapId, userId);
+    const result = await MapModel.deleteMap(mapID, user);
     res.json(result);
   } catch (error) {
     console.error(error);
@@ -230,6 +158,42 @@ exports.getArrowMap = async (req, res, next) => {
 
   try {
     const result = await MapModel.getArrowMapByMapId(mapID);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};
+
+exports.getCategoryMap = async (req, res, next) => {
+  const { mapID } = req.params;
+
+  try {
+    const result = await MapModel.getCategoryMapByMapId(mapID);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};
+
+exports.getScaleMap = async (req, res, next) => {
+  const { mapID } = req.params;
+
+  try {
+    const result = await MapModel.getScaleMapByMapId(mapID);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send("Server Error");
+  }
+};
+
+exports.getPictureMap = async (req, res, next) => {
+  const { mapID } = req.params;
+
+  try {
+    const result = await MapModel.getPictureMapByMapId(mapID);
     res.json(result);
   } catch (error) {
     console.error(error);

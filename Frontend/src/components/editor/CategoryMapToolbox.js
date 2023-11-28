@@ -22,7 +22,7 @@ export default function CategoryMapToolbox(props) {
         categoryPointLocation={
           props.categoryMap.Category[categoryPointLocation]
         }
-      />,
+      />
     );
   }
 
@@ -81,7 +81,7 @@ function CategoryMapLocation(props) {
         parentIndex={props.index}
         index={region}
         region={props.categoryPointLocation.Locations[region]}
-      />,
+      />
     );
   }
 
@@ -123,7 +123,7 @@ function CategoryMapLocation(props) {
                   {
                     Lattitude: latlng.lat,
                     Longitude: latlng.lng,
-                  },
+                  }
                 );
               })
             }
@@ -162,7 +162,7 @@ function CategoryMapRegion(props) {
           onClick={(val) =>
             props.handler.deleteTrans(
               `Category[${props.parentIndex}].Locations`,
-              props.region,
+              props.region
             )
           }
         />

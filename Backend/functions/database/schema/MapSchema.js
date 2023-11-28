@@ -2,10 +2,9 @@ const mongoose = require("mongoose");
 
 const MapSchema_ = new mongoose.Schema({
   mapType: {
-    type: Number,
+    type: String,
     unique: false,
     required: true,
-    maxlength: 5,
   },
   title: {
     type: String,
@@ -17,20 +16,10 @@ const MapSchema_ = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  MapID: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
   avgRate: {
     type: Number,
     required: false,
     default: 0,
-  },
-  comment: {
-    type: [Number],
-    required: false,
-    unique: false,
   },
   mapFile: {
     type: String,
@@ -48,6 +37,10 @@ const MapSchema_ = new mongoose.Schema({
     enum: [0, 1],
     default: 0,
   },
+  owner: {
+    type: String,
+    required: true,
+  }
 });
 
 const MapSchema = mongoose.model("Map", MapSchema_);

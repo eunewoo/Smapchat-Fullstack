@@ -3,28 +3,28 @@
 /// should start with a /. Logs an error and throws null if the
 /// server responds with a non-200 response code.
 export async function webFetch(route) {
-  return await fetch(`${process.env.REACT_APP_URL}${route}`).then(
-    async (res) => {
-      if (res.status === 200 || res.status === 201) {
-        const data = res.json().then((val) => {
-          if (val != null) {
-            console.log("webFetch", val);
-            return val;
-          } else {
-            console.log("Response body was null!");
-            throw new Error("Response body was null");
-          }
-        });
-        return data;
-      } else {
-        console.log(
-          `Error from server when requesting ${route}: ` + res.status,
-        );
+  console.log("all fetches:", route);
+  return await fetch(`${process.env.REACT_APP_URL}${route}`, {
+    withCredentials: true,
+    mode: "cors",
+    credentials: "include",
+  }).then(async (res) => {
+    if (res.status === 200 || res.status === 201) {
+      const data = res.json().then((val) => {
+        if (val != null) {
+          return val;
+        } else {
+          console.log("Response body was null!");
+          alert("Server responded with empty contents...");
+        }
+      });
+      return data;
+    } else {
+      console.log(`Error from server when requesting ${route}: ` + res.status);
 
-        throw new Error("Server responded with non-200 code");
-      }
-    },
-  );
+      alert(`Error from server when requesting ${route}: ` + res.status);
+    }
+  });
 }
 
 /// Helper function to perform a PUT request with error handling.
@@ -57,6 +57,9 @@ async function bodiedRequest(route, data, method) {
   console.log(data);
   return fetch(`${process.env.REACT_APP_URL}${route}`, {
     method: method,
+    withCredentials: true,
+    mode: "cors",
+    credentials: "include",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
@@ -69,15 +72,17 @@ async function bodiedRequest(route, data, method) {
           return val;
         } else {
           console.log("Response body was null!");
-          throw new Error("Response body was null");
+          alert("Response body was null");
         }
       });
     } else {
       console.log(
-        `Error from server when ${method}ing ${route}: ` + res.status,
+        `Error from server when ${method}ing ${route}: ` + res.status
       );
-      const data = await res.json();
-      throw new Error(data.errorMessage);
+      const data = await res.json({
+        error: "Something went wrong while fetching",
+      });
+      alert(data.errorMessage);
     }
   });
 }

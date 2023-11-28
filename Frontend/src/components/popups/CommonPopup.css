@@ -11,3 +11,13 @@
   width: 20px;
   height: 20px;
 }
+
+.input {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.button {
+  margin: 10px;
+  margin-left: 10px !important;
+;}

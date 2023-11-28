@@ -1,7 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-} from "react";
+import React, { useState, useEffect } from "react";
 import MapCard from "./MapCard";
 import { Spinner } from "react-bootstrap";
 import "./ScrollableGallery.css";
@@ -38,8 +35,6 @@ export default function ScrollableGallery(props) {
     }
 
     props.fetchFunction(row + 1, numberOfColumns).then((mapDataArray) => {
-      console.log(mapDataArray);
-
       if (
         !mapDataArray ||
         !Array.isArray(mapDataArray) ||
@@ -74,6 +69,8 @@ export default function ScrollableGallery(props) {
   useEffect(() => {
     if (elements.length === 0) {
       console.log(props.fetchFunction);
+
+      // Add two rows to ensure we can scroll
       addRowOfMapCards();
     }
   });
@@ -83,7 +80,7 @@ export default function ScrollableGallery(props) {
   // when the user is 90% of the way down the current scroll
   const handleScroll = (event) => {
     if (
-      event.currentTarget.scrollTop >=
+      event.currentTarget.scrollTop + event.currentTarget.clientHeight >=
       event.currentTarget.scrollTopMax * 0.9
     ) {
       addRowOfMapCards();

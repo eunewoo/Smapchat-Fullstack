@@ -1,23 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Image, Card, Container, Button } from "react-bootstrap";
 import { popContext } from "../../App";
 import "./Customer.css";
 import UserPopup from "../popups/UserPopup";
+import defaultAvatar from "../../assets/images/avatar.png";
 
 export default function Customer(props) {
-  const [user, setUser] = useState({});
   const setPop = useContext(popContext);
-
-  // Temporary hardcoded data for build 2!
-  if (Object.keys(user).length === 0) {
-    setUser({
-      avatar:
-        "http://wallup.net/wp-content/uploads/2016/03/10/319576-photography-landscape-nature-water-grass-trees-plants-sunrise-lake.jpg",
-      username: "Random user",
-      email: "Random@User.com",
-    });
-  }
-
   return (
     <Card className="my-2">
       <Card.Body
@@ -28,14 +17,18 @@ export default function Customer(props) {
           padding: "5px",
         }}
       >
-        <Card.Title>{user.username ?? "Loading..."}</Card.Title>
+        <Card.Title>{props.userData.username ?? "Loading..."}</Card.Title>
       </Card.Body>
 
       <Container>
-        <Image className="Avatar" src={user.avatar} roundedCircle />
+        <Image 
+          className="Avatar" 
+          src={props.userData.avatar} 
+          onError={({target}) => target.src = defaultAvatar}
+          roundedCircle />
         <Button
           className="button"
-          onClick={() => setPop(<UserPopup user={user} />)}
+          onClick={() => setPop(<UserPopup user={props} />)}
         >
           View Profile
         </Button>

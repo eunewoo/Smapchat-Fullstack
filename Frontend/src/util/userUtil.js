@@ -3,7 +3,7 @@ import { webFetch, webDelete, webPost, webPut } from "./webUtil";
 /// Fetches a users profile as a JSON object based on a
 /// provided e-mail address
 export async function userProfile(email) {
-  return await webFetch(`/User/${email}`);
+  return await webFetch(`/User/Email/${email}`);
 }
 
 export async function getUsers() {
@@ -19,6 +19,10 @@ export async function getUsers() {
 /// Deletes a user of the given userID
 export async function deleteUser(userId) {
   return await webDelete(`/User/delete/${userId}`, {});
+}
+
+export async function session() {
+  return await webFetch(`/Users/session`);
 }
 
 /// Creates a user given an email, username, and password
