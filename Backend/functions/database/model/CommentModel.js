@@ -100,11 +100,10 @@ class CommentModel {
 
   //delete
   //6
-  static async deleteComment(userId, commentId) {
+  static async deleteComment(commentId) {
     try {
       const comment = await CommentSchema.findOneAndDelete({
         _id: commentId,
-        commenterId: userId,
       });
 
       return comment;
