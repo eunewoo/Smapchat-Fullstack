@@ -35,13 +35,13 @@ export default function ScrollableComments(props) {
     setIsLoading(false);
   };
 
-  // eslint-disable react-hooks/exhaustive-deps
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (store.currentMapComments.length === 0) {
       addComments();
     }
   }, [store.currentMapComments]);
-  // eslint-enable react-hooks/exhaustive-deps
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   // This handler handles the scrolling event, which will
   // fetch a new comment  when the user is 90% of the way

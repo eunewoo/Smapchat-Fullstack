@@ -70,7 +70,7 @@ const ViewMapPage = () => {
     setLoaded(true);
   }
 
-  // eslint-disable react-hooks/exhaustive-deps
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     // We reset the current global geometry and graphic data here since we
     // want to wait for them to load
@@ -83,7 +83,7 @@ const ViewMapPage = () => {
 
     populateData();
   }, [params.mapId]);
-  // eslint-enable react-hooks/exhaustive-deps
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const deleteButton =
     map.owner === auth.auth.user?.email ? (
