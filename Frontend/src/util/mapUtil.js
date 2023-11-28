@@ -9,7 +9,7 @@ export const fetchSpecificMap = async (mapID) => {
 };
 
 export const fetchPublicMaps = async (sort, page, limit) => {
-  const maps = await webFetch(`/map/public?page=${page}&limit=${limit}`);
+  const maps = await webFetch(`/map/public?sort=${sort}&page=${page}&limit=${limit}`);
   console.log("publis maps: ", maps);
   return maps;
 };
