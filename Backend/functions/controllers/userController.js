@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const admin = require("firebase-admin");
 const jwt = require("jsonwebtoken");
 const RatingModel = require("../database/model/RatingModel");
+const CommentModel = require("../database/model/CommentModel");
 const MapModel = require("../database/model/MapModel");
 
 exports.getAllUsers = async (req, res, next) => {
@@ -160,10 +161,14 @@ exports.deleteUser = async (req, res, next) => {
     // delete user's rating
     await RatingModel.deleteRate(user._id);
 
-    // delete user's maps
+    // delete user's comments and  maps
     const maps = await MapModel.getUserMaps("date", 1, null, user.email);
     // console.log("deleteUser map", maps);
     for (const map of maps) {
+      const comments = await CommentModel.getCommentByMapId(map._id, 1, null);
+      for (const comment of comments) {
+        await CommentModel.deleteComment(comment._id);
+      }
       await MapModel.deleteMap(map._id, user._id);
     }
 
