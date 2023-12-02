@@ -1,10 +1,14 @@
 import React, { createContext, useState, useCallback, useEffect } from "react";
-import { session, createUser, loginUserApi, resetPasswordApi } from "../util/userUtil";
+import {
+  session,
+  createUser,
+  loginUserApi,
+  resetPasswordApi,
+} from "../util/userUtil";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-
   const [auth, setAuth] = useState({ user: null, loggedIn: false });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       auth.loggedIn = val.loggedIn;
       setAuth(auth);
       setIsLoading(false);
-    })
+    });
   }, [auth]);
 
   const getLoggedIn = useCallback(async () => {}, []);
@@ -32,7 +36,6 @@ export const AuthProvider = ({ children }) => {
       };
       setAuth(newAuth);
       localStorage.setItem("auth", JSON.stringify(newAuth));
-
     } else {
       console.error("Error in logging in:", error);
     }
@@ -55,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     const { success, data, error } = await createUser(
       email,
       username,
-      password,
+      password
     );
 
     if (success) {
@@ -67,7 +70,6 @@ export const AuthProvider = ({ children }) => {
       setAuth(newAuthState);
 
       localStorage.setItem("auth", JSON.stringify(newAuthState));
-
     } else {
       // on error, we need 1 general popup for errors handling
       console.error("Error in fetching users:", error);
@@ -97,7 +99,7 @@ export const AuthProvider = ({ children }) => {
 
   const updatePassword = useCallback(async () => {}, []);
 
-  const deleteAccount = useCallback(async () => {}, []);
+  const deleteUser = useCallback(async () => {}, []);
 
   const updateAvatar = useCallback(async () => {}, []);
 
@@ -117,7 +119,7 @@ export const AuthProvider = ({ children }) => {
     updateUserName,
     updateEmail,
     updatePassword,
-    deleteAccount,
+    deleteUser,
     updateAvatar,
     updateToken,
   };

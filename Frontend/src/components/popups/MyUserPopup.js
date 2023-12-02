@@ -1,11 +1,4 @@
-import {
-  Button,
-  Card,
-  Container,
-  Image,
-  Form,
-  Col,
-} from "react-bootstrap";
+import { Button, Card, Container, Image, Form, Col } from "react-bootstrap";
 import { useContext, useState } from "react";
 import "./UserPopup.css";
 import "./CommonPopup.css";
@@ -13,9 +6,11 @@ import { BsXLg } from "react-icons/bs";
 import { popContext } from "../../App";
 import AuthContext from "../../contexts/AuthContext";
 import avatar from "../../assets/images/avatar.png";
+import DeleteUserPopup from "./DeleteUserPopup";
 
 export default function UserPopup(props) {
   const { auth, setAuth, logoutUser } = useContext(AuthContext);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const setPop = useContext(popContext);
 
@@ -33,7 +28,7 @@ export default function UserPopup(props) {
     setAuth({ ...auth, user: updatedUser });
     localStorage.setItem(
       "auth",
-      JSON.stringify({ ...auth, user: updatedUser }),
+      JSON.stringify({ ...auth, user: updatedUser })
     );
   };
 
@@ -77,6 +72,12 @@ export default function UserPopup(props) {
           />
         </Form.Group>
 
+        <div className="delete-button-container">
+          <Button variant="danger" onClick={() => setShowDeletePopup(true)}>
+            Delete Account
+          </Button>
+        </div>
+
         {/* Avatar and image buttons */}
         <Col>
           <Image
@@ -89,7 +90,6 @@ export default function UserPopup(props) {
             roundedCircle
           />
         </Col>
-
         <div className="text-end mt-3">
           {isEditing && <Button className="m-3">Password</Button>}
           {isEditing && <Button>Delete Image</Button>}
@@ -102,6 +102,10 @@ export default function UserPopup(props) {
           <Button onClick={handleLogout}>Logout</Button>
         </div>
       </Container>
+
+      {showDeletePopup && (
+        <DeleteUserPopup onClose={() => setShowDeletePopup(false)} />
+      )}
     </Card>
   );
 }
