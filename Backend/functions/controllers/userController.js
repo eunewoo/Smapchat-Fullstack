@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const admin = require("firebase-admin");
 const jwt = require("jsonwebtoken");
 const RatingModel = require("../database/model/RatingModel");
+const MapModel = require("../database/model/MapModel");
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -144,11 +145,30 @@ exports.updateUserActivation = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    // Delete the related user's ratings first
-    await RatingModel.deleteRate(req.params.Id);
+    const user = await UserModel.findByEmail(req.body.email);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const isPasswordValid = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Wrong password" });
+    }
+
+    // delete user's rating
+    await RatingModel.deleteRate(user._id);
+
+    // delete user's maps
+    const maps = await MapModel.getUserMaps("date", 1, null, user.email);
+    // console.log("deleteUser map", maps);
+    for (const map of maps) {
+      await MapModel.deleteMap(map._id, user._id);
+    }
 
     // Then delete the user
-    await UserModel.deleteUserById(req.params.Id);
+    await UserModel.deleteUserById(user._id);
 
     res.status(200).send();
   } catch (error) {
