@@ -18,22 +18,24 @@ export async function getUsers() {
 }
 
 /// Deletes a user of the given userID
-// export async function deleteUser(userData) {
-//   const route = "/User/delete";
-//   return await webDelete(route, userData);
-// }
-export const deleteUser = async (userData) => {
-  const apiUrl = `${process.env.REACT_APP_URL}/User/delete`;
+export async function deleteUser(userData) {
+  const route = "/User/delete";
+  return await webDelete(route, userData);
+}
 
-  try {
-    // Assuming you need to send userData in the body of the DELETE request
-    const response = await axios.delete(apiUrl, { data: userData });
-    return response.data;
-  } catch (error) {
-    console.error("Error deleting user:", error);
-    throw error;
-  }
-};
+// axios method
+// export const deleteUser = async (userData) => {
+//   const apiUrl = `${process.env.REACT_APP_URL}/User/delete`;
+
+//   try {
+//     // Assuming you need to send userData in the body of the DELETE request
+//     const response = await axios.delete(apiUrl, { data: userData });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//     throw error;
+//   }
+// };
 
 export async function session() {
   return await webFetch(`/Users/session`);
