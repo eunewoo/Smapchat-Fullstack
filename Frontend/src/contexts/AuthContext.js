@@ -5,6 +5,7 @@ import {
   loginUserApi,
   resetPasswordApi,
   logout,
+  deleteUser as deleteUserAPI,
 } from "../util/userUtil";
 
 export const AuthContext = createContext(null);
@@ -50,6 +51,15 @@ export const AuthProvider = ({ children }) => {
     setAuth({ user: null, loggedIn: false });
     document.cookie = "authentication=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     localStorage.removeItem("auth");
+  };
+
+  const deleteUser = async (userData) => {
+    try {
+      await deleteUserAPI(userData);
+      logoutUser();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   const registerUser = async ({ email, username, password }) => {
@@ -100,8 +110,6 @@ export const AuthProvider = ({ children }) => {
   const updateEmail = useCallback(async () => {}, []);
 
   const updatePassword = useCallback(async () => {}, []);
-
-  const deleteUser = useCallback(async () => {}, []);
 
   const updateAvatar = useCallback(async () => {}, []);
 

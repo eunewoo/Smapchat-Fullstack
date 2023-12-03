@@ -1,21 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Card, Container, Button } from "react-bootstrap";
 import { BsXLg } from "react-icons/bs";
-import { deleteUser } from "../../util/userUtil"; // Adjust the path as necessary
+import AuthContext from "../../contexts/AuthContext"; // Adjust the import path
 
 function DeleteUserPopup({ onClose }) {
+  const { deleteUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleConfirmDelete = async () => {
     try {
-      console.log("email", email);
       await deleteUser({ email, password });
-      // Add additional logic if needed, such as logging the user out
+      alert("User Information is deleted successfully!");
       onClose(); // Close the popup
     } catch (error) {
       console.error("Error deleting user:", error);
-      // Handle error (e.g., show a message to the user)
     }
   };
 
