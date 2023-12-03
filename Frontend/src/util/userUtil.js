@@ -1,5 +1,4 @@
 import { webFetch, webDelete, webPost, webPut } from "./webUtil";
-import axios from "axios";
 
 /// Fetches a users profile as a JSON object based on a
 /// provided e-mail address
@@ -22,20 +21,6 @@ export async function deleteUser(userData) {
   const route = "/User/delete";
   return await webDelete(route, userData);
 }
-
-// axios method
-// export const deleteUser = async (userData) => {
-//   const apiUrl = `${process.env.REACT_APP_URL}/User/delete`;
-
-//   try {
-//     // Assuming you need to send userData in the body of the DELETE request
-//     const response = await axios.delete(apiUrl, { data: userData });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error deleting user:", error);
-//     throw error;
-//   }
-// };
 
 export async function session() {
   return await webFetch(`/Users/session`);
