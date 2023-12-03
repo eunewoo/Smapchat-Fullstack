@@ -10,6 +10,7 @@ router.get("/User/:Id", userController.getUserById);
 router.get("/User/Email/:Email", userController.getUserByEmail); // Changed route for clarity
 router.post("/User/create", userController.register);
 router.post("/User/login", userController.login);
+router.post("/User/logout", userController.logout);
 router.post("/User/resetPassword", userController.resetPassword);
 
 router.put("/User/update/:Id", userController.updateUserProfile);

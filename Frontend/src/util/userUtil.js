@@ -58,6 +58,10 @@ export async function loginUserApi(email, password) {
   }
 }
 
+export async function logout() {
+  await webPost(`/User/logout`, {});
+}
+
 export async function resetPasswordApi(email) {
   try {
     const response = await webPost(`/User/resetPassword`, { email });
