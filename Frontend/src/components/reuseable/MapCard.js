@@ -4,7 +4,15 @@ import RatingDisplay from "./RatingDisplay";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import { userProfile } from "../../util/userUtil";
+import { Spinner } from "react-bootstrap";
 // Added to bring userId that used in saving rate data
+import {
+  getArrowMap,
+  getBubbleMap,
+  getPictureMap,
+  getCategoryMap,
+  getScaleMap,
+} from "../../util/mapUtil";
 import { AuthContext } from "../../contexts/AuthContext";
 import "./MapCard.css";
 
@@ -13,6 +21,10 @@ export default function MapCard(props) {
   const [mapData] = useState(props.mapData);
   const [mapUser, setMapUser] = useState(null);
   const numberOfColumns = props.numberOfColumns;
+
+  const [graphicData, setGraphicData] = useState(null);
+  const [geoData, setGeoData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { auth } = useContext(AuthContext);
   const userId = auth.user?._id;
@@ -31,10 +43,61 @@ export default function MapCard(props) {
     if (mapData.owner != null)
       userProfile(mapData.owner).then((val) => setMapUser(val));
     else setMapUser({ username: "Unknown" });
+
+    if (graphicData == null) populatePreview();
   }, [mapData]);
+
+  const populatePreview = async () => {
+
+    setGeoData(await (await fetch(mapData.mapFile)).json());
+
+    switch (mapData.mapType) {
+      case "ArrowMap":
+        setGraphicData(await getArrowMap(mapData._id));
+        break;
+      case "BubbleMap":
+        setGraphicData(await getBubbleMap(mapData._id));
+        break;
+      case "PictureMap":
+        setGraphicData(await getPictureMap(mapData._id));
+        break;
+      case "CategoryMap":
+        setGraphicData(await getCategoryMap(mapData._id));
+        break;
+      case "ScaleMap":
+        setGraphicData(await getScaleMap(mapData._id));
+        break;
+      default:
+        break;
+    }
+
+    setLoading(false);
+  };
 
   const handleRouteToViewMapPage = () =>
     navigate(`/view-map-page/${mapData._id}`);
+
+  const renderer = loading ? (
+    <div
+      className="d-flex align-items-center justify-content-center"
+      style={{ height: "300px" }}
+    >
+      <div className="text-center">
+        <Spinner animation="border" role="status" variant="primary">
+          <span className="sr-only"></span>
+        </Spinner>
+        <p className="ml-2 mt-2">Loading preview...</p>
+      </div>
+    </div>
+  ) : (
+    <MapRenderer
+      width="100%"
+      height="300px"
+      mapType={mapData.mapType}
+      Geometry={geoData}
+      GeoJsonData={graphicData}
+    />
+  );
 
   return (
     <Card
@@ -42,12 +105,7 @@ export default function MapCard(props) {
       style={{ width: `${cardWidth}%` }}
       onClick={handleRouteToViewMapPage}
     >
-      <MapRenderer
-        Geometry={mapData.mapFile}
-        GraphicData={mapData}
-        width="100%"
-        height="300px"
-      />
+      {renderer}
       <RatingDisplay
         userId={userId}
         mapId={props.mapData._id}
