@@ -118,6 +118,11 @@ exports.login = async (req, res, next) => {
   }
 };
 
+exports.logout = async (req, res, next) => {
+  res.cookie("authentication", "", {maxAge: 0});
+  res.status(200).json({message: "Logged out!"});
+}
+
 exports.updateUserProfile = async (req, res, next) => {
   try {
     const updatedUser = await UserModel.updateProfile(

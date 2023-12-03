@@ -4,6 +4,7 @@ import {
   createUser,
   loginUserApi,
   resetPasswordApi,
+  logout,
 } from "../util/userUtil";
 
 export const AuthContext = createContext(null);
@@ -45,8 +46,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logoutUser = async () => {
+    await logout();
     setAuth({ user: null, loggedIn: false });
-    document.cookie = "authentication=; Max-Age=0";
+    document.cookie = "authentication=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     localStorage.removeItem("auth");
   };
 
