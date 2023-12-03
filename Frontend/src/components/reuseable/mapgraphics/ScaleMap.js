@@ -68,7 +68,11 @@ const colorBoundary = (name, lat, lng, color, boundaries, map) => {
 
 // Function to create categories array that contains sample datas
 const createCategoriesFromData = (data) => {
-  console.log(data.Location);
+
+  if (!data || !data.Location  || data.Location.length < 1) {
+    return;
+  }
+
   const max = data.Location.reduce((a, b) =>
     parseFloat(a.Value) > parseFloat(b.Value) ? a : b,
   ).Value;
@@ -103,7 +107,7 @@ export const renderScaleMap = (map, data, boundaries) => {
   const categories = createCategoriesFromData(data);
 
   // Color boundaries of geojson data, if it contains data's lat,lng
-  categories.forEach((category) => {
+  categories?.forEach((category) => {
     console.log(category);
     colorBoundary(
       category.Name,
