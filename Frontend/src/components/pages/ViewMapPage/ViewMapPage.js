@@ -86,7 +86,7 @@ const ViewMapPage = () => {
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const deleteButton =
-    map.owner === auth.auth.user?.email ? (
+    map.owner === auth.auth.user?._id ? (
       <button
         className="btn btn-edit-map position-absolute"
         style={{ top: "64px", right: "16px" }}
@@ -123,7 +123,7 @@ const ViewMapPage = () => {
     <div className="Container-fluid mx-5 my-3 px-5">
       <div className="col text-center">
         <div className="text-black">
-          <UserInfo map={map} userEmail={map.owner} />
+          <UserInfo map={map} userId={map.owner} />
         </div>
 
         <div
@@ -143,7 +143,7 @@ const ViewMapPage = () => {
             style={{ top: "16px", right: "16px" }}
             onClick={() => navigate("/map-edit-page/" + map.mapType)}
           >
-            {map.owner === auth.auth.user?.email ? "Edit" : "Fork"}
+            {map.owner === auth.auth.user?._id ? "Edit" : "Fork"}
           </button>
 
           {deleteButton}

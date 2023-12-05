@@ -38,7 +38,7 @@ const MapSchema_ = new mongoose.Schema({
     default: 0,
   },
   owner: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     required: true,
   }
 });

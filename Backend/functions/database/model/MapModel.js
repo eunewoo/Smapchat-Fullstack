@@ -137,9 +137,9 @@ class MapModel {
       ? await MapSchema.findOne({ _id: mapData._id })
       : null;
     const thisUser = await UserSchema.findOne({ _id: user });
-    mapData.owner = thisUser.email;
+    mapData.owner = thisUser._id;
 
-    if (!current || currentMap.owner != thisUser.email) {
+    if (!current || !currentMap.owner.equals(thisUser._id)) {
       console.log("Creating map");
       return await this.createMap(mapData, graphicData);
     } else {
@@ -228,7 +228,9 @@ class MapModel {
       }
 
       // Must be the owner or an admin to delete a map
-      if (mapData.owner != thisUser.email && thisUser.type != 1) {
+      console.log(mapData.owner);
+      console.log(thisUser._id);
+      if (!mapData.owner.equals(thisUser._id) && thisUser.type != 1) {
         throw new Error("Delete not permitted");
       }
 

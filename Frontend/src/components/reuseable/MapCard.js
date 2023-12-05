@@ -3,7 +3,7 @@ import MapRenderer from "./MapRenderer";
 import RatingDisplay from "./RatingDisplay";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import { userProfile } from "../../util/userUtil";
+import { userProfileId } from "../../util/userUtil";
 import { Spinner } from "react-bootstrap";
 // Added to bring userId that used in saving rate data
 import {
@@ -41,7 +41,7 @@ export default function MapCard(props) {
 
   useEffect(() => {
     if (mapData.owner != null)
-      userProfile(mapData.owner).then((val) => setMapUser(val));
+      userProfileId(mapData.owner).then((val) => setMapUser(val));
     else setMapUser({ username: "Unknown" });
 
     if (graphicData == null) populatePreview();

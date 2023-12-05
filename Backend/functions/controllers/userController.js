@@ -167,7 +167,7 @@ exports.deleteUser = async (req, res, next) => {
     await RatingModel.deleteRate(user._id);
 
     // delete user's comments and  maps
-    const maps = await MapModel.getUserMaps("date", 1, null, user.email);
+    const maps = await MapModel.getUserMaps("date", 1, null, user._id);
     // console.log("deleteUser map", maps);
     for (const map of maps) {
       const comments = await CommentModel.getCommentByMapId(map._id, 1, null);

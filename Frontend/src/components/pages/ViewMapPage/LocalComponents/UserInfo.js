@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import RatingDisplay from "../../../reuseable/RatingDisplay";
-import { userProfile } from "../../../../util/userUtil";
+import { userProfileId } from "../../../../util/userUtil";
 import defaultAvatar from "../../../../assets/images/avatar.png"
 // Added to bring userId that used in saving rate data
 import { AuthContext } from "../../../../contexts/AuthContext";
@@ -12,8 +12,8 @@ const UserInfo = (props) => {
   const userId = auth.user?._id;
 
   useEffect(() => {
-    userProfile(props.userEmail).then((val) => setUser(val));
-  }, [props.userEmail]);
+    userProfileId(props.userId).then((val) => setUser(val));
+  }, [props.userId]);
 
   return (
     <div className="row m-0">

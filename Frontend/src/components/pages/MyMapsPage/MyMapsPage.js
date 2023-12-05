@@ -13,9 +13,9 @@ const MyMapsPage = () => {
   const fetchData = async (page, limit) => {
     try {
       if (!searchTerm) {
-        return await fetchUserMaps(sortTerm, page, limit, auth.auth.user.email);
+        return await fetchUserMaps(sortTerm, page, limit, auth.auth.user._id);
       } else {
-        return await fetchUserSearchMaps(searchTerm, sortTerm, page, limit, auth.auth.user.email);
+        return await fetchUserSearchMaps(searchTerm, sortTerm, page, limit, auth.auth.user._id);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
