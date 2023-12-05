@@ -37,8 +37,6 @@ describe("Authenticate", () => {
       .expect(200);
   });
 
-  console.log(userID);
-
   it("can delete", async () => {
     await request(app)
       .delete(`/User/delete/${userID}`)

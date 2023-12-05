@@ -6,6 +6,7 @@ import {
   resetPasswordApi,
   logout,
   deleteUser as deleteUserAPI,
+  credentials,
 } from "../util/userUtil";
 
 export const AuthContext = createContext(null);
@@ -55,8 +56,10 @@ export const AuthProvider = ({ children }) => {
 
   const deleteUser = async (userData) => {
     try {
-      await deleteUserAPI(userData);
-      logoutUser();
+      await credentials(userData.email, userData.password);
+      await deleteUserAPI(userData._id);
+      setAuth({ user: null, loggedIn: false });
+      document.cookie = "authentication=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     } catch (error) {
       console.error("Error deleting user:", error);
     }
