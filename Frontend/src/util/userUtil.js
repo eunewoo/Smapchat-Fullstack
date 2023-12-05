@@ -80,6 +80,43 @@ export async function resetPasswordApi(email) {
   }
 }
 
+export async function updatePasswordWithCode(email, code, newPassword) {
+  const payload = {
+    email,
+    code,
+    newPassword,
+  };
+
+  try {
+    const response = await webPost(`/User/updatePasswordWithCode`, payload);
+    return { success: true, data: response };
+  } catch (error) {
+    console.log("Error in updating password with code:", error);
+    return {
+      success: false,
+      error: "An error occurred during password update.",
+    };
+  }
+}
+
+export async function verifyResetCode(email, code) {
+  const payload = {
+    email: email,
+    code: code,
+  };
+
+  try {
+    const response = await webPost(`/User/verifyResetCode`, payload);
+    return { success: true, data: response };
+  } catch (error) {
+    console.log("Error in verifying reset code:", error);
+    return {
+      success: false,
+      error: "An error occurred during code verification.",
+    };
+  }
+}
+
 /// Updates a user on the database with the given user data
 export async function updateUserProfile(newProfile) {
   return await webPut(`/User/update/${newProfile._id}`, newProfile);
