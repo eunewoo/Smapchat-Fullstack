@@ -3,6 +3,7 @@ const UserSchema = require("../schema/User.js");
 const bcrypt = require("bcryptjs");
 const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 class UserModel {
   static async findAll() {
@@ -15,7 +16,7 @@ class UserModel {
   }
 
   static async findByID(id) {
-    return await UserSchema.findOne({_id: id});
+    return await UserSchema.findOne({ _id: id });
   }
 
   static async createUser(email, username, password, avatar) {
@@ -48,7 +49,8 @@ class UserModel {
     try {
       const updatedUser = await UserSchema.findOneAndUpdate(
         { _id: new mongodb.ObjectId(userId) },
-        updatedData);
+        updatedData
+      );
 
       if (!updatedUser) {
         throw new Error("User not found");
@@ -85,12 +87,12 @@ class UserModel {
   static async recoverPasswordByEmail(email) {
     try {
       const user = await UserSchema.findOne({ email: email }).exec();
-      console.log("exist", user);
       if (!user) {
         throw new Error("User not found");
       }
 
-      const resetLink = await admin.auth().generatePasswordResetLink(email);
+      const token = crypto.randomBytes(5).toString("hex");
+      console.log("token: ", token);
       let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -103,7 +105,8 @@ class UserModel {
         from: process.env.EMAIL_USER,
         to: email,
         subject: "Password Reset",
-        html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
+        html: `<p>Your password reset code: <b>${token}</b></p>
+             <p>Please use this code to reset your password.</p>`,
       };
 
       const info = transporter.sendMail(mailOptions, function (error, info) {

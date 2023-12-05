@@ -23,12 +23,12 @@ const PasswordRecoveryPage = () => {
     const { success, error } = await resetPassword(email);
     if (success) {
       setFeedback(
-        "Instructions to reset your password have been sent to your email.",
+        "Instructions to reset your password have been sent to your email."
       );
       // Optionally navigate to a different page or show a message
     } else {
       setFeedback(
-        error || "An error occurred while trying to reset the password.",
+        error || "An error occurred while trying to reset the password."
       );
     }
   };
@@ -61,7 +61,7 @@ const PasswordRecoveryPage = () => {
               </Card.Title>
             </Card.Body>
           </Card>
-          <div className="text-white mb-4">
+          <div className="mb-4">
             Forgot your password? Don’t worry, it happens to the best of us.
             Just enter your registered email address below, and we'll send you
             instructions on how to reset it.
@@ -97,9 +97,7 @@ const PasswordRecoveryPage = () => {
               )}
             </Button>
           </Form>
-          {feedback && (
-            <div className="feedback-message text-white">{feedback}</div>
-          )}
+          {feedback && <div className="feedback-message">{feedback}</div>}
         </Col>
       </Row>
     </Container>
