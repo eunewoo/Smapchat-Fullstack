@@ -4,13 +4,13 @@ import { BsXLg } from "react-icons/bs";
 import AuthContext from "../../contexts/AuthContext"; // Adjust the import path
 
 function DeleteUserPopup({ onClose }) {
-  const { deleteUser } = useContext(AuthContext);
+  const { auth, deleteUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleConfirmDelete = async () => {
     try {
-      await deleteUser({ email, password });
+      await deleteUser({ email, password, _id: auth.user._id });
       alert("User Information is deleted successfully!");
       onClose(); // Close the popup
     } catch (error) {

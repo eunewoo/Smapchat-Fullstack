@@ -39,6 +39,7 @@ export default function MapCard(props) {
     cardWidth = 30;
   }
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (mapData.owner != null)
       userProfileId(mapData.owner).then((val) => setMapUser(val));
@@ -46,7 +47,8 @@ export default function MapCard(props) {
 
     if (graphicData == null) populatePreview();
   }, [mapData]);
-
+  /* eslint-enable react-hooks/exhaustive-deps */
+  
   const populatePreview = async () => {
 
     setGeoData(await (await fetch(mapData.mapFile)).json());

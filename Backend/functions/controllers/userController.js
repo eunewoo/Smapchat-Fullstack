@@ -124,6 +124,11 @@ exports.logout = async (req, res, next) => {
 };
 
 exports.updateUserProfile = async (req, res, next) => {
+
+  if (!req.user._id == req.params.Id) {
+    res.status(409).json({message: "Not authenticated!"});
+  }
+
   try {
     const updatedUser = await UserModel.updateProfile(req.params.Id, req.body);
     res.status(200).json(updatedUser);
@@ -146,19 +151,38 @@ exports.updateUserActivation = async (req, res, next) => {
   }
 };
 
+exports.credentials = async (req, res, next) => {
+  const user = await UserModel.findByEmail(req.body.email);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const isPasswordValid = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
+
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+
+  return res.status(200).json({message: "OK"});
+}
+
 exports.deleteUser = async (req, res, next) => {
   try {
-    const user = await UserModel.findByEmail(req.body.email);
+    const user = await UserModel.findByID(req.params.Id);
     if (!user) {
+      console.log("User to delete was not found");
       return res.status(404).json({ message: "User not found" });
     }
-    const isPasswordValid = await bcrypt.compare(
+    /*const isPasswordValid = await bcrypt.compare(
       req.body.password,
       user.password
     );
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Wrong password" });
-    }
+    }*/
 
     // delete user's rating
     await RatingModel.deleteRate(user._id);

@@ -21,13 +21,17 @@ export async function getUsers() {
 }
 
 /// Deletes a user of the given userID
-export async function deleteUser(userData) {
-  const route = "/User/delete";
-  return await webDelete(route, userData);
+export async function deleteUser(userId) {
+  const route = `/User/delete/${userId}`;
+  return await webDelete(route);
 }
 
 export async function session() {
   return await webFetch(`/Users/session`);
+}
+
+export async function credentials(email, password) {
+  return await webPost(`/User/credentials`, {email: email, password: password});
 }
 
 /// Creates a user given an email, username, and password
