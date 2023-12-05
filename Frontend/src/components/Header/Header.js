@@ -105,6 +105,7 @@ const Header = () => {
               {auth.user.username}
             </Button>
             <Image
+              style={{width: "45px", height: "45px"}}
               src={auth.user?.avatar}
               onError={({target}) => target.src = defaultAvatar}
               roundedCircle

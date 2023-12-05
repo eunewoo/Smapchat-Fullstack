@@ -8,6 +8,7 @@ import AuthContext from "../../contexts/AuthContext";
 import defaultAvatar from "../../assets/images/avatar.png";
 import DeleteUserPopup from "./DeleteUserPopup";
 import { updateUserProfile } from "../../util/userUtil";
+import { Spinner } from "react-bootstrap";
 
 import {
   getStorage,
@@ -28,7 +29,7 @@ export default function UserPopup(props) {
   const [username, setUsername] = useState(auth.user.username);
   const [email, setEmail] = useState(auth.user.email);
   const [avatar, setAvatar] = useState(auth.user.avatar);
-  const [updatedUser] = useState({ ...auth.user });
+  const [waiting, setWaiting] = useState(false);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -36,13 +37,14 @@ export default function UserPopup(props) {
 
   const handleSaveClick = async () => {
     setIsEditing(false);
+    setWaiting(true);
 
     var newUser = auth.user;
     newUser.username = username;
     newUser.email = email;
     newUser.avatar = avatar;
     await updateUserProfile(newUser);
-
+    setWaiting(false);
   };
 
   const handleLogout = () => {
@@ -90,6 +92,34 @@ export default function UserPopup(props) {
       }
     }
   };
+
+  if (waiting) {
+    return (
+    <Card className="popup">
+      <Card.Body
+        style={{
+          backgroundColor: "#0C0D34",
+          color: "white",
+          height: "40px",
+          padding: "5px",
+        }}
+      >        
+        <Card.Title>Personal Information</Card.Title>
+        <BsXLg className="close" onClick={() => setPop(null)}></BsXLg>
+      </Card.Body>
+      <div
+      className="d-flex align-items-center justify-content-center"
+      style={{ height: "300px" }}>   
+        <div className="text-center">
+          <Spinner animation="border" role="status" variant="primary">
+            <span className="sr-only"></span>
+          </Spinner>
+          <p className="ml-2 mt-2">Updating...</p>
+        </div>
+      </div>
+    </Card>
+    )
+  }
 
   return (
     <Card className="popup">

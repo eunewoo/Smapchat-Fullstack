@@ -124,6 +124,11 @@ exports.logout = async (req, res, next) => {
 }
 
 exports.updateUserProfile = async (req, res, next) => {
+
+  if (!req.user._id == req.params.Id) {
+    res.status(409).json({message: "Not authenticated!"});
+  }
+
   try {
     const updatedUser = await UserModel.updateProfile(
       req.params.Id,

@@ -13,7 +13,7 @@ router.post("/User/login", userController.login);
 router.post("/User/logout", userController.logout);
 router.post("/User/resetPassword", userController.resetPassword);
 
-router.put("/User/update/:Id", userController.updateUserProfile);
+router.put("/User/update/:Id", auth, userController.updateUserProfile);
 router.put("/User/update/activate/:Id", userController.updateUserActivation);
 router.delete("/User/delete", userController.deleteUser);
 
