@@ -20,7 +20,7 @@ import {
 import app from "../../config/firebase";
 
 export default function UserPopup(props) {
-  const { auth, setAuth, logoutUser } = useContext(AuthContext);
+  const { auth, logoutUser } = useContext(AuthContext);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const setPop = useContext(popContext);

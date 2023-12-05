@@ -86,7 +86,7 @@ const ViewMapPage = () => {
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const deleteButton =
-    (map.owner === auth.auth.user?._id || auth.auth.user?.type == 1) ? (
+    (map.owner === auth.auth.user?._id || auth.auth.user?.type === 1) ? (
       <button
         className="btn btn-edit-map position-absolute"
         style={{ top: "64px", right: "16px" }}
