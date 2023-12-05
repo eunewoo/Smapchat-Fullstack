@@ -24,6 +24,7 @@ const UserInfo = (props) => {
             
             <Image
               src={user?.avatar}
+              style={{width: "45px", height: "45px"}}
               onError={({target}) => target.src = defaultAvatar}
               roundedCircle
               alt="Avatar"
