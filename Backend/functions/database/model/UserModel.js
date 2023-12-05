@@ -92,7 +92,14 @@ class UserModel {
       }
 
       const token = crypto.randomBytes(5).toString("hex");
-      console.log("token: ", token);
+
+      const expirationTime = new Date();
+      expirationTime.setMinutes(expirationTime.getMinutes() + 15);
+
+      user.passwordResetToken = token;
+      user.passwordResetExpires = expirationTime;
+      await user.save();
+
       let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
