@@ -76,6 +76,28 @@ class UserModel {
     return false;
   }
 
+  static async verifyResetPasswordCode(email, code) {
+    const user = await this.findByEmail(email);
+    if (!user) throw new Error("User not found");
+
+    const now = new Date();
+
+    if (
+      user.passwordResetExpires &&
+      now <= new Date(user.passwordResetExpires)
+    ) {
+      if (user.passwordResetToken === code) {
+        return true;
+      } else {
+        throw new Error("Invalid reset code");
+      }
+      return true;
+    } else {
+      throw new Error("Reset Password Code has expired");
+    }
+    return false;
+  }
+
   static async updateActivationStatus(userId, isActive) {
     return await findByIdAndUpdate(userId, { isActive }, { new: true });
   }

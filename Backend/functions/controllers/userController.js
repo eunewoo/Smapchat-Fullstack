@@ -119,16 +119,13 @@ exports.login = async (req, res, next) => {
 };
 
 exports.logout = async (req, res, next) => {
-  res.cookie("authentication", "", {maxAge: 0});
-  res.status(200).json({message: "Logged out!"});
-}
+  res.cookie("authentication", "", { maxAge: 0 });
+  res.status(200).json({ message: "Logged out!" });
+};
 
 exports.updateUserProfile = async (req, res, next) => {
   try {
-    const updatedUser = await UserModel.updateProfile(
-      req.params.Id,
-      req.body
-    );
+    const updatedUser = await UserModel.updateProfile(req.params.Id, req.body);
     res.status(200).json(updatedUser);
   } catch (error) {
     console.error(error);
@@ -201,6 +198,41 @@ exports.resetPassword = async (req, res, next) => {
       res
         .status(500)
         .json({ errorMessage: "An error occurred during password recovery." });
+    }
+  }
+};
+
+exports.verifyResetCode = async (req, res, next) => {
+  try {
+    const { email, code } = req.body;
+
+    const isCodeValid = await UserModel.verifyResetPasswordCode(email, code);
+
+    if (isCodeValid) {
+      res.status(200).json({
+        successMessage: "Reset code verified successfully.",
+        email: email,
+      });
+    } else {
+      // This case might not be reached due to the method throwing errors instead
+      res.status(400).json({ errorMessage: "Invalid or expired reset code." });
+    }
+  } catch (error) {
+    console.error(error);
+    switch (error.message) {
+      case "User not found":
+        res.status(404).json({ errorMessage: "User not found" });
+        break;
+      case "Invalid reset code":
+        res.status(400).json({ errorMessage: error.message });
+        break;
+      case "Reset Password Code has expired":
+        res.status(400).json({ errorMessage: error.message });
+        break;
+      default:
+        res.status(500).json({
+          errorMessage: "An error occurred during code verification.",
+        });
     }
   }
 };
