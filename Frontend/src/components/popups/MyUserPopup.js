@@ -7,6 +7,7 @@ import { popContext } from "../../App";
 import AuthContext from "../../contexts/AuthContext";
 import avatar from "../../assets/images/avatar.png";
 import DeleteUserPopup from "./DeleteUserPopup";
+import { updateUserProfile } from "../../util/userUtil";
 
 export default function UserPopup(props) {
   const { auth, setAuth, logoutUser } = useContext(AuthContext);
@@ -15,6 +16,8 @@ export default function UserPopup(props) {
   const setPop = useContext(popContext);
 
   const [isEditing, setIsEditing] = useState(false);
+  const [username, setUsername] = useState(auth.user.username);
+  const [email, setEmail] = useState(auth.user.email);
   const [updatedUser] = useState({ ...auth.user });
 
   const handleEditClick = () => {
@@ -23,21 +26,18 @@ export default function UserPopup(props) {
 
   const handleSaveClick = async () => {
     setIsEditing(false);
-    // TODO: Implement API call to update user data on the server
-    // Assuming API call is successful, update the context and local storage
-    setAuth({ ...auth, user: updatedUser });
-    localStorage.setItem(
-      "auth",
-      JSON.stringify({ ...auth, user: updatedUser })
-    );
+
+    var newUser = auth.user;
+    newUser.username = username;
+    newUser.email = email;
+    await updateUserProfile(newUser);
+
   };
 
   const handleLogout = () => {
     setPop(null);
     logoutUser();
   };
-
-  const handleChange = (e) => {};
 
   return (
     <Card className="popup">
@@ -57,17 +57,17 @@ export default function UserPopup(props) {
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
-            value={updatedUser.username}
+            value={username}
             name="username"
-            onChange={handleChange}
+            onChange={(e) => setUsername(e.target.value)}
             disabled={!isEditing}
           />
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
-            value={updatedUser.email}
+            value={email}
             name="email"
-            onChange={handleChange}
+            onChange={(e) => setEmail(e.target.value)}
             disabled={!isEditing}
           />
         </Form.Group>

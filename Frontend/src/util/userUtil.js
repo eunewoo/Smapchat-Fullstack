@@ -6,6 +6,10 @@ export async function userProfile(email) {
   return await webFetch(`/User/Email/${email}`);
 }
 
+export async function userProfileId(Id) {
+  return await webFetch(`/User/${Id}`);
+}
+
 export async function getUsers() {
   try {
     const response = await webFetch(`/Users`);
@@ -74,7 +78,7 @@ export async function resetPasswordApi(email) {
 
 /// Updates a user on the database with the given user data
 export async function updateUserProfile(newProfile) {
-  return await webPut(`/User/update/${newProfile.userId}`, newProfile);
+  return await webPut(`/User/update/${newProfile._id}`, newProfile);
 }
 
 /// Toggles a users activation status, acts as a soft delete

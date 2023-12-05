@@ -45,8 +45,20 @@ class UserModel {
   }
 
   static async updateProfile(userId, updatedData) {
-    // This function assumes updatedData is an object containing the fields to be updated
-    return findByIdAndUpdate(userId, updatedData, { new: true });
+    try {
+      const updatedUser = await UserSchema.findOneAndUpdate(
+        { _id: new mongodb.ObjectId(userId) },
+        updatedData);
+
+      if (!updatedUser) {
+        throw new Error("User not found");
+      }
+
+      return updatedUser;
+    } catch (error) {
+      console.error("Error updating user by ID:", error);
+      throw new Error(error.message);
+    }
   }
 
   static async verifyCode(userId, code) {
@@ -68,25 +80,6 @@ class UserModel {
 
   static async deleteUserById(userId) {
     return await UserSchema.findByIdAndDelete(userId);
-  }
-
-  static async findByIdAndUpdate(userId, updatedData, options) {
-    try {
-      const updatedUser = await UserSchema.findOneAndUpdate(
-        { _id: new mongodb.ObjectId(userId) },
-        { $set: updatedData },
-        options,
-      );
-
-      if (!updatedUser) {
-        throw new Error("User not found");
-      }
-
-      return updatedUser;
-    } catch (error) {
-      console.error("Error updating user by ID:", error);
-      throw new Error(error.message);
-    }
   }
 
   static async recoverPasswordByEmail(email) {

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import {
@@ -14,6 +14,7 @@ import {
   handleLikeComment,
 } from "../../util/commentUtil";
 import { GlobalStoreContext } from "../../contexts/GlobalStoreContext";
+import { userProfileId } from "../../util/userUtil";
 
 /// Component which displays a single comment. Takes the
 /// ID of the desired comment as a string in the ID prop.
@@ -21,6 +22,13 @@ export default function CommentComponent(props) {
   const { auth } = useContext(AuthContext);
   const { store, setStore } = useContext(GlobalStoreContext);
   const user = auth.user;
+
+  const [owner, setOwner] = useState({});
+
+  useEffect(() => {
+    userProfileId(props.commenterId).then((e) => setOwner(e));
+  }, [props.commenterId])
+
   const isLiked = (comment) => {
     if (user != null) {
       return comment.likes.some((id) => id === user._id);
@@ -120,14 +128,14 @@ export default function CommentComponent(props) {
         src={
           props.commenterAvatar === ""
             ? require("../../assets/images/avatar.png")
-            : props.commenterAvatar
+            : owner.avatar
         }
         roundedCircle
       />
       <Card style={{ width: "100%", border: "none" }}>
         <Card.Body>
           <Card.Title className="text-start">
-            {props.commenterUsername ?? "Loading..."}
+            {owner.username ?? "Loading..."}
           </Card.Title>
           <Card.Subtitle className="mb-2 text-muted text-start">
             {" "}
