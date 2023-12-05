@@ -7,6 +7,7 @@ import AuthContext from "../../contexts/AuthContext";
 import "./Header.css";
 import MyUserPopup from "../popups/MyUserPopup";
 import { popContext } from "../../App";
+import { Image } from "react-bootstrap";
 
 const Header = () => {
   // states, contexts, and variables
@@ -103,11 +104,11 @@ const Header = () => {
             >
               {auth.user.username}
             </Button>
-            <img
+            <Image
               src={auth.user?.avatar}
               onError={({target}) => target.src = defaultAvatar}
+              roundedCircle
               alt="User Avatar"
-              style={{ width: "45px", height: "45px", borderRadius: "15%" }}
             />
           </>
         )}
