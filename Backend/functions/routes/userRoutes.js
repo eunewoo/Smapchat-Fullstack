@@ -12,15 +12,13 @@ router.post("/User/create", userController.register);
 router.post("/User/login", userController.login);
 router.post("/User/logout", userController.logout);
 router.post("/User/resetPassword", userController.resetPassword);
-<<<<<<< HEAD
 router.post("/User/verifyResetCode", userController.verifyResetCode);
 router.post(
   "/User/updatePasswordWithCode",
   userController.updatePasswordWithCode
 );
-=======
 router.post("/User/credentials", userController.credentials);
->>>>>>> origin/build5
+
 
 router.put("/User/update/:Id", auth, userController.updateUserProfile);
 router.put("/User/update/activate/:Id", userController.updateUserActivation);
