@@ -35,8 +35,6 @@ const PasswordRecoveryPage = () => {
     }
   };
 
-  
-
   return (
     <Container className="d-flex vh-100">
       <Row className="m-auto align-self-center w-100">
@@ -108,8 +106,10 @@ const PasswordRecoveryPage = () => {
                 </Button>
               </Form>
             </>
+          ) : email ? (
+            <CodeVerificationForm email={email} />
           ) : (
-            <CodeVerificationForm />
+            <p>asffafaww</p>
           )}
           {feedback && <div className="feedback-message">{feedback}</div>}
         </Col>

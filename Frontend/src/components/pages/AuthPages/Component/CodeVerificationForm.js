@@ -1,34 +1,68 @@
 import React, { useState, useContext } from "react";
 import { Form, Button, Spinner, Alert } from "react-bootstrap";
-import { AuthContext } from "../../../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import {
+  updatePasswordWithCode,
+  verifyResetCode,
+} from "../../../../util/userUtil";
 
-const CodeVerificationForm = () => {
-  const { isLoading } = useContext(AuthContext);
+const CodeVerificationForm = ({ email }) => {
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [code, setCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isCodeVerified, setIsCodeVerified] = useState(false);
-  const [error, setError] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [isFeedbackError, setIsFeedbackError] = useState(false);
+  const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 
-  const handleVerifyCode = (e) => {
+  const handleRouteToLogin = () => navigate("/login-page");
+
+  const handleVerifyCode = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    console.log(code);
+    const result = await verifyResetCode(email, code);
+    console.log(result);
+    if (result.success && result.data) {
+      console.log("Code verified successfully.");
+      setIsCodeVerified(true);
+    } else {
+      console.error(result.error);
+      setFeedback(result.error);
+      setIsCodeVerified(false);
+    }
+    setIsLoading(false);
   };
 
-  const handlePasswordReset = (e) => {
+  const handlePasswordReset = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match. Please try again.");
+      setFeedback("Passwords do not match. Please try again.");
+      setIsFeedbackError(true);
       return;
     }
     if (newPassword.length < 6) {
-      setError("Password should be at least 6 characters.");
+      setFeedback("Password should be at least 6 characters.");
+      setIsFeedbackError(true);
       return;
     }
-    setError("");
-    console.log("New Password:", newPassword);
-    // Add logic to reset the password
+
+    const result = await updatePasswordWithCode(email, code, newPassword);
+
+    if (result.success && result.data) {
+      setFeedback("Password updated successfully.");
+      setIsFeedbackError(false);
+      setIsPasswordUpdated(true);
+    } else {
+      setFeedback(result.error || "An error occurred during password update.");
+      setIsFeedbackError(true);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -96,11 +130,42 @@ const CodeVerificationForm = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </Form.Group>
-            {error && <Alert variant="danger">{error}</Alert>}
+            {feedback && (
+              <Alert variant={isFeedbackError ? "danger" : "success"}>
+                {feedback}
+              </Alert>
+            )}
 
-            <Button className="btn btn-2 mx-auto mb-5" size="lg" type="submit">
-              Reset Password
-            </Button>
+            {!isPasswordUpdated && (
+              <Button
+                className="btn btn-2 mx-auto mb-5"
+                size="lg"
+                type="submit"
+              >
+                {isLoading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span className="ms-2">Loading...</span>
+                  </>
+                ) : (
+                  "Reset Password"
+                )}
+              </Button>
+            )}
+            {isPasswordUpdated && (
+              <Button
+                onClick={handleRouteToLogin}
+                className="btn btn-2 mx-auto mb-5"
+              >
+                Go to Login
+              </Button>
+            )}
           </Form>
         </>
       )}
