@@ -236,3 +236,42 @@ exports.verifyResetCode = async (req, res, next) => {
     }
   }
 };
+
+exports.updatePasswordWithCode = async (req, res, next) => {
+  try {
+    const { email, code, newPassword } = req.body;
+
+    const result = await UserModel.updatePasswordByCode(
+      email,
+      code,
+      newPassword
+    );
+
+    if (result) {
+      res
+        .status(200)
+        .json({
+          successMessage: "Password updated successfully.",
+          email: email,
+        });
+    } else {
+      // This branch might not be reached if errors are thrown in the method
+      res.status(400).json({ errorMessage: "Unable to update password." });
+    }
+  } catch (error) {
+    console.error(error);
+    switch (error.message) {
+      case "User not found":
+        res.status(404).json({ errorMessage: "User not found" });
+        break;
+      case "Reset Password Code has expired":
+      case "Invalid reset code":
+        res.status(400).json({ errorMessage: error.message });
+        break;
+      default:
+        res
+          .status(500)
+          .json({ errorMessage: "An error occurred during password update." });
+    }
+  }
+};

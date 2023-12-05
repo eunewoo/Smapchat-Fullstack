@@ -87,6 +87,10 @@ class UserModel {
       now <= new Date(user.passwordResetExpires)
     ) {
       if (user.passwordResetToken === code) {
+        // after verifying reset code, give user 15 minutes for updating his/her password
+        now.setMinutes(now.getMinutes() + 15);
+        user.passwordResetExpires = now;
+        await user.save();
         return true;
       } else {
         throw new Error("Invalid reset code");
@@ -96,6 +100,40 @@ class UserModel {
       throw new Error("Reset Password Code has expired");
     }
     return false;
+  }
+
+  static async updatePasswordByCode(email, code, newPassword) {
+    try {
+      const user = await this.findByEmail(email);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const now = new Date();
+      if (
+        user.passwordResetToken === code &&
+        user.passwordResetExpires &&
+        now <= new Date(user.passwordResetExpires)
+      ) {
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        user.password = hashedPassword;
+        console.log("error here1: ");
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
+        console.log("error here2: ");
+
+        await user.save();
+        return true;
+      } else if (now > new Date(user.passwordResetExpires)) {
+        throw new Error("Reset Password Code has expired");
+      } else {
+        throw new Error("Invalid reset code");
+      }
+    } catch (error) {
+      console.error("Error in updatePasswordByCode:", error);
+      throw error;
+    }
   }
 
   static async updateActivationStatus(userId, isActive) {
