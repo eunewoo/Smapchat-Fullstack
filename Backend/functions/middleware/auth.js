@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
   const token = req.cookies.authentication;
@@ -7,19 +7,16 @@ function auth(req, res, next) {
     next();
     return;
   }
-
-  jwt.verify(token, "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet", (err, user) => {
-    console.log(err)
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
+    console.log(err);
 
     if (err) {
-        next();
-        return;
+      next();
+      return;
     }
-
     req.user = user.id;
-
     next();
-  })
+  });
 }
 
 module.exports = auth;

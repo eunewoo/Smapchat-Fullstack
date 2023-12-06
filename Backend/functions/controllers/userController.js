@@ -54,12 +54,6 @@ exports.register = async (req, res, next) => {
       return res.status(409).json({ message: "Email already in use" });
     }
 
-    /*
-    const userRecord = await admin.auth().createUser({
-      email: req.body.email,
-      password: req.body.password,
-    });*/
-
     const newUser = await UserModel.createUser(
       req.body.email,
       req.body.username,
@@ -67,11 +61,9 @@ exports.register = async (req, res, next) => {
       req.body.avatar
     );
 
-    const token = jwt.sign(
-      { id: newUser._id },
-      "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet",
-      { expiresIn: "24h" }
-    );
+    const token = jwt.sign({ id: newUser._id }, JWT_SECRET_KEY, {
+      expiresIn: "24h",
+    });
     res.cookie("authentication", token, { httpOnly: false, secure: false });
 
     res.status(201).json({ loggedIn: true, user: newUser });
@@ -101,12 +93,9 @@ exports.login = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // TODO: Change secret
-    const token = jwt.sign(
-      { id: user._id },
-      "asd12341254sFt1tHDSy75367GDwe4ty2352eFDSFTwet",
-      { expiresIn: "24h" }
-    );
+    const token = jwt.sign({ id: user._id }, JWT_SECRET_KEY, {
+      expiresIn: "24h",
+    });
     res.cookie("authentication", token, { httpOnly: false, secure: false });
 
     user.password = undefined;
@@ -124,9 +113,8 @@ exports.logout = async (req, res, next) => {
 };
 
 exports.updateUserProfile = async (req, res, next) => {
-
   if (!req.user._id == req.params.Id) {
-    res.status(409).json({message: "Not authenticated!"});
+    res.status(409).json({ message: "Not authenticated!" });
   }
 
   try {
@@ -166,8 +154,8 @@ exports.credentials = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
-  return res.status(200).json({message: "OK"});
-}
+  return res.status(200).json({ message: "OK" });
+};
 
 exports.deleteUser = async (req, res, next) => {
   try {
@@ -272,12 +260,10 @@ exports.updatePasswordWithCode = async (req, res, next) => {
     );
 
     if (result) {
-      res
-        .status(200)
-        .json({
-          successMessage: "Password updated successfully.",
-          email: email,
-        });
+      res.status(200).json({
+        successMessage: "Password updated successfully.",
+        email: email,
+      });
     } else {
       // This branch might not be reached if errors are thrown in the method
       res.status(400).json({ errorMessage: "Unable to update password." });

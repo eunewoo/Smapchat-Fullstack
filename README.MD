@@ -30,7 +30,7 @@ Frontend
 │
 ├── ...
 └── package.json
-Backend
+Backend/funtions
 ├── middleware/         # Server middlewares
 ├── database/           # DB schemes
 ├── routes/             # API routes
