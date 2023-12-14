@@ -91,7 +91,7 @@ const ViewMapPage = () => {
     (map.owner === auth.auth.user?._id || auth.auth.user?.type === 1) ? (
       <button
         className="btn btn-edit-map position-absolute"
-        style={{ top: "128px", right: "16px" }}
+        style={{ top: "64px", right: "16px" }}
         onClick={() => {
           setLoaded(false);
           deleteMap(map._id).then(() => {
@@ -147,22 +147,6 @@ const ViewMapPage = () => {
             onClick={() => navigate("/map-edit-page/" + map.mapType)}
           >
             {map.owner === auth.auth.user?._id ? "Edit" : "Fork"}
-          </button>
-
-          <button
-            className="btn btn-edit-map position-absolute"
-            style={{ top: "64px", right: "16px" }}
-            onClick={() => 
-              {
-                const node = document.getElementById('view-render');
-                console.log(node);
-                domtoimage.toBlob(node).then((blob) => {
-                  saveAs(blob, `${map.title}.png`);
-                })
-              }
-            }
-          >
-            Export
           </button>
 
           {deleteButton}

@@ -6,6 +6,7 @@ import { renderArrowMap } from "./mapgraphics/ArrowMap";
 import { renderBubbleMap } from "./mapgraphics/BubbleMap";
 import { renderCategoryMap } from "./mapgraphics/CategoryMap";
 import { renderScaleMap } from "./mapgraphics/ScaleMap";
+import {SimpleMapScreenshoter} from 'leaflet-simple-map-screenshoter';
 import "leaflet/dist/leaflet.css";
 import "./MapRenderer.css";
 
@@ -57,10 +58,15 @@ export default function MapRenderer(props) {
     }
   });
 
+  useEffect(() => {
+    if (map) {
+      new SimpleMapScreenshoter().addTo(map);
+    }
+  }, [map]);
+
   return (
-    <div style={{ width: props.width, height: props.height }}>
+    <div id={props.id} style={{ width: props.width, height: props.height }}>
       <MapContainer
-        id={props.id}
         style={{ height: props.height }}
         zoom={zoom}
         center={[40.9173, -73.1184]}
