@@ -60,6 +60,7 @@ export default function MapRenderer(props) {
   return (
     <div style={{ width: props.width, height: props.height }}>
       <MapContainer
+        id={props.id}
         style={{ height: props.height }}
         zoom={zoom}
         center={[40.9173, -73.1184]}
