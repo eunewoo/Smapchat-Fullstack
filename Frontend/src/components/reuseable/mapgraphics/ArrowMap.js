@@ -1,4 +1,5 @@
 import L from "leaflet";
+import locationIcon from "../../../assets/images/location.png";
 
 export const renderArrowMap = (map, data) => {
   if (data == null) {
@@ -16,7 +17,12 @@ export const renderArrowMap = (map, data) => {
       // Use a Leaflet DivIcon to style the label
       icon: new L.DivIcon({
         className: "my-div-icon",
-        html: `<span>${point.order}</span>`,
+        html: `
+        <img src=${locationIcon} width=24px, height=24px></img>
+        <div style="width:64px; background:white; border-radius:10px; box-shadow:2px 2px 10px #000000AA;">
+        <p style="width:64px; text-align:center;">${point.name}</p>
+        </div>`,
+        iconAnchor: [12, 24]
       }),
     }).addTo(map);
 
@@ -28,7 +34,7 @@ export const renderArrowMap = (map, data) => {
   if (processedData.length > 1) {
     const polyline = L.polyline(
       processedData.map((point) => point.position),
-      { color: "blue" }
+      { color: "#4488FF" }
     );
     polyline.addTo(map);
   }
