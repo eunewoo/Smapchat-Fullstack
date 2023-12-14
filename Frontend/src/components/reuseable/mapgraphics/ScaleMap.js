@@ -43,22 +43,29 @@ const blendColors = (color1, color2, percentage) => {
 
 // Boundaries is the array of coordinates that is formed when render map data in MapRenderer.js file
 // Function to color a specific boundary based on lat, lng
-const colorBoundary = (name, lat, lng, color, boundaries, map) => {
+const colorBoundary = (category, boundaries, map) => {
   boundaries.forEach((boundary) => {
     var inside = false;
 
     boundary.layer.getLatLngs().forEach((poly) => {
-      inside = inside | isMarkerInsidePolygon([lat, lng], L.polygon(poly));
+      inside = inside | isMarkerInsidePolygon([category.Lattitude, category.Longitude], L.polygon(poly));
     });
     if (inside) {
       const layer = boundary.layer;
       layer.setStyle({
-        fillColor: color,
+        fillColor: category.Color,
         fillOpacity: 0.5,
         weight: 2,
       });
       // Add the color changes on map
-      layer.bindPopup(`${name}`)
+      layer.bindPopup(`${category.Name}: ${category.Value}`);
+
+      const icon = new L.DivIcon({
+        className: "my-div-icon",
+        html: `<span>${category.Name}: ${category.Value}</span>`
+      });
+
+      L.marker([category.Lattitude, category.Longitude], {icon: icon}).addTo(map);
       map.addLayer(layer);
     } else {
       // console.log("Boundary does not contain the point");
@@ -89,6 +96,7 @@ const createCategoriesFromData = (data) => {
     return {
       CategoryId: index + 1,
       Name: location.Name,
+      Value: location.Value,
       Color: categoryColor,
       Lattitude: location.Lattitude,
       Longitude: location.Longitude,
@@ -110,10 +118,7 @@ export const renderScaleMap = (map, data, boundaries) => {
   categories?.forEach((category) => {
     console.log(category);
     colorBoundary(
-      category.Name,
-      category.Lattitude,
-      category.Longitude,
-      category.Color,
+      category,
       boundaries,
       map,
     );
