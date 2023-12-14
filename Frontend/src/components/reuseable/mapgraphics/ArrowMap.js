@@ -19,7 +19,9 @@ export const renderArrowMap = (map, data) => {
         className: "my-div-icon",
         html: `
         <img src=${locationIcon} width=24px, height=24px></img>
-        <span>${point.name}: ${point.date}</span>`,
+        <div style="width:64px; background:white; border-radius:10px; box-shadow:2px 2px 10px #000000AA;">
+        <p style="width:64px; text-align:center;">${point.name}</p>
+        </div>`,
         iconAnchor: [12, 24]
       }),
     }).addTo(map);

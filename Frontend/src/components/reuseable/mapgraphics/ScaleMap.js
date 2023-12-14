@@ -62,7 +62,12 @@ const colorBoundary = (category, boundaries, map) => {
 
       const icon = new L.DivIcon({
         className: "my-div-icon",
-        html: `<span>${category.Name}: ${category.Value}</span>`
+        html: `<div style="width:64px; background:white; border-radius:10px; box-shadow:2px 2px 10px #000000AA;">
+        <p style="width:64px; text-align:center;">${category.Name}</p>
+        </div>
+        
+        <p style="width:64px; text-align:center; font-size:20px">${category.Value}</p>`,
+        iconAnchor: [32, 32],
       });
 
       L.marker([category.Lattitude, category.Longitude], {icon: icon}).addTo(map);
