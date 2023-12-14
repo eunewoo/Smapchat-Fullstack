@@ -1,5 +1,7 @@
 import L from "leaflet";
 
+var key;
+
 function isMarkerInsidePolygon(latlng, poly) {
   var inside = false;
   var x = latlng[0],
@@ -110,7 +112,7 @@ const createCategoriesFromData = (data) => {
 };
 
 // Main function to render the scale map
-export const renderScaleMap = (map, data, boundaries) => {
+export const renderScaleMap = (map, data, boundaries, rootMap) => {
   if (!data) {
     console.log("data is not provided for main function");
     return;
@@ -128,4 +130,35 @@ export const renderScaleMap = (map, data, boundaries) => {
       map,
     );
   });
+
+  if (key)
+  rootMap.removeControl(key);
+
+  key = L.control({
+    position: 'bottomright', 
+    content: `
+    <div style="width:100px; height:100px; color:red;"/>`
+  });
+
+  key.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend');
+    div.style = "background:white; padding:5px; border-radius:10px; box-shadow:2px 2px 10px #000000AA;"
+
+    const max = data.Location.reduce((a, b) =>
+    parseFloat(a.Value) > parseFloat(b.Value) ? a : b,
+    ).Value;
+
+            div.innerHTML = `
+                <strong>Scale</strong><br>
+                <div style="display:flex; height:16px;">
+                  <div style="width:16px; height:16px; margin:0px; margin-right:4px; background:${data.MinColor}"></div> 
+                  <p>0</p>
+                  <div style="width:16px; height:16px; margin:0px; margin-left:4px; margin-right:4px; background:${data.MaxColor}"></div> 
+                  <p>${max}</p>
+                </div>`;
+
+    return div;
+  };
+
+  key.addTo(rootMap);
 };

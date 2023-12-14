@@ -42,10 +42,10 @@ export default function MapRenderer(props) {
         renderArrowMap(layerGroup, props.GeoJsonData);
       } else if (props.mapType === "BubbleMap" && props.GeoJsonData) {
         renderBubbleMap(layerGroup, props.GeoJsonData);
-      } else if (props.mapType === "CategoryMap" && props.GeoJsonData) {
-        renderCategoryMap(layerGroup, props.GeoJsonData, boundaries);
-      } else if (props.mapType === "ScaleMap" && props.GeoJsonData) {
-        renderScaleMap(layerGroup, props.GeoJsonData, boundaries);
+      } else if (props.mapType === "CategoryMap" && props.GeoJsonData && map) {
+        renderCategoryMap(layerGroup, props.GeoJsonData, boundaries, map);
+      } else if (props.mapType === "ScaleMap" && props.GeoJsonData && map) {
+        renderScaleMap(layerGroup, props.GeoJsonData, boundaries, map);
       }
     }
 
