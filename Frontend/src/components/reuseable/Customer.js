@@ -12,7 +12,7 @@ export default function Customer(props) {
   const navigate = useNavigate();
 
   return (
-    <Card className="my-2">
+    <Card className="my-2" style={{width: "80%"}}>
       <Card.Body
         style={{
           backgroundColor: "#0C0D34",
@@ -41,8 +41,11 @@ export default function Customer(props) {
           onClick={() => navigate(`/my-maps-page/${props.userData._id}`)}>
           View Maps
         </Button>
-        <Button variant="danger" className="redButton">
+        <Button variant="danger" className="button">
           Ban
+        </Button>
+        <Button variant="danger" className="button">
+          Make Admin
         </Button>
       </Container>
     </Card>
