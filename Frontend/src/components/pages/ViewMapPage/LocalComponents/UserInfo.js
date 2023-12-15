@@ -54,6 +54,7 @@ const UserInfo = (props) => {
             mapId={props.map._id}
             value={props.map.avgRate} // Current average rating
             from="view-map-page"
+            clickable={true}
           />{" "}
         </div>
       </div>
