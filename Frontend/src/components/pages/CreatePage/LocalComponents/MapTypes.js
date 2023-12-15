@@ -12,7 +12,8 @@ const MapTypes = (props) => {
   ];
 
   const handleSelection = (mapType) => {
-    props.setMapType(mapType.replaceAll(" ", ""));
+    if (!props.typeLocked)
+      props.setMapType(mapType.replaceAll(" ", ""));
   };
 
   return (
@@ -35,7 +36,7 @@ const MapTypes = (props) => {
           className={`btn mx-3 mb-2 text-start ${
             props.mapType === type.replaceAll(" ", "")
               ? "button-selected"
-              : "button-default"
+              : props.typeLocked ? "button-selected" : "button-default"
           }`}
           onClick={() => handleSelection(type)}
         >

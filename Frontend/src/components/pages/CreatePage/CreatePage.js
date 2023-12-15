@@ -11,7 +11,9 @@ const CreatePage = () => {
   const navigate = useNavigate();
 
   const [mapType, setMapType] = useState("ArrowMap");
+  const [typeLocked, setTypeLocked] = useState(false);
   const [preview, setPreview] = useState({});
+  const [loadedMap, setLoadedMap] = useState(null);
 
   const globalStore = useContext(GlobalStoreContext);
 
@@ -29,7 +31,7 @@ const CreatePage = () => {
     <div className="container-fluid mt-4">
       <div className="row justify-content-center">
         <div className="leftC p-0 rounded">
-          <MapTypes mapType={mapType} setMapType={setMapType} />
+          <MapTypes mapType={mapType} setMapType={setMapType} typeLocked={typeLocked} />
         </div>
         <div className="middleC p-0 rounded ms-2">
           <div
@@ -41,11 +43,11 @@ const CreatePage = () => {
               height="100%"
               mapType={mapType}
               Geometry={preview}
+              GeoJsonData={loadedMap}
             />
             <input
-              id="upload"
-              className="btn btn-edit-map position-absolute"
-              style={{ top: "16px", right: "16px" }}
+              id="uploadGeometry"
+              style={{ visibility: "hidden" }}
               type="file"
               accept=".kml, .dbf, .shp, .json, .geojson"
               multiple
@@ -58,6 +60,42 @@ const CreatePage = () => {
                 })
               }
             ></input>
+
+            <label 
+              for="uploadGeometry"
+              className="btn btn-edit-map position-absolute"
+              style={{ top: "16px", right: "16px" }}>
+              Upload Geometry
+            </label>
+
+            <input
+              id="uploadGraphic"
+              style={{ visibility: "hidden" }}
+              type="file"
+              accept=".json"
+              onChange={(event) => {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                  const data = JSON.parse(e.target.result);
+                  globalStore.store.currentMapGraphic = data.data;
+                  globalStore.setStore(globalStore.store);
+                  setLoadedMap(data.data);
+                  setMapType(data.mapType);
+                  setTypeLocked(true);
+                };
+            
+                reader.readAsText(file);
+              }}
+            ></input>
+
+            <label 
+              for="uploadGraphic"
+              className="btn btn-edit-map position-absolute"
+              style={{ top: "64px", right: "16px" }}>
+              Upload Saved Map
+            </label>
           </div>
         </div>
         <div className="rightC d-flex align-items-center">

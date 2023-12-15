@@ -1,5 +1,6 @@
 .toolbox {
   width: 400px;
+  margin: auto;
 }
 
 .scroller::-webkit-scrollbar {
@@ -10,7 +11,7 @@
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  height: calc(100vh - 400px);
+  height: calc(100vh - 450px);
 }
 
 .undoredo {
