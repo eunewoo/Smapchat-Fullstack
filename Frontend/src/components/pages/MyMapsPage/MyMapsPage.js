@@ -1,21 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useState } from "react";
 import "./MyMaps.css";
 import ScrollableGallery from "../../reuseable/ScrollableGallery";
 import SearchWidget from "../../reuseable/SearchWidget";
 import { fetchUserMaps, fetchUserSearchMaps } from "../../../util/mapUtil";
-import AuthContext from "../../../contexts/AuthContext";
+import { useParams } from "react-router-dom";
 
 const MyMapsPage = () => {
 
-  const auth = useContext(AuthContext);
+  var params = useParams();
 
   const fetchData = async (page, limit) => {
     try {
       if (!searchTerm) {
-        return await fetchUserMaps(sortTerm, page, limit, auth.auth.user._id);
+        return await fetchUserMaps(sortTerm, page, limit, params.userId);
       } else {
-        return await fetchUserSearchMaps(searchTerm, sortTerm, page, limit, auth.auth.user._id);
+        return await fetchUserSearchMaps(searchTerm, sortTerm, page, limit, params.userId);
       }
     } catch (error) {
       console.error("Error fetching data:", error);

@@ -59,7 +59,7 @@ const Header = () => {
           </Nav.Link>
           <Nav.Link
             as={NavLink}
-            to="/my-maps-page"
+            to={auth.user ? `/my-maps-page/${auth.user._id}` : "/login-page"}
             className="me-5 text-white"
             style={{ fontSize: "1.2em" }}
           >

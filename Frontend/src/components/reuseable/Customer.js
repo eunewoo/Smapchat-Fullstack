@@ -4,9 +4,13 @@ import { popContext } from "../../App";
 import "./Customer.css";
 import UserPopup from "../popups/UserPopup";
 import defaultAvatar from "../../assets/images/avatar.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Customer(props) {
+
   const setPop = useContext(popContext);
+  const navigate = useNavigate();
+
   return (
     <Card className="my-2">
       <Card.Body
@@ -32,7 +36,11 @@ export default function Customer(props) {
         >
           View Profile
         </Button>
-        <Button className="button">View Maps</Button>
+        <Button 
+          className="button"
+          onClick={() => navigate(`/my-maps-page/${props.userData._id}`)}>
+          View Maps
+        </Button>
         <Button variant="danger" className="redButton">
           Ban
         </Button>
