@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MapCard from "./MapCard";
 import { Spinner } from "react-bootstrap";
 import "./ScrollableGallery.css";
+import { Link } from "react-router-dom";
 
 /// A scrollable container for MapCard components. Used for
 /// the gallery screens to allow users to scroll through many
@@ -99,7 +100,10 @@ export default function ScrollableGallery(props) {
         style={{ height: "calc(100vh - 140px)" }}
       >
         <div className="text-center">
-          <p>No maps!</p>
+          No maps!<br/>Why not try {" "}
+              <Link to="/create-page" style={{ color: "blue" }}>
+                creating one?
+              </Link>
         </div>
       </div>
     );
