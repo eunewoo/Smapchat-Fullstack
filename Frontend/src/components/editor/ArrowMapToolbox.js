@@ -50,7 +50,7 @@ export default function ArrowMapToolbox(props) {
         </Button>
       </Container>
 
-      <Container className="scroller">
+      <Container className="toolscroller">
         {cards}
         <Button
           className="inner"

@@ -58,7 +58,7 @@ export default function PictureMapToolbox(props) {
         </Button>
       </Container>
 
-      <Container className="scroller">
+      <Container className="toolscroller">
         {cards}
         <Button
           className="inner"
