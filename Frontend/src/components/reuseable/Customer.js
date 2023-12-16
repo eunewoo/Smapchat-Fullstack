@@ -12,7 +12,7 @@ export default function Customer(props) {
   const navigate = useNavigate();
 
   return (
-    <Card className="my-2" style={{width: "80%"}}>
+    <Card className="my-2" style={{width: "80%", margin: "auto"}}>
       <Card.Body
         style={{
           backgroundColor: "#0C0D34",
