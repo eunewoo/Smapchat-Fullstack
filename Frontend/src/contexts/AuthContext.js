@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
       password
     );
 
-    if (success) {
+    if (success && data) {
       const newAuthState = {
         user: data.user,
         loggedIn: data.loggedIn,

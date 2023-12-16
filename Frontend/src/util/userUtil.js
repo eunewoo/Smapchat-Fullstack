@@ -44,7 +44,7 @@ export async function createUser(email, username, password) {
   };
   try {
     const response = await webPost(`/User/create`, user);
-    return { success: true, data: response };
+    return { success: response != null, data: response };
   } catch (error) {
     console.log("Error in fetching Users", error);
     return { success: false, error: error };

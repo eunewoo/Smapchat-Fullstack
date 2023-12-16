@@ -51,7 +51,7 @@ exports.register = async (req, res, next) => {
   try {
     const existingUser = await UserModel.findByEmail(req.body.email);
     if (existingUser) {
-      return res.status(409).json({ message: "Email already in use" });
+      return res.status(409).json({ errorMessage: "Email already in use" });
     }
 
     const newUser = await UserModel.createUser(
@@ -61,7 +61,7 @@ exports.register = async (req, res, next) => {
       req.body.avatar
     );
 
-    const token = jwt.sign({ id: newUser._id }, JWT_SECRET_KEY, {
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "24h",
     });
     res.cookie("authentication", token, { httpOnly: false, secure: false });
@@ -72,7 +72,7 @@ exports.register = async (req, res, next) => {
     if (error.code === "auth/email-already-in-use") {
       return res
         .status(400)
-        .json({ message: "Email already in use in Firebase" });
+        .json({ errorMessage: "Email already in use in Firebase" });
     }
     next(error);
   }
@@ -82,7 +82,7 @@ exports.login = async (req, res, next) => {
   try {
     const user = await UserModel.findByEmail(req.body.email);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ errorMessage: "User not found" });
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -90,7 +90,7 @@ exports.login = async (req, res, next) => {
       user.password
     );
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ errorMessage: "Invalid credentials" });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
@@ -114,7 +114,7 @@ exports.logout = async (req, res, next) => {
 
 exports.updateUserProfile = async (req, res, next) => {
   if (!req.user._id == req.params.Id) {
-    res.status(409).json({ message: "Not authenticated!" });
+    res.status(409).json({ errorMessage: "Not authenticated!" });
   }
 
   try {
@@ -142,7 +142,7 @@ exports.updateUserActivation = async (req, res, next) => {
 exports.credentials = async (req, res, next) => {
   const user = await UserModel.findByEmail(req.body.email);
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({ errorMessage: "User not found" });
   }
 
   const isPasswordValid = await bcrypt.compare(
@@ -151,7 +151,7 @@ exports.credentials = async (req, res, next) => {
   );
 
   if (!isPasswordValid) {
-    return res.status(401).json({ message: "Invalid credentials" });
+    return res.status(401).json({ errorMessage: "Invalid credentials" });
   }
 
   return res.status(200).json({ message: "OK" });
@@ -162,7 +162,7 @@ exports.deleteUser = async (req, res, next) => {
     const user = await UserModel.findByID(req.params.Id);
     if (!user) {
       console.log("User to delete was not found");
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ errorMessage: "User not found" });
     }
     /*const isPasswordValid = await bcrypt.compare(
       req.body.password,
