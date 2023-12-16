@@ -101,9 +101,12 @@ const CreatePage = () => {
         <div className="rightC d-flex align-items-center">
           <div className="col align-items-center justify-content-center text-center">
             <div className="">
-              In order to create a map, you should “UPLOAD” a region that you
-              want to work with and select one of the Map Types. If you want to
-              start editing click on ‘Start Editing’
+              In order to create a map, upload a region using the "Upload Geometry" 
+              button in GeoJSON, KML, or Shapefile format. Then, select one of the 5 map types
+              on the left. <br/><br/>
+              Alternatively, you can upload a map you have previously saved locally
+              using the "Upload Saved Map" button.<br/><br/>
+              Once you're ready to start editing, click on "Start Editing"
             </div>
             <br></br>
             <button className="custom-button" onClick={handleRouteToEditPage}>
