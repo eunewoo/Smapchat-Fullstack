@@ -1,5 +1,7 @@
 import L from "leaflet";
 
+var key;
+
 function isMarkerInsidePolygon(latlng, poly) {
   var inside = false;
   var x = latlng[0],
@@ -44,7 +46,7 @@ const colorBoundary = (name, lat, lng, color, boundaries, map) => {
 };
 
 // Main function to render the category map
-export const renderCategoryMap = (map, data, boundaries) => {
+export const renderCategoryMap = (map, data, boundaries, rootMap) => {
   if (!data) {
     return;
   }
@@ -61,4 +63,34 @@ export const renderCategoryMap = (map, data, boundaries) => {
       );
     });
   });
+
+  if (key)
+  rootMap.removeControl(key);
+
+  key = L.control({
+    position: 'bottomright', 
+    content: `
+    <div style="width:100px; height:100px; color:red;"/>`
+  });
+
+  key.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend');
+    div.style = "background:white; padding:5px; border-radius:10px; box-shadow:2px 2px 10px #000000AA;"
+    var labels = ['<strong>Categories</strong>'];
+    
+    for (var i = 0; i < data.Category.length; i++) {
+    
+            div.innerHTML += 
+            labels.push(`
+                <div style="display:flex; height:16px;">
+                  <div style="width:16px; height:16px; margin:0px; margin-right:4px; background:${data.Category[i].Color}"></div> 
+                  <p>${data.Category[i].Name}</p>
+                </div>`);
+    
+        }
+        div.innerHTML = labels.join('<br>');
+    return div;
+  };
+
+  key.addTo(rootMap);
 };

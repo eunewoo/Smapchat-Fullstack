@@ -66,23 +66,26 @@ async function bodiedRequest(route, data, method) {
     },
   }).then(async (res) => {
     if (res.status === 200 || res.status === 201) {
-      return await res.json().then((val) => {
-        console.log(val);
-        if (val != null) {
+      if (res.headers.get("Content-Type")?.includes("application/json")) {
+        return await res.json().then((val) => {
+          console.log(val);
           return val;
-        } else {
-          console.log("Response body was null!");
-          alert("Response body was null");
-        }
-      });
+        });
+      } else {
+        console.log("Response did not contain JSON data.");
+        return res.text(); // Or handle non-JSON responses as needed
+      }
     } else {
       console.log(
         `Error from server when ${method}ing ${route}: ` + res.status
       );
-      const data = await res.json({
-        error: "Something went wrong while fetching",
-      });
-      alert(data.errorMessage);
+      try {
+        const data = await res.json();
+        alert(data.errorMessage);
+      } catch (error) {
+        console.error("Error parsing server response:", error);
+        alert("An error occurred. Please try again.");
+      }
     }
   });
 }

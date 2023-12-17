@@ -14,7 +14,7 @@ afterAll((done) => {
 describe("Get comments", () => {
   it("should be able to retrieve the public map list", async () => {
     const res = await request(app)
-      .get("/comment/655ed5964e3338ba17638185?page=1&limit=20")
+      .get("/comment/656537ad7a1b6f9f380bb6d5?page=1&limit=20")
       .expect(200);
 
     expect(res.type).toEqual("application/json");
@@ -27,7 +27,7 @@ describe("Create a comment, like it, and delete it", () => {
 
   it("should create a new comment", async () => {
     const newComment = {
-      mapId: "655ed5964e3338ba17638185",
+      mapId: "656537ad7a1b6f9f380bb6d5",
       userId: "65617bb06fd28d8b794545bf",
       content: "This is a test comment",
     };

@@ -8,6 +8,7 @@ import { deleteUser, updateActivationStatus } from "../../util/userUtil";
 import ConfirmationDialog from "../popups/ConfirmationDialog";
 
 export default function Customer(props) {
+
   const setPop = useContext(popContext);
   const [isBanned, setIsBanned] = useState(props.userData.isActive);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -39,7 +40,7 @@ export default function Customer(props) {
   };
 
   return (
-    <Card className="my-2">
+    <Card className="my-2" style={{width: "80%", margin: "auto"}}>
       <Card.Body
         style={{
           backgroundColor: "#0C0D34",

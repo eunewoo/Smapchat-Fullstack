@@ -20,7 +20,7 @@ export const router = createBrowserRouter(
     <Route path="/" element={<Layout />}>
       <Route index element={<HomePage />} />
       <Route path="create-page" element={<CreatePage />} />
-      <Route path="my-maps-page" element={<MyMapsPage />} />
+      <Route path="my-maps-page/:userId" element={<MyMapsPage />} />
       <Route path="view-map-page/:mapId" element={<ViewMapPage />} />
       <Route path="map-edit-page/:mapType" element={<MapEditPage />} />
       <Route path="manage-user-page" element={<ManageUserPage />} />

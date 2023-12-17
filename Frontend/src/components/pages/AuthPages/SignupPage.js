@@ -104,7 +104,7 @@ const SignupPage = () => {
             </Button>
           </Form>
           <div className="account-section">
-            <div className="text-white">
+            <div className="text-black">
               Already have an account:{" "}
               <Link to="/login-page" style={{ color: "blue" }}>
                 Login

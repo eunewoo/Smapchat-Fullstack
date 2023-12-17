@@ -20,4 +20,13 @@
 .button {
   margin: 10px;
   margin-left: 10px !important;
-;}
+}
+
+.delete-button-container {
+  text-align: right;
+  margin: 20px 0;
+}
+
+.delete-icon {
+  margin-right: 5px;
+}
