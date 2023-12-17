@@ -31,18 +31,18 @@ const UserList = () => {
           margin: "auto",
           marginTop: "10px",
           marginBottom: "10px",
-          width: "100%",
+          width: "50%",
         }}
       >
+        <span className="input-group-text search-icon">
+          <BsSearch />
+        </span>
         <input
-          className="bar form-control" // Adding Bootstrap form-control class for styling
+          className="bar form-control"
           placeholder="Search for customers"
           value={term}
           onChange={(e) => setTerm(e.target.value)}
         />
-        <span className="input-group-text search-icon">
-          <BsSearch />
-        </span>
       </div>
 
       <div className="scroller" style={{ height: "calc(100vh - 140px)" }}>
