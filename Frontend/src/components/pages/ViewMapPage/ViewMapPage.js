@@ -13,7 +13,7 @@ import {
   getBubbleMap,
   getPictureMap,
   getCategoryMap,
-  getScaleMap
+  getScaleMap,
 } from "../../../util/mapUtil";
 import { Spinner } from "react-bootstrap";
 import AuthContext from "../../../contexts/AuthContext";
@@ -24,6 +24,7 @@ const ViewMapPage = () => {
   const globalStore = useContext(GlobalStoreContext);
   const auth = useContext(AuthContext);
   var params = useParams();
+  const isLoggedIn = auth.auth.loggedIn;
 
   const [map, setMap] = useState({});
   const [loaded, setLoaded] = useState(false);
@@ -86,7 +87,7 @@ const ViewMapPage = () => {
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const deleteButton =
-    (map.owner === auth.auth.user?._id || auth.auth.user?.type === 1) ? (
+    (map.owner === auth.auth.user?._id || auth.auth.user?.userType === 1) ? (
       <button
         className="btn btn-edit-map position-absolute"
         style={{ top: "64px", right: "16px" }}
@@ -131,17 +132,23 @@ const ViewMapPage = () => {
           style={{ width: "90%", height: "80vh" }}
         >
           <MapRenderer
+            id="view-render"
             width="100%"
             height="100%"
             mapType={map.mapType}
             Geometry={globalStore.store.currentGeoJson}
             GeoJsonData={globalStore.store.currentMapGraphic}
+            screenshot={true}
           />
 
           <button
             className="btn btn-edit-map position-absolute"
             style={{ top: "16px", right: "16px" }}
-            onClick={() => navigate("/map-edit-page/" + map.mapType)}
+            onClick={() =>
+              navigate(
+                isLoggedIn ? "/map-edit-page/" + map.mapType : "/login-page"
+              )
+            }
           >
             {map.owner === auth.auth.user?._id ? "Edit" : "Fork"}
           </button>

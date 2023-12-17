@@ -47,7 +47,7 @@ export default function BubbleMapToolbox(props) {
         </Button>
       </Container>
 
-      <Container className="scroller">
+      <Container className="toolscroller">
         {cards}
         <Button
           className="inner"

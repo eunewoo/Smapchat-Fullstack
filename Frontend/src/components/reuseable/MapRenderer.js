@@ -6,6 +6,7 @@ import { renderArrowMap } from "./mapgraphics/ArrowMap";
 import { renderBubbleMap } from "./mapgraphics/BubbleMap";
 import { renderCategoryMap } from "./mapgraphics/CategoryMap";
 import { renderScaleMap } from "./mapgraphics/ScaleMap";
+import {SimpleMapScreenshoter} from 'leaflet-simple-map-screenshoter';
 import "leaflet/dist/leaflet.css";
 import "./MapRenderer.css";
 
@@ -42,10 +43,10 @@ export default function MapRenderer(props) {
         renderArrowMap(layerGroup, props.GeoJsonData);
       } else if (props.mapType === "BubbleMap" && props.GeoJsonData) {
         renderBubbleMap(layerGroup, props.GeoJsonData);
-      } else if (props.mapType === "CategoryMap" && props.GeoJsonData) {
-        renderCategoryMap(layerGroup, props.GeoJsonData, boundaries);
-      } else if (props.mapType === "ScaleMap" && props.GeoJsonData) {
-        renderScaleMap(layerGroup, props.GeoJsonData, boundaries);
+      } else if (props.mapType === "CategoryMap" && props.GeoJsonData && map) {
+        renderCategoryMap(layerGroup, props.GeoJsonData, boundaries, map);
+      } else if (props.mapType === "ScaleMap" && props.GeoJsonData && map) {
+        renderScaleMap(layerGroup, props.GeoJsonData, boundaries, map);
       }
     }
 
@@ -57,8 +58,14 @@ export default function MapRenderer(props) {
     }
   });
 
+  useEffect(() => {
+    if (map && props.screenshot) {
+      new SimpleMapScreenshoter().addTo(map);
+    }
+  }, [map, props.screenshot]);
+
   return (
-    <div style={{ width: props.width, height: props.height }}>
+    <div id={props.id} style={{ width: props.width, height: props.height }}>
       <MapContainer
         style={{ height: props.height }}
         zoom={zoom}

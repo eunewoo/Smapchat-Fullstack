@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MapCard from "./MapCard";
 import { Spinner } from "react-bootstrap";
 import "./ScrollableGallery.css";
+import { Link } from "react-router-dom";
 
 /// A scrollable container for MapCard components. Used for
 /// the gallery screens to allow users to scroll through many
@@ -92,6 +93,22 @@ export default function ScrollableGallery(props) {
     }
   };
 
+  if (dataFetched && elements.length <= 0) {
+    return (
+      <div
+        className="d-flex align-items-center justify-content-center"
+        style={{ height: "calc(100vh - 140px)" }}
+      >
+        <div className="text-center">
+          No maps!<br/>Why not try {" "}
+              <Link to="/create-page" style={{ color: "blue" }}>
+                creating one?
+              </Link>
+        </div>
+      </div>
+    );
+  }
+
   if (dataFetched) {
     return (
       <div
@@ -106,7 +123,7 @@ export default function ScrollableGallery(props) {
     return (
       <div
         className="d-flex align-items-center justify-content-center"
-        style={{ height: "100vh" }}
+        style={{ height: "calc(100vh - 140px)" }}
       >
         <div className="text-center">
           <Spinner animation="border" role="status" variant="primary">

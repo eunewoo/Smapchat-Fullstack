@@ -24,6 +24,7 @@ import { Button, Alert } from "react-bootstrap";
 import AuthContext from "../../../contexts/AuthContext";
 import { createMap } from "../../../util/mapUtil";
 import { popContext } from "../../../App";
+import FileSaver from "file-saver";
 import SavePopup from "../../popups/SavePopup";
 import {
   getDownloadURL,
@@ -112,6 +113,12 @@ export default function MapEditPage() {
     sendMap(1);
   };
 
+  const handleExport = () => {
+    const blob = new Blob([JSON.stringify({mapType: params.mapType, data: data})], {type: "text/json"});
+    FileSaver.saveAs(blob, `Smapchat${params.mapType}.json`);
+  };
+
+
   const uploadToFirebase = async (file) => {
     if (!file) return null;
 
@@ -145,6 +152,12 @@ export default function MapEditPage() {
   };
 
   const sendMap = (visibility) => {
+
+    if (!auth.auth.user) {
+      alert("You must be logged in to save or publish maps!");
+      return;
+    }
+
     var mapData = globalStore.store.currentMap;
 
     if (!mapData) {
@@ -291,12 +304,13 @@ export default function MapEditPage() {
             mapType={params.mapType}
             GeoJsonData={data}
             onClick={handleMapClick}
+            screenshot={true}
           />
           {notification}
         </div>
         <div className="col rightE p-0 rounded ms-2">
           {toolbox}
-          <div style={{ width: "100%", display: "flex", marginTop: "60px" }}>
+          <div style={{ width: "100%", display: "flex", marginTop: "40px" }}>
             <Button
               style={{ width: "40%", margin: "auto" }}
               onClick={handleSaveButton}
@@ -308,6 +322,15 @@ export default function MapEditPage() {
               onClick={handlePublishButton}
             >
               Publish
+            </Button>
+
+          </div>
+          <div style={{ width: "100%", display: "flex", marginTop: "20px" }}>
+            <Button
+              style={{ width: "40%", margin: "auto" }}
+              onClick={handleExport}
+            >
+              Save Locally
             </Button>
           </div>
         </div>

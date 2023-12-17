@@ -1,15 +1,17 @@
 .toolbox {
   width: 400px;
+  margin: auto;
 }
 
-.scroller::-webkit-scrollbar {
+.toolscroller::-webkit-scrollbar {
   display: none;
 }
 
-.scroller {
+.toolscroller {
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  height: calc(100vh - 450px);
 }
 
 .undoredo {

@@ -2,13 +2,12 @@
   "MapID": "1234TEST1234",
   "Location": [
     {
-      "Name": "New York 2",
+      "Name": "New York",
       "Library": [
         {
-          "Name": "Museum of Modern Art",
+          "Name": "Sample Gallery",
           "Images": [
-            "https://images.adsttc.com/media/images/5da4/969e/3312/fd37/2b00/003c/large_jpg/01_MoMA_Photography_by_Brett_Beyer.jpg?1571067518",
-            "https://www.moma.org/d/assets/W1siZiIsIjIwMjIvMDQvMDUvNTdnMml4eThtb180NzJfMTk0MV9DQ0NSX1ByZXNzX1NpdGUuanBnIl0sWyJwIiwiY29udmVydCIsIi1xdWFsaXR5IDkwIC1yZXNpemUgMTE4NHg2NjZeIC1ncmF2aXR5IE5vcnRoIC1jcm9wIDExODR4NjY2KzArNzkiXV0/472_1941_CCCR-Press%20Site.jpg?sha=5bdb603f03db6661"
+            "https://firebasestorage.googleapis.com/v0/b/smapchat-bc4cd.appspot.com/o/images%2FDALL%C2%B7E%202023-12-05%2022.19.50%20-%20An%20undecorated%20Christmas%20tree%2C%20resembling%20the%20shape%20and%20look%20of%20the%20previously%20generated%20decorated%20trees.%20This%20tree%20should%20have%20the%20same%20lush%20green%20fo.png?alt=media&token=1c19ddd2-904d-454f-b714-a4b331479589"
           ]
         }
       ],

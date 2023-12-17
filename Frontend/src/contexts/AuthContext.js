@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
         loggedIn: data.loggedIn,
       };
       setAuth(newAuth);
-      localStorage.setItem("auth", JSON.stringify(newAuth));
     } else {
       console.error("Error in logging in:", error);
     }
@@ -51,7 +50,6 @@ export const AuthProvider = ({ children }) => {
     await logout();
     setAuth({ user: null, loggedIn: false });
     document.cookie = "authentication=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-    localStorage.removeItem("auth");
   };
 
   const deleteUser = async (userData) => {
@@ -76,7 +74,7 @@ export const AuthProvider = ({ children }) => {
       password
     );
 
-    if (success) {
+    if (success && data) {
       const newAuthState = {
         user: data.user,
         loggedIn: data.loggedIn,
@@ -84,7 +82,6 @@ export const AuthProvider = ({ children }) => {
 
       setAuth(newAuthState);
 
-      localStorage.setItem("auth", JSON.stringify(newAuthState));
     } else {
       // on error, we need 1 general popup for errors handling
       console.error("Error in fetching users:", error);
