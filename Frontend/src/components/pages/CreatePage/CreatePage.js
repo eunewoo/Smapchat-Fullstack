@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import MapRenderer from "../../reuseable/MapRenderer";
 import { handleFileUpload } from "../../../util/fileUtil";
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
+import AuthContext from "../../../contexts/AuthContext";
 
 const CreatePage = () => {
   console.log("Rerender!");
   const navigate = useNavigate();
-
+  const { auth } = useContext(AuthContext);
+  const isLoggedIn = auth.loggedIn;
   const [mapType, setMapType] = useState("ArrowMap");
   const [typeLocked, setTypeLocked] = useState(false);
   const [preview, setPreview] = useState({});
@@ -17,7 +19,8 @@ const CreatePage = () => {
 
   const globalStore = useContext(GlobalStoreContext);
 
-  const handleRouteToEditPage = () => navigate("/map-edit-page/" + mapType);
+  const handleRouteToEditPage = () =>
+    navigate(isLoggedIn ? "/map-edit-page/" + mapType : "/login-page");
 
   useEffect(() => {
     console.log("Clear occured");
@@ -31,7 +34,11 @@ const CreatePage = () => {
     <div className="container-fluid mt-4">
       <div className="row justify-content-center">
         <div className="leftC p-0 rounded">
-          <MapTypes mapType={mapType} setMapType={setMapType} typeLocked={typeLocked} />
+          <MapTypes
+            mapType={mapType}
+            setMapType={setMapType}
+            typeLocked={typeLocked}
+          />
         </div>
         <div className="middleC p-0 rounded ms-2">
           <div
@@ -61,10 +68,11 @@ const CreatePage = () => {
               }
             ></input>
 
-            <label 
+            <label
               for="uploadGeometry"
               className="btn btn-edit-map position-absolute"
-              style={{ top: "16px", right: "16px" }}>
+              style={{ top: "16px", right: "16px" }}
+            >
               Upload Geometry
             </label>
 
@@ -85,15 +93,16 @@ const CreatePage = () => {
                   setMapType(data.mapType);
                   setTypeLocked(true);
                 };
-            
+
                 reader.readAsText(file);
               }}
             ></input>
 
-            <label 
+            <label
               for="uploadGraphic"
               className="btn btn-edit-map position-absolute"
-              style={{ top: "64px", right: "16px" }}>
+              style={{ top: "64px", right: "16px" }}
+            >
               Upload Saved Map
             </label>
           </div>
@@ -101,11 +110,14 @@ const CreatePage = () => {
         <div className="rightC d-flex align-items-center">
           <div className="col align-items-center justify-content-center text-center">
             <div className="">
-              In order to create a map, upload a region using the "Upload Geometry" 
-              button in GeoJSON, KML, or Shapefile format. Then, select one of the 5 map types
-              on the left. <br/><br/>
-              Alternatively, you can upload a map you have previously saved locally
-              using the "Upload Saved Map" button.<br/><br/>
+              In order to create a map, upload a region using the "Upload
+              Geometry" button in GeoJSON, KML, or Shapefile format. Then,
+              select one of the 5 map types on the left. <br />
+              <br />
+              Alternatively, you can upload a map you have previously saved
+              locally using the "Upload Saved Map" button.
+              <br />
+              <br />
               Once you're ready to start editing, click on "Start Editing"
             </div>
             <br></br>
