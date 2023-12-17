@@ -19,6 +19,16 @@ export const renderBubbleMap = (map, data) => {
     })
       .addTo(map)
       .bindPopup(point.name);
+
+      const icon = new L.DivIcon({
+        className: "my-div-icon",
+        html: `
+        <div style="width:64px; background:white; border-radius:10px; box-shadow:2px 2px 10px #000000AA;">
+        <p style="width:64px; text-align:center;">${point.name}</p>
+        </div>`
+      });
+
+      L.marker([point.lattitude, point.longitude], {icon: icon}).addTo(map);
   });
 };
 

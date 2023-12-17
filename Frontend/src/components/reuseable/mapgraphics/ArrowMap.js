@@ -1,4 +1,5 @@
 import L from "leaflet";
+import locationIcon from "../../../assets/images/location.png";
 
 export const renderArrowMap = (map, data) => {
   if (data == null) {
@@ -15,7 +16,12 @@ export const renderArrowMap = (map, data) => {
       // Use a Leaflet DivIcon to style the label
       icon: new L.DivIcon({
         className: "my-div-icon",
-        html: `<span style="font-size: 20px; font-weight: bold;">${point.order}</span>`, // Increased font size and made it bold
+        html: `
+        <img src=${locationIcon} width=24px, height=24px></img>
+        <div style="width:64px; background:white; border-radius:10px; box-shadow:2px 2px 10px #000000AA;">
+        <p style="width:64px; text-align:center;">${point.name}</p>
+        </div>`,
+        iconAnchor: [12, 24]
       }),
     }).addTo(map);
 
@@ -26,7 +32,7 @@ export const renderArrowMap = (map, data) => {
   // Draw the original arrow (polyline)
   const polyline = L.polyline(
     processedData.map((point) => point.position),
-    { color: "blue" }
+    { color: "#4488FF" }
   ).addTo(map);
 
   // Function to animate each segment in sequence
@@ -77,7 +83,7 @@ const animateSegment = (map, start, end, onComplete) => {
   let increasing = true;
 
   const segment = L.polyline([start, end], {
-    color: "blue",
+    color: "#4488FF",
     weight: currentWeight,
   }).addTo(map);
 
