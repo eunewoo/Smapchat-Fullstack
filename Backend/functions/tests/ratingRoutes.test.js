@@ -28,7 +28,7 @@ describe("Rating Tests", () => {
     await request(app)
       .post("/rate/create")
       .send({
-        userId: "657e7d6def4da688fce1e247",
+        userId: "657e068dc50ed724a7516f5c",
         mapId: "657e80eeef4da688fce1e278",
         rate: 5,
       })
