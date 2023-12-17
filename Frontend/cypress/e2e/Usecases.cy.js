@@ -148,24 +148,42 @@ describe("Edit page", () => {
 });
 
 describe("My maps page", () => {
+
+  const login = () => {
+    cy.visit("http://127.0.0.1:3000/login-page");
+    cy.get('input[placeholder="E-Mail"]').type("test@test.com");
+    cy.get('input[placeholder="Password"]').type("password");
+    cy.get("button").contains("Login").click();
+    cy.url().should('eq', 'http://127.0.0.1:3000/');
+  }
+
   /// Use case 2.20: verifies by asserting that atleast one row of map cards
   /// is visible when accessing the my maps page.
   it("A user can see a list of maps on the my maps page", () => {
-    cy.visit("127.0.0.1:3000/my-maps-page/657e7d6def4da688fce1e247");
-    cy.get(".row").should("have.length.greaterThan", 0);
+    cy.session('Mymaps session 1', () => {
+      login();
+      cy.visit("127.0.0.1:3000/my-maps-page/657e7d6def4da688fce1e247");
+      cy.get(".row").should("have.length.greaterThan", 0);
+    })
   });
 
   /// Use case 2.21:
   it("A user can enter a search term on the my maps page", () => {
+    cy.session('Mymaps session 2', () => {
+      login();
     cy.visit("127.0.0.1:3000/my-maps-page/657e7d6def4da688fce1e247");
     cy.get('input[placeholder="Search for maps"]').type("map");
     cy.get("#searchButton").click();
+  })
   });
 
   /// Use case 2.22: 
   it("A user can change the sort mode on the my maps page", () => {
+    cy.session('Mymaps session 3', () => {
+      login();
     cy.visit("127.0.0.1:3000/my-maps-page/657e7d6def4da688fce1e247");
     cy.get("label").contains("Rating").click();
+  })
   });
 });
 
