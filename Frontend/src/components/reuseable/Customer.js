@@ -5,19 +5,25 @@ import "./Customer.css";
 import UserPopup from "../popups/UserPopup";
 import defaultAvatar from "../../assets/images/avatar.png";
 import { deleteUser } from "../../util/userUtil";
+import ConfirmationDialog from "../popups/ConfirmationDialog";
 
 export default function Customer(props) {
   const setPop = useContext(popContext);
   const [isBanned, setIsBanned] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleDelete = () => {
-    const isConfirmed = window.confirm(
-      `Are you sure you want to delete ${props.userData.username}?`
-    );
-    if (isConfirmed) {
-      console.log(`Deleting user: ${props.userData.username}`);
-      
-    }
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    console.log(`Deleting user: ${props.userData.username}`);
+
+    setShowConfirmation(false);
+  };
+
+  const handleCloseConfirmation = () => {
+    setShowConfirmation(false);
   };
 
   const handleBan = () => {
@@ -100,6 +106,12 @@ export default function Customer(props) {
           </Dropdown.Menu>
         </Dropdown>
       </Container>
+      <ConfirmationDialog
+        show={showConfirmation}
+        onHide={handleCloseConfirmation}
+        onConfirm={handleConfirmDelete}
+        message={`Are you sure you want to delete ${props.userData.username}?`}
+      />
     </Card>
   );
 }
