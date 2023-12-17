@@ -28,7 +28,7 @@ export default function Customer(props) {
 
   const handleConfirmDelete = async () => {
     console.log(`Deleting user: ${props.userData.username}`);
-    // await deleteUser(props.userData._id);
+    await deleteUser(props.userData._id);
     setShowConfirmation(false);
   };
 
