@@ -27,6 +27,10 @@ export async function webFetch(route) {
   });
 }
 
+/// Helper function to perform a PUT request with error handling.
+/// will perofrm a PUT request to the backend on the provided route,
+/// should start with a /. Logs an error and throws null if the
+/// server responds with a non-200 response code.
 export async function webPut(route, data) {
   return await bodiedRequest(route, data, "PUT");
 }

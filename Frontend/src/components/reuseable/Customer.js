@@ -4,21 +4,21 @@ import { popContext } from "../../App";
 import "./Customer.css";
 import UserPopup from "../popups/UserPopup";
 import defaultAvatar from "../../assets/images/avatar.png";
-import { deleteUser } from "../../util/userUtil";
+import { deleteUser, updateActivationStatus } from "../../util/userUtil";
 import ConfirmationDialog from "../popups/ConfirmationDialog";
 
 export default function Customer(props) {
   const setPop = useContext(popContext);
-  const [isBanned, setIsBanned] = useState(false);
+  const [isBanned, setIsBanned] = useState(props.userData.isActive);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleDelete = () => {
     setShowConfirmation(true);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     console.log(`Deleting user: ${props.userData.username}`);
-    deleteUser(props.userData._id);
+    // await deleteUser(props.userData._id);
     setShowConfirmation(false);
   };
 
@@ -28,11 +28,13 @@ export default function Customer(props) {
 
   const handleBan = () => {
     console.log(`Banning user: ${props.userData.username}`);
+    // updateActivationStatus(props.userData._id, false);
     setIsBanned(true);
   };
 
   const handleActivate = () => {
     console.log(`Activating user: ${props.userData.username}`);
+    // updateActivationStatus(props.userData._id, true);
     setIsBanned(false);
   };
 

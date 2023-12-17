@@ -150,7 +150,7 @@ exports.deleteUser = async (req, res, next) => {
     // Then delete the user
     await UserModel.deleteUserById(req.params.Id);
 
-    res.status(200).send();
+    res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     console.error(error);
     next(error);

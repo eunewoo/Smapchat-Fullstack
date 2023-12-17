@@ -18,7 +18,13 @@ export async function getUsers() {
 
 /// Deletes a user of the given userID
 export async function deleteUser(userId) {
-  return await webDelete(`/User/delete/${userId}`, {});
+  try {
+    const response = await webDelete(`/User/delete/${userId}`, {});
+    return response
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 export async function session() {
