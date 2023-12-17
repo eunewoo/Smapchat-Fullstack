@@ -51,7 +51,6 @@ export default function Customer(props) {
 
   const handleActivate = () => {
     console.log(`Activating user: ${props.userData.username}`);
-    // Assuming isActive is the correct property to toggle
     setLoading(true);
     var newProf = props.userData;
     newProf.isActive = true;
