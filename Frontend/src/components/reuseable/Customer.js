@@ -71,7 +71,7 @@ export default function Customer(props) {
     });
   };
 
-  const spinner = loading ? <Spinner /> : <></>;
+  const spinner = loading ? <Spinner style={{margin: "10px"}}/> : <></>;
 
   return (
     <Card className="my-2" style={{ width: "80%", margin: "auto" }}>
@@ -110,7 +110,7 @@ export default function Customer(props) {
             Status
           </Dropdown.Toggle>
 
-          <Dropdown.Menu>
+          <Dropdown.Menu style={{padding: "10px"}}>
             <Dropdown.Item
               onClick={handleDelete}
               style={{ width: "fit-content" }}
@@ -122,14 +122,14 @@ export default function Customer(props) {
               <Dropdown.Item
                 onClick={handleActivate}
                 style={{ width: "fit-content", textAlign: "center" }}
-                className="bg-success text-white rounded-2 ms-3 text-white"
+                className="greenButton text-white rounded-2 mb-2 text-white"
               >
                 Activate
               </Dropdown.Item>
             ) : (
               <Dropdown.Item
                 onClick={handleBan}
-                className="redButton rounded-2 text-white"
+                className="redButton rounded-2 mb-2 text-white"
                 style={{ width: "fit-content" }}
               >
                 Deactivate
@@ -138,7 +138,7 @@ export default function Customer(props) {
             <Dropdown.Item
               onClick={handleToggleAdmin}
               style={{ width: "fit-content" }}
-              className="redButton rounded-2 mt-2"
+              className={ (!admin ? "greenButton rounded-2 text-white" : "redButton rounded-2 text-white")}
             >
               {!admin ? "Make Admin" : "Revoke Admin"}
             </Dropdown.Item>
