@@ -132,8 +132,10 @@ export const renderScaleMap = (map, data, boundaries, rootMap) => {
   });
 
   if (key)
-  rootMap.removeControl(key);
+    rootMap.removeControl(key);
 
+  if (data.Location && data.Location.length > 0)
+  {
   key = L.control({
     position: 'bottomright', 
     content: `
@@ -161,4 +163,5 @@ export const renderScaleMap = (map, data, boundaries, rootMap) => {
   };
 
   key.addTo(rootMap);
+}
 };
