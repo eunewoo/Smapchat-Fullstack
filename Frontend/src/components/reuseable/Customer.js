@@ -113,7 +113,7 @@ export default function Customer(props) {
           <Dropdown.Toggle
             variant="danger"
             id="dropdown-basic"
-            style={{ width: "fit-content" }}
+            style={{ width: "fit-content", marginLeft:"10px" }}
           >
             Status
           </Dropdown.Toggle>
