@@ -19,7 +19,8 @@ const Header = () => {
 
   const isLoggedIn = auth.loggedIn;
   const user = auth.user;
-  console.log(user);
+
+  console.log("isLog in Header: ", isLoggedIn);
   const authPages =
     location.pathname === "/login-page" ||
     location.pathname === "/signup-page" ||

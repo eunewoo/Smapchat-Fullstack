@@ -36,7 +36,6 @@ const Comments = (props) => {
       }));
       setComment("");
 
-      console.log("Submitted comment:", mapComments);
       setIsLoading(false);
     } else {
       alert("Please sign up to add comments");

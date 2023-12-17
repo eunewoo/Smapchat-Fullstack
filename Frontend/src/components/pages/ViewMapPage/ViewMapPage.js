@@ -26,7 +26,7 @@ const ViewMapPage = () => {
   const globalStore = useContext(GlobalStoreContext);
   const auth = useContext(AuthContext);
   var params = useParams();
-  const isLoggedIn = auth.loggedIn;
+  const isLoggedIn = auth.auth.loggedIn;
 
   const [map, setMap] = useState({});
   const [loaded, setLoaded] = useState(false);
