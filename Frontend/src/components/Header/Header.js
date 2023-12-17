@@ -18,6 +18,8 @@ const Header = () => {
   const location = useLocation();
 
   const isLoggedIn = auth.loggedIn;
+  const user = auth.user;
+  console.log(user);
   const authPages =
     location.pathname === "/login-page" ||
     location.pathname === "/signup-page" ||
@@ -66,14 +68,16 @@ const Header = () => {
             My Maps
           </Nav.Link>
 
-          <Nav.Link
-            as={NavLink}
-            to="/manage-user-page"
-            className="me-5 text-white"
-            style={{ fontSize: "1.2em" }}
-          >
-            Customers
-          </Nav.Link>
+          {user && user.userType === 1 && (
+            <Nav.Link
+              as={NavLink}
+              to="/manage-user-page"
+              className="me-5 text-white"
+              style={{ fontSize: "1.2em" }}
+            >
+              Customers
+            </Nav.Link>
+          )}
         </Nav>
         {!isLoggedIn && (
           <>
@@ -105,9 +109,9 @@ const Header = () => {
               {auth.user.username}
             </Button>
             <Image
-              style={{width: "45px", height: "45px"}}
+              style={{ width: "45px", height: "45px" }}
               src={auth.user?.avatar}
-              onError={({target}) => target.src = defaultAvatar}
+              onError={({ target }) => (target.src = defaultAvatar)}
               roundedCircle
               alt="User Avatar"
             />
