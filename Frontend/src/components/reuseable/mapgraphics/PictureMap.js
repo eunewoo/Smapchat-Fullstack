@@ -26,26 +26,13 @@ export const renderPictureMap = (map, data) => {
 };
 
 function createMarkerForLocation(map, location, libraries) {
-
   const customIcon = L.icon({
-    iconUrl: findMatchingLibraries(location, libraries)[0]?.images[0] ?? locationIcon,
-    iconSize: [36, 36],
+    iconUrl: locationIcon,
+    iconSize: [20, 20],
   });
-
-  const iconUrl = findMatchingLibraries(location, libraries)[0]?.images[0] ?? locationIcon;
-
-  const icon = new L.DivIcon({
-    className: "my-div-icon",
-    html: `
-    <div style="width:64px; height:64px; background:white; border-radius:10px; box-shadow:2px 2px 10px #000000AA;">
-    <img src=${iconUrl} width=56px, height=56px, style="width:56px; height:56px; margin: 4px; border-radius:10px;"></img>
-    </div>`,
-    iconAnchor: [32, 32],
-  });
-
   const marker = L.marker(
     [parseFloat(location.lattitude), parseFloat(location.longitude)],
-    { icon: icon }
+    { icon: customIcon }
   ).addTo(map);
 
   const matchingLibraries = findMatchingLibraries(location, libraries);
@@ -126,7 +113,11 @@ function appendLibraryImagesToGrid(library, gridContainer) {
   library.images.forEach((imageUrl) => {
     const img = document.createElement("img");
     img.src = imageUrl;
-    img.style.maxWidth = "100%";
+    // Set a fixed height and width for the images
+    img.style.height = "50px";
+    img.style.width = "50px";
+    img.style.objectFit = "cover";
+    img.style.marginBottom = "10px";
     gridContainer.appendChild(img);
   });
 }
