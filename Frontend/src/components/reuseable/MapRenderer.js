@@ -27,7 +27,7 @@ export default function MapRenderer(props) {
       geoJsonLayer.addTo(map);
       const bounds = geoJsonLayer.getBounds();
       if (bounds.isValid()) {
-        map.fitBounds(bounds);
+        map.fitBounds(bounds, {animate: false});
       }
     }
   }, [props.Geometry, map, zoom]);
