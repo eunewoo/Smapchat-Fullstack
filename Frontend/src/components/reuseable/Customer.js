@@ -48,14 +48,20 @@ export default function Customer(props) {
           <Dropdown.Toggle
             variant="danger"
             id="dropdown-basic"
-            className="mr-2"
+            style={{ width: "fit-content" }}
           >
-            Edit
+            Status
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
-            <Dropdown.Item onClick={handleBan} className="redButton">
+            <Dropdown.Item onClick={handleDelete} style={{ width: "fit-content" }}
+              className="redButton mb-2"
+            >Delete</Dropdown.Item>
+            <Dropdown.Item
+              onClick={handleBan}
+              style={{ width: "fit-content" }}
+              className="redButton"
+            >
               Ban
             </Dropdown.Item>
           </Dropdown.Menu>
