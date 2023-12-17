@@ -3,6 +3,8 @@ import UserInfo from "./LocalComponents/UserInfo";
 import MapRenderer from "../../reuseable/MapRenderer";
 import "./ViewMapPageStyles.css";
 import Comments from "./LocalComponents/Comments";
+import domtoimage from "dom-to-image";
+import saveAs from "file-saver";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -86,7 +88,7 @@ const ViewMapPage = () => {
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const deleteButton =
-    map.owner === auth.auth.user?.email ? (
+    (map.owner === auth.auth.user?._id || auth.auth.user?.type === 1) ? (
       <button
         className="btn btn-edit-map position-absolute"
         style={{ top: "64px", right: "16px" }}
@@ -123,7 +125,7 @@ const ViewMapPage = () => {
     <div className="Container-fluid mx-5 my-3 px-5">
       <div className="col text-center">
         <div className="text-black">
-          <UserInfo map={map} userEmail={map.owner} />
+          <UserInfo map={map} userId={map.owner} />
         </div>
 
         <div
@@ -131,6 +133,7 @@ const ViewMapPage = () => {
           style={{ width: "90%", height: "80vh" }}
         >
           <MapRenderer
+            id="view-render"
             width="100%"
             height="100%"
             mapType={map.mapType}
@@ -143,7 +146,7 @@ const ViewMapPage = () => {
             style={{ top: "16px", right: "16px" }}
             onClick={() => navigate("/map-edit-page/" + map.mapType)}
           >
-            {map.owner === auth.auth.user?.email ? "Edit" : "Fork"}
+            {map.owner === auth.auth.user?._id ? "Edit" : "Fork"}
           </button>
 
           {deleteButton}

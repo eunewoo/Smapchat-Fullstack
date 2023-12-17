@@ -59,7 +59,7 @@ export default function ScaleMapToolbox(props) {
         </div>
       </Container>
 
-      <Container className="scroller">
+      <Container className="toolscroller">
         {cards}
         <Button
           className="inner"

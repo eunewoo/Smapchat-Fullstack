@@ -7,6 +7,7 @@ import AuthContext from "../../contexts/AuthContext";
 import "./Header.css";
 import MyUserPopup from "../popups/MyUserPopup";
 import { popContext } from "../../App";
+import { Image } from "react-bootstrap";
 
 const Header = () => {
   // states, contexts, and variables
@@ -58,7 +59,7 @@ const Header = () => {
           </Nav.Link>
           <Nav.Link
             as={NavLink}
-            to="/my-maps-page"
+            to={auth.user ? `/my-maps-page/${auth.user._id}` : "/login-page"}
             className="me-5 text-white"
             style={{ fontSize: "1.2em" }}
           >
@@ -103,11 +104,12 @@ const Header = () => {
             >
               {auth.user.username}
             </Button>
-            <img
+            <Image
+              style={{width: "45px", height: "45px"}}
               src={auth.user?.avatar}
               onError={({target}) => target.src = defaultAvatar}
+              roundedCircle
               alt="User Avatar"
-              style={{ width: "45px", height: "45px", borderRadius: "15%" }}
             />
           </>
         )}

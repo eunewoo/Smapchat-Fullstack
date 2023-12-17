@@ -4,6 +4,7 @@ const corsOptions = {
     "http://localhost:3000",
     "https://smapchat-bc4cd.web.app",
     "http://10.1.181.129:3000",
+    "http://127.0.0.1:3000",
   ],
 };
 const express = require("express");

@@ -6,9 +6,13 @@ import UserPopup from "../popups/UserPopup";
 import defaultAvatar from "../../assets/images/avatar.png";
 import { deleteUser } from "../../util/userUtil";
 import ConfirmationDialog from "../popups/ConfirmationDialog";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Customer(props) {
+
   const setPop = useContext(popContext);
+
   const [isBanned, setIsBanned] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -36,8 +40,11 @@ export default function Customer(props) {
     setIsBanned(false);
   };
 
+  const navigate = useNavigate();
+
+
   return (
-    <Card className="my-2">
+    <Card className="my-2" style={{width: "80%", margin: "auto"}}>
       <Card.Body
         style={{
           backgroundColor: "#0C0D34",
@@ -62,10 +69,7 @@ export default function Customer(props) {
         >
           View Profile
         </Button>
-        <Button className="button">View Maps</Button>
-        {/* <Button variant="danger" className="redButton">
-          Ban
-        </Button> */}
+
         <Dropdown className="mr-2">
           <Dropdown.Toggle
             variant="danger"
@@ -105,6 +109,13 @@ export default function Customer(props) {
             )}
           </Dropdown.Menu>
         </Dropdown>
+
+        <Button 
+          className="button"
+          onClick={() => navigate(`/my-maps-page/${props.userData._id}`)}>
+          View Maps
+        </Button>
+
       </Container>
       <ConfirmationDialog
         show={showConfirmation}

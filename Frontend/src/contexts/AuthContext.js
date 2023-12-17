@@ -1,10 +1,17 @@
 import React, { createContext, useState, useCallback, useEffect } from "react";
-import { session, createUser, loginUserApi, resetPasswordApi } from "../util/userUtil";
+import {
+  session,
+  createUser,
+  loginUserApi,
+  resetPasswordApi,
+  logout,
+  deleteUser as deleteUserAPI,
+  credentials,
+} from "../util/userUtil";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-
   const [auth, setAuth] = useState({ user: null, loggedIn: false });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +22,7 @@ export const AuthProvider = ({ children }) => {
       auth.loggedIn = val.loggedIn;
       setAuth(auth);
       setIsLoading(false);
-    })
+    });
   }, [auth]);
 
   const getLoggedIn = useCallback(async () => {}, []);
@@ -31,8 +38,6 @@ export const AuthProvider = ({ children }) => {
         loggedIn: data.loggedIn,
       };
       setAuth(newAuth);
-      localStorage.setItem("auth", JSON.stringify(newAuth));
-
     } else {
       console.error("Error in logging in:", error);
     }
@@ -42,9 +47,20 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logoutUser = async () => {
+    await logout();
     setAuth({ user: null, loggedIn: false });
-    document.cookie = "authentication=; Max-Age=0";
-    localStorage.removeItem("auth");
+    document.cookie = "authentication=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+  };
+
+  const deleteUser = async (userData) => {
+    try {
+      await credentials(userData.email, userData.password);
+      await deleteUserAPI(userData._id);
+      setAuth({ user: null, loggedIn: false });
+      document.cookie = "authentication=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   const registerUser = async ({ email, username, password }) => {
@@ -55,18 +71,16 @@ export const AuthProvider = ({ children }) => {
     const { success, data, error } = await createUser(
       email,
       username,
-      password,
+      password
     );
 
-    if (success) {
+    if (success && data) {
       const newAuthState = {
         user: data.user,
         loggedIn: data.loggedIn,
       };
 
       setAuth(newAuthState);
-
-      localStorage.setItem("auth", JSON.stringify(newAuthState));
 
     } else {
       // on error, we need 1 general popup for errors handling
@@ -97,8 +111,6 @@ export const AuthProvider = ({ children }) => {
 
   const updatePassword = useCallback(async () => {}, []);
 
-  const deleteAccount = useCallback(async () => {}, []);
-
   const updateAvatar = useCallback(async () => {}, []);
 
   const updateToken = useCallback(async () => {}, []);
@@ -117,7 +129,7 @@ export const AuthProvider = ({ children }) => {
     updateUserName,
     updateEmail,
     updatePassword,
-    deleteAccount,
+    deleteUser,
     updateAvatar,
     updateToken,
   };

@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import RatingDisplay from "../../../reuseable/RatingDisplay";
-import { userProfile } from "../../../../util/userUtil";
+import { userProfileId } from "../../../../util/userUtil";
 import defaultAvatar from "../../../../assets/images/avatar.png"
 // Added to bring userId that used in saving rate data
 import { AuthContext } from "../../../../contexts/AuthContext";
+import { Image } from "react-bootstrap";
 
 const UserInfo = (props) => {
   const [user, setUser] = useState({});
@@ -12,22 +13,23 @@ const UserInfo = (props) => {
   const userId = auth.user?._id;
 
   useEffect(() => {
-    userProfile(props.userEmail).then((val) => setUser(val));
-  }, [props.userEmail]);
+    userProfileId(props.userId).then((val) => setUser(val));
+  }, [props.userId]);
 
   return (
     <div className="row m-0">
       <div className="col-9">
         <div className="row m-0">
           <div className="col-auto">
-            <img
+            
+            <Image
               src={user?.avatar}
+              style={{width: "45px", height: "45px"}}
               onError={({target}) => target.src = defaultAvatar}
-              className="rounded"
-              width="70"
-              height="80"
+              roundedCircle
               alt="Avatar"
             />
+
           </div>
           <div className="col d-flex align-items-center">
             <div className="row text-start">
@@ -52,6 +54,7 @@ const UserInfo = (props) => {
             mapId={props.map._id}
             value={props.map.avgRate} // Current average rating
             from="view-map-page"
+            clickable={true}
           />{" "}
         </div>
       </div>

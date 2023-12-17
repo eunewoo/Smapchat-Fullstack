@@ -1,5 +1,6 @@
 import { Card, Container, Image } from "react-bootstrap";
 import { useContext } from "react";
+import defaultAvatar from "../../assets/images/avatar.png";
 import "./UserPopup.css";
 import "./CommonPopup.css";
 import { BsXLg } from "react-icons/bs";
@@ -23,7 +24,14 @@ export default function UserPopup(props) {
       </Card.Body>
 
       <Container>
-        <Image className="avatar" src={props.user.userData.avatar} roundedCircle />
+        <div style={{display: "flex", margin: "10px"}}>
+          <Image
+            className="avatar"
+            src={props.user.userData.avatar}
+            onError={({target}) => target.src = defaultAvatar}
+            roundedCircle
+          />
+        </div>
         <div className="box">{props.user.userData.username}</div>
         <div className="box">{props.user.userData.email}</div>
       </Container>

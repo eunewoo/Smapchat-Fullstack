@@ -49,7 +49,7 @@ export default function CategoryMapToolbox(props) {
         </Button>
       </Container>
 
-      <Container className="scroller">
+      <Container className="toolscroller">
         {cards}
         <Button
           className="inner"

@@ -26,7 +26,7 @@ export default function ScrollableComments(props) {
     if (newComments && newComments.length > 0) {
       setStore((prevStore) => ({
         ...prevStore,
-        currentMapComments: [...prevStore.currentMapComments, ...newComments],
+        currentMapComments: [...newComments],
       }));
       setPage(page + 1);
     } else {
