@@ -15,13 +15,15 @@ const Comments = (props) => {
   const mapId = props.mapId;
 
   const handleSubmit = async () => {
-    const userId = auth.user._id;
+    const user = auth.user;
     const isLoggedin = auth.loggedIn;
+    
     if (comment === "") {
       alert("Please provide comment first");
-    } else if (userId != null && isLoggedin) {
+    } else if (auth.user && isLoggedin) {
+      console.log();
       setIsLoading(true);
-      const mapComments = await handleCreateComment(mapId, userId, comment);
+      const mapComments = await handleCreateComment(mapId, user._id, comment);
 
       if (mapComments.error) {
         alert("Something went wrong check your connection");
