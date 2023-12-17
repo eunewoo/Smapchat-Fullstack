@@ -16,7 +16,10 @@ import ConfirmationDialog from "../popups/ConfirmationDialog";
 import { useNavigate } from "react-router-dom";
 
 export default function Customer(props) {
+
   const setPop = useContext(popContext);
+  const navigate = useNavigate();
+
   const [isBanned, setIsBanned] = useState(props.userData.isActive);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [admin, setAdmin] = useState(props.userData.userType === 1);
@@ -99,7 +102,12 @@ export default function Customer(props) {
         >
           View Profile
         </Button>
-        <Button className="button">View Maps</Button>
+        
+        <Button 
+          className="button"
+          onClick={() => navigate(`/my-maps-page/${props.userData._id}`)}>
+          View Maps
+        </Button>
 
         <Dropdown className="mr-2">
           <Dropdown.Toggle
