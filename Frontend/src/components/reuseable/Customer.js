@@ -21,7 +21,7 @@ export default function Customer(props) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [admin, setAdmin] = useState(props.userData.userType === 1);
   const [loading, setLoading] = useState(false);
-
+  
   const handleDelete = () => {
     setShowConfirmation(true);
   };
@@ -38,7 +38,6 @@ export default function Customer(props) {
 
   const handleBan = () => {
     console.log(`Deactivating user: ${props.userData.username}`);
-    // Assuming isActive is the correct property to toggle
     setLoading(true);
     var newProf = props.userData;
     newProf.isActive = false;

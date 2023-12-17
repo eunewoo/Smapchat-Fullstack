@@ -7,7 +7,7 @@ const crypto = require("crypto");
 
 class UserModel {
   static async findAll() {
-    const users = await UserSchema.find({}, "_id username avatar email").exec();
+    const users = await UserSchema.find({}, "_id username avatar email isActive").exec();
     return users;
   }
 
