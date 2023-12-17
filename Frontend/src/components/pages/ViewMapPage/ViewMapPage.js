@@ -140,6 +140,7 @@ const ViewMapPage = () => {
             mapType={map.mapType}
             Geometry={globalStore.store.currentGeoJson}
             GeoJsonData={globalStore.store.currentMapGraphic}
+            screenshot={true}
           />
 
           <button

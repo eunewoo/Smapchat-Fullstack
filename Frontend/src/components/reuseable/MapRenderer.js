@@ -59,7 +59,7 @@ export default function MapRenderer(props) {
   });
 
   useEffect(() => {
-    if (map) {
+    if (map && props.screenshot) {
       new SimpleMapScreenshoter().addTo(map);
     }
   }, [map]);

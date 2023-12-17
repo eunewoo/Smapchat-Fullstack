@@ -304,6 +304,7 @@ export default function MapEditPage() {
             mapType={params.mapType}
             GeoJsonData={data}
             onClick={handleMapClick}
+            screenshot={true}
           />
           {notification}
         </div>
