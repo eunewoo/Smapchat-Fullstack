@@ -30,7 +30,7 @@ export const renderArrowMap = (map, data) => {
   });
 
   // Draw the original arrow (polyline)
-  const polyline = L.polyline(
+  L.polyline(
     processedData.map((point) => point.position),
     { color: "#4488FF" }
   ).addTo(map);

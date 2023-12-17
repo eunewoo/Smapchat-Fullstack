@@ -20,7 +20,7 @@ export default function Customer(props) {
   const setPop = useContext(popContext);
   const navigate = useNavigate();
 
-  const [isBanned, setIsBanned] = useState(props.userData.isActive);
+  const [, setIsBanned] = useState(props.userData.isActive);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [admin, setAdmin] = useState(props.userData.userType === 1);
   const [loading, setLoading] = useState(false);

@@ -62,7 +62,7 @@ export default function MapRenderer(props) {
     if (map && props.screenshot) {
       new SimpleMapScreenshoter().addTo(map);
     }
-  }, [map]);
+  }, [map, props.screenshot]);
 
   return (
     <div id={props.id} style={{ width: props.width, height: props.height }}>

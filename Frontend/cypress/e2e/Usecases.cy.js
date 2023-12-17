@@ -38,7 +38,7 @@ describe("View page", () => {
   it("A user can comment on a map", () => {
     cy.session('Comment session', () => {
       login();
-      cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
+      cy.visit("127.0.0.1:3000/view-map-page/657e80eeef4da688fce1e278");
       cy.wait(5000);
       cy.get("textarea").type("Hello from cypress!");
       cy.get("button").contains("ADD COMMENT");
@@ -48,19 +48,19 @@ describe("View page", () => {
   /// Use case 2.5: verifies a user can rate a map by clicking on one of the rating
   /// stars
   it("A user can rate a map", () => {
-    cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
+    cy.visit("127.0.0.1:3000/view-map-page/657e80eeef4da688fce1e278");
     cy.get(".Star").first();
   });
 
   /// Use case 2.6: verifies a user can fork a map that they do not own
   it("A user can fork a map", () => {
-    cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
+    cy.visit("127.0.0.1:3000/view-map-page/657e80eeef4da688fce1e278");
     cy.get("button").contains("Fork").click();
   });
 
   /// Use case 2.7: verifies a user can see a map by checking for the leasflet element
   it("A user can see a map", () => {
-    cy.visit("127.0.0.1:3000/view-map-page/656537ad7a1b6f9f380bb6d5");
+    cy.visit("127.0.0.1:3000/view-map-page/657e80eeef4da688fce1e278");
     cy.get(".leaflet-control-container");
   });
 
@@ -151,20 +151,20 @@ describe("My maps page", () => {
   /// Use case 2.20: verifies by asserting that atleast one row of map cards
   /// is visible when accessing the my maps page.
   it("A user can see a list of maps on the my maps page", () => {
-    cy.visit("127.0.0.1:3000/my-maps-page");
+    cy.visit("127.0.0.1:3000/my-maps-page/657e7d6def4da688fce1e247");
     cy.get(".row").should("have.length.greaterThan", 0);
   });
 
   /// Use case 2.21:
   it("A user can enter a search term on the my maps page", () => {
-    cy.visit("127.0.0.1:3000/my-maps-page");
+    cy.visit("127.0.0.1:3000/my-maps-page/657e7d6def4da688fce1e247");
     cy.get('input[placeholder="Search for maps"]').type("map");
     cy.get("#searchButton").click();
   });
 
   /// Use case 2.22: 
   it("A user can change the sort mode on the my maps page", () => {
-    cy.visit("127.0.0.1:3000/my-maps-page");
+    cy.visit("127.0.0.1:3000/my-maps-page/657e7d6def4da688fce1e247");
     cy.get("label").contains("Rating").click();
   });
 });

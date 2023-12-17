@@ -3,8 +3,6 @@ import UserInfo from "./LocalComponents/UserInfo";
 import MapRenderer from "../../reuseable/MapRenderer";
 import "./ViewMapPageStyles.css";
 import Comments from "./LocalComponents/Comments";
-import domtoimage from "dom-to-image";
-import saveAs from "file-saver";
 
 import { GlobalStoreContext } from "../../../contexts/GlobalStoreContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -89,7 +87,7 @@ const ViewMapPage = () => {
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const deleteButton =
-    (map.owner === auth.auth.user?._id || auth.auth.user?.userType == 1) ? (
+    (map.owner === auth.auth.user?._id || auth.auth.user?.userType === 1) ? (
       <button
         className="btn btn-edit-map position-absolute"
         style={{ top: "64px", right: "16px" }}
