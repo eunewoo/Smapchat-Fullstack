@@ -62,7 +62,16 @@ export default function Customer(props) {
     });
   };
 
-  
+  const handleToggleAdmin = () => {
+    setLoading(true);
+    var newProf = props.userData;
+    newProf.userType = newProf.userType === 1 ? 0 : 1;
+
+    updateUserProfile(newProf).then(() => {
+      setLoading(false);
+      setAdmin(newProf.userType === 1);
+    });
+  };
 
   const spinner = loading ? <Spinner /> : <></>;
 
@@ -129,7 +138,7 @@ export default function Customer(props) {
               </Dropdown.Item>
             )}
             <Dropdown.Item
-              // onClick={handleToggleAdmin}
+              onClick={handleToggleAdmin}
               style={{ width: "fit-content" }}
               className="redButton rounded-2 mt-2"
             >
