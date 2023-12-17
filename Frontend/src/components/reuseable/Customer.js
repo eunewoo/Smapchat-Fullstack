@@ -4,13 +4,20 @@ import { popContext } from "../../App";
 import "./Customer.css";
 import UserPopup from "../popups/UserPopup";
 import defaultAvatar from "../../assets/images/avatar.png";
+import { deleteUser } from "../../util/userUtil";
 
 export default function Customer(props) {
   const setPop = useContext(popContext);
   const [isBanned, setIsBanned] = useState(false);
 
   const handleDelete = () => {
-    console.log(`Deleting user: ${props.userData.username}`);
+    const isConfirmed = window.confirm(
+      `Are you sure you want to delete ${props.userData.username}?`
+    );
+    if (isConfirmed) {
+      console.log(`Deleting user: ${props.userData.username}`);
+      
+    }
   };
 
   const handleBan = () => {
