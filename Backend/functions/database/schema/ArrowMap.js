@@ -22,7 +22,7 @@ const ArrowMapLocationSchema = new mongoose.Schema({
   },
   Date: {
     type: Date,
-    required: true,
+    required: false,
     unique: false,
     default: Date.now,
   },

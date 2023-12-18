@@ -37,13 +37,18 @@ describe("Publish map", () => {
 
     const agent = request.agent(app);
 
-    await agent
+    const authRes = await agent
       .post("/User/login")
       .send({email: "John@Lemon.com", password: "Password"})
       .expect(200);
 
+    const header = authRes.headers['set-cookie'][0];
+    const match = header.match(/authentication=([^;]+)/);
+    const authenticationCookie = match ? match[1] : null;
+
     const pubRes = await agent
       .post("/map/create")
+      .set('Cookie', [`authentication=${authenticationCookie}`])
       .send({
         mapData:{
           _id: 0,
@@ -91,6 +96,7 @@ describe("Publish map", () => {
 
     await agent
       .delete(`/map/delete/${id}`)
+      .set('Cookie', [`authentication=${authenticationCookie}`])
       .expect(200);
   })
 });
