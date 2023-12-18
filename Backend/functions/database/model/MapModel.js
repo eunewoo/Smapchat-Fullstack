@@ -178,6 +178,10 @@ class MapModel {
     delete mapData["_id"];
     await MapSchema.findOneAndUpdate({ _id: id }, mapData);
 
+    console.log(id);
+    console.log(mapData);
+    console.log(graphicData);
+
     switch (mapData.mapType) {
       case "ArrowMap":
         await ArrowMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
@@ -186,13 +190,13 @@ class MapModel {
         await BubbleMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
         break;
       case "PictureMap":
-        PictureMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
+        await PictureMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
         break;
       case "CategoryMap":
-        CategoryMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
+        await CategoryMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
         break;
       case "ScaleMap":
-        ScaleMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
+        await ScaleMapSchema.findOneAndUpdate({ MapID: id }, graphicData);
         break;
     }
   }
