@@ -234,7 +234,7 @@ class MapModel {
       // Must be the owner or an admin to delete a map
       console.log(mapData.owner);
       console.log(thisUser._id);
-      if (!mapData.owner.equals(thisUser._id) && thisUser.type != 1) {
+      if (!mapData.owner.equals(thisUser._id) && thisUser.userType != 1) {
         throw new Error("Delete not permitted");
       }
 
